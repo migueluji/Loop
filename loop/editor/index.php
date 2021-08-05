@@ -113,6 +113,7 @@
 	<script>
 
 		window.onbeforeunload = () => "";
+
 	/*    
 		var userId="<?php echo $_POST['iduser'];?>";
 		var userName="<?php echo $_POST['nameuser'];?>";
@@ -121,34 +122,29 @@
 		var gameFolder="<?php echo $_POST['gamefolder'];?>";
 		var serverGamesFolder="https://<?php echo $_SERVER['SERVER_NAME'];?>/games-js";
 	*/
+
 	//	userId=1455;
 	//	userName="Editor";
 		gameId=Utils.id();
 		serverGamesFolder="http://localhost/games";
 
 	//	gameFolder="prueba";
+	//	gameFolder="null";
+	//	gameFolder="move";
 	//	gameFolder="box-doger";
 	// 	gameFolder="bird";
 	//	gameFolder="flying-plane";
-	//	gameFolder="asteroids";
+     // gameFolder="asteroids";
 	//	gameFolder="arkanoid";
 	//	gameFolder="alien-invasion";
 	//	gameFolder="babe-plataformer";
 	//  gameFolder="ludumdare46-carlos";
-	//	gameFolder="tetris";
+		gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
-		gameFolder="empty";
 
-		var app=new App(serverGamesFolder,gameFolder);
+		var app = new App(serverGamesFolder,gameFolder,gameId);
 		
-	</script>
-	<script type="text/javascript">
-		let type = "WebGL"
-		if(!PIXI.utils.isWebGLSupported()){
-			type = "canvas"
-		}
-		PIXI.utils.sayHello(type);
 	</script>
 </body>
 </html>

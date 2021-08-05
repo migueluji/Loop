@@ -1,28 +1,31 @@
 class Engine {
 
-    constructor(engineView,gameModel) {
-        console.log("Engine ",gameModel);
-        this.model           = gameModel;
+    /* ----------------------------------------
+     *  CONSTRUCTOR
+     *  * ---------------------------------------- */
+    constructor(game) {
 
-        // this.physics        = new Physics(this);    /** */
-         this.render         = new Render(this);     /** */
-        // this.input          = new Input(this);      /** */
-        // this.audio          = new Audio(this);      /** */
-        // this.logic          = new Logic(this);      /** */
+        this.physics        = new Physics(this);    /** */
+        this.render         = new Render(this);     /** */
+        this.input          = new Input(this);      /** */
+        this.audio          = new Audio(this);      /** */
+        this.logic          = new Logic(this);      /** */
 
-        // this.actorList      = {};                   /** Diccionario de referencia de los actores presentes en el juego. */
-        // this.sceneList      = {};                   /** Necesitamos guardar los datos crudos de las escenas activas para acceder al Cast cuando queremos spawnear un actor. */
+        this.game           = new Game(game, this); /** */
+
+        this.actorList      = {};                   /** Diccionario de referencia de los actores presentes en el juego. */
+        this.sceneList      = {};                   /** Necesitamos guardar los datos crudos de las escenas activas para acceder al Cast cuando queremos spawnear un actor. */
         
-        // this.spawnList      = [];                   /** Lista auxiliar para la creacion de nuevos actores (spawn) tras cada iteraccion del ciclo de juego. */
-        // this.destroyList    = [];                   /** Lista auxilair para la eliminacion de actores tras cada iteracion del ciclo de juego. */
+        this.spawnList      = [];                   /** Lista auxiliar para la creacion de nuevos actores (spawn) tras cada iteraccion del ciclo de juego. */
+        this.destroyList    = [];                   /** Lista auxilair para la eliminacion de actores tras cada iteracion del ciclo de juego. */
         
-        // this.sceneHandler   = null;                 /** Propiedad auxiliar de control de las transiciones entre escenas. */
+        this.sceneHandler   = null;                 /** Propiedad auxiliar de control de las transiciones entre escenas. */
 
-        // this.index          = 0;                    /** Indices para el orden de visualizacion. */
+        this.index          = 0;                    /** Indices para el orden de visualizacion. */
 
-        // this.iteration = 0;
+        this.iteration = 0;
 
-        // this.addScene(this.game.sceneList[this.game.activeScene]); /** Añadimos la primera escena. */
+        this.addScene(this.game.sceneList[this.game.activeScene]); /** Añadimos la primera escena. */
     }
 
     /* ----------------------------------------
@@ -30,15 +33,15 @@ class Engine {
      * ---------------------------------------- */
     gameLoop() {
 
-        // this.physics.run();
-        // this.logic.run();
-         this.render.run();
+        this.physics.run();
+        this.logic.run();
+        this.render.run();
 
-        // this.iteration++;
+        this.iteration++;
 
-        // this.resetEngine();
+        this.resetEngine();
 
-        // window.requestAnimationFrame(this.gameLoop.bind(this));
+        window.requestAnimationFrame(this.gameLoop.bind(this));
     }
 
     resetEngine() {

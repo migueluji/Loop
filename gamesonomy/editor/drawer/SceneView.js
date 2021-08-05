@@ -7,7 +7,7 @@ class SceneView {
 		this.html.innerHTML =
 				'<span class="mdc-list-item__ripple"></span>'+
 				'<span class="mdc-list-item__graphic">'+
-					'<img style="border: 1px solid lightgray;" src="" width="56" height="56"></img>'+
+					'<img style="border: 1px solid lightgray;" src="" widht="56" height="56"></img>'+
 				'</span>'+
 				'<span class="mdc-list-item__text"></span>'+
 				'<div aria-hidden="true" class="mdc-list-item__meta">'+
