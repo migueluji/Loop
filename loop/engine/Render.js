@@ -19,7 +19,7 @@ class Render {
         this.stage                      = new PIXI.Container();
         PIXI.settings.SCALE_MODE        = PIXI.SCALE_MODES.NEAREST; /** Modo de escala para las texturas de PIXI (pixelizacion). */ 
         PIXI.settings.WRAP_MODE         = PIXI.WRAP_MODES.REPEAT;
-        PIXI.settings.SORTABLE_CHILDREN = true;
+        PIXI.settings.SORTABLE_CHILDREN = true;  
         this.stage.sortableChildren     = true;
 
         document.body.appendChild(this.renderer.view);          /** Añadimos PIXI.Renderer al DOM. */ 
