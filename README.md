@@ -1,1 +1,2 @@
-Versión antigua de gamesonomy más versión nueva de loop (con todo el código duplicado)
+Desarrollo de Loop.
+Incluye la versión antigua de gamesonomy /gamesonmy y la nueva versión /loop
