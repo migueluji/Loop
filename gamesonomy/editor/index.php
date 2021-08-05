@@ -124,7 +124,7 @@
 	//	userId=1455;
 	//	userName="Editor";
 		gameId=Utils.id();
-		serverGamesFolder="http://localhost/games";
+		serverGamesFolder="http://localhost/gamesonomy/games";
 
 	//	gameFolder="prueba";
 	//	gameFolder="box-doger";
@@ -135,7 +135,7 @@
 	//	gameFolder="alien-invasion";
 	//	gameFolder="babe-plataformer";
 	//  gameFolder="ludumdare46-carlos";
-		gameFolder="tetris";
+		gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
 

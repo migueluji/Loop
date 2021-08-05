@@ -126,7 +126,7 @@
 	//	userId=1455;
 	//	userName="Editor";
 		gameId=Utils.id();
-		serverGamesFolder="http://localhost/games";
+		serverGamesFolder="http://localhost/loop/games";
 
 	//	gameFolder="prueba";
 	//	gameFolder="null";
