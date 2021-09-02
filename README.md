@@ -1,2 +1,2 @@
 Desarrollo de Loop.
-Incluye la versión antigua /gamesonmy y la nueva versión /loop
+Incluye la versión antigua /gamesonomy y la nueva versión /loop
