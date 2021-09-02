@@ -26,7 +26,8 @@
 		</style>
 	
 		<title>Gamesonomy Engine</title>
-	
+		<span id="fps" style="color:white;font-size:36px;font-family:'Lato'">--</span>
+
 	</head>
 	
 	<body>

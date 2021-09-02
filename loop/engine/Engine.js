@@ -1,15 +1,23 @@
 class Engine {
 
     constructor(gameModel) {
-        console.log("Engine ", gameModel);
+        console.log("Engine :",gameModel);
         this.model = gameModel;
         this.render = new Render(this.model); 
         window.requestAnimationFrame(this.gameLoop.bind(this));
+        this.fpsText=document.getElementById("fps");
     }
 
+
     gameLoop(timeStamp) {
-        console.log(timeStamp);
-        this.render.run();
+        // Calculate the number of seconds passed since the last frame
+        this.secondsPassed = (timeStamp - this.oldTimeStamp)/ 1000;
+        this.oldTimeStamp = timeStamp;
+        // Calculate fps
+        this.fps = Math.round(1 / this.secondsPassed);
+        this.fpsText.innerHTML="FPS: "+this.fps;
+
+        this.render.draw();
         window.requestAnimationFrame(this.gameLoop.bind(this));
     }
 

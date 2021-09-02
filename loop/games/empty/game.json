@@ -1,7 +1,7 @@
 {
 	"name": "Empty",
 	"displayWidth": 800,
-	"displayHeight": 480,
+	"displayHeight": 400,
 	"cameraX": 0,
 	"cameraY": 0,
 	"cameraAngle": 0,
@@ -24,8 +24,8 @@
 				{
 					"name": "Actor_1",
 					"sleeping": false,
-					"x": -203.33327098141908,
-					"y": 51.23693727397435,
+					"x": 0,
+					"y": 0,
 					"width": 140,
 					"height": 190,
 					"scaleX": 1,
