@@ -45,7 +45,7 @@
 		<script src="../editor/Utils.js"></script>
 		<script src="Engine.js"></script>
 
-		<script src="Game.js"></script>
+		<script src="../editor/Game.js"></script>
 		<script src="Scene.js"></script>
 		<script src="Actor.js"></script>
 		<script src="Script.js"></script>

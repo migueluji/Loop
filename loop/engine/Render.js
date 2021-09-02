@@ -1,19 +1,17 @@
 class Render {
 
-    constructor(engine) {
-
-        this.engine                 = engine;   /** Referencia al motor. */
-
+    constructor(gameModel) {
+        console.log("Render ", gameModel.backgroundColor);
         this.spriteList             = [];       /** Lista de actores con sprites. */
         this.textList               = [];       /** Lista de actores con texto. */
         this.onScreenList           = [];       /** Lista de actores con la propiedad onScreen activa. */
 
         this.textCompilationList    = [];       /** Lista auxiliar para compilar los textos de los nuevos actores (incluyendo los spawns). */
 
-        this.setRender();                       /** Configuracion de las propiedades del motor de render y su bibloteca externa PIXI. */
+        this.initRender(gameModel.backgroundColor);                       /** Configuracion de las propiedades del motor de render y su bibloteca externa PIXI. */
     }
 
-    setRender() {
+    initRender(backgroundColor) {
 
         this.renderer                   = new PIXI.Renderer();
         this.stage                      = new PIXI.Container();
@@ -21,10 +19,10 @@ class Render {
         PIXI.settings.WRAP_MODE         = PIXI.WRAP_MODES.REPEAT;
         PIXI.settings.SORTABLE_CHILDREN = true;  
         this.stage.sortableChildren     = true;
+        this.renderer.backgroundColor="0x"+String(backgroundColor).substr(1);
 
         document.body.appendChild(this.renderer.view);          /** Añadimos PIXI.Renderer al DOM. */ 
 
-        //this.loadFonts(render.assets.fonts);                  /** Carga de fuentes tipograficas (DESACTIVADA POR AHORA). */
     }
 
     setActorRender(actor, data) {

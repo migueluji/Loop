@@ -21,8 +21,6 @@ class Player {
     onAssetLoaded(){
         //var debugParser = Util.parser({}, this.data);
         this.load.closeDialog(); //clase del editor dialogs/LoadingView
-        //this.engine = new Engine(debugParser);   /** Sin el parser, el parametro es "this.file.data"*/  
-        this.engine = new Engine(null, new Game(this.data));
-        this.engine.gameLoop();
+        this.engine = new Engine(new Game(this.data));
     }
 }

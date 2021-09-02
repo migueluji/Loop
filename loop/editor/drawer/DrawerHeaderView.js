@@ -5,7 +5,7 @@ class DrawerHeaderView {
         this.html.className +="mdc-drawer__header";
         this.html.style="padding-bottom: 12px;"
 		this.html.innerHTML =
-            '<img style="width:100%; padding:24px 0px 8px" src="./images/gamesonomy.png"></img>'+
+            '<img style="width:100%; padding:24px 0px 8px" src="./images/loop.png"></img>'+
             '<div class="two-properties">'+	
                    ' <label class="mdc-text-field mdc-text-field--filled">'+
                         '<span class="mdc-text-field__ripple"></span>'+
