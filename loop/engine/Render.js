@@ -1,30 +1,32 @@
 class Render {
 
-    constructor(game) {
-        this.game=game;
+    constructor(cast,gameProperties) {
+        this.cast=cast;
         const app = new PIXI.Application({
-            width: game.displayWidth, 
-            height: game.displayHeight, 
-            backgroundColor: "0x" + String(game.backgroundColor).substr(1), 
+            width: gameProperties.displayWidth, 
+            height: gameProperties.displayHeight, 
+            backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1), 
         });
         document.body.appendChild(app.view);
         this.stage = new PIXI.Container();
         app.stage.addChild(this.stage);      
-        this.x=0;
+        this.sprite=[];
+        cast.forEach((actor,i)=>{
+            var texture = player.file.loader.resources[actor.image].texture;
+            this.sprite[i]= new PIXI.Sprite(texture);
+            this.sprite[i].x = actor.x;
+            this.sprite[i].y = actor.y;
+            this.stage.addChild(this.sprite[i]);
+        })
     }
 
-    draw() {
-        this.stage.removeChildren();
-        this.game.sceneList[0].actorList.forEach(actor => {
-        const texture = PIXI.Texture.from('../games/empty/images/ship.png');
-        const bunny = new PIXI.Sprite(texture);
-        bunny.x = actor.x+this.x;
-        bunny.y = actor.y+150;
-        this.stage.addChild(bunny);   
+    draw(lagOffset) {
+
+        this.cast.forEach((actor,i) => {
+
+            this.sprite[i].x += 2 * lagOffset;
+ 
         });
-        this.x++;
-    //this.updateActors();
-    //this.renderer.render(this.stage);
     }
 
     // setActorRender(actor, data) {
