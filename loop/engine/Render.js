@@ -1,31 +1,76 @@
 class Render {
 
-    constructor(cast,gameProperties) {
-        this.cast=cast;
+    constructor(cast, gameProperties) {
+        this.cast = cast;
+        this.gameProperties = gameProperties;
         const app = new PIXI.Application({
-            width: gameProperties.displayWidth, 
-            height: gameProperties.displayHeight, 
-            backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1), 
+            width: gameProperties.displayWidth,
+            height: gameProperties.displayHeight,
+            backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
         });
         document.body.appendChild(app.view);
         this.stage = new PIXI.Container();
-        app.stage.addChild(this.stage);      
-        this.sprite=[];
-        cast.forEach((actor,i)=>{
+        this.stage.position.x = gameProperties.displayWidth / 2.0;
+        this.stage.position.y = gameProperties.displayHeight / 2.0;
+        this.stage.scale.y = -1;
+        app.stage.addChild(this.stage);
+        this.sprite = [];
+        var actor = cast[0];
+        //     cast.forEach((actor, i) => {
+        for (var i = 0; i < 1000; i++) {
             var texture = player.file.loader.resources[actor.image].texture;
-            this.sprite[i]= new PIXI.Sprite(texture);
-            this.sprite[i].x = actor.x;
-            this.sprite[i].y = actor.y;
+            texture.rotate = 8;
+            this.sprite[i] = new PIXI.Sprite(texture);
+            this.sprite[i].x = this.random(-gameProperties.displayWidth / 2.0, gameProperties.displayWidth / 2.0);
+            this.sprite[i].y = this.random(-gameProperties.displayHeight / 2.0, gameProperties.displayHeight / 2.0);;
+            this.sprite[i].vx = this.random(-300, 300);
+            this.sprite[i].vy = this.random(-300, 300);
+            this.sprite[i].anchor.set(0.5);
             this.stage.addChild(this.sprite[i]);
+        }
+        //   })
+    }
+    //A `randome` helper function
+    random(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    update(deltaTime) {
+        this.sprite.forEach(sprite => {
+            sprite.previousX = sprite.x;
+            sprite.previousY = sprite.y;
+
+            sprite.x += sprite.vx * deltaTime;
+            sprite.y += sprite.vy * deltaTime;
+
+            //Screen boundaries Left
+            if (sprite.x <= (-this.gameProperties.displayWidth / 2.0)) {
+                sprite.x = -this.gameProperties.displayWidth / 2.0;
+                sprite.vx = -sprite.vx;
+            }
+            //Right
+            if (sprite.x >= (this.gameProperties.displayWidth / 2.0)) {
+                sprite.x = this.gameProperties.displayWidth / 2.0;
+                sprite.vx = -sprite.vx;
+            }
+            //Top
+            if (sprite.y <= (-this.gameProperties.displayHeight / 2.0)) {
+                sprite.y = -this.gameProperties.displayHeight / 2.0;
+                sprite.vy = -sprite.vy;
+            }
+            //Bottom
+            if (sprite.y >= (this.gameProperties.displayHeight / 2.0)) {
+                sprite.y = this.gameProperties.displayHeight / 2.0;
+                sprite.vy = -sprite.vy;
+            }
         })
     }
 
     draw(lagOffset) {
 
-        this.cast.forEach((actor,i) => {
-
-            this.sprite[i].x += 2 * lagOffset;
- 
+        this.sprite.forEach(sprite => {
+         //   console.log(sprite.x, " - ", sprite.previousX, " - ", lagOffset);
+            sprite.x = (sprite.x - sprite.previousX) * lagOffset + sprite.previousX;
+           sprite.y = (sprite.y - sprite.previousY) * lagOffset + sprite.previousY;
         });
     }
 

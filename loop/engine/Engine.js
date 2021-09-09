@@ -4,8 +4,8 @@ class Engine {
         this.render = new Render(gameModel.sceneList[0].actorList,gameModel.properties); 
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText=document.getElementById("fps");
-        this.fps = 60;
-        this.previous = 0;
+        this.fps = 60.0;
+        this.previous = 0.0;
         this.frameDuration = 1000 / this.fps;
         this.lag= 0.0;
     }
@@ -29,7 +29,7 @@ class Engine {
             //capturePreviousPositions(sprites);
 
             //Update the logic
-            //update();
+            this.render.update(this.frameDuration/1000);
 
             //Reduce the lag counter by the frame duration
             this.lag -= this.frameDuration; 

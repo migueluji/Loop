@@ -1,7 +1,7 @@
 {
 	"name": "Empty",
 	"displayWidth": 800,
-	"displayHeight": 400,
+	"displayHeight": 480,
 	"cameraX": 0,
 	"cameraY": 0,
 	"cameraAngle": 0,
@@ -22,12 +22,12 @@
 			"name": "Scene_1",
 			"actorList": [
 				{
-					"name": "Actor_1",
+					"name": "Actor_2",
 					"sleeping": false,
-					"x": 0,
-					"y": 0,
-					"width": 124,
-					"height": 108,
+					"x": -91.5,
+					"y": 102,
+					"width": 91,
+					"height": 91,
 					"scaleX": 1,
 					"scaleY": 1,
 					"angle": 0,
@@ -35,7 +35,7 @@
 					"collider": "Box",
 					"tags": "",
 					"spriteOn": true,
-					"image": "ship.png",
+					"image": "ufoYellow.png",
 					"color": "#ffffff",
 					"opacity": 1,
 					"flipX": false,
@@ -70,31 +70,7 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Compare",
-									"parameters": {
-										"value_1": "Me.x",
-										"operation": "Less",
-										"value_2": "5"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Actor_1.width",
-												"value": "10"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							]
-						}
-					]
+					"scriptList": []
 				}
 			]
 		}
