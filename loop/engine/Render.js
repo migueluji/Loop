@@ -17,14 +17,22 @@ class Render {
         this.sprite = [];
         var actor = cast[0];
         //     cast.forEach((actor, i) => {
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 5000; i++) {
             var texture = player.file.loader.resources[actor.image].texture;
             texture.rotate = 8;
-            this.sprite[i] = new PIXI.Sprite(texture);
+            if (i<4050) {
+                this.sprite[i] = new PIXI.Sprite(texture);
+               // this.sprite[i].cacheAsBitmap= false;
+            }
+            else {
+                this.sprite[i] = new PIXI.TilingSprite(texture,actor.width,actor.height);
+                this.sprite[i].tint = Math.random() * 0xFFFFFF;
+                this.sprite[i].cacheAsBitmap= true;
+            }
             this.sprite[i].x = this.random(-gameProperties.displayWidth / 2.0, gameProperties.displayWidth / 2.0);
             this.sprite[i].y = this.random(-gameProperties.displayHeight / 2.0, gameProperties.displayHeight / 2.0);;
-            this.sprite[i].vx = this.random(-300, 300);
-            this.sprite[i].vy = this.random(-300, 300);
+            this.sprite[i].vx = this.random(-300, 300)*4;
+            this.sprite[i].vy = this.random(-300, 300)*4;
             this.sprite[i].anchor.set(0.5);
             this.stage.addChild(this.sprite[i]);
         }
@@ -34,6 +42,7 @@ class Render {
     random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
     update(deltaTime) {
         this.sprite.forEach(sprite => {
             sprite.previousX = sprite.x;
@@ -41,6 +50,13 @@ class Render {
 
             sprite.x += sprite.vx * deltaTime;
             sprite.y += sprite.vy * deltaTime;
+            if (sprite instanceof PIXI.TilingSprite) {
+               //sprite.cacheAsBitmap = false;
+                //sprite.tilePosition.x +=1;
+               //sprite.cacheAsBitmap = true;
+               sprite.visible =false;
+            }
+
 
             //Screen boundaries Left
             if (sprite.x <= (-this.gameProperties.displayWidth / 2.0)) {

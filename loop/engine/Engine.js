@@ -4,7 +4,7 @@ class Engine {
         this.render = new Render(gameModel.sceneList[0].actorList,gameModel.properties); 
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText=document.getElementById("fps");
-        this.fps = 60.0;
+        this.fps = 40.0;
         this.previous = 0.0;
         this.frameDuration = 1000 / this.fps;
         this.lag= 0.0;
@@ -45,7 +45,7 @@ class Engine {
         var actualFps = Math.floor(1000 / elapsed);
         this.render.draw(lagOffset);
 
-       this.fpsText.innerHTML="ms: "+elapsed.toFixed(2)+" fps: "+actualFps+" lag: "+Math.floor(this.lag)+" offset: "+lagOffset.toFixed(4);
+       this.fpsText.innerHTML="ms: "+elapsed.toFixed(2)+" fps: "+actualFps+" lag: "+("0"+Math.floor(this.lag)).slice(-2)+" offset: "+lagOffset.toFixed(2);
 
     }
 
