@@ -1,104 +1,62 @@
 class Render {
 
     constructor(cast, gameProperties) {
-        this.cast = cast;
-        this.gameProperties = gameProperties;
+        console.log(cast, gameProperties);
         const app = new PIXI.Application({
             width: gameProperties.displayWidth,
             height: gameProperties.displayHeight,
             backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
         });
         document.body.appendChild(app.view);
+
         this.stage = new PIXI.Container();
-        this.stage.position.x = gameProperties.displayWidth / 2.0;
-        this.stage.position.y = gameProperties.displayHeight / 2.0;
-        this.stage.scale.y = -1;
+        this.stage.position = { x: gameProperties.displayWidth / 2.0, y: gameProperties.displayHeight / 2.0 };
+        this.stage.scale = { x: gameProperties.cameraZoom, y: -gameProperties.cameraZoom };
+        this.stage.angle = gameProperties.cameraAngle;
         app.stage.addChild(this.stage);
 
         this.sprite = [];
-
         cast.forEach((actor, i) => {
-            var texture = player.file.loader.resources[actor.image].texture;
+
+            var existsImage = Boolean(player.file.loader.resources[actor.image]);
+            var texture = (existsImage) ? player.file.loader.resources[actor.image].texture : PIXI.Texture.WHITE;
             texture.rotate = 8;
 
-            // var scroll = Boolean(actor.scrollX || actor.scrollY);
-            // var tile = Boolean(actor.tileX || actor.tileY);
-            // scroll=false;
-            // tile=false;
-            // if (scroll || tile) {
-            //      this.sprite[i] = new PIXI.TilingSprite(texture,actor.width,actor.height);
-            // }
-            // else  ;
-            this.sprite[i] = new PIXI.Sprite(texture);
+            var scroll = Boolean((actor.scrollX != 0) || (actor.scrollY != 0));
+            var tile = Boolean((actor.tileX != 1) || (actor.tileY != 1));
+            this.sprite[i] = (scroll || tile) ? new PIXI.TilingSprite(texture, actor.width, actor.height) : new PIXI.Sprite(texture);
 
-            this.sprite[i].x = 0;
-            this.sprite[i].y = 0;
-            this.sprite[i].scale.x = actor.scaleX;
-            this.sprite[i].scale.y = actor.scaleY;
+            this.sprite[i].position = { x: actor.x, y: actor.y };
+            this.sprite[i].scale.x = (actor.flipX) ? -actor.scaleX : actor.scaleX;
+            this.sprite[i].scale.y = (actor.flipY) ? -actor.scaleY : actor.scaleY;
+            this.sprite[i].width = (existsImage) ? this.sprite[i].texture.width * actor.tileX : 50 * actor.tileX;
+            this.sprite[i].height = (existsImage) ? this.sprite[i].texture.height * actor.tileY : 50 * actor.tileY;
+            this.sprite[i].angle = actor.angle;
 
-            //   if (tile) this.sprite[i].cacheAsBitmap = true;
-
-
-
-            // this.sprite[i].tint = "0x"+String(actor.color).substr(1);
-
-
-            this.sprite[i].vx = this.random(-300, 300);
-            this.sprite[i].vy = this.random(-300, 300);
-            // this.sprite[i].scale.x=0.5;
-            // this.sprite[i].scale.y=0.5;
+            this.sprite[i].image = actor.image;
             this.sprite[i].anchor.set(0.5);
+            if (tile && !scroll) this.sprite[i].cacheAsBitmap = true;
+            this.sprite[i].tint = "0x" + String(actor.color).substr(1);
+            this.sprite[i].alpha = actor.opacity;
+            this.sprite[i].scroll = { x: actor.scrollX, y: actor.scrollY };
+
             this.stage.addChild(this.sprite[i]);
-            console.log(this.sprite[i].x);
-
         })
-
-    }
-    //A `randome` helper function
-    random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     update(deltaTime) {
         this.sprite.forEach(sprite => {
             sprite.previousX = sprite.x;
             sprite.previousY = sprite.y;
-
-            //   sprite.x += sprite.vx * deltaTime;
-            //   sprite.y += sprite.vy * deltaTime;
-            //   if (sprite instanceof PIXI.TilingSprite) {
-            //      sprite.cacheAsBitmap = false;
-            //      sprite.tilePosition.x +=100;
-            //      sprite.cacheAsBitmap = true;
-            //      sprite.visible =false;
-            //   }
-            // //Screen boundaries Left
-            // if (sprite.x <= (-this.gameProperties.displayWidth / 2.0)) {
-            //     sprite.x = -this.gameProperties.displayWidth / 2.0;
-            //     sprite.vx = -sprite.vx;
-            // }
-            // //Right
-            // if (sprite.x >= (this.gameProperties.displayWidth / 2.0)) {
-            //     sprite.x = this.gameProperties.displayWidth / 2.0;
-            //     sprite.vx = -sprite.vx;
-            // }
-            // //Top
-            // if (sprite.y <= (-this.gameProperties.displayHeight / 2.0)) {
-            //     sprite.y = -this.gameProperties.displayHeight / 2.0;
-            //     sprite.vy = -sprite.vy;
-            // }
-            // //Bottom
-            // if (sprite.y >= (this.gameProperties.displayHeight / 2.0)) {
-            //     sprite.y = this.gameProperties.displayHeight / 2.0;
-            //     sprite.vy = -sprite.vy;
-            // }
+            if (sprite instanceof PIXI.TilingSprite) {
+                sprite.tilePosition.x += sprite.scroll.x * deltaTime ;
+                sprite.tilePosition.y += sprite.scroll.y * deltaTime ;
+            }
         })
     }
 
     draw(lagOffset) {
-
         this.sprite.forEach(sprite => {
-            //   console.log(sprite.x, " - ", sprite.previousX, " - ", lagOffset);
             sprite.x = (sprite.x - sprite.previousX) * lagOffset + sprite.previousX;
             sprite.y = (sprite.y - sprite.previousY) * lagOffset + sprite.previousY;
         });
