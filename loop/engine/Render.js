@@ -14,29 +14,45 @@ class Render {
         this.stage.position.y = gameProperties.displayHeight / 2.0;
         this.stage.scale.y = -1;
         app.stage.addChild(this.stage);
+
         this.sprite = [];
-        var actor = cast[0];
-        //     cast.forEach((actor, i) => {
-        for (var i = 0; i < 5000; i++) {
+
+        cast.forEach((actor, i) => {
             var texture = player.file.loader.resources[actor.image].texture;
             texture.rotate = 8;
-            if (i<4050) {
-                this.sprite[i] = new PIXI.Sprite(texture);
-               // this.sprite[i].cacheAsBitmap= false;
-            }
-            else {
-                this.sprite[i] = new PIXI.TilingSprite(texture,actor.width,actor.height);
-                this.sprite[i].tint = Math.random() * 0xFFFFFF;
-                this.sprite[i].cacheAsBitmap= true;
-            }
-            this.sprite[i].x = this.random(-gameProperties.displayWidth / 2.0, gameProperties.displayWidth / 2.0);
-            this.sprite[i].y = this.random(-gameProperties.displayHeight / 2.0, gameProperties.displayHeight / 2.0);;
-            this.sprite[i].vx = this.random(-300, 300)*4;
-            this.sprite[i].vy = this.random(-300, 300)*4;
+
+            // var scroll = Boolean(actor.scrollX || actor.scrollY);
+            // var tile = Boolean(actor.tileX || actor.tileY);
+            // scroll=false;
+            // tile=false;
+            // if (scroll || tile) {
+            //      this.sprite[i] = new PIXI.TilingSprite(texture,actor.width,actor.height);
+            // }
+            // else  ;
+            this.sprite[i] = new PIXI.Sprite(texture);
+
+            this.sprite[i].x = 0;
+            this.sprite[i].y = 0;
+            this.sprite[i].scale.x = actor.scaleX;
+            this.sprite[i].scale.y = actor.scaleY;
+
+            //   if (tile) this.sprite[i].cacheAsBitmap = true;
+
+
+
+            // this.sprite[i].tint = "0x"+String(actor.color).substr(1);
+
+
+            this.sprite[i].vx = this.random(-300, 300);
+            this.sprite[i].vy = this.random(-300, 300);
+            // this.sprite[i].scale.x=0.5;
+            // this.sprite[i].scale.y=0.5;
             this.sprite[i].anchor.set(0.5);
             this.stage.addChild(this.sprite[i]);
-        }
-        //   })
+            console.log(this.sprite[i].x);
+
+        })
+
     }
     //A `randome` helper function
     random(min, max) {
@@ -48,45 +64,43 @@ class Render {
             sprite.previousX = sprite.x;
             sprite.previousY = sprite.y;
 
-            sprite.x += sprite.vx * deltaTime;
-            sprite.y += sprite.vy * deltaTime;
-            if (sprite instanceof PIXI.TilingSprite) {
-               //sprite.cacheAsBitmap = false;
-                //sprite.tilePosition.x +=1;
-               //sprite.cacheAsBitmap = true;
-               sprite.visible =false;
-            }
-
-
-            //Screen boundaries Left
-            if (sprite.x <= (-this.gameProperties.displayWidth / 2.0)) {
-                sprite.x = -this.gameProperties.displayWidth / 2.0;
-                sprite.vx = -sprite.vx;
-            }
-            //Right
-            if (sprite.x >= (this.gameProperties.displayWidth / 2.0)) {
-                sprite.x = this.gameProperties.displayWidth / 2.0;
-                sprite.vx = -sprite.vx;
-            }
-            //Top
-            if (sprite.y <= (-this.gameProperties.displayHeight / 2.0)) {
-                sprite.y = -this.gameProperties.displayHeight / 2.0;
-                sprite.vy = -sprite.vy;
-            }
-            //Bottom
-            if (sprite.y >= (this.gameProperties.displayHeight / 2.0)) {
-                sprite.y = this.gameProperties.displayHeight / 2.0;
-                sprite.vy = -sprite.vy;
-            }
+            //   sprite.x += sprite.vx * deltaTime;
+            //   sprite.y += sprite.vy * deltaTime;
+            //   if (sprite instanceof PIXI.TilingSprite) {
+            //      sprite.cacheAsBitmap = false;
+            //      sprite.tilePosition.x +=100;
+            //      sprite.cacheAsBitmap = true;
+            //      sprite.visible =false;
+            //   }
+            // //Screen boundaries Left
+            // if (sprite.x <= (-this.gameProperties.displayWidth / 2.0)) {
+            //     sprite.x = -this.gameProperties.displayWidth / 2.0;
+            //     sprite.vx = -sprite.vx;
+            // }
+            // //Right
+            // if (sprite.x >= (this.gameProperties.displayWidth / 2.0)) {
+            //     sprite.x = this.gameProperties.displayWidth / 2.0;
+            //     sprite.vx = -sprite.vx;
+            // }
+            // //Top
+            // if (sprite.y <= (-this.gameProperties.displayHeight / 2.0)) {
+            //     sprite.y = -this.gameProperties.displayHeight / 2.0;
+            //     sprite.vy = -sprite.vy;
+            // }
+            // //Bottom
+            // if (sprite.y >= (this.gameProperties.displayHeight / 2.0)) {
+            //     sprite.y = this.gameProperties.displayHeight / 2.0;
+            //     sprite.vy = -sprite.vy;
+            // }
         })
     }
 
     draw(lagOffset) {
 
         this.sprite.forEach(sprite => {
-         //   console.log(sprite.x, " - ", sprite.previousX, " - ", lagOffset);
+            //   console.log(sprite.x, " - ", sprite.previousX, " - ", lagOffset);
             sprite.x = (sprite.x - sprite.previousX) * lagOffset + sprite.previousX;
-           sprite.y = (sprite.y - sprite.previousY) * lagOffset + sprite.previousY;
+            sprite.y = (sprite.y - sprite.previousY) * lagOffset + sprite.previousY;
         });
     }
 
