@@ -33,12 +33,14 @@ class Render {
             this.sprite[i].height = (existsImage) ? this.sprite[i].texture.height * actor.tileY : 50 * actor.tileY;
             this.sprite[i].angle = actor.angle;
 
+
             this.sprite[i].image = actor.image;
             this.sprite[i].anchor.set(0.5);
             if (tile && !scroll) this.sprite[i].cacheAsBitmap = true;
             this.sprite[i].tint = "0x" + String(actor.color).substr(1);
             this.sprite[i].alpha = actor.opacity;
             this.sprite[i].scroll = { x: actor.scrollX, y: actor.scrollY };
+            this.sprite[i].visible = actor.spriteOn;
 
             this.stage.addChild(this.sprite[i]);
         })
@@ -49,8 +51,8 @@ class Render {
             sprite.previousX = sprite.x;
             sprite.previousY = sprite.y;
             if (sprite instanceof PIXI.TilingSprite) {
-                sprite.tilePosition.x += sprite.scroll.x * deltaTime ;
-                sprite.tilePosition.y += sprite.scroll.y * deltaTime ;
+                sprite.tilePosition.x += sprite.scroll.x * deltaTime;
+                sprite.tilePosition.y += sprite.scroll.y * deltaTime;
             }
         })
     }
