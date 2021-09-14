@@ -64,7 +64,7 @@ class DisplayActor extends PIXI.Container {
     createSprite(actor, texture) {
         this.tilingSprite = new PIXI.TilingSprite(texture);
 
-        (actor.spriteOn) ? this.tilingSprite.alpha = actor.opacity : this.tilingSprite.alpha = 0;
+        this.tilingSprite.alpha = (actor.spriteOn) ? actor.opacity :  0;
         if (actor.sleeping && actor.spriteOn) this.tilingSprite.alpha = 0.5;
         this.tilingSprite.tint = "0x" + String(actor.color).substr(1);
 

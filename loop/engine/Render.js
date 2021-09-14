@@ -25,22 +25,21 @@ class Render {
             var scroll = Boolean((actor.scrollX != 0) || (actor.scrollY != 0));
             var tile = Boolean((actor.tileX != 1) || (actor.tileY != 1));
             this.sprite[i] = (scroll || tile) ? new PIXI.TilingSprite(texture, actor.width, actor.height) : new PIXI.Sprite(texture);
-
+            if (tile && !scroll) this.sprite[i].cacheAsBitmap = true;
+            // Settings properties
             this.sprite[i].position = { x: actor.x, y: actor.y };
-            this.sprite[i].scale.x = (actor.flipX) ? -actor.scaleX : actor.scaleX;
-            this.sprite[i].scale.y = (actor.flipY) ? -actor.scaleY : actor.scaleY;
             this.sprite[i].width = (existsImage) ? this.sprite[i].texture.width * actor.tileX : 50 * actor.tileX;
             this.sprite[i].height = (existsImage) ? this.sprite[i].texture.height * actor.tileY : 50 * actor.tileY;
+            this.sprite[i].scale.x = (actor.flipX) ? -actor.scaleX : actor.scaleX;
+            this.sprite[i].scale.y = (actor.flipY) ? -actor.scaleY : actor.scaleY;
             this.sprite[i].angle = actor.angle;
-
-
+            // Sprite properties
+            this.sprite[i].visible = actor.spriteOn;
             this.sprite[i].image = actor.image;
             this.sprite[i].anchor.set(0.5);
-            if (tile && !scroll) this.sprite[i].cacheAsBitmap = true;
             this.sprite[i].tint = "0x" + String(actor.color).substr(1);
             this.sprite[i].alpha = actor.opacity;
             this.sprite[i].scroll = { x: actor.scrollX, y: actor.scrollY };
-            this.sprite[i].visible = actor.spriteOn;
 
             this.stage.addChild(this.sprite[i]);
         })
@@ -51,6 +50,8 @@ class Render {
             sprite.previousX = sprite.x;
             sprite.previousY = sprite.y;
             if (sprite instanceof PIXI.TilingSprite) {
+                sprite.previousTilePositionX = sprite.tilePosition.x;
+                sprite.previousTilePositionY = sprite.tilePosition.y;
                 sprite.tilePosition.x += sprite.scroll.x * deltaTime;
                 sprite.tilePosition.y += sprite.scroll.y * deltaTime;
             }
@@ -61,6 +62,10 @@ class Render {
         this.sprite.forEach(sprite => {
             sprite.x = (sprite.x - sprite.previousX) * lagOffset + sprite.previousX;
             sprite.y = (sprite.y - sprite.previousY) * lagOffset + sprite.previousY;
+            if (sprite instanceof PIXI.TilingSprite) {
+               sprite.tilePosition.x = (sprite.tilePosition.x - sprite.previousTilePositionX) * lagOffset + sprite.tilePosition.x;
+               sprite.tilePosition.y = (sprite.tilePosition.y - sprite.previousTilePositionY) * lagOffset + sprite.tilePosition.y;
+            }
         });
     }
 
