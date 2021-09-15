@@ -1,95 +1,37 @@
 class Render {
 
-    constructor(cast, gameProperties) {
-        console.log(cast, gameProperties);
+    constructor(actorList, gameProperties) {
+        // Create View
         const app = new PIXI.Application({
             width: gameProperties.displayWidth,
             height: gameProperties.displayHeight,
             backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
         });
         document.body.appendChild(app.view);
-        this.app = app;
-
+        // Create Stage
         this.stage = new PIXI.Container();
         this.stage.position = { x: gameProperties.displayWidth / 2.0, y: gameProperties.displayHeight / 2.0 };
         this.stage.scale = { x: gameProperties.cameraZoom, y: -gameProperties.cameraZoom };
         this.stage.angle = gameProperties.cameraAngle;
         app.stage.addChild(this.stage);
-
-        this.sprite = [];
-        cast.forEach((actor, i) => {
-            var existsImage = Boolean(player.file.loader.resources[actor.image]);
-            var texture = (existsImage) ? player.file.loader.resources[actor.image].texture : PIXI.Texture.WHITE;
-            texture.rotate = 8;
-
-            var scroll = Boolean((actor.scrollX != 0) || (actor.scrollY != 0));
-            var tile = Boolean((actor.tileX != 1) || (actor.tileY != 1));
-            this.sprite[i] = (scroll || tile) ? new PIXI.TilingSprite(texture, actor.width, actor.height) : new PIXI.Sprite(texture);
-            if (tile && !scroll) this.sprite[i].cacheAsBitmap = true;
-            // Settings properties
-            this.sprite[i].position = { x: actor.x, y: actor.y };
-            this.sprite[i].width = (existsImage) ? this.sprite[i].texture.width * actor.tileX : 50 * actor.tileX;
-            this.sprite[i].height = (existsImage) ? this.sprite[i].texture.height * actor.tileY : 50 * actor.tileY;
-            this.sprite[i].scale.x = (actor.flipX) ? -actor.scaleX : actor.scaleX;
-            this.sprite[i].scale.y = (actor.flipY) ? -actor.scaleY : actor.scaleY;
-            this.sprite[i].angle = actor.angle;
-            // Sprite properties
-            this.sprite[i].visible = actor.spriteOn;
-            this.sprite[i].image = actor.image;
-            this.sprite[i].anchor.set(0.5);
-            this.sprite[i].tint = "0x" + String(actor.color).substr(1);
-            this.sprite[i].alpha = actor.opacity;
-            this.sprite[i].scroll = { x: actor.scrollX, y: actor.scrollY };
-
-            this.stage.addChild(this.sprite[i]);
-            // Text properties
-            var w = Math.abs(this.sprite[i].width * this.sprite[i].scale.x);
-            const style = new PIXI.TextStyle({
-                fontFamily: actor.font,
-                fill: actor.fill,
-                fontSize: actor.size,
-                fontStyle: actor.style,
-                align: actor.align.toLowerCase(),
-                wordWrap: true,
-                wordWrapWidth: w,
-                padding: w
-            });
-            const text = new PIXI.Text(actor.text, style);
-            var pivot = { x: 0, y: 0 };
-            switch (actor.align) {
-                case "Left": pivot = { x: -w / 2, y: text.height / 2 }; break;
-                case "Right": pivot = { x: w / 2 - text.width, y: text.height / 2 }; break;
-                case "Center": pivot = { x: -text.width / 2, y: text.height / 2 }; break;
-            }
-            text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
-            text.scale.y = -1;
-            this.stage.addChild(text);
-        })
+        // Add Actors
+        this.containers = [];
+        actorList.forEach((actor,i) => {
+            this.containers[i] = new Container(actor);
+            this.stage.addChild(this.containers[i]);
+        });
     }
 
     update(deltaTime) {
-        this.sprite.forEach(sprite => {
-            sprite.previousX = sprite.x;
-            sprite.previousY = sprite.y;
-            if (Boolean((sprite.scroll.x != 0) || (sprite.scroll.y != 0))) {
-                sprite.previousTilePositionX = sprite.tilePosition.x;
-                sprite.previousTilePositionY = sprite.tilePosition.y;
-                sprite.tilePosition.x += sprite.scroll.x * deltaTime;
-                sprite.tilePosition.y += sprite.scroll.y * deltaTime;
-            }
+        this.containers.forEach(container => {
+            container.update(deltaTime);
         })
     }
 
     draw(lagOffset) {
-        this.sprite.forEach(sprite => {
-            sprite.x = sprite.x * lagOffset + sprite.previousX * (1 - lagOffset);
-            sprite.y = sprite.y * lagOffset + sprite.previousY * (1 - lagOffset);
-            if (sprite instanceof PIXI.TilingSprite) {
-                sprite.tilePosition.x = sprite.tilePosition.x * lagOffset + sprite.tilePosition.x * (1 - lagOffset);
-                sprite.tilePosition.y = sprite.tilePosition.y * lagOffset + sprite.tilePosition.y * (1 - lagOffset);
-            }
+        this.containers.forEach(container => {
+            container.draw(lagOffset);
         });
-      //  this.app.renderer.render(this.stage);
     }
 
     // setActorRender(actor, data) {

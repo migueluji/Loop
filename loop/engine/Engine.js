@@ -1,7 +1,8 @@
 class Engine {
 
     constructor(gameModel) {
-        this.render = new Render(gameModel.sceneList[0].actorList, gameModel.properties);
+        this.currentScene= gameModel.sceneList[0];
+        this.render = new Render(this.currentScene.actorList, gameModel.properties);
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
         this.fps = 30 ;
