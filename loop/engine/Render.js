@@ -8,6 +8,7 @@ class Render {
             backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
         });
         document.body.appendChild(app.view);
+        this.app = app;
 
         this.stage = new PIXI.Container();
         this.stage.position = { x: gameProperties.displayWidth / 2.0, y: gameProperties.displayHeight / 2.0 };
@@ -17,7 +18,6 @@ class Render {
 
         this.sprite = [];
         cast.forEach((actor, i) => {
-
             var existsImage = Boolean(player.file.loader.resources[actor.image]);
             var texture = (existsImage) ? player.file.loader.resources[actor.image].texture : PIXI.Texture.WHITE;
             texture.rotate = 8;
@@ -42,6 +42,28 @@ class Render {
             this.sprite[i].scroll = { x: actor.scrollX, y: actor.scrollY };
 
             this.stage.addChild(this.sprite[i]);
+            // Text properties
+            var w = Math.abs(this.sprite[i].width * this.sprite[i].scale.x);
+            const style = new PIXI.TextStyle({
+                fontFamily: actor.font,
+                fill: actor.fill,
+                fontSize: actor.size,
+                fontStyle: actor.style,
+                align: actor.align.toLowerCase(),
+                wordWrap: true,
+                wordWrapWidth: w,
+                padding: w
+            });
+            const text = new PIXI.Text(actor.text, style);
+            var pivot = { x: 0, y: 0 };
+            switch (actor.align) {
+                case "Left": pivot = { x: -w / 2, y: text.height / 2 }; break;
+                case "Right": pivot = { x: w / 2 - text.width, y: text.height / 2 }; break;
+                case "Center": pivot = { x: -text.width / 2, y: text.height / 2 }; break;
+            }
+            text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
+            text.scale.y = -1;
+            this.stage.addChild(text);
         })
     }
 
@@ -49,7 +71,7 @@ class Render {
         this.sprite.forEach(sprite => {
             sprite.previousX = sprite.x;
             sprite.previousY = sprite.y;
-            if (sprite instanceof PIXI.TilingSprite) {
+            if (Boolean((sprite.scroll.x != 0) || (sprite.scroll.y != 0))) {
                 sprite.previousTilePositionX = sprite.tilePosition.x;
                 sprite.previousTilePositionY = sprite.tilePosition.y;
                 sprite.tilePosition.x += sprite.scroll.x * deltaTime;
@@ -60,13 +82,14 @@ class Render {
 
     draw(lagOffset) {
         this.sprite.forEach(sprite => {
-            sprite.x = (sprite.x - sprite.previousX) * lagOffset + sprite.previousX;
-            sprite.y = (sprite.y - sprite.previousY) * lagOffset + sprite.previousY;
+            sprite.x = sprite.x * lagOffset + sprite.previousX * (1 - lagOffset);
+            sprite.y = sprite.y * lagOffset + sprite.previousY * (1 - lagOffset);
             if (sprite instanceof PIXI.TilingSprite) {
-               sprite.tilePosition.x = (sprite.tilePosition.x - sprite.previousTilePositionX) * lagOffset + sprite.tilePosition.x;
-               sprite.tilePosition.y = (sprite.tilePosition.y - sprite.previousTilePositionY) * lagOffset + sprite.tilePosition.y;
+                sprite.tilePosition.x = sprite.tilePosition.x * lagOffset + sprite.tilePosition.x * (1 - lagOffset);
+                sprite.tilePosition.y = sprite.tilePosition.y * lagOffset + sprite.tilePosition.y * (1 - lagOffset);
             }
         });
+      //  this.app.renderer.render(this.stage);
     }
 
     // setActorRender(actor, data) {
