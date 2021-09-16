@@ -8,6 +8,7 @@ class Render {
             backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
         });
         document.body.appendChild(app.view);
+        this.app=app;
         // Create Stage
         this.stage = new PIXI.Container();
         this.stage.position = { x: gameProperties.displayWidth / 2.0, y: gameProperties.displayHeight / 2.0 };
@@ -29,9 +30,11 @@ class Render {
     }
 
     draw(lagOffset) {
+     //   this.app.renderer.clear();
         this.containers.forEach(container => {
             container.draw(lagOffset);
         });
+     //   this.app.renderer.render(this.stage);
     }
 
     // setActorRender(actor, data) {

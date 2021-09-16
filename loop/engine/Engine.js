@@ -1,54 +1,77 @@
 class Engine {
 
     constructor(gameModel) {
-        this.currentScene= gameModel.sceneList[0];
+        this.currentScene = gameModel.sceneList[0];
         this.render = new Render(this.currentScene.actorList, gameModel.properties);
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
-        this.fps = 30 ;
-        this.previous = 0.0;
-        this.frameDuration = 1000 / this.fps;
-        this.lag = 0.0;
+        this.fps = 6;
+        this.currentTime;
+        this.accumulator=0;
+        this.dt=1/this.fps;
+        this.t=0;
     }
 
-    gameLoop(timestamp) {
-        window.requestAnimationFrame(this.gameLoop.bind(this));
-
-        //Calcuate the time that has elapsed since the last frame
-        if (!timestamp) timestamp = 0;
-        var elapsed = timestamp - this.previous;
-
-        //Optionally correct any unexpected huge gaps in the elapsed time
-        if (elapsed > 1000) elapsed = this.frameDuration;
-
-        //Add the elapsed time to the lag counter
-        this.lag += elapsed;
-
-        //Update the frame if the lag counter is greater than or equal to the frame duration
-        while (this.lag >= this.frameDuration) {
-            //Capture the sprites' previous positions
-            //capturePreviousPositions(sprites);
-
-            //Update the logic
-            this.render.update(this.frameDuration / 1000);
-
-            //Reduce the lag counter by the frame duration
-            this.lag -= this.frameDuration;
+    gameLoop(newTime) {
+        requestAnimationFrame(this.gameLoop.bind(this));
+        if (this.currentTime) {
+            var frameTime = newTime - this.currentTime;
+            if (frameTime > 250) frameTime = 250;
+            this.accumulator += frameTime;
+            while (this.accumulator >= this.dt) {
+                this.fpsText.innerHTML = (1000/frameTime).toFixed(1)+" fps "+this.fps+" ffps "+(this.t/1000).toFixed(2)+" sec"; 
+                this.render.update(this.dt/1000);
+                this.t += this.dt;
+                this.accumulator -= this.dt;
+            }
+            this.render.draw(this.accumulator/this.dt);
         }
-        //Calculate the lag offset. This tells us how far we are into the next frame
-        var lagOffset = this.lag / this.frameDuration;
-
-        //Render the sprites using the `lagOffset` to extrapolate the sprites' positions
-        //render(lagOffset);
-
-        //Capture the current time to be used as the previous time in the next frame
-        this.previous = timestamp;
-        var actualFps = Math.floor(1000 / elapsed);
-        this.render.draw(lagOffset);
-
-        this.fpsText.innerHTML = "ms: " + elapsed.toFixed(2) + " fps: " + actualFps + " lag: " + ("0" + Math.floor(this.lag)).slice(-2) + " offset: " + lagOffset.toFixed(2);
-
+        this.currentTime = newTime;
     }
+}
+
+    // this.fps = 0.05;
+    // this.previous = 0.0;
+    // this.frameDuration = 1000 / this.fps;
+    // this.lag = 0.0;
+    // gameLoop(timestamp) {
+    //     window.requestAnimationFrame(this.gameLoop.bind(this));
+
+    //     //Calcuate the time that has elapsed since the last frame
+    //     if (!timestamp) timestamp = 0;
+    //     var elapsed = timestamp - this.previous;
+
+    //     //Optionally correct any unexpected huge gaps in the elapsed time
+    //     if (elapsed > 1000) elapsed = this.frameDuration;
+
+    //     //Add the elapsed time to the lag counter
+    //     this.lag += elapsed;
+
+    //     //Update the frame if the lag counter is greater than or equal to the frame duration
+    //     while (this.lag >= this.frameDuration) {
+    //         //Capture the sprites' previous positions
+    //         //capturePreviousPositions(sprites);
+
+    //         //Update the logic
+    //         this.render.update(this.frameDuration / 1000);
+    //         //Reduce the lag counter by the frame duration
+    //         this.lag -= this.frameDuration;
+    //     }
+    //     //Calculate the lag offset. This tells us how far we are into the next frame
+    //     var lagOffset = this.lag / this.frameDuration;
+
+    //     //Render the sprites using the `lagOffset` to extrapolate the sprites' positions
+    //     //render(lagOffset);
+
+    //     //Capture the current time to be used as the previous time in the next frame
+    //     this.previous = timestamp;
+    //     var actualFps = Math.floor(1000 / elapsed);
+    //     //  this.render.update(this.frameDuration / 1000);
+    //     this.render.draw(lagOffset);
+
+    //     this.fpsText.innerHTML = "ms: " + elapsed.toFixed(2) + " fps: " + actualFps + " lag: " + ("0" + Math.floor(this.lag)).slice(-2) + " offset: " + lagOffset.toFixed(2);
+
+    // }
 
     //     resetEngine() {
 
@@ -274,4 +297,3 @@ class Engine {
 
     //         console.log("-------------------------");
     //     }
-}
