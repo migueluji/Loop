@@ -1,11 +1,12 @@
 class Render {
 
-    constructor(actorList, gameProperties) {
+    constructor(gameObjects, actorList, gameProperties) {
         // Create View
         const app = new PIXI.Application({
             width: gameProperties.displayWidth,
             height: gameProperties.displayHeight,
             backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
+           // autoStart: false
         });
         document.body.appendChild(app.view);
         this.app=app;
@@ -16,24 +17,30 @@ class Render {
         this.stage.angle = gameProperties.cameraAngle;
         app.stage.addChild(this.stage);
         // Add Actors
-        this.containers = [];
-        actorList.forEach((actor,i) => {
-            this.containers[i] = new Container(actor);
-            this.stage.addChild(this.containers[i]);
+        const sprites = new PIXI.ParticleContainer();
+        gameObjects.forEach((gameObject,i) => {
+            
+           var a = new Sprite(actorList[i]);
+           console.log(a);
+            this.stage.addChild(a);
+     
+          
         });
+        this.stage.addChild(sprites);
+        console.log(this.stage);
     }
 
     update(deltaTime) {
-        this.containers.forEach(container => {
-            container.update(deltaTime);
-        })
+        // this.containers.forEach(container => {
+        //     container.update(deltaTime);
+        // })
     }
 
     draw(lagOffset) {
      //   this.app.renderer.clear();
-        this.containers.forEach(container => {
-            container.draw(lagOffset);
-        });
+        // this.containers.forEach(container => {
+        //     container.draw(lagOffset);
+        // });
      //   this.app.renderer.render(this.stage);
     }
 
