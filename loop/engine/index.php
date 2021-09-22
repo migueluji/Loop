@@ -57,7 +57,10 @@
         <script src="Render.js"></script>
 		<script src="If.js"></script>
 		<script src="Do.js"></script>
+
+		<script src="GameObject.js"></script>
 		<script src="SpriteText.js"></script>
+		<script src="Rule.js"></script>
 
 		<script>
 		

@@ -1,6 +1,7 @@
 class SpriteText extends PIXI.Container {
 
     constructor(gameObject) {
+        console.log("GameObject ",gameObject);
         super();
         const existsImage = Boolean(player.file.loader.resources[gameObject.image]);
         const scroll = Boolean((gameObject.scrollX != 0) || (gameObject.scrollY != 0));
@@ -25,7 +26,6 @@ class SpriteText extends PIXI.Container {
         sprite.scroll = { x: gameObject.scrollX, y: gameObject.scrollY }; //new properties
         sprite.scale.x = (gameObject.flipX) ? -gameObject.scaleX : gameObject.scaleX;
         sprite.scale.y = (gameObject.flipY) ? -gameObject.scaleY : gameObject.scaleY;
-        // sprite.previousTilePos = { x: 0.0, y: 0.0 };
         this.addChild(sprite);
         // Text properties
         const w = Math.abs(sprite.width * sprite.scale.x);
@@ -54,7 +54,6 @@ class SpriteText extends PIXI.Container {
         this.sprite = sprite;
         this.text = text;
         this.gameObject = gameObject;
-        //this.previousPos = { x: gameObject.x, y: gameObject.y };
         this.saveState()
     }
 

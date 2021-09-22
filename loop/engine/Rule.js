@@ -1,0 +1,6 @@
+class Rule {
+
+    constructor(actor) {
+    }
+
+}
