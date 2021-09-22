@@ -6,7 +6,7 @@ class Logic {
 
     update(deltaTime) {
          this.gameObjects.forEach(gameObject => {
-             gameObject.spriteText.update(deltaTime);
+             gameObject.container.update(deltaTime);
          })
     }
 }

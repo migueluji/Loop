@@ -18,14 +18,14 @@ class Render {
         // Add Actors to stage
         gameObjects.forEach((go,i) => {
            // gameObjects[i].spriteText = new SpriteText(go.spriteText);
-            this.stage.addChild(gameObjects[i].spriteText);
+            this.stage.addChild(gameObjects[i].container);
         });
         this.gameObjects=gameObjects;
     }
 
     draw(lagOffset) {
         this.gameObjects.forEach(gameObject => {
-            gameObject.spriteText.draw(lagOffset);
+            gameObject.container.draw(lagOffset);
         });
     }
 

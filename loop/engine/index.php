@@ -59,7 +59,7 @@
 		<script src="Do.js"></script>
 
 		<script src="GameObject.js"></script>
-		<script src="SpriteText.js"></script>
+		<script src="Container.js"></script>
 		<script src="Rule.js"></script>
 
 		<script>
