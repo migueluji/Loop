@@ -17,7 +17,6 @@ class Render {
         app.stage.addChild(this.stage);
         // Add Actors to stage
         gameObjects.forEach((go,i) => {
-           // gameObjects[i].spriteText = new SpriteText(go.spriteText);
             this.stage.addChild(gameObjects[i].container);
         });
         this.gameObjects=gameObjects;
