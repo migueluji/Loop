@@ -5,7 +5,7 @@ class Render {
         const app = new PIXI.Application({
             width: gameProperties.displayWidth,
             height: gameProperties.displayHeight,
-            backgroundColor: "0x" + String(gameProperties.backgroundColor).substr(1),
+            backgroundColor: PIXI.utils.string2hex(gameProperties.backgroundColor),
         });
         document.body.appendChild(app.view);
         this.app=app;
@@ -16,16 +16,15 @@ class Render {
         this.stage.angle = gameProperties.cameraAngle;
         app.stage.addChild(this.stage);
         // Add Actors to stage
-        gameObjects.forEach((go,i) => {
-            this.stage.addChild(gameObjects[i].container);
+        gameObjects.forEach(gameObject => {
+            this.stage.addChild(gameObject.container);
         });
         this.gameObjects=gameObjects;
     }
 
-    draw(lagOffset) {
+    integrate(lagOffset) {
         this.gameObjects.forEach(gameObject => {
-            gameObject.container.draw(lagOffset);
+            gameObject.integrate(lagOffset);
         });
     }
-
 }

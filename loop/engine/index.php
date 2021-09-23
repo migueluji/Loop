@@ -66,11 +66,17 @@
 		
 			var serverGamesFolder="<?php echo $_POST['serverGamesFolder'];?>";
 			var gameFolder="<?php echo $_POST['gameFolder'];?>";
-
 			var editor=true; /* to kown if the engine has been launched from the editor */
-
 			var json=null;
+
 			if (editor) json=JSON.parse(localStorage.getItem("localStorage_GameData"));
+
+			// requestAnimationFrame polyfill
+			var  w=window, foundRequestAnimationFrame  =     w.requestAnimationFrame   ||
+							w.webkitRequestAnimationFrame || w.msRequestAnimationFrame ||
+							w.mozRequestAnimationFrame    || w.oRequestAnimationFrame  ||
+							function(cb) { setTimeout(cb,1000/60); } ;
+			window.requestAnimationFrame  = foundRequestAnimationFrame ;
 
 			var player = new Player(serverGamesFolder,gameFolder,json);
 

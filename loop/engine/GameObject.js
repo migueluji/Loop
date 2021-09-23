@@ -3,8 +3,31 @@ class GameObject {
     constructor(actor) {
         this.container = new Container(actor);
         this.rule = new Rule(actor);
+        this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
         console.log(this);
     }
+
+    update(deltaTime) { // logic update
+        // store previous state
+        this.previousState = {
+            x: this.x, y: this.y, angle: this.angle,
+            tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
+            tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
+        }
+        // update scrolling
+        if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
+        if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
+    }
+
+    integrate(lagOffset) { // integrate render positions
+        this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
+        this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
+        this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
+        if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
+        if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+    }
+
+    // access to GameObject properties
     get x() { return this.container.x };
     set x(value) { this.container.x = value };
 
@@ -39,7 +62,7 @@ class GameObject {
     set color(value) { this.container.sprite.tint = PIXI.utils.string2hex(value) };
 
     get opacity() { return this.container.sprite.alpha };
-    set opacity(value) { this.container.sprite.alpah = value };
+    set opacity(value) { this.container.sprite.alpha = value };
 
     get flipX() { return (Math.sign(this.container.sprite.scale.x) == 1) ? false : true };
     set flipX(value) { this.container.sprite.scale.x *= (value) ? -1 : 1 };
@@ -89,7 +112,7 @@ class GameObject {
     set align(value) { this.container.text.style.align = value.toLowerCase() };
 
     get offsetX() { return this.container.text.position.x };
-    set offsetX(value) { 
+    set offsetX(value) {
         const w = Math.abs(this.container.prite.width * this.container.sprite.scale.x);
         var pivot = { x: 0, y: 0 };
         switch (this.container.text.style.align) {
@@ -97,11 +120,11 @@ class GameObject {
             case "right": pivot = { x: w / 2 - this.container.text.width, y: this.container.text.height / 2 }; break;
             case "center": pivot = { x: -this.container.text.width / 2, y: this.container.text.height / 2 }; break;
         }
-        this.container.text.position.x = pivot.x + value ;
+        this.container.text.position.x = pivot.x + value;
     };
 
     get offsetY() { return this.container.text.position.y };
-    set offsetY(value) { 
+    set offsetY(value) {
         const w = Math.abs(this.container.prite.width * this.container.sprite.scale.x);
         var pivot = { x: 0, y: 0 };
         switch (this.container.text.style.align) {
@@ -109,7 +132,7 @@ class GameObject {
             case "right": pivot = { x: w / 2 - this.container.text.width, y: this.container.text.height / 2 }; break;
             case "center": pivot = { x: -this.container.text.width / 2, y: this.container.text.height / 2 }; break;
         }
-        this.container.text.position.y = pivot.y + value ;
+        this.container.text.position.y = pivot.y + value;
     };
 
 }

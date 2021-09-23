@@ -9,19 +9,11 @@ class Engine {
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
         
-        this.fps = 30;
+        this.fps = 24;
         this.currentTime;
         this.accumulator = 0.0;
         this.dt = 1.0 / this.fps;
         this.t = 0.0;
-    }
-
-    init(gameModel) {
-        var gameObjects=[];
-        gameModel.sceneList[0].actorList.forEach(actor => {
-            gameObjects.push(new GameObject(actor));
-        });
-        return gameObjects;
     }
 
     gameLoop(newTime) {
@@ -36,8 +28,16 @@ class Engine {
                 this.t += this.dt;
                 this.accumulator -= this.dt;
             }
-            this.render.draw(this.accumulator / this.dt);
+            this.render.integrate(this.accumulator / this.dt);
         }
         this.currentTime = newTime;
+    }
+
+    init(gameModel) {
+        var gameObjects=[];
+        gameModel.sceneList[0].actorList.forEach(actor => {
+            gameObjects.push(new GameObject(actor));
+        });
+        return gameObjects;
     }
 }

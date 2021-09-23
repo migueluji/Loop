@@ -1,12 +1,12 @@
 class Logic {
 
     constructor(gameObjects, gameProperties) {
-        this.gameObjects=gameObjects;
+        this.gameObjects = gameObjects;
     }
 
     update(deltaTime) {
-         this.gameObjects.forEach(gameObject => {
-             gameObject.container.update(deltaTime);
-         })
+        this.gameObjects.forEach(gameObject => {
+            gameObject.update(deltaTime);
+        })
     }
 }

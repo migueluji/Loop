@@ -54,34 +54,4 @@ class Container extends PIXI.Container {
         this.sprite = sprite;
         this.text = text;
     }
-
-    saveState() {
-        // this.previous = {
-        //     x: this.position.x,
-        //     y: this.position.y,
-        //     angle: this.angle
-        // };
-        // const scroll = Boolean((this.actor.scrollX != 0) || (this.actor.scrollY != 0));
-        // if (scroll) {
-        //     this.previous.sprite = { tilePositionX: this.sprite.tilePosition.x, tilePositionY: this.sprite.tilePosition.y };
-        // }
-    }
-
-    update(deltaTime) {
-        // this.saveState();
-        // const scroll = Boolean((this.actor.scrollX != 0) || (this.actor.scrollY != 0));
-        // if (scroll) {
-        //     this.sprite.tilePosition.x += this.sprite.scroll.x * deltaTime;
-        //     this.sprite.tilePosition.y += this.sprite.scroll.y * deltaTime;
-        // }
-    }
-
-    draw(lagOffset) {
-        // this.x = this.x * lagOffset + this.previous.x * (1 - lagOffset);
-        // this.y = this.y * lagOffset + this.previous.y * (1 - lagOffset);
-        // if (this.scroll) {
-        //     this.sprite.tilePosition.x = this.sprite.tilePosition.x * lagOffset + this.previous.sprite.tilePositionX * (1 - lagOffset);
-        //     this.sprite.tilePosition.y = this.sprite.tilePosition.y * lagOffset + this.previous.sprite.tilePositionY * (1 - lagOffset);
-        // }
-    }
 }
