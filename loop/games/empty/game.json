@@ -22,9 +22,60 @@
 			"name": "Scene_1",
 			"actorList": [
 				{
+					"name": "alien",
+					"sleeping": false,
+					"x": 0,
+					"y": 0,
+					"width": 800,
+					"height": 246,
+					"scaleX": 3.225806451612903,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "shipGreen_manned.png",
+					"color": "#f2abab",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": -100,
+					"scrollY": 0,
+					"tileX": 2,
+					"tileY": 2,
+					"textOn": true,
+					"text": "hola",
+					"font": "Arial",
+					"size": 60,
+					"fill": "#e26565",
+					"style": "Italic",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": []
+				},
+				{
 					"name": "shine",
 					"sleeping": false,
-					"x": -170.5,
+					"x": -171.5,
 					"y": 112.5,
 					"width": 188,
 					"height": 188,
@@ -75,56 +126,45 @@
 							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Compare",
+									"type": "Edit",
 									"parameters": {
-										"value_1": "Me.x",
-										"operation": "Less",
-										"value_2": "0"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.x",
-												"value": "Me.x+1"
-											}
-										}
-									],
-									"nodeListFalse": []
+										"property": "Me.angle",
+										"value": "Me.angle+0.016"
+									}
 								}
 							]
 						}
 					]
 				},
 				{
-					"name": "alien",
+					"name": "shine_copy",
 					"sleeping": false,
-					"x": 0,
-					"y": 0,
-					"width": 800,
-					"height": 246,
-					"scaleX": 3.225806451612903,
-					"scaleY": 1,
+					"x": 117.5,
+					"y": 63.5,
+					"width": 376,
+					"height": 376,
+					"scaleX": 2,
+					"scaleY": 2,
 					"angle": 0,
 					"screen": false,
 					"collider": "Box",
 					"tags": "",
 					"spriteOn": true,
-					"image": "shipGreen_manned.png",
-					"color": "#f2abab",
-					"opacity": 1,
+					"image": "laserBlue_burst.png",
+					"color": "#eff778",
+					"opacity": 0.5,
 					"flipX": false,
-					"flipY": false,
-					"scrollX": 100,
+					"flipY": true,
+					"scrollX": 0,
 					"scrollY": 0,
-					"tileX": 2,
-					"tileY": 2,
-					"textOn": true,
-					"text": "hola",
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
 					"font": "Arial",
-					"size": 60,
-					"fill": "#e26565",
-					"style": "Italic",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
@@ -145,7 +185,20 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.angle",
+										"value": "Me.angle+0.03"
+									}
+								}
+							]
+						}
+					]
 				}
 			]
 		}
