@@ -1,13 +1,32 @@
 class Rule {
 
     constructor(actor) {
-        console.log(JSON.stringify(actor.scriptList));
-        this.expression = this.parseScript(actor.scriptList);
+        this.actorName = actor.name;
+        this.expression = "";
+        if (actor.scriptList.length > 0) this.parseScripts(actor.scriptList);
+        console.log(this.expression);
         this.code = math.compile(this.expression);
     }
 
-    parseScript(scriptList) {
-        return ("shine");
+    parseScripts(scriptList) {
+        this.expression = "[";
+        scriptList.forEach(script => {
+            script.nodeList.forEach(node => {
+                this.parseNodeList(node);
+            })
+        });
+        this.expression = this.expression.replace(/.$/,"]"); 
+        this.expression = this.expression.replace(/Me./g, this.actorName + ".");
+    }
+
+    parseNodeList(node) {
+        switch (node.type) {
+            case "Edit": this.addEdit(node.parameters);
+        }
+    }
+
+    addEdit(parameters) {
+        this.expression += parameters.property + "=" + parameters.value + ",";
     }
 
 }

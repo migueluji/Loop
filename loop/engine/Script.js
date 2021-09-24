@@ -1,8 +1,8 @@
 class Script {
 	
     constructor(script) {
-        this.id=Utils.id();
-        this.name=script.name;
+      //  this.id=Utils.id();
+      //  this.name=script.name;
         this.nodeList=[];
         Object.assign(this,script);
         this.assignNodes(this.nodeList);

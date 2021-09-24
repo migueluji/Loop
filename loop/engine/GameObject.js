@@ -1,33 +1,37 @@
 class GameObject {
 
     constructor(actor) {
-        this.actor=actor;
+      //  this.actor = actor;
+        this.sleeping = actor.sleeping;
         this.container = new Container(actor);
         this.rule = new Rule(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
-        console.log(this.rule.expression);
     }
 
-    update(deltaTime,scope) { // logic update
-        // store previous state
-        this.previousState = {
-            x: this.x, y: this.y, angle: this.angle,
-            tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
-            tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
+    update(deltaTime, scope) { // logic update
+        if (!this.sleeping) {
+            // store previous state
+            this.previousState = {
+                x: this.x, y: this.y, angle: this.angle,
+                tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
+                tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
+            }
+            // update scrolling
+            if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
+            if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
+            // update logic
+            this.rule.code.eval(scope);
         }
-        // update scrolling
-        if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
-        if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
-        // update logic
-
     }
 
     integrate(lagOffset) { // integrate render positions
-        this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
-        this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
-        this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
-        if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
-        if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+        if (!this.sleeping) {
+            this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
+            this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
+            this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
+            if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
+            if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+        }
     }
 
     // access to GameObject properties
@@ -38,10 +42,10 @@ class GameObject {
     set y(value) { this.container.y = value };
 
     get width() { return Math.abs(this.container.sprite.width * this.container.sprite.scale.x) };
-    set width(value) { this.sprite.scale.x = value / this.sprite.width };
+    set width(value) { this.container.sprite.scale.x = value / this.container.sprite.width };
 
     get height() { return Math.abs(this.container.sprite.height * this.container.sprite.scale.y) };
-    set height(value) { this.sprite.scale.y = value / this.sprite.height };
+    set height(value) { this.container.sprite.scale.y = value / this.container.sprite.height };
 
     get scaleX() { return this.container.sprite.scale.x };
     set scaleX(value) { this.container.sprite.scale.x = value };

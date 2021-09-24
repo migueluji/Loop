@@ -2,14 +2,13 @@ class Engine {
 
     constructor(gameModel) {
         this.init(gameModel);
-
         this.render = new Render(this.gameObjects, gameModel.properties);
         this.logic = new Logic(this.gameObjects, this.scope);
 
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
-        
-        this.fps = 1;
+
+        this.fps = 30;
         this.currentTime;
         this.accumulator = 0.0;
         this.dt = 1.0 / this.fps;
@@ -34,12 +33,13 @@ class Engine {
     }
 
     init(gameModel) {
-        this.gameObjects= new Map();
-        this.scope ={};
+        this.gameObjects = new Map();
+        this.scope = {};
         gameModel.sceneList[0].actorList.forEach(actor => {
-            this.gameObjects.set(actor.name,new GameObject(actor));
-            this.scope[actor.name]=actor;
+            var gameObject = new GameObject(actor);
+            this.gameObjects.set(actor.name, gameObject);
+            this.scope[actor.name] = gameObject;
         });
-        console.log(this.gameObjects,this.scope);
+        console.log(this.gameObjects, this.scope);
     }
 }
