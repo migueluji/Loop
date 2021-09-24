@@ -20,11 +20,6 @@ class GameObject {
         if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
         // update logic
 
-
-        var s = new Map();
-        s.set("shine",3);
-        console.log(s);
-        math.eval(this.rule.expression,s);
     }
 
     integrate(lagOffset) { // integrate render positions
