@@ -1,15 +1,15 @@
 class Engine {
 
     constructor(gameModel) {
-        var gameObjects = this.init(gameModel);
+        this.gameObjects = this.init(gameModel);
 
-        this.render = new Render(gameObjects, gameModel.properties);
-        this.logic = new Logic(gameObjects, gameModel.properties);
+        this.render = new Render(this.gameObjects, gameModel.properties);
+        this.logic = new Logic(this.gameObjects, gameModel.properties);
 
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
         
-        this.fps = 24;
+        this.fps = 1;
         this.currentTime;
         this.accumulator = 0.0;
         this.dt = 1.0 / this.fps;
@@ -34,9 +34,9 @@ class Engine {
     }
 
     init(gameModel) {
-        var gameObjects=[];
+        var gameObjects= new Map();
         gameModel.sceneList[0].actorList.forEach(actor => {
-            gameObjects.push(new GameObject(actor));
+            gameObjects.set(actor.name,new GameObject(actor));
         });
         return gameObjects;
     }

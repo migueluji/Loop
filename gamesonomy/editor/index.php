@@ -130,12 +130,12 @@
 	//	gameFolder="box-doger";
 	// 	gameFolder="bird";
 	//	gameFolder="flying-plane";
-	//	gameFolder="asteroids";
+		gameFolder="asteroids";
 	//	gameFolder="arkanoid";
 	//	gameFolder="alien-invasion";
 	//	gameFolder="babe-plataformer";
 	//  gameFolder="ludumdare46-carlos";
-		gameFolder="empty";
+	//	gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
 

@@ -6,6 +6,8 @@ class Do {
         this.code           = null;             /** */
         this.value          = null;             /** */
         this.scope          = scope || null;    /** */
+
+        console.log("expression y scope", this.expression, this.scope);
     }
 
     run() {
@@ -15,6 +17,7 @@ class Do {
             this.value = this.code.eval(this.scope).entries[0];
         }
         catch(error) { console.error(error); }
+
     }
 
     compileExpression() {

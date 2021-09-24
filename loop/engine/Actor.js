@@ -1,7 +1,7 @@
 class Actor {
 	
     constructor(actor) {
-        this.id=Utils.id();
+     //   this.id=Utils.id();
         this.name=actor.name;
         Object.assign(this,this.properties); //inicialización de propiedades
         this.scriptList=[];

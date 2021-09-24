@@ -1,13 +1,14 @@
 class GameObject {
 
     constructor(actor) {
+        this.actor=actor;
         this.container = new Container(actor);
         this.rule = new Rule(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
-        console.log(this);
+        console.log(this.rule.expression);
     }
 
-    update(deltaTime) { // logic update
+    update(deltaTime,scope) { // logic update
         // store previous state
         this.previousState = {
             x: this.x, y: this.y, angle: this.angle,
@@ -17,6 +18,13 @@ class GameObject {
         // update scrolling
         if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
         if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
+        // update logic
+
+
+        var s = new Map();
+        s.set("shine",3);
+        console.log(s);
+        math.eval(this.rule.expression,s);
     }
 
     integrate(lagOffset) { // integrate render positions
