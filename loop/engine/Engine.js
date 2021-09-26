@@ -34,7 +34,7 @@ class Engine {
 
     init(gameModel) {
         this.gameObjects = new Map();
-        this.scope = {};
+        this.scope = new Object({"Game":gameModel.allProperties});
         gameModel.sceneList[0].actorList.forEach(actor => {
             var gameObject = new GameObject(actor);
             this.gameObjects.set(actor.name, gameObject);

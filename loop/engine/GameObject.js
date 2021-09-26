@@ -1,7 +1,7 @@
 class GameObject {
 
     constructor(actor) {
-      //  this.actor = actor;
+        //  this.actor = actor;
         this.sleeping = actor.sleeping;
         this.container = new Container(actor);
         this.rule = new Rule(actor);
@@ -21,6 +21,7 @@ class GameObject {
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             // update logic
             this.rule.code.eval(scope);
+
         }
     }
 
@@ -32,6 +33,8 @@ class GameObject {
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
         }
+        var var1={x: this.x};
+        this.container.text.text=math.print("position $x",var1);
     }
 
     // access to GameObject properties
