@@ -21,7 +21,6 @@ class GameObject {
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             // update logic
             this.rule.code.eval(scope);
-
         }
     }
 
@@ -32,9 +31,11 @@ class GameObject {
             this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+            // update text string
+            console.log(this.container.text.variables);
+
+            if (this.textOn)  this.container.text.text = math.print(this.container.text.text,variables);
         }
-        var var1={x: this.x};
-        this.container.text.text=math.print("position $x",var1);
     }
 
     // access to GameObject properties

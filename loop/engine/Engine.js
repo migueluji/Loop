@@ -8,7 +8,7 @@ class Engine {
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
 
-        this.fps = 30;
+        this.fps = 24;
         this.currentTime;
         this.accumulator = 0.0;
         this.dt = 1.0 / this.fps;
