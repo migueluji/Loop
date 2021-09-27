@@ -39,6 +39,7 @@ class Engine {
             var gameObject = new GameObject(actor);
             this.gameObjects.set(actor.name, gameObject);
             this.scope[actor.name] = gameObject;
+            // change actor.text y añadir actor.textScope
         });
         console.log(this.gameObjects, this.scope);
     }
