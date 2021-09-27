@@ -24,7 +24,6 @@ class Render {
 
     integrate(lagOffset) {
         this.gameObjects.forEach(gameObject => {
-            console.log("integrate...",gameObject.image);
             gameObject.integrate(lagOffset);
         });
     }

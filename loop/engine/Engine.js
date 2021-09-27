@@ -1,28 +1,29 @@
 class Engine {
 
     constructor(gameModel) {
+        this.fps = 30;
+        this.currentTime;
+        this.accumulator = 0.0;
+        this.dt = 1.0 / this.fps;
+        this.t = 0.0;
+        this.frameTime=0.0;
+
         this.init(gameModel);
         this.render = new Render(this.gameObjects, gameModel.properties);
         this.logic = new Logic(this.gameObjects, this.scope);
 
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.fpsText = document.getElementById("fps");
-
-        this.fps = 24;
-        this.currentTime;
-        this.accumulator = 0.0;
-        this.dt = 1.0 / this.fps;
-        this.t = 0.0;
     }
 
     gameLoop(newTime) {
-        requestAnimationFrame(this.gameLoop.bind(this));
+        window.requestAnimationFrame(this.gameLoop.bind(this));
         if (this.currentTime) {
-            var frameTime = newTime - this.currentTime;
-            if (frameTime > 250) frameTime = 250;
-            this.accumulator += frameTime;
+            this.frameTime = newTime - this.currentTime;
+            if (this.frameTime > 250) this.frameTime = 250;
+            this.accumulator += this.frameTime;
             while (this.accumulator >= this.dt) {
-                this.fpsText.innerHTML = (1000 / frameTime).toFixed(1) + " fps " + this.fps + " ffps " + (this.t / 1000).toFixed(2) + " sec";
+                this.fpsText.innerHTML = (1000 / this.frameTime).toFixed(1) + " fps " + this.fps + " ffps " + (this.t / 1000).toFixed(2) + " sec";
                 this.logic.update(this.dt / 1000);
                 this.t += this.dt;
                 this.accumulator -= this.dt;
@@ -39,7 +40,6 @@ class Engine {
             var gameObject = new GameObject(actor);
             this.gameObjects.set(actor.name, gameObject);
             this.scope[actor.name] = gameObject;
-            // change actor.text y añadir actor.textScope
         });
         console.log(this.gameObjects, this.scope);
     }

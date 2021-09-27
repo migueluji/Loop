@@ -19,6 +19,8 @@ class GameObject {
             // update scrolling
             if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
+            // update text
+            if (this.textOn) this.container.text.text = math.print(this.container.text.text,scope);
             // update logic
             this.rule.code.eval(scope);
         }
@@ -31,10 +33,6 @@ class GameObject {
             this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
-            // update text string
-            console.log(this.container.text.variables);
-
-            if (this.textOn)  this.container.text.text = math.print(this.container.text.text,variables);
         }
     }
 
@@ -105,7 +103,7 @@ class GameObject {
     set textOn(value) { this.container.text.visible = value };
 
     get text() { return this.container.text.text };
-    set text(value) { this.container.text.text = value };
+    set text(value) { this.container.text.text = this.container.text.converText(value) };
 
     get font() { return this.container.text.style.fontFamily };
     set font(value) { this.container.text.style.fontFamily = value };

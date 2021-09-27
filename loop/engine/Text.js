@@ -1,6 +1,10 @@
 class Text {
 
     constructor(actor) {
+        var text = actor.text.replace(/Me./g, actor.name + "."); // chage Me by actor's name
+        text = text.replace(/{/g, ""); // delete {
+        text = text.replace(/}/g, ""); // delete }
+
         const style = new PIXI.TextStyle({
             fontFamily: actor.font,
             fill: actor.fill,
@@ -11,7 +15,8 @@ class Text {
             wordWrapWidth: actor.width,
             padding: actor.width
         });
-        const text = new PIXI.Text(this.convertText(actor.text), style);
+
+        text = new PIXI.Text(text, style);
         text.visible = actor.textOn;
         var pivot = { x: 0, y: 0 };
         switch (actor.align) {
@@ -21,13 +26,6 @@ class Text {
         }
         text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
         text.scale.y = -1;
-        text.variables = ["this.x"];
         return (text);
-    }
-
-    convertText(text){
-
-        text = "position $this.x: ";
-        return(text);
     }
 }

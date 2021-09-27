@@ -49,7 +49,7 @@
 		<script src="Actor.js"></script>
 		<script src="Script.js"></script>
 		<script src="Node.js"></script>
-        <script src="Util.js"></script>
+   		<!--script src="Util.js"></script-->
         <script src="Physics.js"></script>
         <script src="Input.js"></script>
         <script src="Logic.js"></script>
