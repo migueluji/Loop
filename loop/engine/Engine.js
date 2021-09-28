@@ -1,10 +1,10 @@
 class Engine {
 
     constructor(gameModel) {
-        this.fps = 30;
+        this.fps = 100;
         this.currentTime;
         this.accumulator = 0.0;
-        this.dt = 1.0 / this.fps;
+        this.dt = 1000/ this.fps;
         this.t = 0.0;
         this.frameTime=0.0;
 
@@ -13,7 +13,7 @@ class Engine {
         this.logic = new Logic(this.gameObjects, this.scope);
 
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        this.fpsText = document.getElementById("fps");
+       // this.fpsText = document.getElementById("fps");
     }
 
     gameLoop(newTime) {
@@ -23,12 +23,15 @@ class Engine {
             if (this.frameTime > 250) this.frameTime = 250;
             this.accumulator += this.frameTime;
             while (this.accumulator >= this.dt) {
-                this.fpsText.innerHTML = (1000 / this.frameTime).toFixed(1) + " fps " + this.fps + " ffps " + (this.t / 1000).toFixed(2) + " sec";
-                this.logic.update(this.dt / 1000);
+              //  this.fpsText.innerHTML = (1000 / this.frameTime).toFixed(1) + " fps " + this.fps + " ffps " + (this.t / 1000).toFixed(2) + " sec";
+                this.logic.fixedUpdate(this.dt / 1000);
                 this.t += this.dt;
                 this.accumulator -= this.dt;
             }
             this.render.integrate(this.accumulator / this.dt);
+            // update Game's properties
+            this.scope["Game"].FPS = (1000/this.frameTime).toFixed(0);
+            this.scope["Game"].deltaTime = (this.frameTime /1000).toFixed(3);
         }
         this.currentTime = newTime;
     }

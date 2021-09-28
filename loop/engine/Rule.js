@@ -2,8 +2,7 @@ class Rule {
 
     constructor(actor) {
         this.actorName = actor.name;
-        this.expression = "";
-        if (actor.scriptList.length > 0) this.parseScripts(actor.scriptList);
+        this.parseScripts(actor.scriptList);
         console.log(this.expression);
         this.code = math.compile(this.expression);
     }

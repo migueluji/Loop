@@ -5,9 +5,9 @@ class Logic {
         this.scope = scope;
     }
 
-    update(deltaTime) {
+    fixedUpdate(deltaTime) {
         this.gameObjects.forEach(gameObject => {
-            gameObject.update(deltaTime,this.scope);
+            gameObject.fixedUpdate(deltaTime,this.scope);
         })
     }
 }

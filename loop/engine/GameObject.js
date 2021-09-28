@@ -4,11 +4,11 @@ class GameObject {
         //  this.actor = actor;
         this.sleeping = actor.sleeping;
         this.container = new Container(actor);
-        this.rule = new Rule(actor);
+        if (actor.scriptList.length > 0) this.rule = new Rule(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 
-    update(deltaTime, scope) { // logic update
+    fixedUpdate(deltaTime, scope) { // logic update
         if (!this.sleeping) {
             // store previous state
             this.previousState = {
@@ -20,9 +20,13 @@ class GameObject {
             if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             // update text
-            if (this.textOn) this.text = math.print(this.container.text.expression,scope,{notation: 'fixed', precision:1 });4
+            if (this.textOn) {
+                this.text = math.print(this.container.text.expression, scope);
+                if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
+                if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
+            }
             // update logic
-            this.rule.code.eval(scope);
+            if (this.rule) this.rule.code.eval(scope);
         }
     }
 
@@ -37,7 +41,7 @@ class GameObject {
     }
 
     // access to GameObject properties
-    get x() { return this.container.x };
+    get x() { return this.container.x.toFixed(0) };
     set x(value) { this.container.x = value };
 
     get y() { return this.container.y };
@@ -100,10 +104,10 @@ class GameObject {
     };
 
     get textOn() { return this.container.text.visible };
-    set textOn(value) { this.container.text.visible = value }; 
+    set textOn(value) { this.container.text.visible = value };
 
     get text() { return this.container.text.text };
-    set text(value) { this.container.text.text = value ;};
+    set text(value) { this.container.text.text = value };
 
     get font() { return this.container.text.style.fontFamily };
     set font(value) { this.container.text.style.fontFamily = value };

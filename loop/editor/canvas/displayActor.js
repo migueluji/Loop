@@ -50,12 +50,13 @@ class DisplayActor extends PIXI.Container {
         });
         var newText = this.convertText(actor.text, actor, cast, game);
         const text = new PIXI.Text(newText, style);
+        text.anchor.set(0.5);
+        var pivot = { x: 0, y: 0 };
         switch (actor.align) {
-            case "Left": text.anchor.set(1.0,0.5); break;
-            case "Right": text.anchor.set(0.0,0.5); break;
-            case "Center": text.anchor.set(0.5,0.5); break;
+            case "Left": pivot.x = - actor.width / 2 + text.width / 2; break;
+            case "Right": pivot.x =  actor.width / 2 - text.width / 2; break;
         }
-        text.position = { x: actor.offsetX, y: actor.offsetY };
+        text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
         text.scale.y = -1;
         this.addChild(text);
     }
