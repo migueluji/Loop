@@ -20,7 +20,7 @@ class GameObject {
             if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             // update text
-            if (this.textOn) this.container.text.text = math.print(this.container.text.text,scope);
+            if (this.textOn) this.text = math.print(this.container.text.expression,scope,{notation: 'fixed', precision:1 });4
             // update logic
             this.rule.code.eval(scope);
         }
@@ -100,10 +100,10 @@ class GameObject {
     };
 
     get textOn() { return this.container.text.visible };
-    set textOn(value) { this.container.text.visible = value };
+    set textOn(value) { this.container.text.visible = value }; 
 
     get text() { return this.container.text.text };
-    set text(value) { this.container.text.text = this.container.text.converText(value) };
+    set text(value) { this.container.text.text = value ;};
 
     get font() { return this.container.text.style.fontFamily };
     set font(value) { this.container.text.style.fontFamily = value };

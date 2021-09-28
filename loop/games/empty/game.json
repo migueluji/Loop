@@ -44,7 +44,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "TAPPY PLANE",
 					"font": "Arial",
 					"size": 30,
@@ -73,7 +73,7 @@
 					"scriptList": []
 				},
 				{
-					"name": "Actor_2",
+					"name": "foreground",
 					"sleeping": false,
 					"x": 0,
 					"y": -209,
@@ -122,6 +122,70 @@
 					"dampingLinear": 0,
 					"dampingAngular": 0,
 					"scriptList": []
+				},
+				{
+					"name": "plane",
+					"sleeping": false,
+					"x": -222.5,
+					"y": -39.68181818181819,
+					"width": 168,
+					"height": 139.36363636363637,
+					"scaleX": 1.9090909090909092,
+					"scaleY": 1.9090909090909092,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "planeGreen1.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": true,
+					"text": "${Me.x}",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Right",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.x",
+										"value": "Me.x+0.01"
+									}
+								}
+							]
+						}
+					]
 				}
 			]
 		}

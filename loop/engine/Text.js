@@ -1,9 +1,9 @@
 class Text {
 
     constructor(actor) {
-        var text = actor.text.replace(/Me./g, actor.name + "."); // chage Me by actor's name
-        text = text.replace(/{/g, ""); // delete {
-        text = text.replace(/}/g, ""); // delete }
+        var textExpression = actor.text.replace(/Me./g, actor.name + "."); // chage Me by actor's name
+        textExpression = textExpression.replace(/{/g, ""); // delete {
+        textExpression = textExpression.replace(/}/g, ""); // delete }
 
         const style = new PIXI.TextStyle({
             fontFamily: actor.font,
@@ -15,17 +15,17 @@ class Text {
             wordWrapWidth: actor.width,
             padding: actor.width
         });
-
-        text = new PIXI.Text(text, style);
+    
+        var text = new PIXI.Text(textExpression, style);
         text.visible = actor.textOn;
-        var pivot = { x: 0, y: 0 };
         switch (actor.align) {
-            case "Left": pivot = { x: -w / 2, y: text.height / 2 }; break;
-            case "Right": pivot = { x: w / 2 - text.width, y: text.height / 2 }; break;
-            case "Center": pivot = { x: -text.width / 2, y: text.height / 2 }; break;
+            case "Left": text.anchor.set(1.0,0.5); break;
+            case "Right": text.anchor.set(0.0,0.5); break;
+            case "Center": text.anchor.set(0.5,0.5); break;
         }
-        text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
+        text.position = { x: actor.offsetX, y: actor.offsetY };
         text.scale.y = -1;
+        text.expression = textExpression;
         return (text);
     }
 }
