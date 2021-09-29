@@ -26,7 +26,7 @@ class GameObject {
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
             // update logic
-            if (this.rule) this.rule.code.eval(scope);
+            if (this.rule) this.rule.code.eval(scope);  
         }
     }
 

@@ -2,41 +2,35 @@ class Rule {
 
     constructor(actor) {
         this.actorName = actor.name;
-        this.parseScripts(actor.scriptList);
-        console.log(this.expression);
-        this.expression="(plane.x < 0) ? [plane.x=plane.x+1;plane.y=100;(plane.x >= -100) ? [plane.y=150;plane.flipX=false] : plane.flipX =true] : [plane.angle=plane.angle+1;plane.y=0] ; plane.color='#d85555'";
-        //console.log(this.expression);
-        this.code = math.compile(this.expression);
-    }
-
-    parseScripts(scriptList) {
-        this.expression = "[";
-        scriptList.forEach(script => {
-            this.parseNodeList(script.nodeList);
+        var expression = [];
+        actor.scriptList.forEach((script, i) => { // add scripts to expression
+            expression += this.parseNodeList(script.nodeList).replace(/Me./g, this.actorName + ".").slice(1, -1) + ";";
         });
-        this.expression = this.expression.replace(/.$/, "]");
-        this.expression = this.expression.replace(/Me./g, this.actorName + ".");
+        console.log(expression);
+        this.code = math.compile(expression);
     }
 
-    parseNodeList(nodeList){
+    parseNodeList(nodeList) {
+        var secuence = "[";
         nodeList.forEach(node => {
-            this.parseNode(node);
-            this.expression +=",";
+            secuence += this.parseNode(node) + ";";
         })
-        this.expression.slice(0,-1);
+        secuence = secuence.replace(/.$/, "]"); // replace last character ; by ]
+        return (secuence);
     }
 
     parseNode(node) {
-        console.log(node);
+        var nodeExpression = "";
         switch (node.type) {
-            case "Edit": this.addEdit(node); break;
-            case "Compare": this.addCompare(node); break;
+            case "Edit": nodeExpression = this.addEdit(node); break;
+            case "Compare": nodeExpression = this.addCompare(node); break;
         }
+        return (nodeExpression);
     }
 
     addEdit(node) {
         if (node.parameters.value[0] == "#") node.parameters.value = "'" + node.parameters.value + "'"; // add quotes to color value
-        this.expression += node.parameters.property + "=" + node.parameters.value ;
+        return (node.parameters.property + "=" + node.parameters.value);
     }
 
     addCompare(node) {
@@ -48,9 +42,7 @@ class Rule {
             case "Greater": node.parameters.operation = ">"; break;
             case "Different": node.parameters.operation = "!="; break;
         }
-        this.expression += node.parameters.value_1 + " " + node.parameters.operation + " " + node.parameters.value_2+ " ? "+
-                        this.parseNodeList(node.nodeListTrue)+ " : "+ this.parseNodeList(node.nodeListFalse);
-        //this.expression = "[plane.x<0 ? plane.x=plane.x+1 : plane.angle=plane.angle+1]";
+        return ("[" + node.parameters.value_1 + " " + node.parameters.operation + " " + node.parameters.value_2 + " ? " +
+            this.parseNodeList(node.nodeListTrue) + " : " + this.parseNodeList(node.nodeListFalse) + "]");
     }
-
 }
