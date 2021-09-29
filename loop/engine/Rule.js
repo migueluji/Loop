@@ -11,11 +11,14 @@ class Rule {
     }
 
     parseNodeList(nodeList) {
-        var secuence = "[";
-        nodeList.forEach(node => {
-            secuence += this.parseNode(node) + ";";
-        })
-        secuence = secuence.replace(/.$/, "]"); // replace last character ; by ]
+        var secuence=[];
+        if (nodeList.length>0) {
+            nodeList.forEach(node => {
+                secuence += this.parseNode(node) + ";";
+            })
+            secuence = "["+secuence.replace(/.$/, "]"); // replace last ; by ]
+        }
+        else secuence ="[]";
         return (secuence);
     }
 

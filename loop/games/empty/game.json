@@ -1002,15 +1002,14 @@
 											}
 										}
 									],
-									"nodeListFalse": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.color",
-												"value": "#d35a5a"
-											}
-										}
-									]
+									"nodeListFalse": []
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.color",
+										"value": "#d35a5a"
+									}
 								},
 								{
 									"type": "Edit",
