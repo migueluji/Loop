@@ -78,10 +78,10 @@ class GameObject {
     set opacity(value) { this.container.sprite.alpha = value };
 
     get flipX() { return (Math.sign(this.container.sprite.scale.x) == 1) ? false : true };
-    set flipX(value) { this.container.sprite.scale.x *= (value) ? -1 : 1 };
+    set flipX(value) { this.container.sprite.scale.x = (value) ? - Math.abs(this.container.sprite.scale.x) : Math.abs(this.container.sprite.scale.x) };
 
     get flipY() { return (Math.sign(this.container.sprite.scale.y) == 1) ? false : true };
-    set flipY(value) { this.container.sprite.scale.y *= (value) ? -1 : 1 };
+    set flipY(value) { this.container.sprite.scale.y = (value) ? - Math.abs(this.container.sprite.scale.y) : Math.abs(this.container.sprite.scale.y) };
 
     get scrollX() { return this.container.sprite.scrollX };
     set scrollX(value) { this.container.sprite.scrollX = value };

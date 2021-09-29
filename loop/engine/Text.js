@@ -15,7 +15,6 @@ class Text {
             wordWrapWidth: actor.width,
             padding: actor.width
         });
-
         var text = new PIXI.Text(textExpression, style);
         text.visible = actor.textOn;
         text.anchor.set(0.5);
@@ -28,10 +27,5 @@ class Text {
         text.scale.y = -1;
         text.expression = textExpression;
         return (text);
-    }
-
-    set position(value){
-        console.log("value ", value.width);
-
     }
 }

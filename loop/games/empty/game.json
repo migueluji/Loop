@@ -52,7 +52,7 @@
 					"style": "Normal",
 					"align": "Right",
 					"offsetX": 0,
-					"offsetY": 0,
+					"offsetY": 225,
 					"soundOn": false,
 					"sound": "",
 					"start": 0,
@@ -126,8 +126,8 @@
 				{
 					"name": "plane",
 					"sleeping": false,
-					"x": -800,
-					"y": 0,
+					"x": -358.6191106170435,
+					"y": 11.615286562709343,
 					"width": 88,
 					"height": 73,
 					"scaleX": 1,
@@ -180,7 +180,21 @@
 									"type": "Edit",
 									"parameters": {
 										"property": "Me.x",
-										"value": "Me.x+1"
+										"value": "Me.x+100*Game.deltaTime"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.angle",
+										"value": "Me.angle+1"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.color",
+										"value": "#d35a5a"
 									}
 								}
 							]
