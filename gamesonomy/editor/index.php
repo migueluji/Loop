@@ -130,7 +130,8 @@
 	//	gameFolder="box-doger";
 	// 	gameFolder="bird";
 	//	gameFolder="flying-plane";
-		gameFolder="asteroids";
+	//	gameFolder="asteroids";
+		gameFolder ="test";
 	//	gameFolder="arkanoid";
 	//	gameFolder="alien-invasion";
 	//	gameFolder="babe-plataformer";
