@@ -4,14 +4,14 @@ class Engine {
         this.fps = 100;
         this.currentTime;
         this.accumulator = 0.0;
-        this.dt = 1000/ this.fps;
+        this.dt = 1000 / this.fps;
         this.t = 0.0;
-        this.frameTime=0.0;
+        this.frameTime = 0.0;
 
-        this.init(gameModel);
-        this.render = new Render(this.gameObjects, gameModel.properties);
-        this.logic = new Logic(this.gameObjects, this.scope);
-
+        this.gameObjects = this.createGameObjects(gameModel);
+        this.scope = this.createScope(this.gameObjects, gameModel.allProperties);
+        this.render = new Render(this);
+        this.logic = new Logic(this);
         this.gameLoop();
     }
 
@@ -22,27 +22,33 @@ class Engine {
             if (this.frameTime > 250) this.frameTime = 250;
             this.accumulator += this.frameTime;
             while (this.accumulator >= this.dt) {
-              //  this.fpsText.innerHTML = (1000 / this.frameTime).toFixed(1) + " fps " + this.fps + " ffps " + (this.t / 1000).toFixed(2) + " sec";
                 this.logic.fixedUpdate(this.dt / 1000);
                 this.t += this.dt;
                 this.accumulator -= this.dt;
             }
             this.render.integrate(this.accumulator / this.dt);
-            // update Game's properties
-            this.scope["Game"].FPS = (1000/this.frameTime).toFixed(0);
-            this.scope["Game"].deltaTime = (this.frameTime /1000).toFixed(3);
+            // update Game's properties related with game loop
+            this.scope["Game"].FPS = (1000 / this.frameTime).toFixed(0);
+            this.scope["Game"].deltaTime = (this.frameTime / 1000).toFixed(3);
+            this.scope["Game"].time = (this.t/1000).toFixed(1);
         }
         this.currentTime = newTime;
     }
 
-    init(gameModel) {
-        this.gameObjects = new Map();
-        this.scope = new Object({"Game":gameModel.allProperties});
+    createGameObjects(gameModel) {
+        var gameObjects = new Map();
         gameModel.sceneList[0].actorList.forEach(actor => {
             var gameObject = new GameObject(actor);
-            this.gameObjects.set(actor.name, gameObject);
-            this.scope[actor.name] = gameObject;
+            gameObjects.set(actor.name, gameObject);
         });
-        console.log(this.gameObjects, this.scope);
+        return gameObjects;
+    }
+
+    createScope(gameObjects, gameProperties) {
+        var scope = new Object({ "Game": gameProperties });
+        gameObjects.forEach((gameObject, actorName) => {
+            scope[actorName] = gameObject;
+        });
+        return scope;
     }
 }

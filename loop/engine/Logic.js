@@ -1,8 +1,8 @@
 class Logic {
 
-    constructor(gameObjects, scope) {
-        this.gameObjects = gameObjects;
-        this.scope = scope;
+    constructor(engine) {
+        this.gameObjects = engine.gameObjects;
+        this.scope = engine.scope;
     }
 
     fixedUpdate(deltaTime) {
