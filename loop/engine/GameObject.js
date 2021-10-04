@@ -26,7 +26,7 @@ class GameObject {
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
             // update logic
-            if (this.rule) this.rule.code.eval(scope);  
+            if (this.rule) this.rule.code.eval(scope);
         }
     }
 
@@ -69,6 +69,8 @@ class GameObject {
     set image(value) {
         const existsImage = Boolean(player.file.loader.resources[value]);
         this.container.sprite.texture = (existsImage) ? player.file.loader.resources[value].texture : PIXI.Texture.WHITE;
+        this.container.sprite.width = player.file.loader.resources[value].texture.width * this.container.sprite.scale.x;
+        this.container.sprite.height = player.file.loader.resources[value].texture.height * this.container.sprite.scale.y;
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };

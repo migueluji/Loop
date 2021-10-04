@@ -12,8 +12,7 @@ class Engine {
         this.render = new Render(this.gameObjects, gameModel.properties);
         this.logic = new Logic(this.gameObjects, this.scope);
 
-        window.requestAnimationFrame(this.gameLoop.bind(this));
-       // this.fpsText = document.getElementById("fps");
+        this.gameLoop();
     }
 
     gameLoop(newTime) {

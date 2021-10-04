@@ -6,7 +6,7 @@ class Rule {
         actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList).replace(/Me./g, this.actorName + ".").slice(1, -1) + ";";
         });
-        console.log(expression);
+     //   console.log(expression);
         this.code = math.compile(expression);
     }
 
@@ -18,7 +18,7 @@ class Rule {
             })
             secuence = "["+secuence.replace(/.$/, "]"); // replace last ; by ]
         }
-        else secuence ="[]";
+        else secuence ="[]"; // empty nodeList
         return (secuence);
     }
 
@@ -32,7 +32,17 @@ class Rule {
     }
 
     addEdit(node) {
-        if (node.parameters.value[0] == "#") node.parameters.value = "'" + node.parameters.value + "'"; // add quotes to color value
+        console.log(node);
+        var property = node.parameters.property;
+        var position = property.indexOf(".")+1;
+        console.log(property,position,property.substring(position));
+        console.log("number", isNaN(property));
+        switch (property.substring(position)){
+            case "color" :
+            case "backgroundColor" :
+            case "fill":
+            case "image" : node.parameters.value = "'" + node.parameters.value + "'";  break;
+        }
         return (node.parameters.property + "=" + node.parameters.value);
     }
 

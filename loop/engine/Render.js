@@ -23,6 +23,7 @@ class Render {
     }
 
     integrate(lagOffset) {
+        this.app.renderer.backgroundColor= "#ff00ff";
         this.gameObjects.forEach(gameObject => {
             gameObject.integrate(lagOffset);
         });
