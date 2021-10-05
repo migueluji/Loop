@@ -22,15 +22,14 @@ class Engine {
             if (this.frameTime > 250) this.frameTime = 250;
             this.accumulator += this.frameTime;
             while (this.accumulator >= this.dt) {
+                this.scope["Game"].deltaTime = this.dt / 1000;
+                this.scope["Game"].time = this.t / 1000;
                 this.logic.fixedUpdate(this.dt / 1000);
                 this.t += this.dt;
                 this.accumulator -= this.dt;
             }
             this.render.integrate(this.accumulator / this.dt);
-            // update Game's properties related with game loop
-            this.scope["Game"].FPS = (1000 / this.frameTime).toFixed(0);
-            this.scope["Game"].deltaTime = (this.frameTime / 1000).toFixed(3);
-            this.scope["Game"].time = (this.t/1000).toFixed(1);
+            this.scope["Game"].FPS = 1000 / this.frameTime;
         }
         this.currentTime = newTime;
     }

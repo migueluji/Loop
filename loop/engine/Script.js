@@ -9,7 +9,7 @@ class Script {
     }
 
     addNode(insert,node){ // father, side, position, node 
-        if (insert.parentID==null){ //script vacio
+        if (insert.parentID==null){ // empty script
             this.nodeList.splice(insert.position,0,node);
         }
         else {

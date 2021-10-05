@@ -21,7 +21,7 @@ class GameObject {
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             // update text
             if (this.textOn) {
-                this.text = math.print(this.container.text.expression, scope);
+                this.text = math.print(this.container.text.expression, scope, { notation: 'fixed', precision: 1 });
                 if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
@@ -41,7 +41,7 @@ class GameObject {
     }
 
     // access to GameObject properties
-    get x() { return this.container.x.toFixed(0) };
+    get x() { return this.container.x };
     set x(value) { this.container.x = value };
 
     get y() { return this.container.y };
@@ -68,9 +68,14 @@ class GameObject {
     get image() { return this.container.sprite.image };
     set image(value) {
         const existsImage = Boolean(player.file.loader.resources[value]);
-        this.container.sprite.texture = (existsImage) ? player.file.loader.resources[value].texture : PIXI.Texture.WHITE;
-        this.container.sprite.width = player.file.loader.resources[value].texture.width * this.container.sprite.scale.x;
-        this.container.sprite.height = player.file.loader.resources[value].texture.height * this.container.sprite.scale.y;
+        var scale = { x: this.scaleX, y: this.scaleY };
+        this.container.sprite.cacheAsBitmap=false;
+        this.container.sprite.texture = (existsImage) ? player.file.loader.resources[value].texture : PIXI.Texture.WHITE
+        this.container.sprite.texture.rotate = 8;
+        this.container.sprite.width = (existsImage) ? player.file.loader.resources[value].texture.width : 50;
+        this.container.sprite.height = (existsImage) ? player.file.loader.resources[value].texture.height : 50;
+        this.scaleX = scale.x;
+        this.scaleY = scale.y;
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };

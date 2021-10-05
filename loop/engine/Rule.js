@@ -6,7 +6,8 @@ class Rule {
         actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList).replace(/Me./g, this.actorName + ".").slice(1, -1) + ";";
         });
-        //   console.log(expression);
+        console.log(expression);
+        //expression=Game.cameraX=Game.cameraX+1*Game.deltaTime;
         this.code = math.compile(expression);
     }
 
@@ -27,21 +28,21 @@ class Rule {
         var nodeExpression = "";
         switch (node.type) {
             case "Edit": nodeExpression = this.addEdit(node.parameters); break;
-            case "Compare": nodeExpression = this.addCompare(node.parameters,node.nodeListTrue,node.nodeListFalse); break;
+            case "Compare": nodeExpression = this.addCompare(node.parameters, node.nodeListTrue, node.nodeListFalse); break;
         }
         return (nodeExpression);
     }
 
     addEdit(node) {
+        console.log(node);
         var position = node.property.indexOf(".") + 1;
         var property = node.property.substring(position);
         var specialProperties = ["color", "backgroundColor", "fill", "image"];
-        if (specialProperties.includes(property)) // to add quotes
-            node.value = "'" + node.value + "'";
+        if (specialProperties.includes(property)) node.value = "'" + node.value + "'"; // to add quotes
         return (node.property + "=" + node.value);
     }
 
-    addCompare(node,nodeListTrue, nodeListFalse) {
+    addCompare(node, nodeListTrue, nodeListFalse) {
         var dictionary = { "Less": "<", "Less Equal": "<=", "Equal": "==", "Greater Equal": ">=", "Greater": ">", "Different": "!=" };
         node.operation = dictionary[node.operation];
         return ("[" + node.value_1 + " " + node.operation + " " + node.value_2 + " ? " +
