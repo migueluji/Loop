@@ -26,9 +26,9 @@
 					"sleeping": false,
 					"x": -89.9862825788752,
 					"y": -11.276406035665303,
-					"width": 100.00000000000001,
-					"height": 50,
-					"scaleX": 1.2820512820512822,
+					"width": 234,
+					"height": 100,
+					"scaleX": 3,
 					"scaleY": 1.3157894736842106,
 					"angle": 0,
 					"screen": false,
@@ -43,7 +43,7 @@
 					"scrollX": 0,
 					"scrollY": 0,
 					"tileX": 2,
-					"tileY": 1,
+					"tileY": 2,
 					"textOn": true,
 					"text": "${Me.scaleX}",
 					"font": "Arial",
@@ -79,6 +79,13 @@
 									"parameters": {
 										"property": "Me.image",
 										"value": "planeGreen1.png"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.flipX",
+										"value": true
 									}
 								}
 							]
@@ -139,12 +146,12 @@
 				{
 					"name": "Actor_3",
 					"sleeping": false,
-					"x": -267.32289285169946,
-					"y": -40.51082152110969,
-					"width": 50,
-					"height": 50,
-					"scaleX": 1,
-					"scaleY": 1,
+					"x": -111.32289285169946,
+					"y": 59.48917847889031,
+					"width": 100,
+					"height": 100,
+					"scaleX": 2,
+					"scaleY": 2,
 					"angle": 0,
 					"screen": false,
 					"collider": "Box",
@@ -159,8 +166,8 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
-					"text": "",
+					"textOn": true,
+					"text": "${Me.scaleY}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -185,7 +192,34 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.opacity",
+										"value": "0.5"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.color",
+										"value": "#d32727"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Actor_2.flipX",
+										"value": true
+									}
+								}
+							]
+						}
+					]
 				}
 			]
 		},
