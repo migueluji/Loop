@@ -6,8 +6,6 @@ class Rule {
         actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList).replace(/Me./g, this.actorName + ".").slice(1, -1) + ";";
         });
-        console.log(expression);
-        //expression=Game.cameraX=Game.cameraX+1*Game.deltaTime;
         this.code = math.compile(expression);
     }
 
@@ -24,7 +22,6 @@ class Rule {
     }
 
     parseNode(node) {
-        console.log(node);
         var nodeExpression = "";
         switch (node.type) {
             case "Edit": nodeExpression = this.addEdit(node.parameters); break;
@@ -33,8 +30,7 @@ class Rule {
         return (nodeExpression);
     }
 
-    addEdit(node) {
-        console.log(node);
+    addEdit(node) { // node parameters
         var position = node.property.indexOf(".") + 1;
         var property = node.property.substring(position);
         var specialProperties = ["color", "backgroundColor", "fill", "image"];

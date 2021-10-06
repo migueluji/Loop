@@ -1,7 +1,7 @@
 class GameObject {
 
     constructor(actor) {
-        //  this.actor = actor;
+        this.actor = actor;
         this.sleeping = actor.sleeping;
         this.container = new Container(actor);
         if (actor.scriptList.length > 0) this.rule = new Rule(actor);
@@ -67,15 +67,12 @@ class GameObject {
 
     get image() { return this.container.sprite.image };
     set image(value) {
-        const existsImage = Boolean(player.file.loader.resources[value]);
-        var scale = { x: this.scaleX, y: this.scaleY };
-        this.container.sprite.cacheAsBitmap=false;
-        this.container.sprite.texture = (existsImage) ? player.file.loader.resources[value].texture : PIXI.Texture.WHITE
-        this.container.sprite.texture.rotate = 8;
-        this.container.sprite.width = (existsImage) ? player.file.loader.resources[value].texture.width : 50;
-        this.container.sprite.height = (existsImage) ? player.file.loader.resources[value].texture.height : 50;
-        this.scaleX = scale.x;
-        this.scaleY = scale.y;
+        if (value != this.container.sprite.image) {
+            this.container.removeChild(this.container.sprite);
+            this.actor.image = value;
+            const sprite = new Sprite(this.actor);
+            this.container.addChildAt(sprite, 0);
+        }
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };
@@ -85,7 +82,12 @@ class GameObject {
     set opacity(value) { this.container.sprite.alpha = value };
 
     get flipX() { return (Math.sign(this.container.sprite.scale.x) == 1) ? false : true };
-    set flipX(value) { this.container.sprite.scale.x = (value) ? - Math.abs(this.container.sprite.scale.x) : Math.abs(this.container.sprite.scale.x) };
+    set flipX(value) { 
+        //////////////////////////////////////////
+        console.log("flip ",value,this.container.sprite.scale.x);
+        this.container.sprite.scale.x =-1;
+        console.log("flip ",value,this.container.sprite.scale.x);
+    };
 
     get flipY() { return (Math.sign(this.container.sprite.scale.y) == 1) ? false : true };
     set flipY(value) { this.container.sprite.scale.y = (value) ? - Math.abs(this.container.sprite.scale.y) : Math.abs(this.container.sprite.scale.y) };
