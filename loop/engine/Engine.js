@@ -2,6 +2,7 @@ class Engine {
 
     constructor(gameModel) {
         this.fps = 100;
+        this.rfps = 60;
         this.currentTime;
         this.accumulator = 0.0;
         this.dt = 1000 / this.fps;
@@ -16,7 +17,7 @@ class Engine {
     }
 
     gameLoop(newTime) {
-        window.requestAnimationFrame(this.gameLoop.bind(this));
+        setTimeout(() => {window.requestAnimationFrame(this.gameLoop.bind(this));}, 1000 / this.rfps);
         if (this.currentTime) {
             this.frameTime = newTime - this.currentTime;
             if (this.frameTime > 250) this.frameTime = 250;
