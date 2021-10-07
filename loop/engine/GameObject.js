@@ -76,8 +76,13 @@ class GameObject {
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };
-    set color(value) { this.container.sprite.tint = PIXI.utils.string2hex(value) };
-
+    set color(value) {
+        if (PIXI.utils.string2hex(value) != this.container.sprite.tint) {
+            this.container.sprite.cacheAsBitmap = false;
+            this.container.sprite.tint = PIXI.utils.string2hex(value);
+            this.container.sprite.cacheAsBitmap = true;
+        }
+    }
     get opacity() { return this.container.sprite.alpha };
     set opacity(value) { this.container.sprite.alpha = value };
 
