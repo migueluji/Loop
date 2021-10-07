@@ -82,12 +82,7 @@ class GameObject {
     set opacity(value) { this.container.sprite.alpha = value };
 
     get flipX() { return (Math.sign(this.container.sprite.scale.x) == 1) ? false : true };
-    set flipX(value) { 
-        //////////////////////////////////////////
-        console.log("flip ",value,this.container.sprite.scale.x);
-        this.container.sprite.scale.x =-1;
-        console.log("flip ",value,this.container.sprite.scale.x);
-    };
+    set flipX(value) { this.container.sprite.scale.x = (value) ? -Math.abs(this.container.sprite.scale.x) : Math.abs(this.container.sprite.scale.x) };
 
     get flipY() { return (Math.sign(this.container.sprite.scale.y) == 1) ? false : true };
     set flipY(value) { this.container.sprite.scale.y = (value) ? - Math.abs(this.container.sprite.scale.y) : Math.abs(this.container.sprite.scale.y) };
@@ -102,14 +97,14 @@ class GameObject {
     set tileX(value) {
         const existsImage = Boolean(player.file.loader.resources[this.container.sprite.image]);
         this.container.sprite.tileX = value;
-        this.container.sprite.width = (existsImage) ? sprite.texture.width * value : 50 * value;
+        this.container.sprite.width = (existsImage) ? this.container.sprite.texture.width * value : 50 * value;
     };
 
     get tileY() { return this.container.sprite.tileY };
     set tileY(value) {
         const existsImage = Boolean(player.file.loader.resources[this.container.sprite.image]);
         this.container.sprite.tileY = value;
-        this.container.sprite.height = (existsImage) ? sprite.texture.height * value : 50 * value;
+        this.container.sprite.height = (existsImage) ? this.container.sprite.texture.height * value : 50 * value;
     };
 
     get textOn() { return this.container.text.visible };
@@ -135,26 +130,17 @@ class GameObject {
 
     get offsetX() { return this.container.text.position.x };
     set offsetX(value) {
-        const w = Math.abs(this.container.prite.width * this.container.sprite.scale.x);
+        const w = Math.abs(this.container.sprite.width * this.container.sprite.scale.x);
         var pivot = { x: 0, y: 0 };
         switch (this.container.text.style.align) {
-            case "left": pivot = { x: -w / 2, y: this.container.text.height / 2 }; break;
-            case "right": pivot = { x: w / 2 - this.container.text.width, y: this.container.text.height / 2 }; break;
-            case "center": pivot = { x: -this.container.text.width / 2, y: this.container.text.height / 2 }; break;
+            case "left": pivot = { x: -w / 2 + this.container.text.width / 2 }; break;
+            case "right": pivot = { x: w / 2 - this.container.text.width / 2 }; break;
         }
         this.container.text.position.x = pivot.x + value;
     };
 
     get offsetY() { return this.container.text.position.y };
     set offsetY(value) {
-        const w = Math.abs(this.container.prite.width * this.container.sprite.scale.x);
-        var pivot = { x: 0, y: 0 };
-        switch (this.container.text.style.align) {
-            case "left": pivot = { x: -w / 2, y: this.container.text.height / 2 }; break;
-            case "right": pivot = { x: w / 2 - this.container.text.width, y: this.container.text.height / 2 }; break;
-            case "center": pivot = { x: -this.container.text.width / 2, y: this.container.text.height / 2 }; break;
-        }
-        this.container.text.position.y = pivot.y + value;
+        this.container.text.position.y = value;
     };
-
 }

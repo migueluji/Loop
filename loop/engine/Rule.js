@@ -33,7 +33,7 @@ class Rule {
     addEdit(node) { // node parameters
         var position = node.property.indexOf(".") + 1;
         var property = node.property.substring(position);
-        var specialProperties = ["color", "backgroundColor", "fill", "image"];
+        var specialProperties = ["color", "backgroundColor", "fill", "image", "font", "style", "align"];
         if (specialProperties.includes(property)) node.value = "'" + node.value + "'"; // to add quotes
         return (node.property + "=" + node.value);
     }
