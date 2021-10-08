@@ -4,16 +4,15 @@ class Render {
         this.gameObjects = engine.gameObjects;
         // Create View
         this.gameProperties = engine.scope["Game"];
-        const app = new PIXI.Application({
+        this.app = new PIXI.Application({
             width: this.gameProperties.displayWidth,
             height: this.gameProperties.displayHeight,
         });
-        document.body.appendChild(app.view);
-        this.app = app;
+        document.body.appendChild(this.app.view);
         // Create stage
         this.stage = new PIXI.Container();
         this.updateCamera();
-        app.stage.addChild(this.stage);
+        this.app.stage.addChild(this.stage);
         // Add Actors to stage
         this.gameObjects.forEach(gameObject => {
             this.stage.addChild(gameObject.container);

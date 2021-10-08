@@ -19,8 +19,7 @@ class Player {
     }
 
     onAssetLoaded(){
-        //var debugParser = Util.parser({}, this.data);
         this.load.closeDialog(); //clase del editor dialogs/LoadingView
-        this.engine = new Engine(new Game(this.data));
+        new Engine(new Game(this.data));
     }
 }

@@ -17,7 +17,8 @@ class Engine {
     }
 
     gameLoop(newTime) {
-        setTimeout(() => {window.requestAnimationFrame(this.gameLoop.bind(this));}, 1000 / this.rfps);
+      //  setTimeout(() => {window.requestAnimationFrame(this.gameLoop.bind(this));}, 1000 / this.rfps);
+      window.requestAnimationFrame(this.gameLoop.bind(this));
         if (this.currentTime) {
             this.frameTime = newTime - this.currentTime;
             if (this.frameTime > 250) this.frameTime = 250;
