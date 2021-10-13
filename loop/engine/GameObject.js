@@ -2,6 +2,9 @@ class GameObject {
 
     constructor(actor) {
         this.actor = actor;
+        for (let key in actor.newProperties) { // add new properties
+            this[key] = actor[key];
+        }
         this.sleeping = actor.sleeping;
         this.container = new Container(actor);
         if (actor.scriptList.length > 0) this.rule = new Rule(actor);
