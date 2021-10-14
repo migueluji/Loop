@@ -28,10 +28,11 @@ class Engine {
                   window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
             }
         
-            if (!window.requestAnimationFrame)
+            //if (!window.requestAnimationFrame)
+            if (true)
                 window.requestAnimationFrame = function(callback, element) {
                     currTime = new Date().getTime();
-                    timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    timeToCall = Math.max(0, 11 - (currTime - lastTime));
                     lastTime = currTime + timeToCall;
                     return window.setTimeout(function() { callback(currTime + timeToCall); }, 
                       timeToCall);
