@@ -9154,12 +9154,37 @@
 							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Move_To",
+									"type": "Compare",
 									"parameters": {
-										"speed": "100",
-										"x": "100",
-										"y": "100"
-									}
+										"value_1": "Me.x",
+										"operation": "Less",
+										"value_2": "0"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Move",
+											"parameters": {
+												"speed": "30",
+												"angle": "30"
+											}
+										}
+									],
+									"nodeListFalse": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.x",
+												"value": "Me.x+1"
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.image",
+												"value": "starGold.png"
+											}
+										}
+									]
 								}
 							]
 						}

@@ -61,18 +61,36 @@
 		<script src="Text.js"></script>
 		<script src="Rule.js"></script>
 
+
 		<script>
+			// requestAnimationFrame Polyfill
+			var lastTime = 0, vendors = ['ms', 'moz', 'webkit', 'o'], x, length, currTime, timeToCall;
+    
+			for(x = 0, length = vendors.length; x < length && !window.requestAnimationFrame; ++x) {
+				window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+				window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+			}
+    
+			if (!window.requestAnimationFrame)
+				window.requestAnimationFrame = function(callback, element) {
+					currTime = new Date().getTime();
+					timeToCall = Math.max(0, 16.67 - (currTime - lastTime));
+					lastTime = currTime + timeToCall;
+					return window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+				};
+    
+			if (!window.cancelAnimationFrame) window.cancelAnimationFrame = function(id) {clearTimeout(id);};
+			// Geme info 
 			var serverGamesFolder="<?php echo $_POST['serverGamesFolder'];?>";
 			var gameFolder="<?php echo $_POST['gameFolder'];?>";
 			var editor=true; /* to kown if the engine has been launched from the editor */
 			var json=null;
 
 			if (editor) json=JSON.parse(localStorage.getItem("localStorage_GameData"));
-
 			var player = new Player(serverGamesFolder,gameFolder,json);
 
 		</script>
-
+		<canvas id="main"></canvas>
 	</body>
 
 </html>
