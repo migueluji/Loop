@@ -131,7 +131,7 @@
 	// 	gameFolder="bird";
 	//	gameFolder="flying-plane";
 	//	gameFolder="asteroids";
-		gameFolder ="test";
+		gameFolder ="empty";
 	//	gameFolder="arkanoid";
 	//	gameFolder="alien-invasion";
 	//	gameFolder="babe-plataformer";

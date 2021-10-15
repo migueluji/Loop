@@ -31,6 +31,10 @@ class Rule {
         return (params.property + "=" + params.value);
     }
 
+    Spawn(params){
+        return("Engine.spawnObject("+params.actor+",Me.x+"+params.x+",Me.y +"+params.y+",Me.angle+"+params.angle+")");
+    }
+
     Move(params) {
         var x = "Me.x = Me.x + " + params.speed + " * Game.deltaTime * cos(" + params.angle + " deg);";
         var y = "Me.y = Me.y + " + params.speed + " * Game.deltaTime * sin(" + params.angle + " deg)";
