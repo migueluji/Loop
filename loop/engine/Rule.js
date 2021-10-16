@@ -1,11 +1,12 @@
 class Rule {
 
-    constructor(actor) {
-        this.actorName = actor.name;
+    constructor(actor,spawnName) {
+        var actorName =(spawnName) ? spawnName : actor.name;
         var expression = [];
         actor.scriptList.forEach((script, i) => { // add scripts to expression
-            expression += this.parseNodeList(script.nodeList).replace(/Me./g, this.actorName + ".").slice(1, -1) + ";"; // replace Me by actor's name
+            expression += this.parseNodeList(script.nodeList).replace(/Me./g, actorName + ".").slice(1, -1) + ";"; // replace Me by actor's name
         });
+        this.expression = expression;
         console.log(expression);
         this.code = math.compile(expression);
     }
@@ -14,7 +15,7 @@ class Rule {
         var secuence = [];
         if (nodeList.length > 0) {
             nodeList.forEach(node => {
-               secuence += this[node.type](node.parameters,node.nodeListTrue,node.nodeListFalse) + ";"; // call node function
+                secuence += this[node.type](node.parameters, node.nodeListTrue, node.nodeListFalse) + ";"; // call node function
             })
             secuence = "[" + secuence.replace(/.$/, "]"); // replace last ; by ]
         }
@@ -31,8 +32,13 @@ class Rule {
         return (params.property + "=" + params.value);
     }
 
-    Spawn(params){
-        return("Engine.spawnObject("+params.actor+",Me.x+"+params.x+",Me.y +"+params.y+",Me.angle+"+params.angle+")");
+    Spawn(params) {
+        return ("Engine.spawnObject(" + params.actor + ",Me.x+" + params.x + ",Me.y +" + params.y + ",Me.angle+" + params.angle + ")");
+    }
+
+    Delete(params) {
+        console.log(params);
+        return ("Engine.deleteObject(Me.name)");
     }
 
     Move(params) {
@@ -44,7 +50,7 @@ class Rule {
     Move_To(params) {
         var distance = "dist = distance([Me.x,Me.y],[" + params.x + "," + params.y + "]);";
         var x = "Me.x = (dist >= 1) ? Me.x + " + params.speed + " * Game.deltaTime * (" + params.x + "- Me.x) / dist : " + params.x + ";";
-        var y = "Me.y = (dist >= 1) ? Me.y + " + params.speed + " * Game.deltaTime * (" + params.y + "- Me.y) / dist : " + params.y ;
+        var y = "Me.y = (dist >= 1) ? Me.y + " + params.speed + " * Game.deltaTime * (" + params.y + "- Me.y) / dist : " + params.y;
         return (distance + x + y);
     }
 
@@ -74,8 +80,8 @@ class Rule {
     // Conditions
     Compare(params, nodeListTrue, nodeListFalse) {
         var dictionary = { "Less": "<", "Less Equal": "<=", "Equal": "==", "Greater Equal": ">=", "Greater": ">", "Different": "!=" };
-        params.operation = dictionary[params.operation];
-        return ("[" + params.value_1 + " " + params.operation + " " + params.value_2 + " ? " +
+        var operation = dictionary[params.operation];
+        return ("[" + params.value_1 + " " + operation + " " + params.value_2 + " ? " +
             this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 

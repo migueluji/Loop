@@ -2,6 +2,7 @@ class Container extends PIXI.Container {
 
     constructor(actor) {
         super();
+        this.zIndex = actor.zIndex;
         // Settings properties
         this.x = actor.x;
         this.y = actor.y;

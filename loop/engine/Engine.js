@@ -9,11 +9,9 @@ class Engine {
         this.t = 0.0;
         this.frameTime = 0.0;
 
-        this.gameModel = gameModel;
-        this.originalObjects = this.createOriginalObjects(gameModel);
         this.gameObjects = this.createGameObjects(gameModel);
+        console.log(this.gameObjects);
         this.scope = this.createScope(this.gameObjects, gameModel.allProperties);
-        console.log(this.scope);
         this.render = new Render(this);
         this.logic = new Logic(this);
         window.requestAnimationFrame(this.gameLoop.bind(this));
@@ -36,17 +34,14 @@ class Engine {
         this.currentTime = newTime;
     }
 
-    createOriginalObjects(gameModel) {
-        var objects = new Object();
-        gameModel.sceneList[0].actorList.forEach(actor => { objects[actor.name] = actor; });
-        return objects;
-    }
-
     createGameObjects(gameModel) {
         var gameObjects = new Map();
+        var zIndex =0;
         gameModel.sceneList[0].actorList.forEach(actor => {
+            actor.zIndex = zIndex;
             var gameObject = new GameObject(actor);
             gameObjects.set(actor.name, gameObject);
+            zIndex++;
         });
         return gameObjects;
     }
@@ -57,14 +52,16 @@ class Engine {
         return scope;
     }
 
-    spawnObject(actor, x, y, angle) {
-        var spawnObject = new GameObject(this.originalObjects[actor.actor.name]);
-        spawnObject.name = actor.name + Utils.id();
-        spawnObject.x = x;
-        spawnObject.y = y;
-        spawnObject.angle = angle;
-        this.gameObjects.set(spawnObject.name,spawnObject);
+    spawnObject(gameObject, x, y, angle) {
+        var spawnName = gameObject.name + Utils.id();
+        var spawnObject = new GameObject(this.gameObjects.get(gameObject.actor.name).actor, spawnName);
+        spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
+        this.gameObjects.set(spawnObject.name, spawnObject);
         this.scope[spawnObject.name] = spawnObject;
-        console.log("spawn ",this.gameObjects);
+        this.render.addGameObject(spawnObject);
+    }
+
+    deleteObject(actorName){
+        console.log(actorName);
     }
 }

@@ -71,7 +71,7 @@
 				window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
 			}
     
-			if (!window.requestAnimationFrame)
+		//	if (!window.requestAnimationFrame)
 				window.requestAnimationFrame = function(callback, element) {
 					currTime = new Date().getTime();
 					timeToCall = Math.max(0, 16.67 - (currTime - lastTime));
