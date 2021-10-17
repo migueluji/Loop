@@ -1,14 +1,12 @@
 class GameObject {
 
-    constructor(actor,spawnName) {
+    constructor(actor, spawnName) {
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
         this.container = new Container(actor);
-        for (let key in actor.newProperties) { // add new properties
-            this[key] = actor[key];
-        }
-        if (actor.scriptList.length > 0) this.rule = new Rule(actor,spawnName);
+        for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
+        if (actor.scriptList.length > 0) this.rule = new Rule(actor, spawnName); // add compile rule
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 

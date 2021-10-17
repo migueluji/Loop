@@ -330,6 +330,13 @@
 										}
 									],
 									"nodeListFalse": []
+								},
+								{
+									"type": "Animate",
+									"parameters": {
+										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png",
+										"fps": 24
+									}
 								}
 							]
 						}

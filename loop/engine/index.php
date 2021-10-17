@@ -43,17 +43,18 @@
         <script src="../editor/File.js"></script>
 		<script src="../editor/dialogs/LoadingView.js"></script>
 		<script src="../editor/Utils.js"></script>
-		<script src="Engine.js"></script>
+	
 		<script src="../editor/Game.js"></script>
-		<script src="Scene.js"></script>
-		<script src="Actor.js"></script>
-		<script src="Script.js"></script>
-		<script src="Node.js"></script>
+		<script src="../editor/Scene.js"></script>
+		<script src="../editor/Actor.js"></script>
+		<script src="../editor/Script.js"></script>
+		<script src="../editor/Node.js"></script>
         <script src="Physics.js"></script>
         <script src="Input.js"></script>
         <script src="Logic.js"></script>
         <script src="Audio.js"></script>
         <script src="Render.js"></script>
+		<script src="Engine.js"></script>
 
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
@@ -71,7 +72,7 @@
 				window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
 			}
     
-		//	if (!window.requestAnimationFrame)
+			//if (!window.requestAnimationFrame)
 				window.requestAnimationFrame = function(callback, element) {
 					currTime = new Date().getTime();
 					timeToCall = Math.max(0, 16.67 - (currTime - lastTime));

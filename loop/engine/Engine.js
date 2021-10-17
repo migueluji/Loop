@@ -1,7 +1,7 @@
 class Engine {
 
     constructor(gameModel) {
-        this.ffps = 120;
+        this.ffps = 100;
         this.fps = 60;
         this.currentTime = 0.0;
         this.accumulator = 0.0;
@@ -58,10 +58,12 @@ class Engine {
         spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
         this.gameObjects.set(spawnObject.name, spawnObject);
         this.scope[spawnObject.name] = spawnObject;
-        this.render.addGameObject(spawnObject);
+        this.render.stage.addChild(spawnObject.container);
     }
 
     deleteObject(actorName){
-        console.log(actorName);
+        this.render.stage.removeChild(this.gameObjects.get(actorName).container);
+        this.gameObjects.delete(actorName);
+        delete this.scope[actorName];
     }
 }

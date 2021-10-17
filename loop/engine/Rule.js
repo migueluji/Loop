@@ -7,7 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList).replace(/Me./g, actorName + ".").slice(1, -1) + ";"; // replace Me by actor's name
         });
         this.expression = expression;
-        console.log(expression);
+        console.log(this.expression);
         this.code = math.compile(expression);
     }
 
@@ -36,9 +36,12 @@ class Rule {
         return ("Engine.spawnObject(" + params.actor + ",Me.x+" + params.x + ",Me.y +" + params.y + ",Me.angle+" + params.angle + ")");
     }
 
-    Delete(params) {
-        console.log(params);
+    Delete() {
         return ("Engine.deleteObject(Me.name)");
+    }
+
+    Animate(params){
+      //  return("Engine.animation(Me.name,"+params.animation+","+params.fps);
     }
 
     Move(params) {

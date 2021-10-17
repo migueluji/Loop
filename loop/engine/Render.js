@@ -27,7 +27,4 @@ class Render {
         this.stage.angle = this.gameProperties.cameraAngle;
     }
 
-    addGameObject(gameObject) {
-        this.stage.addChild(gameObject.container);
-    }
 }
