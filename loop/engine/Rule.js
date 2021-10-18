@@ -1,14 +1,15 @@
 class Rule {
 
-    constructor(actor,spawnName) {
-        var actorName =(spawnName) ? spawnName : actor.name;
+    constructor(gameObject) {
+        this.gameObject = gameObject;
         var expression = [];
-        actor.scriptList.forEach((script, i) => { // add scripts to expression
-            expression += this.parseNodeList(script.nodeList).replace(/Me./g, actorName + ".").slice(1, -1) + ";"; // replace Me by actor's name
+        gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
+            expression += this.parseNodeList(script.nodeList).replace(/Me\./g, gameObject.name + ".").slice(1, -1) + ";"; // replace Me by actor's name
         });
         this.expression = expression;
-      //  console.log(this.expression);
-        this.code = math.compile(expression);
+        if (gameObject.name =="star0") this.expression="star.x = star.x + 1;"
+         console.log(this.expression);
+        return (math.compile(this.expression));
     }
 
     parseNodeList(nodeList) {
@@ -29,7 +30,7 @@ class Rule {
         var property = params.property.substring(position);
         var specialProperties = ["color", "backgroundColor", "fill", "image", "font", "style", "align"];
         if (specialProperties.includes(property)) params.value = "'" + params.value + "'"; // to add quotes
-        return (params.property + "=" + params.value);
+        return (params.property + " = " + params.value);
     }
 
     Spawn(params) {
@@ -40,8 +41,8 @@ class Rule {
         return ("Engine.deleteObject(Me.name)");
     }
 
-    Animate(params){
-      //  return("Engine.animation(Me.name,"+params.animation+","+params.fps);
+    Animate(params) {
+        //  return("Engine.animation(Me.name,"+params.animation+","+params.fps);
     }
 
     Move(params) {
@@ -89,7 +90,13 @@ class Rule {
     }
 
     Check(params, nodeListTrue, nodeListFalse) {
-        return ("[" + params.property + " ? " +
-            this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+        return ("[" + params.property + " ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+    }
+
+    Timer(params, nodeListTrue, nodeListFalse) {
+        var id = Utils.id();
+        if (!this.gameObject.timers) this.gameObject.timers = {}; // create timers if doesn't exist
+        this.gameObject.timers[id] = 0;
+        return ("[ Engine.checkTimer("+this.gameObject.name+",'" + id + "'," + params.seconds + ") ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 }

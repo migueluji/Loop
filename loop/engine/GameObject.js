@@ -4,9 +4,9 @@ class GameObject {
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
-        this.container = new Container(actor);
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
-        if (actor.scriptList.length > 0) this.rule = new Rule(actor, spawnName); // add compile rule
+        this.container = new Container(actor);
+        if (actor.scriptList.length) this.rule = new Rule(this); 
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 
@@ -28,7 +28,7 @@ class GameObject {
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
             // update logic
-            if (this.rule) this.rule.code.eval(scope);
+            if (this.rule) this.rule.eval(scope);
         }
     }
 

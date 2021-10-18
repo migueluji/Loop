@@ -177,33 +177,11 @@
 							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Move",
+									"type": "Edit",
 									"parameters": {
-										"speed": "100",
-										"angle": 0
+										"property": "Me.x",
+										"value": "Me.x+1"
 									}
-								},
-								{
-									"type": "Compare",
-									"parameters": {
-										"value_1": "Me.x",
-										"operation": "Greater Equal",
-										"value_2": "300"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Delete",
-											"parameters": {}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "plane.count",
-												"value": "plane.count-1"
-											}
-										}
-									],
-									"nodeListFalse": []
 								}
 							]
 						}
@@ -316,29 +294,64 @@
 								{
 									"type": "Compare",
 									"parameters": {
-										"value_1": "Me.count",
-										"operation": "Less",
-										"value_2": "300"
+										"value_1": "Me.x",
+										"operation": "Greater Equal",
+										"value_2": "0"
 									},
 									"nodeListTrue": [
 										{
-											"type": "Spawn",
+											"type": "Timer",
 											"parameters": {
-												"actor": "star",
-												"x": 0,
-												"y": "random(-200,200)",
-												"angle": 0
-											}
-										},
+												"seconds": "3"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Spawn",
+													"parameters": {
+														"actor": "star",
+														"x": 0,
+														"y": "random(-200,200)",
+														"angle": 0
+													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Me.count",
+														"value": "Me.count+1"
+													}
+												},
+												{
+													"type": "Compare",
+													"parameters": {
+														"value_1": "Me.count",
+														"operation": "Greater",
+														"value_2": "3"
+													},
+													"nodeListTrue": [
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "Me.x",
+																"value": "-200"
+															}
+														}
+													],
+													"nodeListFalse": []
+												}
+											],
+											"nodeListFalse": []
+										}
+									],
+									"nodeListFalse": [
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "Me.count",
-												"value": "Me.count+1"
+												"property": "Me.x",
+												"value": "Me.x + 1"
 											}
 										}
-									],
-									"nodeListFalse": []
+									]
 								}
 							]
 						}
