@@ -4,7 +4,7 @@ class Sprite {
         const existsImage = Boolean(player.file.loader.resources[actor.image]);
         const scroll = Boolean((actor.scrollX != 0) || (actor.scrollY != 0));
         const tile = Boolean((actor.tileX != 1) || (actor.tileY != 1));
-      //  const sprite = (scroll || tile) ? new PIXI.TilingSprite() : new PIXI.Sprite();
+       // const sprite = (scroll || tile) ? new PIXI.TilingSprite() : new PIXI.Sprite();
         const sprite = new PIXI.TilingSprite();
         sprite.visible = actor.spriteOn;
         sprite.image = actor.image;

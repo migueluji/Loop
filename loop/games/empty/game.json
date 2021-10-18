@@ -124,61 +124,10 @@
 					"scriptList": []
 				},
 				{
-					"name": "score",
-					"sleeping": false,
-					"x": 250.25,
-					"y": 203,
-					"width": 260.5,
-					"height": 50,
-					"scaleX": 5.21,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": false,
-					"image": "",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "${Game.FPS} - ${Game.time}",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Right",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"scriptList": []
-				},
-				{
 					"name": "star",
-					"sleeping": false,
-					"x": -484.18245863604784,
-					"y": -3.415790275872496,
+					"sleeping": true,
+					"x": -341.08096665481196,
+					"y": 180.32991244559616,
 					"width": 39,
 					"height": 38,
 					"scaleX": 1,
@@ -245,6 +194,13 @@
 										{
 											"type": "Delete",
 											"parameters": {}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "plane.count",
+												"value": "plane.count-1"
+											}
 										}
 									],
 									"nodeListFalse": []
@@ -252,6 +208,57 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "score",
+					"sleeping": false,
+					"x": 250.25,
+					"y": 203,
+					"width": 260.5,
+					"height": 50,
+					"scaleX": 5.21,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": false,
+					"image": "",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": true,
+					"text": "${Game.FPS} - ${Game.time}",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Right",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": []
 				},
 				{
 					"name": "plane",
@@ -276,15 +283,15 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
-					"text": "",
+					"textOn": true,
+					"text": "${Me.count}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
 					"style": "Normal",
 					"align": "Center",
 					"offsetX": 0,
-					"offsetY": 0,
+					"offsetY": 66,
 					"soundOn": false,
 					"sound": "",
 					"start": 0,
@@ -307,9 +314,11 @@
 							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Check",
+									"type": "Compare",
 									"parameters": {
-										"property": "Me.up"
+										"value_1": "Me.count",
+										"operation": "Less",
+										"value_2": "300"
 									},
 									"nodeListTrue": [
 										{
@@ -317,31 +326,25 @@
 											"parameters": {
 												"actor": "star",
 												"x": 0,
-												"y": 0,
+												"y": "random(-200,200)",
 												"angle": 0
 											}
 										},
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "Me.up",
-												"value": false
+												"property": "Me.count",
+												"value": "Me.count+1"
 											}
 										}
 									],
 									"nodeListFalse": []
-								},
-								{
-									"type": "Animate",
-									"parameters": {
-										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png",
-										"fps": 24
-									}
 								}
 							]
 						}
 					],
-					"up": true
+					"up": true,
+					"count": 0
 				}
 			]
 		},
