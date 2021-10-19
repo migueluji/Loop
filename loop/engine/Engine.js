@@ -1,7 +1,6 @@
 class Engine {
 
     constructor(gameModel) {
-        this.id = 0;
         this.ffps = 100;
         //   this.fps = 60;
         this.dt = 1000 / this.ffps;
@@ -14,7 +13,7 @@ class Engine {
             actor.zIndex = zIndex;
             var gameObject = new GameObject(actor);
             this.gameObjects.set(actor.name, gameObject);
-            this.scope[actor.name]=gameObject;
+            this.scope[actor.name] = gameObject;
             zIndex++;
         });
         // Create engines
@@ -22,6 +21,7 @@ class Engine {
         this.logic = new Logic(this);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
+        console.log(this.gameObjects);
     };
 
     gameLoop(newTime) {
@@ -42,15 +42,12 @@ class Engine {
     }
 
     spawnObject(gameObject, x, y, angle) {
-        var spawnName = gameObject.name + this.id;
-        this.id++;
+        var spawnName = gameObject.name + Utils.id();
         var spawnObject = new GameObject(this.gameObjects.get(gameObject.actor.name).actor, spawnName);
         spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
- 
         this.scope[spawnObject.name] = spawnObject;
         this.gameObjects.set(spawnObject.name, spawnObject);
         this.render.stage.addChild(spawnObject.container);
-        console.log(this.scope);
     }
 
     deleteObject(actorName) {
@@ -59,13 +56,17 @@ class Engine {
         delete this.scope[actorName];
     }
 
-    checkTimer(gameObject,id,seconds){
-       // return (false);
-        if (gameObject.timers[id] == seconds * 1000) { 
-            gameObject.timers[id] = 0; return(true);
+    checkTimer(gameObject, id, expression) {
+        var lostFlow = ((gameObject.timers[id].previousTime - gameObject.timers[id].time) > 0);
+        var secReached = (gameObject.timers[id].time >= gameObject.timers[id].seconds * 1000);
+        if (lostFlow || secReached) {
+            gameObject.timers[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
+            return (true);
         }
         else {
-            gameObject.timers[id] += this.dt; return(false);
+            gameObject.timers[id].time += this.dt;
+            gameObject.timers[id].previousTime = gameObject.timers[id].time;
+            return (false);
         }
     }
 }

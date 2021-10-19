@@ -4,11 +4,13 @@ class Rule {
         this.gameObject = gameObject;
         var expression = [];
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
-            expression += this.parseNodeList(script.nodeList).replace(/Me\./g, gameObject.name + ".").slice(1, -1) + ";"; // replace Me by actor's name
+            expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
-        this.expression = expression;
-         console.log(this.expression);
-        return (math.compile(this.expression));
+ 
+        expression = expression.replace(/Me\./g, gameObject.name + ".").slice(1, -2);
+        expression ="Engine.checkTimer(plane,'1','2') ? [ plane.color = '#ec9c9c'; [plane.up ? [] : []] ] : []";
+        console.log(expression);
+        return (math.compile(expression));
     }
 
     parseNodeList(nodeList) {
@@ -17,7 +19,8 @@ class Rule {
             nodeList.forEach(node => {
                 secuence += this[node.type](node.parameters, node.nodeListTrue, node.nodeListFalse) + ";"; // call node function
             })
-            secuence = "[" + secuence.replace(/.$/, "]"); // replace last ; by ]
+            secuence = "[" + secuence.replace(/.$/, "]"); // replace last ; by ];
+            console.log("...",secuence); 
         }
         else secuence = "[]"; // empty nodeList
         return (secuence);
@@ -93,9 +96,10 @@ class Rule {
     }
 
     Timer(params, nodeListTrue, nodeListFalse) {
-        var id = Utils.id();
+        var id = 1;
         if (!this.gameObject.timers) this.gameObject.timers = {}; // create timers if doesn't exist
-        this.gameObject.timers[id] = 0;
-        return ("[ Engine.checkTimer("+this.gameObject.name+",'" + id + "'," + params.seconds + ") ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+        var timer = new Object({ "time": 0.0, "previousTime": 0.0, seconds: math.eval(params.seconds) });
+        this.gameObject.timers[id] = timer;
+        return ("[Engine.checkTimer(" + this.gameObject.name + ",'" + id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 }
