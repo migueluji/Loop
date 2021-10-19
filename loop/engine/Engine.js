@@ -60,6 +60,7 @@ class Engine {
     }
 
     checkTimer(gameObject,id,seconds){
+       // return (false);
         if (gameObject.timers[id] == seconds * 1000) { 
             gameObject.timers[id] = 0; return(true);
         }
