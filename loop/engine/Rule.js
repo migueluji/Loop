@@ -6,10 +6,7 @@ class Rule {
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
- 
         expression = expression.replace(/Me\./g, gameObject.name + ".").slice(1, -2);
-        expression ="Engine.checkTimer(plane,'1','2') ? [ plane.color = '#ec9c9c'; [plane.up ? [] : []] ] : []";
-        console.log(expression);
         return (math.compile(expression));
     }
 
@@ -20,7 +17,6 @@ class Rule {
                 secuence += this[node.type](node.parameters, node.nodeListTrue, node.nodeListFalse) + ";"; // call node function
             })
             secuence = "[" + secuence.replace(/.$/, "]"); // replace last ; by ];
-            console.log("...",secuence); 
         }
         else secuence = "[]"; // empty nodeList
         return (secuence);

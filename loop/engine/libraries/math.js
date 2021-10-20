@@ -324,7 +324,7 @@ function _validate(array, size, dim) {
     // last dimension. none of the childs may be an array
     for (i = 0; i < len; i++) {
       if (Array.isArray(array[i])) {
-        throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(size.length + 1, size.length, '>');
+        // MIGUEL --- throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(size.length + 1, size.length, '>');
       }
     }
   }
