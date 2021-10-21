@@ -295,7 +295,7 @@
 									"type": "Animate",
 									"parameters": {
 										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png",
-										"fps": 24
+										"fps": "12"
 									}
 								},
 								{
@@ -311,13 +311,6 @@
 												"x": 0,
 												"y": 0,
 												"angle": 0
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.color",
-												"value": "#ec9c9c"
 											}
 										},
 										{
