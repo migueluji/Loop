@@ -69,11 +69,12 @@ class GameObject {
 
     get image() { return this.container.sprite.image };
     set image(value) {
+        //console.log("change ",value,this.container.sprite.image);
         if (value != this.container.sprite.image) {
             this.container.removeChild(this.container.sprite);
             this.actor.image = value;
-            const sprite = new Sprite(this.actor);
-            this.container.addChildAt(sprite, 0);
+            this.container.sprite = new Sprite(this.actor);
+            this.container.addChildAt(this.container.sprite, 0);
         }
     };
 

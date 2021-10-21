@@ -32,15 +32,16 @@ class Rule {
     }
 
     Spawn(params) {
-        return ("Engine.spawnObject(" + params.actor + ",Me.x+" + params.x + ",Me.y +" + params.y + ",Me.angle+" + params.angle + ")");
+        return ("Engine.spawn(" + params.actor + ",Me.x+" + params.x + ",Me.y +" + params.y + ",Me.angle+" + params.angle + ")");
     }
 
     Delete() {
-        return ("Engine.deleteObject(Me.name)");
+        return ("Engine.delete(Me.name)");
     }
 
     Animate(params) {
-        //  return("Engine.animation(Me.name,"+params.animation+","+params.fps);
+        var timer = new Timer (this.gameObject,1); // animate each second
+        return ("Engine.animate("+this.gameObject.name+",'"+timer.id+"','" + params.animation + "'," + params.fps + ")");
     }
 
     Move(params) {
@@ -92,10 +93,8 @@ class Rule {
     }
 
     Timer(params, nodeListTrue, nodeListFalse) {
-        var id = 1;
-        if (!this.gameObject.timers) this.gameObject.timers = {}; // create timers if doesn't exist
-        var timer = new Object({ "time": 0.0, "previousTime": 0.0, seconds: math.eval(params.seconds) });
-        this.gameObject.timers[id] = timer;
-        return ("[Engine.checkTimer(" + this.gameObject.name + ",'" + id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+        var timer = new Timer(this.gameObject, math.eval(params.seconds));
+        return ("[Engine.timer(" + this.gameObject.name + ",'" + timer.id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 }
+

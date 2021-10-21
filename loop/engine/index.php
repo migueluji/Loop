@@ -55,12 +55,13 @@
         <script src="Audio.js"></script>
         <script src="Render.js"></script>
 		<script src="Engine.js"></script>
-
+		
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
 		<script src="Sprite.js"></script>
 		<script src="Text.js"></script>
 		<script src="Rule.js"></script>
+		<script src="Timer.js"></script>
 
 
 		<script>

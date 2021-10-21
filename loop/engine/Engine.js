@@ -41,7 +41,7 @@ class Engine {
         this.currentTime = newTime;
     }
 
-    spawnObject(gameObject, x, y, angle) {
+    spawn(gameObject, x, y, angle) {
         var spawnName = gameObject.name + Utils.id();
         var spawnObject = new GameObject(this.gameObjects.get(gameObject.actor.name).actor, spawnName);
         spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
@@ -50,13 +50,13 @@ class Engine {
         this.render.stage.addChild(spawnObject.container);
     }
 
-    deleteObject(actorName) {
+    delete(actorName) {
         this.render.stage.removeChild(this.gameObjects.get(actorName).container);
         this.gameObjects.delete(actorName);
         delete this.scope[actorName];
     }
 
-    checkTimer(gameObject, id, expression) {
+    timer(gameObject, id, expression) {
         var lostFlow = ((gameObject.timers[id].previousTime - gameObject.timers[id].time) > 0);
         var secReached = (gameObject.timers[id].time >= gameObject.timers[id].seconds * 1000);
         if (lostFlow || secReached) {
@@ -68,5 +68,15 @@ class Engine {
             gameObject.timers[id].previousTime = gameObject.timers[id].time;
             return (false);
         }
+    }
+
+    animate(gameObject, id, animation, fps) {
+        var secuence = animation.split(",");
+        var frames = secuence.length;
+        var dtAnim = 1000 / fps;
+        if (gameObject.timers[id].time + this.dt < 1000) gameObject.timers[id].time += this.dt;
+        else gameObject.timers[id].time = 0;
+        var frame = gameObject.timers[id].time / dtAnim;
+        gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 }

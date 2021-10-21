@@ -299,35 +299,35 @@ function size(x) {
  * @private
  */
 
-function _validate(array, size, dim) {
-  var i;
-  var len = array.length;
+function _validate(array, size, dim) { // MIGUEL
+  // var i;
+  // var len = array.length;
 
-  if (len !== size[dim]) {
-    throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(len, size[dim]);
-  }
+  // if (len !== size[dim]) {
+  //   throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(len, size[dim]);
+  // }
 
-  if (dim < size.length - 1) {
-    // recursively validate each child array
-    var dimNext = dim + 1;
+  // if (dim < size.length - 1) {
+  //   // recursively validate each child array
+  //   var dimNext = dim + 1;
 
-    for (i = 0; i < len; i++) {
-      var child = array[i];
+  //   for (i = 0; i < len; i++) {
+  //     var child = array[i];
 
-      if (!Array.isArray(child)) {
-        throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(size.length - 1, size.length, '<');
-      }
+  //     if (!Array.isArray(child)) {
+  //       throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(size.length - 1, size.length, '<');
+  //     }
 
-      _validate(array[i], size, dimNext);
-    }
-  } else {
-    // last dimension. none of the childs may be an array
-    for (i = 0; i < len; i++) {
-      if (Array.isArray(array[i])) {
-        // MIGUEL --- throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(size.length + 1, size.length, '>');
-      }
-    }
-  }
+  //     _validate(array[i], size, dimNext);
+  //   }
+  // } else {
+  //   // last dimension. none of the childs may be an array
+  //   for (i = 0; i < len; i++) {
+  //     if (Array.isArray(array[i])) {
+  //       throw new _error_DimensionError__WEBPACK_IMPORTED_MODULE_2___default.a(size.length + 1, size.length, '>');
+  //     }
+  //   }
+  // }
 }
 /**
  * Validate whether each element in a multi dimensional array has
