@@ -6,7 +6,7 @@ class Rule {
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
-        expression = expression.replace(/Me\./g, gameObject.name + ".").slice(1, -2);
+        expression = expression.replace(/Me\./g, gameObject.name + ".");
         return (math.compile(expression));
     }
 
@@ -40,8 +40,8 @@ class Rule {
     }
 
     Animate(params) {
-        var timer = new Timer (this.gameObject,1); // animate each second
-        return ("Engine.animate("+this.gameObject.name+",'"+timer.id+"','" + params.animation + "'," + params.fps + ")");
+        var timer = new Timer(this.gameObject, 1); // animate each second
+        return ("Engine.animate(" + this.gameObject.name + ",'" + timer.id + "','" + params.animation + "'," + params.fps + ")");
     }
 
     Move(params) {
@@ -95,6 +95,17 @@ class Rule {
     Timer(params, nodeListTrue, nodeListFalse) {
         var timer = new Timer(this.gameObject, math.eval(params.seconds));
         return ("[Engine.timer(" + this.gameObject.name + ",'" + timer.id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+    }
+
+    Keyboard(params, nodeListTrue, nodeListFalse) {
+        Input.addKey(params.key);
+        return ("[Engine.keyboard('" + params.key+ "','" + params.key_Mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+    }
+
+    Touch(params, nodeListTrue, nodeListFalse) {
+        console.log(params);
+        return true;
+        return ("[Engine.keyboard('" + params.key+ "','" + params.key_Mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 }
 

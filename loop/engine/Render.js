@@ -2,7 +2,7 @@ class Render {
 
     constructor(engine) {
         this.gameObjects = engine.gameObjects;
-        this.gameProperties = engine.scope["Game"];
+        this.gameProperties = engine.gameProperties;
         this.renderer = new PIXI.Renderer({
             width: this.gameProperties.displayWidth,
             height: this.gameProperties.displayHeight,

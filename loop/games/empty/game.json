@@ -256,8 +256,8 @@
 				{
 					"name": "plane",
 					"sleeping": false,
-					"x": -248,
-					"y": -136,
+					"x": -242,
+					"y": -92,
 					"width": 88,
 					"height": 73,
 					"scaleX": 1,
@@ -277,7 +277,7 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "${Me.count}",
+					"text": "${Me.up}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -397,6 +397,45 @@
 											"nodeListFalse": []
 										}
 									]
+								}
+							]
+						},
+						{
+							"name": "Script_2",
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [],
+									"nodeListFalse": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.color",
+												"value": "#ffffff"
+											}
+										}
+									]
+								},
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "Space",
+										"key_Mode": "Pressed"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.color",
+												"value": "#c83c3c"
+											}
+										}
+									],
+									"nodeListFalse": []
 								}
 							]
 						}

@@ -7,7 +7,8 @@ class Engine {
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         // Create data structures
         this.gameObjects = new Map();
-        this.scope = new Object({ "Game": gameModel.allProperties, "Engine": this });
+        this.gameProperties = gameModel.allProperties;
+        this.scope = new Object({ "Game": this.gameProperties, "Engine": this });
         var zIndex = 0;
         gameModel.sceneList[0].actorList.forEach(actor => {
             actor.zIndex = zIndex;
@@ -17,11 +18,13 @@ class Engine {
             zIndex++;
         });
         // Create engines
+        this.input = new Input(this);
         this.render = new Render(this);
         this.logic = new Logic(this);
+  
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        console.log(this.gameObjects);
+        console.log(this.gameObjects,this.scope,this.input);
     };
 
     gameLoop(newTime) {
@@ -57,15 +60,15 @@ class Engine {
     }
 
     timer(gameObject, id, expression) {
-        var lostFlow = ((gameObject.timers[id].previousTime - gameObject.timers[id].time) > 0);
-        var secReached = (gameObject.timers[id].time >= gameObject.timers[id].seconds * 1000);
+        var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
+        var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds * 1000);
         if (lostFlow || secReached) {
-            gameObject.timers[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
+            gameObject.timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
             return (true);
         }
         else {
-            gameObject.timers[id].time += this.dt;
-            gameObject.timers[id].previousTime = gameObject.timers[id].time;
+            gameObject.timer[id].time += this.dt;
+            gameObject.timer[id].previousTime = gameObject.timer[id].time;
             return (false);
         }
     }
@@ -73,9 +76,13 @@ class Engine {
     animate(gameObject, id, animation, fps) {
         var secuence = animation.split(",");
         var dtAnim = 1000 / fps;
-        if (gameObject.timers[id].time + this.dt < 1000) gameObject.timers[id].time += this.dt;
-        else gameObject.timers[id].time = 0;
-        var frame = gameObject.timers[id].time / dtAnim;
+        if (gameObject.timer[id].time + this.dt < 1000) gameObject.timer[id].time += this.dt;
+        else gameObject.timer[id].time = 0;
+        var frame = gameObject.timer[id].time / dtAnim;
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
+    }
+
+    keyboard(key,mode){
+      return(Input.keyList[key][mode]);
     }
 }

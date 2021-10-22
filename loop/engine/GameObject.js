@@ -69,7 +69,6 @@ class GameObject {
 
     get image() { return this.container.sprite.image };
     set image(value) {
-        //console.log("change ",value,this.container.sprite.image);
         if (value != this.container.sprite.image) {
             this.container.removeChild(this.container.sprite);
             this.actor.image = value;

@@ -3289,11 +3289,10 @@ function getSafeProperty(object, prop) {
 
 function setSafeProperty(object, prop, value) {
   // only allow setting safe properties of a plain object
-  //if (isPlainObject(object) && isSafeProperty(object, prop)) {
+  // CARLOS - if (isPlainObject(object) && isSafeProperty(object, prop)) {
     object[prop] = value;
     return value;
   //}
-
   //throw new Error('No access to property "' + prop + '"');
 }
 /**
