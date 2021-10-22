@@ -72,7 +72,6 @@ class Engine {
 
     animate(gameObject, id, animation, fps) {
         var secuence = animation.split(",");
-        var frames = secuence.length;
         var dtAnim = 1000 / fps;
         if (gameObject.timers[id].time + this.dt < 1000) gameObject.timers[id].time += this.dt;
         else gameObject.timers[id].time = 0;
