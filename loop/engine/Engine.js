@@ -18,8 +18,9 @@ class Engine {
             zIndex++;
         });
         // Create engines
-        this.input = new Input(this);
+
         this.render = new Render(this);
+        this.input = new Input(this);
         this.logic = new Logic(this);
   
         // Launch gameloop
@@ -35,6 +36,8 @@ class Engine {
         while (this.accumulator >= this.dt) {
             this.scope["Game"].deltaTime = this.dt / 1000;
             this.scope["Game"].time = this.t / 1000;
+            this.scope["Game"].mouseX = Input.pointerX;
+            this.scope["Game"].mouseY = Input.pointerY;
             this.logic.fixedUpdate(this.dt / 1000);
             this.t += this.dt;
             this.accumulator -= this.dt;
@@ -84,5 +87,9 @@ class Engine {
 
     keyboard(key,mode){
       return(Input.keyList[key][mode]);
+    }
+
+    touch(mode){
+        return(Input.pointer[mode]);
     }
 }

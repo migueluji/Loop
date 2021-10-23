@@ -277,7 +277,7 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "${Me.up}",
+					"text": "${Game.mouseX} -  ${Game.mouseY}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -409,21 +409,21 @@
 										"mode": "Down",
 										"on_Actor": true
 									},
-									"nodeListTrue": [],
-									"nodeListFalse": [
+									"nodeListTrue": [
 										{
 											"type": "Edit",
 											"parameters": {
 												"property": "Me.color",
-												"value": "#ffffff"
+												"value": "#56e1b3"
 											}
 										}
-									]
+									],
+									"nodeListFalse": []
 								},
 								{
 									"type": "Keyboard",
 									"parameters": {
-										"key": "Space",
+										"key": "ShiftLeft",
 										"key_Mode": "Pressed"
 									},
 									"nodeListTrue": [
@@ -436,6 +436,14 @@
 										}
 									],
 									"nodeListFalse": []
+								},
+								{
+									"type": "Move_To",
+									"parameters": {
+										"speed": "100",
+										"x": "Game.mouseX",
+										"y": "Game.mouseY"
+									}
 								}
 							]
 						}

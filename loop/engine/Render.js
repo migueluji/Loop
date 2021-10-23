@@ -10,6 +10,7 @@ class Render {
         });
         this.stage = new PIXI.Container();
         this.stage.sortableChildren = true;
+        this.stage.interactive = true;
         this.updateCamera();
         this.gameObjects.forEach(gameObject => { this.stage.addChild(gameObject.container); });
     }

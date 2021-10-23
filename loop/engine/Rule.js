@@ -104,8 +104,7 @@ class Rule {
 
     Touch(params, nodeListTrue, nodeListFalse) {
         console.log(params);
-        return true;
-        return ("[Engine.keyboard('" + params.key+ "','" + params.key_Mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+        return ("[Engine.touch('" + params.mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 }
 
