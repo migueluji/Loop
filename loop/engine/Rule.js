@@ -14,7 +14,7 @@ class Rule {
         var secuence = [];
         if (nodeList.length > 0) {
             nodeList.forEach(node => {
-                secuence += this[node.type](node.parameters, node.nodeListTrue, node.nodeListFalse) + ";"; // call node function
+                secuence += this[node.type.toLowerCase()](node.parameters, node.nodeListTrue, node.nodeListFalse) + ";"; // call node function
             })
             secuence = "[" + secuence.replace(/.$/, "]"); // replace last ; by ];
         }
@@ -23,7 +23,7 @@ class Rule {
     }
 
     // Actions 
-    Edit(params) {
+    edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
         var specialProperties = ["color", "backgroundColor", "fill", "image", "font", "style", "align"];
@@ -31,33 +31,33 @@ class Rule {
         return (params.property + " = " + params.value);
     }
 
-    Spawn(params) {
+    spawn(params) {
         return ("Engine.spawn(" + params.actor + ",Me.x+" + params.x + ",Me.y +" + params.y + ",Me.angle+" + params.angle + ")");
     }
 
-    Delete() {
+    delete() {
         return ("Engine.delete(Me.name)");
     }
 
-    Animate(params) {
+    animate(params) {
         var timer = new Timer(this.gameObject, 1); // animate each second
         return ("Engine.animate(" + this.gameObject.name + ",'" + timer.id + "','" + params.animation + "'," + params.fps + ")");
     }
 
-    Move(params) {
+    move(params) {
         var x = "Me.x = Me.x + " + params.speed + " * Game.deltaTime * cos(" + params.angle + " deg);";
         var y = "Me.y = Me.y + " + params.speed + " * Game.deltaTime * sin(" + params.angle + " deg)";
         return (x + y);
     }
 
-    Move_To(params) {
+    move_to(params) {
         var distance = "dist = distance([Me.x,Me.y],[" + params.x + "," + params.y + "]);";
         var x = "Me.x = (dist >= 1) ? Me.x + " + params.speed + " * Game.deltaTime * (" + params.x + "- Me.x) / dist : " + params.x + ";";
         var y = "Me.y = (dist >= 1) ? Me.y + " + params.speed + " * Game.deltaTime * (" + params.y + "- Me.y) / dist : " + params.y;
         return (distance + x + y);
     }
 
-    Rotate(params) {
+    rotate(params) {
         var dist = "dist = distance([" + params.pivot_X + ", " + params.pivot_Y + "],[Me.x, Me.y]);";
         var angle = " Me.angle = Me.angle + " + params.speed + " * Game.deltaTime;";
         var x = "Me.x = " + params.pivot_X + " + dist * cos(Me.angle deg);";
@@ -65,7 +65,7 @@ class Rule {
         return (dist + angle + x + y);
     }
 
-    Rotate_To(params) {
+    rotate_to(params) {
         var dist = "dist = distance([" + params.pivot_X + ", " + params.pivot_Y + "],[Me.x, Me.y]);";
         var dx0 = "dx0 = " + params.pivot_X + " - Me.x;";
         var dy0 = "dy0 = " + params.pivot_Y + " - Me.y;";
@@ -81,30 +81,31 @@ class Rule {
         return (dist + dx0 + dy0 + angle0 + dx1 + dy1 + angle1 + da + daa + angle + x + y);
     }
     // Conditions
-    Compare(params, nodeListTrue, nodeListFalse) {
+    compare(params, nodeListTrue, nodeListFalse) {
         var dictionary = { "Less": "<", "Less Equal": "<=", "Equal": "==", "Greater Equal": ">=", "Greater": ">", "Different": "!=" };
         var operation = dictionary[params.operation];
         return ("[" + params.value_1 + " " + operation + " " + params.value_2 + " ? " +
             this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 
-    Check(params, nodeListTrue, nodeListFalse) {
+    check(params, nodeListTrue, nodeListFalse) {
         return ("[" + params.property + " ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 
-    Timer(params, nodeListTrue, nodeListFalse) {
+    timer(params, nodeListTrue, nodeListFalse) {
         var timer = new Timer(this.gameObject, math.eval(params.seconds));
         return ("[Engine.timer(" + this.gameObject.name + ",'" + timer.id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 
-    Keyboard(params, nodeListTrue, nodeListFalse) {
+    keyboard(params, nodeListTrue, nodeListFalse) {
         Input.addKey(params.key);
         return ("[Engine.keyboard('" + params.key+ "','" + params.key_Mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 
-    Touch(params, nodeListTrue, nodeListFalse) {
-        console.log(params);
-        return ("[Engine.touch('" + params.mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+    touch(params, nodeListTrue, nodeListFalse) {
+        if  (params.mode == "Is Over") params.mode ="over";
+        if(params.on_Actor) Input.addActor(this.gameObject);
+        return ("[Engine.touch('" + params.mode.toLowerCase() + "',"+params.on_Actor+","+this.gameObject.name+") ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 }
 

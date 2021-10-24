@@ -18,14 +18,12 @@ class Engine {
             zIndex++;
         });
         // Create engines
-
         this.render = new Render(this);
         this.input = new Input(this);
         this.logic = new Logic(this);
-  
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        console.log(this.gameObjects,this.scope,this.input);
+        console.log(this.gameObjects,this.scope,this.render,this.input,this.logic);
     };
 
     gameLoop(newTime) {
@@ -34,16 +32,11 @@ class Engine {
         if (this.frameTime > 250) this.frameTime = 250;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
-            this.scope["Game"].deltaTime = this.dt / 1000;
-            this.scope["Game"].time = this.t / 1000;
-            this.scope["Game"].mouseX = Input.pointerX;
-            this.scope["Game"].mouseY = Input.pointerY;
-            this.logic.fixedUpdate(this.dt / 1000);
+            this.logic.fixedUpdate(this.dt,this.t,this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
         this.render.update(this.accumulator / this.dt);
-        this.scope["Game"].FPS = 1000 / this.frameTime;
         this.currentTime = newTime;
     }
 
@@ -89,7 +82,8 @@ class Engine {
       return(Input.keyList[key][mode]);
     }
 
-    touch(mode){
-        return(Input.pointer[mode]);
+    touch(mode,onActor,gameObject){
+        if (onActor) return(Input.gameObjects[gameObject.name][mode]);
+        else return(Input.pointer[mode]);
     }
 }
