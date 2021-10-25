@@ -7,6 +7,7 @@ class GameObject {
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
         this.container = new Container(actor);
         if (actor.scriptList.length) this.rule = new Rule(this); 
+        this.body = new Body(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 

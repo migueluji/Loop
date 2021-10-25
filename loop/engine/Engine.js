@@ -1,7 +1,7 @@
 class Engine {
 
     constructor(gameModel) {
-        this.ffps = 100;
+        this.ffps = 60;
         //   this.fps = 60;
         this.dt = 1000 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
@@ -21,6 +21,7 @@ class Engine {
         this.render = new Render(this);
         this.input = new Input(this);
         this.logic = new Logic(this);
+        this.physics = new Physics(this);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
         console.log(this.gameObjects,this.scope,this.render,this.input,this.logic);
@@ -29,9 +30,10 @@ class Engine {
     gameLoop(newTime) {
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.frameTime = newTime - this.currentTime;
-        if (this.frameTime > 250) this.frameTime = 250;
+        if (this.frameTime > 100) this.frameTime = 100;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
+            this.physics.fixedStep(this.dt,this.t,this.frameTime);
             this.logic.fixedUpdate(this.dt,this.t,this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
