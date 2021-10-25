@@ -9,7 +9,7 @@ class Input {
         Input.width = engine.gameProperties.displayWidth;
         Input.height = engine.gameProperties.displayHeight;
         var stage = engine.render.stage;
-        // Stage pointer eventes
+        // Stage pointer events
         stage.on("pointerdown", Input.pointerDownHandler.bind(this));
         stage.on("pointerupoutside", Input.pointerUpHandler.bind(this));
         stage.on("pointerup", Input.pointerUpHandler.bind(this));
@@ -29,7 +29,7 @@ class Input {
 
         gameObject.container.interactive = true;
         gameObject.container.buttonMode = true;
-        // GameObject events
+        // GameObject pointer events
         gameObject.container.on("pointerdown", this.actorPointerDownHandler.bind(this, name));
         gameObject.container.on("pointerupoutside", this.actorPointerUpHandler.bind(this, name));
         gameObject.container.on("pointerup", this.actorPointerUpHandler.bind(this, name));
@@ -38,15 +38,11 @@ class Input {
     }
 
     static actorPointerDownHandler(name) {
-        Input.gameObjects[name].down = true;
-        Input.gameObjects[name].up = false;
-        Input.gameObjects[name].tap = true;
+        Input.gameObjects[name] = { down: true, up: false, tap: true };
     }
 
     static actorPointerUpHandler(name) {
-        Input.gameObjects[name].down = false;
-        Input.gameObjects[name].up = true;
-        Input.gameObjects[name].tap = false;
+        Input.gameObjects[name] = { down: false, up: true, tap: false };
     }
 
     static actorPointerOverHandler(name) {
@@ -58,15 +54,11 @@ class Input {
     }
 
     static pointerDownHandler() {
-        Input.pointer.down = true;
-        Input.pointer.up = false;
-        Input.pointer.tap = true;
+        Input.pointer = { down: true, up: false, tap: true };
     }
 
     static pointerUpHandler() {
-        Input.pointer.down = false;
-        Input.pointer.up = true;
-        Input.pointer.tap = false;
+        Input.pointer = { down: false, up: true, tap: false };
     }
 
     static pointerMoveHandler(event) {
