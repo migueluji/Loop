@@ -36,7 +36,7 @@
 		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 		<script src="libraries/math.js"></script>
 		<script src="https://pixijs.download/release/pixi.min.js"></script>
-		<script src="libraries/box2d.min.js"></script>
+		<script src="libraries/Planck.js"></script>
 		<script src="libraries/howler.min.js"></script>
 
         <script src="Player.js"></script>
@@ -58,7 +58,7 @@
 		
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
-		<script src="Body.js"></script>
+		<script src="RigidBody.js"></script>
 		<script src="Sprite.js"></script>
 		<script src="Text.js"></script>
 		<script src="Rule.js"></script>

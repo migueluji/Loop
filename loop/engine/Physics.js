@@ -5,9 +5,15 @@ class Physics {
         this.pixelsPerMeter = 50;
         this.metersPerPixel = 1 / this.pixelsPerMeter;
 
-        this.gravity = new b2Vec2(engine.gameProperties.gravityX,engine.gameProperties.gravityY);
-        this.world = new b2World(this.gravity);
-
+        this.world = planck.World({
+            gravity: planck.Vec2(engine.gameProperties.gravityX,engine.gameProperties.gravityY)
+        });
+ 
+        this.gameObjects.forEach(gameObject =>{
+            console.log(gameObject);
+            var body = this.world.createBody();
+            body.createFixture(new planck.Polygon(gameObject.rigidbody.shape),gameObject.rigidbody.fixtureOpt);
+        })
         console.log("new physics engine",this.gravity,this.world);
         // this.rigidbodyList = [];      
         // this.triggerList = [];      
@@ -24,8 +30,8 @@ class Physics {
     }
 
     fixedStep(dt, t, frameTime) {
-        console.log(this.world);
-        this.world.Step(dt/1000,3,3);
+        this.world.step(dt/1000);
+       // this.gameObjects.forEach(gameObject => {gameObject.fixedStep()});
         // this.scope["Game"].deltaTime = dt / 1000;
         // this.scope["Game"].time = t / 1000;
         // this.scope["Game"].mouseX = Input.pointerX;
