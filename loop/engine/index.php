@@ -58,7 +58,7 @@
 		
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
-		<script src="RigidBody.js"></script>
+		<script src="Rigidbody.js"></script>
 		<script src="Sprite.js"></script>
 		<script src="Text.js"></script>
 		<script src="Rule.js"></script>

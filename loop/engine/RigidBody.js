@@ -1,4 +1,4 @@
-class RigidBody {
+class Rigidbody {
     pixelsPerMeter = 50;
     metersPerPixel = 1 / this.pixelsPerMeter;
 

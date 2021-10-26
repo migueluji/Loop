@@ -11,8 +11,8 @@ class Physics {
  
         this.gameObjects.forEach(gameObject =>{
             console.log(gameObject);
-            var body = this.world.createBody();
-            body.createFixture(new planck.Polygon(gameObject.rigidbody.shape),gameObject.rigidbody.fixtureOpt);
+            gameObject.rigidbody = this.world.createDynamicBody();
+            gameObject.rigidbody.createFixture(new planck.Polygon(gameObject.rigidbodyP.shape),gameObject.rigidbodyP.fixtureOpt);
         })
         console.log("new physics engine",this.gravity,this.world);
         // this.rigidbodyList = [];      
@@ -31,7 +31,7 @@ class Physics {
 
     fixedStep(dt, t, frameTime) {
         this.world.step(dt/1000);
-       // this.gameObjects.forEach(gameObject => {gameObject.fixedStep()});
+        this.gameObjects.forEach(gameObject => {gameObject.fixedStep()});
         // this.scope["Game"].deltaTime = dt / 1000;
         // this.scope["Game"].time = t / 1000;
         // this.scope["Game"].mouseX = Input.pointerX;
