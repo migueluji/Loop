@@ -24,6 +24,7 @@ class Physics {
     }
 
     fixedStep(dt, t, frameTime) {
+        console.log(this.world);
         this.world.Step(dt/1000,3,3);
         // this.scope["Game"].deltaTime = dt / 1000;
         // this.scope["Game"].time = t / 1000;

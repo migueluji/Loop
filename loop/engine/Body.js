@@ -1,6 +1,6 @@
 class Body {
     pixelsPerMeter = 50;
-    
+
     constructor(actor) {
         this.body = new b2BodyDef();
         switch (actor.type) {
@@ -31,7 +31,7 @@ class Body {
             }
         }
         this.fixture.shape = shape;
-        console.log("Body", actor, this.body,this.fixture);
+        console.log("Body", actor, this.body, this.fixture);
         // fixture.friction    = data.friction;
         // fixture.density     = data.density;   
         // fixture.restitution = data.restitution;   
