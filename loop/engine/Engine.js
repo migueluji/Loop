@@ -21,10 +21,10 @@ class Engine {
         this.render = new Render(this);
         this.input = new Input(this);
         this.logic = new Logic(this);
-        this.physics = new Physics(this);
+       // this.physics = new Physics(this);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        console.log(this.gameObjects,this.scope,this.render,this.input,this.logic);
+        console.log(this.gameObjects,this.scope,this.render,this.input,this.logic,this.physics);
     };
 
     gameLoop(newTime) {
@@ -33,7 +33,7 @@ class Engine {
         if (this.frameTime > 100) this.frameTime = 100;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
-            this.physics.fixedStep(this.dt,this.t,this.frameTime);
+           // this.physics.fixedStep(this.dt);
             this.logic.fixedUpdate(this.dt,this.t,this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;

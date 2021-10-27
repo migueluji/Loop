@@ -7,13 +7,13 @@ class GameObject {
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
         this.container = new Container(actor);
         if (actor.scriptList.length) this.rule = new Rule(this); 
-        this.rigidbodyP = new Rigidbody(actor);
+        this.body = new Body(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
     
     fixedStep(){
-         console.log(this.rigidbody);
-         this.rigidbody.y = this.y /50;
+        this.x = this.rigidbody.getPosition().x;
+        this.y = this.rigidbody.getPosition().y;
     }
 
     fixedUpdate(deltaTime, scope) { // logic update

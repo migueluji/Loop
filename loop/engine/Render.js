@@ -3,14 +3,17 @@ class Render {
     constructor(engine) {
         this.gameObjects = engine.gameObjects;
         this.gameProperties = engine.gameProperties;
+        // create renderer
         this.renderer = new PIXI.Renderer({
             width: this.gameProperties.displayWidth,
             height: this.gameProperties.displayHeight,
             view: document.getElementById('main')
         });
+        // create stage
         this.stage = new PIXI.Container();
         this.stage.sortableChildren = true;
         this.stage.interactive = true;
+        // update game camera and add objects
         this.updateCamera();
         this.gameObjects.forEach(gameObject => { this.stage.addChild(gameObject.container); });
     }
