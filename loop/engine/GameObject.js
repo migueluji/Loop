@@ -9,11 +9,12 @@ class GameObject {
         if (actor.scriptList.length) this.rule = new Rule(this); 
         this.body = new Body(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
+        console.log(this.name,this);
     }
     
     fixedStep(){
-        this.x = this.rigidbody.getPosition().x;
-        this.y = this.rigidbody.getPosition().y;
+        this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
+        this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
     }
 
     fixedUpdate(deltaTime, scope) { // logic update
