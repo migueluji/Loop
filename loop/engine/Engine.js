@@ -24,7 +24,7 @@ class Engine {
         this.physics = new Physics(this);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        console.log(this.gameObjects,this.scope,this.render,this.input,this.logic,this.physics);
+        console.log(this.gameObjects, this.scope, this.render, this.input, this.logic, this.physics);
     };
 
     gameLoop(newTime) {
@@ -34,10 +34,10 @@ class Engine {
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
             this.physics.fixedStep(this.dt);
-            this.logic.fixedUpdate(this.dt,this.t,this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
+        this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
         this.render.update(this.accumulator / this.dt);
         this.currentTime = newTime;
     }
@@ -49,6 +49,8 @@ class Engine {
         this.scope[spawnObject.name] = spawnObject;
         this.gameObjects.set(spawnObject.name, spawnObject);
         this.render.stage.addChild(spawnObject.container);
+        spawnObject.rigidbody = this.physics.world.createBody(spawnObject.body.bodyDef);
+        spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
     }
 
     delete(actorName) {
@@ -80,12 +82,13 @@ class Engine {
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
-    keyboard(key,mode){
-      return(Input.keyList[key][mode]);
+    keyboard(key, mode) {
+        console.log(key,mode,Input.keyList[key][mode]);
+        return (Input.keyList[key][mode]);
     }
 
-    touch(mode,onActor,gameObject){
-        if (onActor) return(Input.gameObjects[gameObject.name][mode]);
-        else return(Input.pointer[mode]);
+    touch(mode, onActor, gameObject) {
+        if (onActor) return (Input.gameObjects[gameObject.name][mode]);
+        else return (Input.pointer[mode]);
     }
 }

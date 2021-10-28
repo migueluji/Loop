@@ -6,16 +6,15 @@ class GameObject {
         this.sleeping = actor.sleeping;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
         this.container = new Container(actor);
-        if (actor.scriptList.length) this.rule = new Rule(this); 
+        if (actor.scriptList.length) this.rule = new Rule(this);
         this.body = new Body(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
-    
-    fixedStep(){
+
+    fixedStep() {
         this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
         this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
-        this.angle = this.rigidbody.getAngle();
-        if (this.name=="star") console.log(this.y ,this.rigidbody);
+        this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
     }
 
     fixedUpdate(deltaTime, scope) { // logic update

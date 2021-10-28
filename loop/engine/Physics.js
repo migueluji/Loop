@@ -11,8 +11,9 @@ class Physics {
         // add objects
         this.gameObjects.forEach(gameObject => {
             gameObject.rigidbody = this.world.createBody(gameObject.body.bodyDef);
-            gameObject.rigidbody.createFixture(new planck.Polygon(gameObject.body.fixtureDef));
+            gameObject.rigidbody.createFixture(gameObject.body.fixtureDef);
         })
+
     }
 
     fixedStep(dt) {
