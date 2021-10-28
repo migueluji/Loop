@@ -46,11 +46,16 @@ class Engine {
         var spawnName = gameObject.name + Utils.id();
         var spawnObject = new GameObject(this.gameObjects.get(gameObject.actor.name).actor, spawnName);
         spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
+        // add spawnObject to data structures
         this.scope[spawnObject.name] = spawnObject;
         this.gameObjects.set(spawnObject.name, spawnObject);
+        // add spawnObject to stage
         this.render.stage.addChild(spawnObject.container);
+        // add spawnObject to physics world
         spawnObject.rigidbody = this.physics.world.createBody(spawnObject.body.bodyDef);
         spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
+        spawnObject.rigidbody.setPosition(planck.Vec2(x * Physics.metersPerPixel, y * Physics.metersPerPixel));
+        spawnObject.rigidbody.setAngle(angle * Math.PI / 180);
     }
 
     delete(actorName) {
@@ -83,12 +88,22 @@ class Engine {
     }
 
     keyboard(key, mode) {
-        console.log(key,mode,Input.keyList[key][mode]);
-        return (Input.keyList[key][mode]);
+        var value = Input.keyList[key][mode];
+        Input.keyList[key].down = false;
+        Input.keyList[key].up = true;
+        return (value);
     }
 
     touch(mode, onActor, gameObject) {
-        if (onActor) return (Input.gameObjects[gameObject.name][mode]);
-        else return (Input.pointer[mode]);
+        var value;
+        if (onActor) {
+            value = Input.gameObjects[gameObject.name][mode];
+            Input.gameObjects[gameObject.name].tap = false;
+        }
+        else {
+            value = Input.pointer[mode];
+            Input.pointer.tap = false;
+        }
+        return (value);
     }
 }

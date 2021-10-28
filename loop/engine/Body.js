@@ -9,9 +9,20 @@ class Body {
             fixedRotation: actor.fixedAngle, angularVelocity: actor.angularVelocity,
             angularDamping: actor.dampingLinear, linearDamping: actor.dampingAngular
         }
+        var collider;
+        switch (actor.collider) {
+            case "Circle": {
+                var radius = (actor.widht > actor.height) ? actor.width / 2 * Physics.metersPerPixel :
+                    actor.height / 2 * Physics.metersPerPixel;
+                collider = planck.Circle(radius); break;
+            }
+            case "Box": {
+                collider = planck.Box((actor.width / 2) * Physics.metersPerPixel, (actor.height / 2) * Physics.metersPerPixel); break;
+            };
+        };
         this.fixtureDef = {
             friction: actor.friction, density: actor.density, restitution: actor.restitution,
-            shape: planck.Box((actor.width / 2) * Physics.metersPerPixel, (actor.height / 2) * Physics.metersPerPixel)
+            shape: collider
         };
     }
 }

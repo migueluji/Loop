@@ -2,6 +2,7 @@ class Input {
     static keyList = {};
     static pointer = { down: false, up: true, over: false, tap: false };
     static gameObjects = {};
+    static keyUP = true; // to avoid repeated keydown events
 
     constructor(engine) {
         Input.pointerX = engine.gameProperties.mouseX;
@@ -10,6 +11,7 @@ class Input {
         Input.height = engine.gameProperties.displayHeight;
         var stage = engine.render.stage;
         // Stage pointer events
+        stage.hitArea = new PIXI.Rectangle(-Input.width / 2, -Input.height / 2, Input.width, Input.height);
         stage.on("pointerdown", Input.pointerDownHandler.bind(this));
         stage.on("pointerupoutside", Input.pointerUpHandler.bind(this));
         stage.on("pointerup", Input.pointerUpHandler.bind(this));
@@ -21,12 +23,12 @@ class Input {
 
     static addKey(key) {
         if (!this.keyList.hasOwnProperty(key)) this.keyList[key] = { down: false, up: true, pressed: false };
-        console.log(this.keyList);
     }
 
     static addActor(gameObject) {
         var name = gameObject.name;
-        if (!this.gameObjects.hasOwnProperty(name)) this.gameObjects[name] = { down: false, up: true, over: false, tap: false };
+        if (!this.gameObjects.hasOwnProperty(name))
+            this.gameObjects[name] = { down: false, up: false, over: false, tap: false };
 
         gameObject.container.interactive = true;
         gameObject.container.buttonMode = true;
@@ -39,19 +41,21 @@ class Input {
     }
 
     static actorPointerDownHandler(name) {
-        Input.gameObjects[name] = { down: true, up: false, tap: true };
+        Input.gameObjects[name] = { down: true, up: false, over: true, tap: true };
     }
 
     static actorPointerUpHandler(name) {
-        Input.gameObjects[name] = { down: false, up: true, tap: false };
+        Input.gameObjects[name] = { down: false, up: true, over: true, tap: false };
     }
 
     static actorPointerOverHandler(name) {
         Input.gameObjects[name].over = true;
+        Input.gameObjects[name].up = true;
     }
 
     static actorPointerOutHandler(name) {
         Input.gameObjects[name].over = false;
+        Input.gameObjects[name].up = false;
     }
 
     static pointerDownHandler() {
@@ -71,8 +75,9 @@ class Input {
 
     static keyDownHandler(event) {
         event.preventDefault();
-        if (Input.keyList.hasOwnProperty(event.code)) {
-            Input.keyList[event.code] = { down: !Input.keyList[event.code].pressed, up: false, pressed: true };
+        if ((Input.keyUP) && (Input.keyList.hasOwnProperty(event.code))) {
+            Input.keyList[event.code] = { down: true, up: false, pressed: true };
+            Input.keyUP = false;
         }
     }
 
@@ -81,5 +86,6 @@ class Input {
         if (Input.keyList.hasOwnProperty(event.code)) {
             Input.keyList[event.code] = { down: false, up: true, pressed: false };
         }
+        Input.keyUP = true;
     }
 }

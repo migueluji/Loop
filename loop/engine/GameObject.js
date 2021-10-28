@@ -12,9 +12,11 @@ class GameObject {
     }
 
     fixedStep() {
-        this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
-        this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
-        this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
+        if (!this.sleeping){
+            this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
+            this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
+            this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
+        }
     }
 
     fixedUpdate(deltaTime, scope) { // logic update

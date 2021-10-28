@@ -24,15 +24,15 @@
 				{
 					"name": "star",
 					"sleeping": false,
-					"x": -33,
-					"y": 147.5,
+					"x": 0,
+					"y": 150,
 					"width": 88,
 					"height": 73,
 					"scaleX": 1,
 					"scaleY": 1,
-					"angle": 0,
+					"angle": 21.908704828181925,
 					"screen": false,
-					"collider": "Box",
+					"collider": "Circle",
 					"tags": "",
 					"spriteOn": true,
 					"image": "planeGreen1.png",
@@ -70,20 +70,7 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Edit",
-									"parameters": {
-										"property": "Me.opacity",
-										"value": "random(0,10)/10"
-									}
-								}
-							]
-						}
-					]
+					"scriptList": []
 				},
 				{
 					"name": "floor",
@@ -139,13 +126,13 @@
 				{
 					"name": "floor_copy",
 					"sleeping": false,
-					"x": -400,
-					"y": 0,
-					"width": 480,
+					"x": 83.68220474450519,
+					"y": -104.11573122221611,
+					"width": 668.0975116348301,
 					"height": 50,
-					"scaleX": 9.6,
+					"scaleX": 13.361950232696602,
 					"scaleY": 1,
-					"angle": 90,
+					"angle": 24.102519966118834,
 					"screen": false,
 					"collider": "Box",
 					"tags": "",
@@ -239,10 +226,10 @@
 					"scriptList": []
 				},
 				{
-					"name": "Actor_6",
+					"name": "blue",
 					"sleeping": false,
-					"x": -31.910428438904773,
-					"y": 281.0341138527135,
+					"x": 100,
+					"y": 85.94190229959668,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -294,17 +281,17 @@
 								{
 									"type": "Touch",
 									"parameters": {
-										"mode": "Down",
-										"on_Actor": false
+										"mode": "Tap",
+										"on_Actor": true
 									},
 									"nodeListTrue": [
 										{
 											"type": "Spawn",
 											"parameters": {
 												"actor": "star",
-												"x": "random(-300,300)",
-												"y": 0,
-												"angle": "random(1,360)"
+												"x": "0",
+												"y": "0",
+												"angle": "0"
 											}
 										}
 									],
