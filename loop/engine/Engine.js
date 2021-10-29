@@ -53,9 +53,11 @@ class Engine {
         this.render.stage.addChild(spawnObject.container);
         // add spawnObject to physics world
         spawnObject.rigidbody = this.physics.world.createBody(spawnObject.body.bodyDef);
+        spawnObject.rigidbody.setUserData({name:spawnName,tags:spawnObject.actor.tags});
         spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
         spawnObject.rigidbody.setPosition(planck.Vec2(x * Physics.metersPerPixel, y * Physics.metersPerPixel));
         spawnObject.rigidbody.setAngle(angle * Math.PI / 180);
+        console.log(spawnObject.rigidbody);
     }
 
     delete(actorName) {
@@ -76,6 +78,17 @@ class Engine {
             gameObject.timer[id].previousTime = gameObject.timer[id].time;
             return (false);
         }
+    }
+
+    collision(gameObject,tags){
+        var tags = tags.split(",");
+        var collision = false;
+        tags.forEach(tag=>{
+            gameObject.collision[tag]
+        })
+        return 
+        console.log("engine collision ",gameObject.collision,tags);
+       // return(gameObject.collision[id].value);
     }
 
     animate(gameObject, id, animation, fps) {
