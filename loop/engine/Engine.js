@@ -57,7 +57,6 @@ class Engine {
         spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
         spawnObject.rigidbody.setPosition(planck.Vec2(x * Physics.metersPerPixel, y * Physics.metersPerPixel));
         spawnObject.rigidbody.setAngle(angle * Math.PI / 180);
-        console.log(spawnObject.rigidbody);
     }
 
     delete(actorName) {
@@ -82,13 +81,12 @@ class Engine {
 
     collision(gameObject,tags){
         var tags = tags.split(",");
-        var collision = false;
+        var value = true; 
         tags.forEach(tag=>{
-            gameObject.collision[tag]
+            value = (value && gameObject.collision[tag]);
+            gameObject.collision[tag]=false;
         })
-        return 
-        console.log("engine collision ",gameObject.collision,tags);
-       // return(gameObject.collision[id].value);
+        return value;
     }
 
     animate(gameObject, id, animation, fps) {

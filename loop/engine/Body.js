@@ -25,6 +25,6 @@ class Body {
             friction: actor.friction, density: actor.density, restitution: actor.restitution,
             shape: collider,
         };
-        console.log(actor.name, "BodyDef..", this.bodyDef.userData);
+      //  console.log(actor.name, "BodyDef..", this.bodyDef.userData);
     }
 }
