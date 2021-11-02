@@ -28,8 +28,8 @@
 				{
 					"name": "plane",
 					"sleeping": false,
-					"x": 8,
-					"y": 167,
+					"x": 6.901573187852307,
+					"y": -13.018319262561477,
 					"width": 88,
 					"height": 73,
 					"scaleX": 1,
@@ -37,7 +37,7 @@
 					"angle": 21.908704828181925,
 					"screen": false,
 					"collider": "Circle",
-					"tags": "player,friend",
+					"tags": "player",
 					"spriteOn": true,
 					"image": "planeGreen1.png",
 					"color": "#ffffff",
@@ -63,7 +63,7 @@
 					"volume": 1,
 					"pan": 0,
 					"loop": false,
-					"physicsOn": true,
+					"physicsOn": false,
 					"type": "Dynamic",
 					"fixedAngle": false,
 					"velocityX": 0,
@@ -101,6 +101,23 @@
 											}
 										}
 									]
+								},
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "ArrowDown",
+										"key_Mode": "Pressed"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.y",
+												"value": "Me.y-1"
+											}
+										}
+									],
+									"nodeListFalse": []
 								}
 							]
 						}
@@ -109,12 +126,12 @@
 				{
 					"name": "floor",
 					"sleeping": false,
-					"x": 52.3635801997047,
-					"y": -99.03216703106668,
+					"x": 362.9617403333504,
+					"y": -139.34673717634888,
 					"width": 990.4002902564134,
-					"height": 50,
+					"height": 468.5622060725183,
 					"scaleX": 19.808005805128268,
-					"scaleY": 1,
+					"scaleY": 9.371244121450365,
 					"angle": 20.280833194634837,
 					"screen": false,
 					"collider": "Box",
@@ -160,16 +177,16 @@
 				{
 					"name": "blue",
 					"sleeping": false,
-					"x": 100,
-					"y": 85.94190229959668,
+					"x": 104.53135996990045,
+					"y": 108.65579795867745,
 					"width": 50,
-					"height": 50,
+					"height": 178.27434086135645,
 					"scaleX": 1,
-					"scaleY": 1,
+					"scaleY": 3.565486817227129,
 					"angle": 0,
 					"screen": false,
 					"collider": "Box",
-					"tags": "",
+					"tags": "block",
 					"spriteOn": true,
 					"image": "",
 					"color": "#4d42e0",
@@ -196,7 +213,7 @@
 					"pan": 0,
 					"loop": false,
 					"physicsOn": true,
-					"type": "Static",
+					"type": "Dynamic",
 					"fixedAngle": false,
 					"velocityX": 0,
 					"velocityY": 0,
@@ -221,13 +238,54 @@
 											"type": "Spawn",
 											"parameters": {
 												"actor": "plane",
-												"x": "0",
-												"y": "0",
+												"x": "Me.x+300",
+												"y": "Me.y+300",
 												"angle": "0"
 											}
 										}
 									],
 									"nodeListFalse": []
+								},
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "block"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.color",
+												"value": "#e6d356"
+											}
+										}
+									],
+									"nodeListFalse": [
+										{
+											"type": "Collision",
+											"parameters": {
+												"tags": "player"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Me.color",
+														"value": "#de1212"
+													}
+												}
+											],
+											"nodeListFalse": [
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Me.color",
+														"value": "#30f83e"
+													}
+												}
+											]
+										}
+									]
 								}
 							]
 						}

@@ -4,6 +4,7 @@ class GameObject {
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
+        this.physicsOn = actor.physicsOn;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
         this.container = new Container(actor);
         if (actor.scriptList.length) this.rule = new Rule(this);

@@ -84,7 +84,7 @@ class Engine {
         var value = true; 
         tags.forEach(tag=>{
             value = (value && gameObject.collision[tag]);
-            gameObject.collision[tag]=false;
+           // gameObject.collision[tag]=false;
         })
         return value;
     }
