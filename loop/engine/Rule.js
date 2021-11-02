@@ -97,7 +97,7 @@ class Rule {
         var tags = params.tags.split(",");
         if (!this.gameObject.collision) this.gameObject.collision = {};
         tags.forEach(tag => {
-            if (!this.gameObject.collision[tag]) this.gameObject.collision[tag] = 0;
+            if (!this.gameObject.collision[tag]) this.gameObject.collision[tag] = new Set();
         })
         return ("[Engine.collision(" + this.gameObject.name + ",'" + params.tags + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }

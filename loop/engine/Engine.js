@@ -83,8 +83,11 @@ class Engine {
         var tags = tags.split(",");
         var value = true; 
         tags.forEach(tag=>{
-            value = (value && (gameObject.collision[tag]>0));
-           // gameObject.collision[tag]=false;
+            var keys = Object.keys(gameObject.collision[tag]);
+            keys.forEach(key=>{
+                value = (value && gameObject.collision[tag].size>0);
+            })
+            console.log(gameObject.name,gameObject.collision[tag]);
         })
         return value;
     }
