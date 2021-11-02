@@ -39,11 +39,11 @@ class Physics {
         if (userDataB.tags == "player") console.log("End contact...", userDataA.name, userDataB.name);
         if (gameObjectA.collision)
             Object.keys(gameObjectA.collision).forEach(tag => {
-                if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag] = false;
+                if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag]=0;
             })
         if (gameObjectB.collision)
             Object.keys(gameObjectB.collision).forEach(tag => {
-                if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag] = false;
+                if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag]=0;
             })
     }
     collisionBeginHandler(contact) {
@@ -54,11 +54,11 @@ class Physics {
         console.log("Begin contact...", userDataA.name, userDataB.name);
         if (gameObjectA.collision)
             Object.keys(gameObjectA.collision).forEach(tag => {
-                if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag] = true;
+                if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag]=1;
             })
         if (gameObjectB.collision)
             Object.keys(gameObjectB.collision).forEach(tag => {
-                if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag] = true;
+                if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag]=1;
             })
     }
 
