@@ -333,11 +333,11 @@
 					"name": "blue_copy",
 					"sleeping": false,
 					"x": 102.01567998495022,
-					"y": -61.990686236000386,
+					"y": -2.4784401640696956,
 					"width": 112.96864003009955,
-					"height": 268.98137247200077,
+					"height": 149.9568803281394,
 					"scaleX": 2.259372800601991,
-					"scaleY": 5.379627449440015,
+					"scaleY": 2.9991376065627877,
 					"angle": 0,
 					"screen": false,
 					"collider": "Box",
@@ -383,25 +383,6 @@
 							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Spawn",
-											"parameters": {
-												"actor": "plane",
-												"x": "Me.x+300",
-												"y": "Me.y+300",
-												"angle": "0"
-											}
-										}
-									],
-									"nodeListFalse": []
-								},
-								{
 									"type": "Collision",
 									"parameters": {
 										"tags": "block"
@@ -441,6 +422,20 @@
 											]
 										}
 									]
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.x",
+										"value": "Game.mouseX"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.y",
+										"value": "Game.mouseY"
+									}
 								}
 							]
 						}
