@@ -16,6 +16,7 @@ class Render {
     }
 
     update(lagOffset) {
+        // update game properties
         this.renderer.backgroundColor = PIXI.utils.string2hex(this.gameProperties.backgroundColor);
         this.stage.position = { x: this.gameProperties.displayWidth / 2.0 - this.gameProperties.cameraX, y: this.gameProperties.displayHeight / 2.0 + this.gameProperties.cameraY };
         this.stage.scale = { x: this.gameProperties.cameraZoom, y: -this.gameProperties.cameraZoom };

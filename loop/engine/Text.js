@@ -2,8 +2,7 @@ class Text {
 
     constructor(actor) {
         var textExpression = actor.text.replace(/Me./g, actor.name + "."); // chage Me by actor's name
-        textExpression = textExpression.replace(/{/g, ""); // delete {
-        textExpression = textExpression.replace(/}/g, ""); // delete }
+        textExpression = textExpression.replace(/{/g, "").replace(/}/g, ""); // delete { and }
         const style = new PIXI.TextStyle({
             fontFamily: actor.font,
             fill: actor.fill,

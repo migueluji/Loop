@@ -3,7 +3,6 @@ class Sprite {
     constructor(actor) {
         const existsImage = Boolean(player.file.loader.resources[actor.image]);
         const scroll = Boolean((actor.scrollX != 0) || (actor.scrollY != 0));
-        const tile = Boolean((actor.tileX != 1) || (actor.tileY != 1));
         const sprite = new PIXI.TilingSprite();
         sprite.visible = actor.spriteOn;
         sprite.image = actor.image;
@@ -24,7 +23,6 @@ class Sprite {
         sprite.scrollY = actor.scrollY;
         sprite.tileX = actor.tileX;
         sprite.tileY = actor.tileY;
-    //    if (tile && !scroll) sprite.cacheAsBitmap = true;
         if (!scroll) sprite.cacheAsBitmap = true;
         return (sprite);
     }

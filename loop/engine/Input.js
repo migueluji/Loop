@@ -22,7 +22,8 @@ class Input {
     }
 
     static addKey(key) {
-        if (!this.keyList.hasOwnProperty(key)) this.keyList[key] = { down: false, up: true, pressed: false };
+        if (!this.keyList.hasOwnProperty(key)) 
+            this.keyList[key] = { down: false, up: true, pressed: false };
     }
 
     static addActor(gameObject) {
