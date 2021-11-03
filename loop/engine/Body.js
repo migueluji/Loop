@@ -24,15 +24,5 @@ class Body {
             friction: actor.friction, density: actor.density, restitution: actor.restitution,
             shape: collider,
         };
-        this.bodySensor = {
-            type: "dynamic",
-            position: this.bodyDef.position,
-            angle:this.bodyDef.angle,
-            userData: this.bodyDef.userData,
-        }
-        this.fixtureSensor = {
-            isSensor: true,
-            shape: this.fixtureDef.shape,
-        }
     }
 }

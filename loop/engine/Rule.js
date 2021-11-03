@@ -7,7 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
-    //    console.log(expression);
+     //   console.log(expression);
         return (math.compile(expression));
     }
 
@@ -41,8 +41,10 @@ class Rule {
     }
 
     animate(params) {
-        var timer = new Timer(this.gameObject, 1); // animate each second
-        return ("Engine.animate(" + this.gameObject.name + ",'" + timer.id + "','" + params.animation + "'," + params.fps + ")");
+        var id = Utils.id();
+        if (!this.gameObject.timer) this.gameObject.timer = {}; // create timers if doesn't exist
+        this.gameObject.timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": 1 });;
+        return ("Engine.animate(" + this.gameObject.name + ",'" + id + "','" + params.animation + "'," + params.fps + ")");
     }
 
     move(params) {
@@ -103,9 +105,9 @@ class Rule {
     }
 
     timer(params, nodeListTrue, nodeListFalse) {
-        var id = utils.id();
+        var id = Utils.id();
         if (!this.gameObject.timer) this.gameObject.timer = {};
-        var timer = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": math.eval(params.seconds) });
+        this.gameObject.timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": math.eval(params.seconds) });;
         return ("[Engine.timer(" + this.gameObject.name + ",'" + id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 
@@ -114,6 +116,7 @@ class Rule {
         if (params.on_Actor) Input.addActor(this.gameObject);
         return ("[Engine.touch('" + params.mode.toLowerCase() + "'," + params.on_Actor + "," + this.gameObject.name + ") ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
+
     keyboard(params, nodeListTrue, nodeListFalse) {
         Input.addKey(params.key);
         return ("[Engine.keyboard('" + params.key + "','" + params.key_Mode.toLowerCase() + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");

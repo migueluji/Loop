@@ -1,5 +1,5 @@
 class GameObject {
-
+ 
     constructor(actor, spawnName) {
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
@@ -7,13 +7,13 @@ class GameObject {
         this.physicsOn = actor.physicsOn;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
         this.container = new Container(actor);
-        if (actor.scriptList.length) this.rule = new Rule(this);
+        if (actor.scriptList.length) this.rule = new Rule(this);// this is the gameObject, no the actor
         this.body = new Body(actor);
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 
     fixedStep() {
-        if (!this.sleeping){
+        if (!this.sleeping) {
             this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
             this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
             this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
@@ -54,10 +54,16 @@ class GameObject {
 
     // access to GameObject properties
     get x() { return this.container.x };
-    set x(value) { this.container.x = value };
+    set x(value) {
+        this.container.x = value;
+        this.rigidbody.setPosition(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getPosition().y));
+    };
 
     get y() { return this.container.y };
-    set y(value) { this.container.y = value };
+    set y(value) {
+        this.container.y = value;
+        this.rigidbody.setPosition(planck.Vec2(this.rigidbody.getPosition().x, value * Physics.metersPerPixel));
+    };
 
     get width() { return Math.abs(this.container.sprite.width * this.container.sprite.scale.x) };
     set width(value) { this.container.sprite.scale.x = value / this.container.sprite.width };
@@ -72,7 +78,10 @@ class GameObject {
     set scaleY(value) { this.container.sprite.scale.y = value };
 
     get angle() { return this.container.angle };
-    set angle(value) { this.container.angle = value };
+    set angle(value) {
+        this.container.angle = value;
+        this.rigidbody.setAngle(value * Math.PI / 180);
+    };
 
     get spriteOn() { return this.container.sprite.visible };
     set spriteOn(value) { this.container.sprite.visible = value };

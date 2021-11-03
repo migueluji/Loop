@@ -62,8 +62,6 @@
 		<script src="Sprite.js"></script>
 		<script src="Text.js"></script>
 		<script src="Rule.js"></script>
-		<script src="Timer.js"></script>
-
 
 		<script>
 			// requestAnimationFrame Polyfill

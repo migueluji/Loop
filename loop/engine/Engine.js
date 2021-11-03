@@ -45,18 +45,23 @@ class Engine {
     spawn(gameObject, x, y, angle) {
         var spawnName = gameObject.name + Utils.id();
         var spawnObject = new GameObject(this.gameObjects.get(gameObject.actor.name).actor, spawnName);
+        // create rigidbody
+        spawnObject.rigidbody = this.physics.world.createBody(spawnObject.body.bodyDef);
+        spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
+        spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
+        spawnObject.rigidbody.setPosition(planck.Vec2(x * Physics.metersPerPixel, y * Physics.metersPerPixel));
+        spawnObject.rigidbody.setAngle(angle * Math.PI / 180);
+        if (!spawnObject.physicsOn) {
+            spawnObject.rigidbody.setDynamic();
+            spawnObject.rigidbody.getFixtureList().setSensor(true);
+            spawnObject.rigidbody.setGravityScale(0);
+        }
         spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
         // add spawnObject to data structures
         this.scope[spawnObject.name] = spawnObject;
         this.gameObjects.set(spawnObject.name, spawnObject);
         // add spawnObject to stage
         this.render.stage.addChild(spawnObject.container);
-        // add spawnObject to physics world
-        spawnObject.rigidbody = this.physics.world.createBody(spawnObject.body.bodyDef);
-        spawnObject.rigidbody.setUserData({name:spawnName,tags:spawnObject.actor.tags});
-        spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
-        spawnObject.rigidbody.setPosition(planck.Vec2(x * Physics.metersPerPixel, y * Physics.metersPerPixel));
-        spawnObject.rigidbody.setAngle(angle * Math.PI / 180);
     }
 
     delete(actorName) {
@@ -79,15 +84,11 @@ class Engine {
         }
     }
 
-    collision(gameObject,tags){
-        var tags = tags.split(",");
-        var value = true; 
-        tags.forEach(tag=>{
-            var keys = Object.keys(gameObject.collision[tag]);
-            keys.forEach(key=>{
-                value = (value && gameObject.collision[tag].size>0);
-            })
-            console.log(gameObject.name,gameObject.collision[tag]);
+    collision(gameObject, tags) {
+        var tagsToCollide = tags.split(",");
+        var value = true;
+        tagsToCollide.forEach(tag => {
+            value = (value && (gameObject.collision[tag].size > 0));
         })
         return value;
     }
