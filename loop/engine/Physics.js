@@ -9,22 +9,12 @@ class Physics {
             gravity: planck.Vec2(engine.gameProperties.gravityX, engine.gameProperties.gravityY),
             allowSleep: false
         });
-        // add objects
-        this.gameObjects.forEach(gameObject => {
-            gameObject.rigidbody = this.world.createBody(gameObject.body.bodyDef);
-            gameObject.rigidbody.createFixture(gameObject.body.fixtureDef);
-            if (!gameObject.physicsOn) {
-                gameObject.rigidbody.setDynamic();
-                gameObject.rigidbody.getFixtureList().setSensor(true);
-                gameObject.rigidbody.setGravityScale(0);
-            }
-        })
+        this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
+        this.world.on('end-contact', this.collisionEndHandler.bind(this));
     }
 
     fixedStep(dt) {
-        this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
-        this.world.on('end-contact', this.collisionEndHandler.bind(this));
-        this.world.step(dt / 1000,10,10);
+        this.world.step(dt / 1000);
         this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
     }
 

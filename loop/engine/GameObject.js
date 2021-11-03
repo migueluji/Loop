@@ -1,14 +1,25 @@
 class GameObject {
- 
-    constructor(actor, spawnName) {
+
+    constructor(engine, actor, spawnName) {
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
         this.physicsOn = actor.physicsOn;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
-        this.container = new Container(actor);
+        // add container to stage
+        this.container = engine.render.stage.addChild(new Container(actor));
+        // add rigidbody to world
+        var body = new Body(actor);
+        this.rigidbody = engine.physics.world.createBody(body.bodyDef);
+        this.rigidbody.createFixture(body.fixtureDef);
+        if (!this.physicsOn) {
+            this.rigidbody.setDynamic();
+            this.rigidbody.getFixtureList().setSensor(true);
+            this.rigidbody.setGravityScale(0);
+        }
+        // compile the script if exist for this gameObject
         if (actor.scriptList.length) this.rule = new Rule(this);// this is the gameObject, no the actor
-        this.body = new Body(actor);
+        // store the previous state for render integration
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 

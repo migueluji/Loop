@@ -83,6 +83,7 @@ class Rule {
         var y = "Me.y = " + params.pivot_Y + " + dist * sin(Me.angle deg)";
         return (dist + dx0 + dy0 + angle0 + dx1 + dy1 + angle1 + da + daa + angle + x + y);
     }
+    
     // Conditions
     compare(params, nodeListTrue, nodeListFalse) {
         var dictionary = { "Less": "<", "Less Equal": "<=", "Equal": "==", "Greater Equal": ">=", "Greater": ">", "Different": "!=" };

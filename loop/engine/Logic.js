@@ -6,13 +6,13 @@ class Logic {
     }
 
     fixedUpdate(dt, t, frameTime) {
-        this.scope["Game"].deltaTime = dt / 1000;
-        this.scope["Game"].time = t / 1000;
-        this.scope["Game"].mouseX = Input.pointerX;
-        this.scope["Game"].mouseY = Input.pointerY;
-        this.scope["Game"].FPS = 1000 / frameTime;
-        this.gameObjects.forEach(gameObject => {
-            gameObject.fixedUpdate(dt / 1000, this.scope);
-        })
+        this.scope["Game"] = {
+            deltaTime: dt / 1000,
+            time: t / 1000,
+            mouseX: Input.pointerX,
+            mouseY: Input.pointerY,
+            FPS: 1000 / frameTime
+        }
+        this.gameObjects.forEach(gameObject => { gameObject.fixedUpdate(dt / 1000, this.scope); })
     }
 }

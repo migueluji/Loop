@@ -1,4 +1,5 @@
 class Body {
+    
     constructor(actor) {
         var collider;
         switch (actor.collider) {

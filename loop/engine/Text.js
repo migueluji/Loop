@@ -4,7 +4,6 @@ class Text {
         var textExpression = actor.text.replace(/Me./g, actor.name + "."); // chage Me by actor's name
         textExpression = textExpression.replace(/{/g, ""); // delete {
         textExpression = textExpression.replace(/}/g, ""); // delete }
-
         const style = new PIXI.TextStyle({
             fontFamily: actor.font,
             fill: actor.fill,

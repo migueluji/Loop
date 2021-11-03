@@ -4,7 +4,7 @@
 	"displayHeight": 480,
 	"cameraX": 0,
 	"cameraY": 0,
-	"cameraAngle": 0,
+	"cameraAngle": 16,
 	"cameraZoom": 1,
 	"backgroundColor": "#ffffff",
 	"soundOn": false,
@@ -139,6 +139,20 @@
 												"property": "Me.y",
 												"value": "Me.y+100"
 											}
+										}
+									],
+									"nodeListFalse": []
+								},
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Delete",
+											"parameters": {}
 										}
 									],
 									"nodeListFalse": []

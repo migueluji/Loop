@@ -8,7 +8,6 @@ class Container extends PIXI.Container {
         this.y = actor.y;
         this.angle = actor.angle;
         // Sprite properties
-        const existsImage = Boolean(player.file.loader.resources[actor.image]);
         this.sprite = new Sprite(actor);
         this.addChild(this.sprite);
         // Text properties

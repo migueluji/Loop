@@ -2,29 +2,30 @@ class Engine {
 
     constructor(gameModel) {
         this.ffps = 60;
-        //   this.fps = 60;
+        // this.fps = 60;
         this.dt = 1000 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         // Create data structures
         this.gameObjects = new Map();
         this.gameProperties = gameModel.allProperties;
         this.scope = new Object({ "Game": this.gameProperties, "Engine": this });
-        var zIndex = 0;
-        gameModel.sceneList[0].actorList.forEach(actor => {
-            actor.zIndex = zIndex;
-            var gameObject = new GameObject(actor);
-            this.gameObjects.set(actor.name, gameObject);
-            this.scope[actor.name] = gameObject;
-            zIndex++;
-        });
         // Create engines
         this.render = new Render(this);
         this.input = new Input(this);
         this.logic = new Logic(this);
         this.physics = new Physics(this);
+        // Create gameObjects
+        var zIndex = 0;
+        gameModel.sceneList[0].actorList.forEach(actor => {
+            actor.zIndex = zIndex;
+            var gameObject = new GameObject(this, actor);
+            this.gameObjects.set(actor.name, gameObject); // gameObjets Map
+            this.scope[actor.name] = gameObject; // gameObjects Scope
+            zIndex++;
+        });
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        console.log(this.gameObjects, this.scope, this.render, this.input, this.logic, this.physics);
+        // console.log(this.gameObjects, this.scope, this.render, this.input, this.logic, this.physics);
     };
 
     gameLoop(newTime) {
@@ -44,28 +45,17 @@ class Engine {
 
     spawn(gameObject, x, y, angle) {
         var spawnName = gameObject.name + Utils.id();
-        var spawnObject = new GameObject(this.gameObjects.get(gameObject.actor.name).actor, spawnName);
-        // create rigidbody
-        spawnObject.rigidbody = this.physics.world.createBody(spawnObject.body.bodyDef);
+        var spawnObject = new GameObject(this,this.gameObjects.get(gameObject.actor.name).actor, spawnName);
         spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
-        spawnObject.rigidbody.createFixture(spawnObject.body.fixtureDef);
-        spawnObject.rigidbody.setPosition(planck.Vec2(x * Physics.metersPerPixel, y * Physics.metersPerPixel));
-        spawnObject.rigidbody.setAngle(angle * Math.PI / 180);
-        if (!spawnObject.physicsOn) {
-            spawnObject.rigidbody.setDynamic();
-            spawnObject.rigidbody.getFixtureList().setSensor(true);
-            spawnObject.rigidbody.setGravityScale(0);
-        }
         spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
         // add spawnObject to data structures
         this.scope[spawnObject.name] = spawnObject;
         this.gameObjects.set(spawnObject.name, spawnObject);
-        // add spawnObject to stage
-        this.render.stage.addChild(spawnObject.container);
     }
 
     delete(actorName) {
         this.render.stage.removeChild(this.gameObjects.get(actorName).container);
+        this.physics.world.destroyBody(this.gameObjects.get(actorName).rigidbody);
         this.gameObjects.delete(actorName);
         delete this.scope[actorName];
     }
