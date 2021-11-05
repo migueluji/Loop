@@ -18,21 +18,6 @@ class Physics {
         this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
     }
 
-    collisionEndHandler(contact) {
-        var userDataA = contact.getFixtureA().getBody().getUserData();
-        var userDataB = contact.getFixtureB().getBody().getUserData();
-        var gameObjectA = this.gameObjects.get(userDataA.name);
-        var gameObjectB = this.gameObjects.get(userDataB.name);
-          if (gameObjectA.collision)
-            Object.keys(gameObjectA.collision).forEach(tag => {
-                if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag].delete(gameObjectB.name);
-            })
-        if (gameObjectB.collision)
-            Object.keys(gameObjectB.collision).forEach(tag => {
-                if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag].delete(gameObjectA.name);
-            })
-    }
-    
     collisionBeginHandler(contact) {
         var userDataA = contact.getFixtureA().getBody().getUserData();
         var userDataB = contact.getFixtureB().getBody().getUserData();
@@ -45,6 +30,21 @@ class Physics {
         if (gameObjectB.collision)
             Object.keys(gameObjectB.collision).forEach(tag => {
                 if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag].add(gameObjectA.name);
+            })
+    }
+
+    collisionEndHandler(contact) {
+        var userDataA = contact.getFixtureA().getBody().getUserData();
+        var userDataB = contact.getFixtureB().getBody().getUserData();
+        var gameObjectA = this.gameObjects.get(userDataA.name);
+        var gameObjectB = this.gameObjects.get(userDataB.name);
+          if (gameObjectA.collision)
+            Object.keys(gameObjectA.collision).forEach(tag => {
+                if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag].delete(gameObjectB.name);
+            })
+        if (gameObjectB.collision)
+            Object.keys(gameObjectB.collision).forEach(tag => {
+                if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag].delete(gameObjectA.name);
             })
     }
 }
