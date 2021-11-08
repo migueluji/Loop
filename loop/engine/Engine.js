@@ -35,10 +35,10 @@ class Engine {
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
             this.physics.fixedStep(this.dt);
+            this.logic.fixedUpdate(this.dt,this.t,this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
-        this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
         this.render.update(this.accumulator / this.dt);
         this.currentTime = newTime;
     }

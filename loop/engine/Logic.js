@@ -5,7 +5,7 @@ class Logic {
         this.scope = engine.scope;
     }
 
-    fixedUpdate(dt, t, frameTime) {
+    fixedUpdate(dt, t, frameTime) { // time in miliseconds
         this.scope["Game"] = {
             deltaTime: dt / 1000,
             time: t / 1000,

@@ -6,7 +6,7 @@ class Sprite {
         const sprite = new PIXI.TilingSprite();
         sprite.visible = actor.spriteOn;
         sprite.image = actor.image;
-        if (existsImage) sprite.texture = player.file.loader.resources[sprite.image].texture;
+        if (existsImage) sprite.texture = player.file.loader.resources[actor.image].texture;
         else {
             sprite.texture=PIXI.Texture.WHITE;
             sprite.texture.orig= new PIXI.Rectangle(0,0,50,50);
@@ -24,6 +24,7 @@ class Sprite {
         sprite.tileX = actor.tileX;
         sprite.tileY = actor.tileY;
         if (!scroll) sprite.cacheAsBitmap = true;
+        console.log(sprite.image,sprite.texture.width,sprite.width,sprite.tileX,sprite.scale.x)
         return (sprite);
     }
 }

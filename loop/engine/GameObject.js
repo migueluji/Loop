@@ -77,16 +77,28 @@ class GameObject {
     };
 
     get width() { return Math.abs(this.container.sprite.width * this.container.sprite.scale.x) };
-    set width(value) { this.container.sprite.scale.x = value / this.container.sprite.width };
+    set width(value) {  // sprite width don't include scale only tile
+        this.container.sprite.scale.x = value / this.container.sprite.width;
+        this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
+    };
 
     get height() { return Math.abs(this.container.sprite.height * this.container.sprite.scale.y) };
-    set height(value) { this.container.sprite.scale.y = value / this.container.sprite.height };
+    set height(value) {
+        this.container.sprite.scale.y = value / this.container.sprite.height;
+        this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
+    };
 
     get scaleX() { return this.container.sprite.scale.x };
-    set scaleX(value) { this.container.sprite.scale.x = value };
+    set scaleX(value) {
+        this.container.sprite.scale.x = value;
+        this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
+    };
 
     get scaleY() { return this.container.sprite.scale.y };
-    set scaleY(value) { this.container.sprite.scale.y = value };
+    set scaleY(value) {
+        this.container.sprite.scale.y = value;
+        this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
+    };
 
     get angle() { return this.container.angle };
     set angle(value) {
@@ -100,10 +112,18 @@ class GameObject {
     get image() { return this.container.sprite.image };
     set image(value) {
         if (value != this.container.sprite.image) {
-            this.container.removeChild(this.container.sprite);
-            this.actor.image = value;
-            this.container.sprite = new Sprite(this.actor);
-            this.container.addChildAt(this.container.sprite, 0);
+            var scaleX = this.scaleX;
+            var scaleY = this.scaleY;
+            this.container.sprite.texture = player.file.loader.resources[value].texture;
+            this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
+            this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
+            this.scaleX = scaleX;
+            this.scaleY = scaleY;
+            this.container.sprite.image = value;
+            console.log(this.image,this.width,this.scaleX, this.tileX);
+            this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
+
+         //   console.log(this.rigidbody.getFixtureList().m_shape);
         }
     };
 
@@ -180,4 +200,6 @@ class GameObject {
     set offsetY(value) {
         this.container.text.position.y = value;
     };
+
+
 }
