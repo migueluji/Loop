@@ -54,6 +54,7 @@ class Engine {
 
     delete(actorName) {
         this.render.stage.removeChild(this.gameObjects.get(actorName).container);
+        if (this.debug) this.render.stage.removeChild(this.gameObjects.get(actorName).debug);
         this.physics.world.destroyBody(this.gameObjects.get(actorName).rigidbody);
         this.gameObjects.delete(actorName);
         delete this.scope[actorName];
