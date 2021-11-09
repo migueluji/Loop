@@ -4,7 +4,7 @@ class Engine {
         this.ffps = 60;
         this.dt = 1000 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
-        this.debug = true;
+        this.debug = gameModel.debug;
         // Create data structures
         this.gameObjects = new Map();
         this.gameProperties = gameModel.allProperties;

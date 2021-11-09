@@ -24,7 +24,6 @@ class Sprite {
         sprite.tileX = actor.tileX;
         sprite.tileY = actor.tileY;
         if (!scroll) sprite.cacheAsBitmap = true;
-        console.log(sprite.image,sprite.texture.width,sprite.width,sprite.tileX,sprite.scale.x)
         return (sprite);
     }
 }

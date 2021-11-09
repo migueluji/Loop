@@ -137,15 +137,14 @@ class GameObject {
 
     get image() { return this.container.sprite.image };
     set image(value) {
+        console.log(value);
         if (value != this.container.sprite.image) {
-            this.container.sprite.texture = player.file.loader.resources[value].texture;
-      //      this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
-      //      this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
             this.container.sprite.image = value;
+            this.container.sprite.texture = player.file.loader.resources[value].texture;
+            this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
+            this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
             this.width = this.container.sprite.texture.width * this.tileX * this.scaleX;
             this.height = this.container.sprite.texture.height * this.tileY * this.scaleY;
-            // this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
-            // console.log(this.image, this.width, this.rigidbody.getFixtureList().m_shape);
         }
     };
 
@@ -222,6 +221,4 @@ class GameObject {
     set offsetY(value) {
         this.container.text.position.y = value;
     };
-
-
 }
