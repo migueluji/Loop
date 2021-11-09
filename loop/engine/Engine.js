@@ -2,9 +2,9 @@ class Engine {
 
     constructor(gameModel) {
         this.ffps = 60;
-        // this.fps = 60;
         this.dt = 1000 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
+        this.debug = true;
         // Create data structures
         this.gameObjects = new Map();
         this.gameProperties = gameModel.allProperties;
@@ -25,7 +25,6 @@ class Engine {
         });
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        // console.log(this.gameObjects, this.scope, this.render, this.input, this.logic, this.physics);
     };
 
     gameLoop(newTime) {

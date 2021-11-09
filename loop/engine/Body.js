@@ -4,7 +4,7 @@ class Body {
         var collider;
         switch (actor.collider) {
             case "Circle": {
-                var radius = (actor.widht > actor.height) ? actor.width / 2 * Physics.metersPerPixel :
+                var radius = (actor.width > actor.height) ? actor.width / 2 * Physics.metersPerPixel :
                     actor.height / 2 * Physics.metersPerPixel;
                 collider = planck.Circle(radius); break;
             }

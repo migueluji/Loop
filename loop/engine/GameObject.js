@@ -5,6 +5,7 @@ class GameObject {
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
         this.physicsOn = actor.physicsOn;
+        this.collider = actor.collider;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
@@ -16,6 +17,11 @@ class GameObject {
             this.rigidbody.setDynamic();
             this.rigidbody.getFixtureList().setSensor(true);
             this.rigidbody.setGravityScale(0);
+        }
+        // add bounding box to debug
+        if (engine.debug) {
+            this.debug = new PIXI.Graphics();
+            engine.render.stage.addChild(this.debug);
         }
         // compile the script if exist for this gameObject
         if (actor.scriptList.length) this.rule = new Rule(this);// this is the gameObject, no the actor
@@ -60,6 +66,26 @@ class GameObject {
             this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+
+        }
+        if (this.debug) {  // debug lines
+            this.debug.clear();
+            this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
+            this.debug.lineStyle(2, 0xFF0000);
+            switch(this.collider){
+                case "Box" : {
+                    var shape = this.rigidbody.getFixtureList().getShape();
+                    this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
+                    for (var v = 1; v < shape.m_count; v++) {
+                        this.debug.lineTo(shape.getVertex(v).x * Physics.pixelsPerMeter, shape.getVertex(v).y * Physics.pixelsPerMeter);
+                    }
+                    this.debug.lineTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter); break;
+                }
+                case "Circle" :{
+                    var radius = this.rigidbody.getFixtureList().getShape().m_radius;
+                    this.debug.drawCircle(0, 0, radius * Physics.pixelsPerMeter); break;
+                }
+            }
         }
     }
 
@@ -112,18 +138,14 @@ class GameObject {
     get image() { return this.container.sprite.image };
     set image(value) {
         if (value != this.container.sprite.image) {
-            var scaleX = this.scaleX;
-            var scaleY = this.scaleY;
             this.container.sprite.texture = player.file.loader.resources[value].texture;
-            this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
-            this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
-            this.scaleX = scaleX;
-            this.scaleY = scaleY;
+      //      this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
+      //      this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
             this.container.sprite.image = value;
-            console.log(this.image,this.width,this.scaleX, this.tileX);
-            this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
-
-         //   console.log(this.rigidbody.getFixtureList().m_shape);
+            this.width = this.container.sprite.texture.width * this.tileX * this.scaleX;
+            this.height = this.container.sprite.texture.height * this.tileY * this.scaleY;
+            // this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
+            // console.log(this.image, this.width, this.rigidbody.getFixtureList().m_shape);
         }
     };
 
