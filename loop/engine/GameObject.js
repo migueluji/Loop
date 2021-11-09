@@ -71,7 +71,7 @@ class GameObject {
         if (this.debug) {  // debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
-            this.debug.lineStyle(2, 0xFF0000);
+            this.debug.lineStyle(2, 0xFF0000,1,0.5);
             switch(this.collider){
                 case "Box" : {
                     var shape = this.rigidbody.getFixtureList().getShape();
