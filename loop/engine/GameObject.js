@@ -1,6 +1,7 @@
 class GameObject {
 
     constructor(engine, actor, spawnName) {
+        this.engine = engine;
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
@@ -137,18 +138,14 @@ class GameObject {
 
     get image() { return this.container.sprite.image };
     set image(value) {
-
         if (value != this.container.sprite.image) {
-            console.log(value);
-            value="planeGreen3.png";
-            console.log(value);
-            this.container.sprite.image = value;
-            this.container.sprite.texture = player.file.loader.resources[value].texture;
-            console.log(this.container.sprite.texture);
-            this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
-            this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
-            this.width = this.container.sprite.texture.width * this.tileX * this.scaleX;
-            this.height = this.container.sprite.texture.height * this.tileY * this.scaleY;
+            var sprite = this.container.sprite;
+            sprite.image = value;
+            sprite.texture = player.file.loader.resources[value].texture;
+            sprite.texture.rotate = 8;
+            sprite.width = sprite.texture.width * sprite.tileX;
+            sprite.height = sprite.texture.height * sprite.tileY;
+            this.rigidbody.getFixtureList().m_shape = Body.getCollider(this.collider,this.width,this.height);
         }
     };
 

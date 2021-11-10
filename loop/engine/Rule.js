@@ -7,6 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
+ //       console.log(expression);
         return (math.compile(expression));
     }
 

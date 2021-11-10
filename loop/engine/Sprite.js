@@ -23,7 +23,7 @@ class Sprite {
         sprite.scrollY = actor.scrollY;
         sprite.tileX = actor.tileX;
         sprite.tileY = actor.tileY;
-        if (!scroll) sprite.cacheAsBitmap = true;
+     //   if (!scroll) sprite.cacheAsBitmap = true;
         return (sprite);
     }
 }
