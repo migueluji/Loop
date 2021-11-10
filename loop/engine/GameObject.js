@@ -71,7 +71,7 @@ class GameObject {
         if (this.debug) {  // debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
-            this.debug.lineStyle(2, 0xFF0000,1,0.5);
+            this.debug.lineStyle(1, 0xFF0000,1,0.5);
             switch(this.collider){
                 case "Box" : {
                     var shape = this.rigidbody.getFixtureList().getShape();
@@ -137,10 +137,14 @@ class GameObject {
 
     get image() { return this.container.sprite.image };
     set image(value) {
-        console.log(value);
+
         if (value != this.container.sprite.image) {
+            console.log(value);
+            value="planeGreen3.png";
+            console.log(value);
             this.container.sprite.image = value;
             this.container.sprite.texture = player.file.loader.resources[value].texture;
+            console.log(this.container.sprite.texture);
             this.container.sprite.width = this.container.sprite.texture.width * this.tileX;
             this.container.sprite.height = this.container.sprite.texture.height * this.tileY;
             this.width = this.container.sprite.texture.width * this.tileX * this.scaleX;

@@ -89,6 +89,7 @@ class Engine {
         if (gameObject.timer[id].time + this.dt < 1000) gameObject.timer[id].time += this.dt;
         else gameObject.timer[id].time = 0;
         var frame = gameObject.timer[id].time / dtAnim;
+        console.log("animate ",gameObject.timer[id].time,frame,secuence[Math.floor(frame % secuence.length)]);
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
