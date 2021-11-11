@@ -54,16 +54,7 @@ class Engine {
     }
 
     delete(actorName) {
-<<<<<<< HEAD
         this.gameObjects.get(actorName).dead =true; // mark to be eliminated
-=======
-        this.render.stage.removeChild(this.gameObjects.get(actorName).container);
-        if (this.debug) this.render.stage.removeChild(this.gameObjects.get(actorName).debug);
-        this.physics.world.destroyBody(this.gameObjects.get(actorName).rigidbody);
-        this.gameObjects.delete(actorName);
-        delete this.scope[actorName];
-        console.log(actorName,this.scope,this.gameObjects);
->>>>>>> defafe052bb65424fc70a56d4d6f51238342f338
     }
 
     timer(gameObject, id, expression) {
