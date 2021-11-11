@@ -58,6 +58,7 @@ class Engine {
         this.physics.world.destroyBody(this.gameObjects.get(actorName).rigidbody);
         this.gameObjects.delete(actorName);
         delete this.scope[actorName];
+        console.log(actorName,this.scope,this.gameObjects);
     }
 
     timer(gameObject, id, expression) {
