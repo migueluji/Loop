@@ -137,7 +137,7 @@
 									"type": "Animate",
 									"parameters": {
 										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png",
-										"fps": "12"
+										"fps": 24
 									}
 								}
 							]
@@ -251,7 +251,7 @@
 								{
 									"type": "Touch",
 									"parameters": {
-										"mode": "Is Over",
+										"mode": "Tap",
 										"on_Actor": true
 									},
 									"nodeListTrue": [
