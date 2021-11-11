@@ -1,6 +1,7 @@
 class GameObject {
 
     constructor(engine, actor, spawnName) {
+        this.dead = false;
         this.engine = engine;
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
@@ -56,7 +57,16 @@ class GameObject {
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
             // update logic
-            if (this.rule) this.rule.eval(scope);
+            if (this.rule)
+                try { this.rule.eval(scope); }
+                catch (error) { console.log(error); }
+        }
+        if (this.dead) {
+            this.engine.render.stage.removeChild(this.container);
+            if (this.debug) this.engine.render.stage.removeChild(this.debug);
+            this.engine.physics.world.destroyBody(this.rigidbody);
+            this.engine.gameObjects.delete(this.name);
+            delete this.engine.scope[this.name];
         }
     }
 
@@ -72,9 +82,9 @@ class GameObject {
         if (this.debug) {  // debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
-            this.debug.lineStyle(1, 0xFF0000,1,0.5);
-            switch(this.collider){
-                case "Box" : {
+            this.debug.lineStyle(1, 0xFF0000, 1, 0.5);
+            switch (this.collider) {
+                case "Box": {
                     var shape = this.rigidbody.getFixtureList().getShape();
                     this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
                     for (var v = 1; v < shape.m_count; v++) {
@@ -82,7 +92,7 @@ class GameObject {
                     }
                     this.debug.lineTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter); break;
                 }
-                case "Circle" :{
+                case "Circle": {
                     var radius = this.rigidbody.getFixtureList().getShape().m_radius;
                     this.debug.drawCircle(0, 0, radius * Physics.pixelsPerMeter); break;
                 }
@@ -145,18 +155,12 @@ class GameObject {
             sprite.texture.rotate = 8;
             sprite.width = sprite.texture.width * sprite.tileX;
             sprite.height = sprite.texture.height * sprite.tileY;
-            this.rigidbody.getFixtureList().m_shape = Body.getCollider(this.collider,this.width,this.height);
+            this.rigidbody.getFixtureList().m_shape = Body.getCollider(this.collider, this.width, this.height);
         }
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };
-    set color(value) {
-        if (PIXI.utils.string2hex(value) != this.container.sprite.tint) {
-            this.container.sprite.cacheAsBitmap = false;
-            this.container.sprite.tint = PIXI.utils.string2hex(value);
-            this.container.sprite.cacheAsBitmap = true;
-        }
-    }
+    set color(value) { this.container.sprite.tint = PIXI.utils.string2hex(value) }
     get opacity() { return this.container.sprite.alpha };
     set opacity(value) { this.container.sprite.alpha = value };
 

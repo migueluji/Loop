@@ -43,21 +43,18 @@ class Engine {
     }
 
     spawn(gameObject, x, y, angle) {
-        var spawnName = gameObject.name + Utils.id();
-        var spawnObject = new GameObject(this,this.gameObjects.get(gameObject.actor.name).actor, spawnName);
-        spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
-        spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
-        // add spawnObject to data structures
-        this.scope[spawnObject.name] = spawnObject;
-        this.gameObjects.set(spawnObject.name, spawnObject);
+        if (this.gameObjects.get(gameObject.name)){ // spawn new gameObject if the object exists
+            var spawnName = gameObject.name + Utils.id();
+            var spawnObject = new GameObject(this,this.gameObjects.get(gameObject.actor.name).actor, spawnName);
+            spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
+            spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
+            this.scope[spawnObject.name] = spawnObject;
+            this.gameObjects.set(spawnObject.name, spawnObject);
+        }
     }
 
     delete(actorName) {
-        this.render.stage.removeChild(this.gameObjects.get(actorName).container);
-        if (this.debug) this.render.stage.removeChild(this.gameObjects.get(actorName).debug);
-        this.physics.world.destroyBody(this.gameObjects.get(actorName).rigidbody);
-        this.gameObjects.delete(actorName);
-        delete this.scope[actorName];
+        this.gameObjects.get(actorName).dead =true; // mark to be eliminated
     }
 
     timer(gameObject, id, expression) {

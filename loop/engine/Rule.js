@@ -7,7 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
- //       console.log(expression);
+        //       console.log(expression);
         return (math.compile(expression));
     }
 
@@ -43,7 +43,7 @@ class Rule {
     animate(params) {
         var id = Utils.id();
         if (!this.gameObject.timer) this.gameObject.timer = {}; // create timers if doesn't exist
-        this.gameObject.timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": 1 });;
+        this.gameObject.timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": 1 });
         return ("Engine.animate(" + this.gameObject.name + ",'" + id + "','" + params.animation + "'," + params.fps + ")");
     }
 
@@ -83,7 +83,7 @@ class Rule {
         var y = "Me.y = " + params.pivot_Y + " + dist * sin(Me.angle deg)";
         return (dist + dx0 + dy0 + angle0 + dx1 + dy1 + angle1 + da + daa + angle + x + y);
     }
-    
+
     // Conditions
     compare(params, nodeListTrue, nodeListFalse) {
         var dictionary = { "Less": "<", "Less Equal": "<=", "Equal": "==", "Greater Equal": ">=", "Greater": ">", "Different": "!=" };
