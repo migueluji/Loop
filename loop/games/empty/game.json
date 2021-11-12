@@ -58,11 +58,11 @@
 					"offsetX": 0,
 					"offsetY": 0,
 					"soundOn": false,
-					"sound": "",
+					"sound": "highDown.mp3",
 					"start": 0,
 					"volume": 1,
 					"pan": 0,
-					"loop": false,
+					"loop": true,
 					"physicsOn": true,
 					"type": "Dynamic",
 					"fixedAngle": false,
@@ -127,11 +127,9 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Push_To",
+											"type": "Play",
 											"parameters": {
-												"force": "20",
-												"x": "100",
-												"y": "100"
+												"sound_File": "highDown.mp3"
 											}
 										}
 									],

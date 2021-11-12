@@ -47,6 +47,10 @@ class Rule {
         return ("Engine.animate(" + this.gameObject.name + ",'" + id + "','" + params.animation + "'," + params.fps + ")");
     }
 
+    play(params){
+        return("Engine.play("+this.gameObject.name+",'"+params.sound_File+"')");
+    }
+
     move(params) {
         var x = "Me.x = Me.x + " + params.speed + " * Game.deltaTime * cos(" + params.angle + " deg);";
         var y = "Me.y = Me.y + " + params.speed + " * Game.deltaTime * sin(" + params.angle + " deg)";
@@ -89,7 +93,11 @@ class Rule {
     }
 
     push_to(params) {
-        return ("Engine.push_to(" + this.gameObject.name + "," + params.force + "," + params.x + "," + params.y + ")");
+        return ("Engine.pushTo(" + this.gameObject.name + "," + params.force + "," + params.x + "," + params.y + ")");
+    }
+
+    torque(params){
+        return ("Engine.torque(" + this.gameObject.name + "," + params.angle + ")");
     }
 
     // Conditions

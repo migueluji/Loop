@@ -67,14 +67,25 @@ class Engine {
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
+    play(gameObject,sound){
+        var actor = Object.assign({},gameObject.actor);
+        actor.sound=sound;
+        actor.soundOn=true;
+        var sound = new Sound(actor,true);
+    }
+
     push(gameObject, force, angle) {
         var forceX = force * Math.cos(angle * Math.PI / 180) * Physics.pixelsPerMeter;
         var forceY = force * Math.sin(angle * Math.PI / 180) * Physics.pixelsPerMeter;
         gameObject.rigidbody.applyForce(planck.Vec2(forceX, forceY), gameObject.rigidbody.getWorldCenter());
     }
 
-    push_to(gameObject, force, x, y) {
+    pushTo(gameObject, force, x, y) {
         this.push(gameObject, force, Math.atan2(y - gameObject.y, x - gameObject.x) * 180 / Math.PI);
+    }
+
+    torque(gameObject, angle) {
+        gameObject.rigidbody.applyTorque(angle * 180 / Math.PI);
     }
 
     timer(gameObject, id, expression) {

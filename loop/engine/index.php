@@ -31,6 +31,7 @@
 	</head>
 	
 	<body>
+		<button id="startTimer"></button>
 		<link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"></link>
 		<link rel="stylesheet" href="../editor/editor.css"></link>
 		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
@@ -52,7 +53,6 @@
         <script src="Physics.js"></script>
         <script src="Input.js"></script>
         <script src="Logic.js"></script>
-        <script src="Audio.js"></script>
         <script src="Render.js"></script>
 		<script src="Engine.js"></script>
 		
@@ -62,6 +62,7 @@
 		<script src="Sprite.js"></script>
 		<script src="Text.js"></script>
 		<script src="Rule.js"></script>
+		<script src="Sound.js"></script>
 
 		<script>
 			// requestAnimationFrame Polyfill

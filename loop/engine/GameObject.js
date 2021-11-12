@@ -7,8 +7,11 @@ class GameObject {
         this.name = (spawnName) ? spawnName : actor.name;
         this.sleeping = actor.sleeping;
         this.physicsOn = actor.physicsOn;
+        this.soundOn = actor.soundOn;
         this.collider = actor.collider;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
+        // add audio
+        if (actor.sound)  this.sound = new Sound(actor);
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
@@ -62,6 +65,7 @@ class GameObject {
                 catch (error) { console.log(error); }
         }
         if (this.dead) {
+            this.sound.stop();
             this.engine.render.stage.removeChild(this.container);
             if (this.debug) this.engine.render.stage.removeChild(this.debug);
             this.engine.physics.world.destroyBody(this.rigidbody);
