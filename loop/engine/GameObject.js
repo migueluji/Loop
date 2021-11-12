@@ -149,18 +149,22 @@ class GameObject {
     get image() { return this.container.sprite.image };
     set image(value) {
         if (value != this.container.sprite.image) {
-            var sprite = this.container.sprite;
-            sprite.image = value;
-            sprite.texture = player.file.loader.resources[value].texture;
-            sprite.texture.rotate = 8;
-            sprite.width = sprite.texture.width * sprite.tileX;
-            sprite.height = sprite.texture.height * sprite.tileY;
+            this.container.sprite.cacheAsBitmap = false;
+            this.container.sprite.image = value;
+            this.container.sprite.texture = player.file.loader.resources[value].texture;
+            this.container.sprite.texture.rotate = 8;
+            this.container.sprite.width = this.container.sprite.texture.width * this.container.sprite.tileX;
+            this.container.sprite.height = this.container.sprite.texture.height * this.container.sprite.tileY;
             this.rigidbody.getFixtureList().m_shape = Body.getCollider(this.collider, this.width, this.height);
         }
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };
-    set color(value) { this.container.sprite.tint = PIXI.utils.string2hex(value) }
+    set color(value) { 
+        this.container.sprite.cacheAsBitmap = false;
+        this.container.sprite.tint = PIXI.utils.string2hex(value) ;
+    }
+
     get opacity() { return this.container.sprite.alpha };
     set opacity(value) { this.container.sprite.alpha = value };
 

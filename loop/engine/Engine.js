@@ -34,7 +34,7 @@ class Engine {
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
             this.physics.fixedStep(this.dt);
-            this.logic.fixedUpdate(this.dt,this.t,this.frameTime);
+            this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
@@ -42,10 +42,11 @@ class Engine {
         this.currentTime = newTime;
     }
 
+    // engine commands
     spawn(gameObject, x, y, angle) {
-        if (this.gameObjects.get(gameObject.name)){ // spawn new gameObject if the object exists
+        if (gameObject) { // spawn new gameObject if exists
             var spawnName = gameObject.name + Utils.id();
-            var spawnObject = new GameObject(this,this.gameObjects.get(gameObject.actor.name).actor, spawnName);
+            var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
             spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
             this.scope[spawnObject.name] = spawnObject;
@@ -53,8 +54,27 @@ class Engine {
         }
     }
 
-    delete(actorName) {
-        this.gameObjects.get(actorName).dead =true; // mark to be eliminated
+    delete(gameObject) {
+        gameObject.dead = true; // mark to be eliminated
+    }
+
+    animate(gameObject, id, animation, fps) {
+        var secuence = animation.split(",");
+        var dtAnim = 1000 / fps;
+        if (gameObject.timer[id].time + this.dt < 1000) gameObject.timer[id].time += this.dt;
+        else gameObject.timer[id].time = 0;
+        var frame = gameObject.timer[id].time / dtAnim;
+        gameObject.image = secuence[Math.floor(frame % secuence.length)];
+    }
+
+    push(gameObject, force, angle) {
+        var forceX = force * Math.cos(angle * Math.PI / 180) * Physics.pixelsPerMeter;
+        var forceY = force * Math.sin(angle * Math.PI / 180) * Physics.pixelsPerMeter;
+        gameObject.rigidbody.applyForce(planck.Vec2(forceX, forceY), gameObject.rigidbody.getWorldCenter());
+    }
+
+    push_to(gameObject, force, x, y) {
+        this.push(gameObject, force, Math.atan2(y - gameObject.y, x - gameObject.x) * 180 / Math.PI);
     }
 
     timer(gameObject, id, expression) {
@@ -80,20 +100,8 @@ class Engine {
         return value;
     }
 
-    animate(gameObject, id, animation, fps) {
-        var secuence = animation.split(",");
-        var dtAnim = 1000 / fps;
-        if (gameObject.timer[id].time + this.dt < 1000) gameObject.timer[id].time += this.dt;
-        else gameObject.timer[id].time = 0;
-        var frame = gameObject.timer[id].time / dtAnim;
-        gameObject.image = secuence[Math.floor(frame % secuence.length)];
-    }
-
     keyboard(key, mode) {
-        var value = Input.keyList[key][mode];
-        Input.keyList[key].down = false;
-        Input.keyList[key].up = true;
-        return (value);
+        return (Input.keyList[key][mode]);
     }
 
     touch(mode, onActor, gameObject) {

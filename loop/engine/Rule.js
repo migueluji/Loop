@@ -7,7 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
-        //       console.log(expression);
+        // console.log(expression);
         return (math.compile(expression));
     }
 
@@ -37,7 +37,7 @@ class Rule {
     }
 
     delete() {
-        return ("Engine.delete(Me.name)");
+        return ("Engine.delete(" + this.gameObject.name + ")");
     }
 
     animate(params) {
@@ -82,6 +82,14 @@ class Rule {
         var x = "Me.x = " + params.pivot_X + " + dist * cos(Me.angle deg);";
         var y = "Me.y = " + params.pivot_Y + " + dist * sin(Me.angle deg)";
         return (dist + dx0 + dy0 + angle0 + dx1 + dy1 + angle1 + da + daa + angle + x + y);
+    }
+
+    push(params) {
+        return ("Engine.push(" + this.gameObject.name + "," + params.force + "," + params.angle + ")");
+    }
+
+    push_to(params) {
+        return ("Engine.push_to(" + this.gameObject.name + "," + params.force + "," + params.x + "," + params.y + ")");
     }
 
     // Conditions

@@ -15,7 +15,7 @@
 	"loop": false,
 	"physicsOn": true,
 	"gravityX": 0,
-	"gravityY": -9.8,
+	"gravityY": 0,
 	"tagList": [
 		"player",
 		"friend",
@@ -36,7 +36,7 @@
 					"scaleY": 1,
 					"angle": 21.908704828181925,
 					"screen": false,
-					"collider": "Box",
+					"collider": "Circle",
 					"tags": "player",
 					"spriteOn": true,
 					"image": "planeGreen1.png",
@@ -113,7 +113,7 @@
 											"type": "Edit",
 											"parameters": {
 												"property": "Me.y",
-												"value": "Me.y+100"
+												"value": "Me.y+300*Game.deltaTime"
 											}
 										}
 									],
@@ -122,13 +122,17 @@
 								{
 									"type": "Touch",
 									"parameters": {
-										"mode": "Down",
+										"mode": "Tap",
 										"on_Actor": true
 									},
 									"nodeListTrue": [
 										{
-											"type": "Delete",
-											"parameters": {}
+											"type": "Push_To",
+											"parameters": {
+												"force": "20",
+												"x": "100",
+												"y": "100"
+											}
 										}
 									],
 									"nodeListFalse": []
@@ -136,9 +140,18 @@
 								{
 									"type": "Animate",
 									"parameters": {
-										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png",
-										"fps": 24
+										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png,starGold.png",
+										"fps": "12"
 									}
+								},
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "ArrowRight",
+										"key_Mode": "Down"
+									},
+									"nodeListTrue": [],
+									"nodeListFalse": []
 								}
 							]
 						}
@@ -263,6 +276,13 @@
 												"y": "Me.y+300",
 												"angle": "0"
 											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.count",
+												"value": "Me.count+1"
+											}
 										}
 									],
 									"nodeListFalse": []
@@ -310,7 +330,8 @@
 								}
 							]
 						}
-					]
+					],
+					"count": 0
 				},
 				{
 					"name": "blue_copy",
@@ -448,12 +469,63 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "${Game.FPS}",
+					"text": "${Game.FPS}   ${blue.count}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#f4f0f0",
 					"style": "Normal",
 					"align": "Right",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": []
+				},
+				{
+					"name": "Actor_6",
+					"sleeping": false,
+					"x": 100,
+					"y": 100,
+					"width": 50,
+					"height": 50,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "",
+					"color": "#ce7e7e",
+					"opacity": 0.5,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
 					"soundOn": false,
