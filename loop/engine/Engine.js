@@ -14,6 +14,7 @@ class Engine {
         this.input = new Input(this);
         this.logic = new Logic(this);
         this.physics = new Physics(this);
+        this.audio = new Audio(this);
         // Create gameObjects
         var zIndex = 0;
         gameModel.sceneList[0].actorList.forEach(actor => {
@@ -25,6 +26,7 @@ class Engine {
         });
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
+      
     };
 
     gameLoop(newTime) {
@@ -35,6 +37,7 @@ class Engine {
         while (this.accumulator >= this.dt) {
             this.physics.fixedStep(this.dt);
             this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
+            this.audio.fixedUpdate();
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
@@ -67,11 +70,11 @@ class Engine {
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
-    play(gameObject,sound){
-        var actor = Object.assign({},gameObject.actor);
-        actor.sound=sound;
-        actor.soundOn=true;
-        var sound = new Sound(actor,true);
+    play(gameObject, sound) {
+        var actor = Object.assign({}, gameObject.actor);
+        actor.sound = sound;
+        actor.soundOn = true;
+        var sound = new Sound(actor, true);
     }
 
     push(gameObject, force, angle) {
@@ -124,6 +127,7 @@ class Engine {
         else {
             value = Input.pointer[mode];
             Input.pointer.tap = false;
+
         }
         return (value);
     }
