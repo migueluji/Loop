@@ -1,5 +1,5 @@
 class Sound {
-    constructor(actor,destroy) {
+    constructor(actor,dead) {
         console.log(actor.name,actor.soundOn,actor.sound,actor.volume,actor.start,actor.pan,actor.loop);
         var sound = new Howl({
             src: [serverGamesFolder + "/" + gameFolder + "/sounds/" + actor.sound],
@@ -8,8 +8,8 @@ class Sound {
             loop: actor.loop,
             volume: actor.volume,
             stereo: actor.pan,
-       //     format: actor.sound.split(".")[1],
-            onend: function () { if (destroy)  this.unload() }
+            format: actor.sound.split(".")[1],
+            onend: function () { if (dead)  this.load() }
         })
         return (sound);
     }

@@ -37,7 +37,7 @@ class Engine {
         while (this.accumulator >= this.dt) {
             this.physics.fixedStep(this.dt);
             this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
-            this.audio.fixedUpdate();
+            this.audio.fixedPlay();
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
@@ -75,6 +75,7 @@ class Engine {
         actor.sound = sound;
         actor.soundOn = true;
         var sound = new Sound(actor, true);
+        console.log(sound.state(),this.audio.music.state());
     }
 
     push(gameObject, force, angle) {

@@ -27,7 +27,7 @@ class Rule {
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
-        var specialProperties = ["color", "backgroundColor", "fill", "image", "font", "style", "align"];
+        var specialProperties = ["color", "backgroundColor", "fill", "image","sound","soundtrack","font", "style", "align"];
         if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes
         return (params.property + " = " + params.value);
     }
