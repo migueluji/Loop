@@ -9,7 +9,7 @@ class Sound {
             volume: actor.volume,
             stereo: actor.pan,
             format: actor.sound.split(".")[1],
-            onend: function () { if (dead)  this.load() }
+            onend: function () { if (dead)  this.unload() }
         })
         return (sound);
     }

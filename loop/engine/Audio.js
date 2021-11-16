@@ -12,7 +12,7 @@ class Audio {
             pan: this.gameProperties.pan,
             loop: this.gameProperties.loop
         }
-        this.music = new Sound(soundProperties);
+        this.music = new Sound(soundProperties,false);
     }
 
     fixedPlay() { 
