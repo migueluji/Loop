@@ -1,7 +1,9 @@
 class Audio {
 
     constructor(engine) {
+        this.gameObjects = engine.gameObjects;
         this.gameProperties = engine.gameProperties;
+        this.scope = engine.scope;
         this.startSound = engine.gameProperties.start;
         this.scope = engine.scope;
         var soundProperties = {
@@ -12,10 +14,11 @@ class Audio {
             pan: this.gameProperties.pan,
             loop: this.gameProperties.loop
         }
-        this.music = new Sound(soundProperties,false);
+        this.music = new Sound(soundProperties, false);
     }
 
-    fixedPlay() { 
+    fixedPlay() {
+        // update game music
         if (this.scope["Game"].soundOn) {
             if (!this.music.playing()) {
                 this.music.play();
@@ -26,13 +29,14 @@ class Audio {
             this.music.seek(this.scope["Game"].start);
             this.scope["Game"].start = this.startSound;
         }
-        if (this.music._src!=serverGamesFolder + "/" + gameFolder + "/sounds/" + this.scope["Game"].soundtrack) {
+        if (this.music._src != serverGamesFolder + "/" + gameFolder + "/sounds/" + this.scope["Game"].soundtrack) {
             this.music.unload();
-            this.music._src =serverGamesFolder + "/" + gameFolder + "/sounds/" + this.scope["Game"].soundtrack;
+            this.music._src = serverGamesFolder + "/" + gameFolder + "/sounds/" + this.scope["Game"].soundtrack;
             this.music.load();
         }
         this.music.volume(this.scope["Game"].volume);
         this.music.loop(this.scope["Game"].loop);
         this.music.stereo = this.scope["Game"].pan;
+        //this.gameObjects.forEach(gameObject => { gameObject.fixedPlay()});
     }
 }

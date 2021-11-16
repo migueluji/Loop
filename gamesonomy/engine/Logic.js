@@ -508,7 +508,7 @@ class Logic {
 
     Play(actor, parameters) {
 
-        /** Configuramos la expresion para que llame al motor de fisicas, y que este ejecute la funcion que aplica la fuerza sobre el actor. */
+        /** Configuramos la expresion para que llame al motor de audio, y que este ejecute la funcion que aplica la fuerza sobre el actor. */
         var expression = "engine.audio.PlaySound('" + parameters.sound_File + "', true, Me.volume, Me.pan)" + "\n";
 
         /* Creamos el nuevo nodo con su expresion correspondiente.*/

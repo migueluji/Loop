@@ -1,7 +1,7 @@
 class GameObject {
 
     constructor(engine, actor, spawnName) {
-        this.dead = false;
+        this.dead = false; // to be delete in logic fixedUpdate
         this.engine = engine;
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
@@ -9,9 +9,9 @@ class GameObject {
         this.physicsOn = actor.physicsOn;
         this.soundOn = actor.soundOn;
         this.collider = actor.collider;
-        for (let key in actor.newProperties) { this[key] = actor[key]; } // add new properties
+        for (let key in actor.newProperties) { this[key] = actor[key]; } // add new gameObject properties
         // add audio
-        if (actor.sound)  this.sound = new Sound(actor);
+        if (actor.sound)  this.sound = new Sound(actor,false);
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
@@ -32,6 +32,13 @@ class GameObject {
         if (actor.scriptList.length) this.rule = new Rule(this);// this is the gameObject, no the actor
         // store the previous state for render integration
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
+    }
+
+    fixedPlay(){
+    //    if(this.sound) {
+    //        //if (!this.sound.playing() ) this.sound.play();
+    //        console.log(this.name,this.sound._loop);
+    //    }
     }
 
     fixedStep() {
@@ -234,4 +241,9 @@ class GameObject {
     set offsetY(value) {
         this.container.text.position.y = value;
     };
+
+    get loop() {return this.sound._loop}
+    set loop(value){
+        this.sound.loop(value);
+    }
 }

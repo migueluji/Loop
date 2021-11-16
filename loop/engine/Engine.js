@@ -70,12 +70,8 @@ class Engine {
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
-    play(gameObject, sound) {
-        var actor = Object.assign({}, gameObject.actor);
-        actor.sound = sound;
-        actor.soundOn = true;
-        var sound = new Sound(actor, true);
-        console.log(sound.state(),this.audio.music.state());
+    play(gameObject, soundID) {
+        gameObject.playList[soundID].play();
     }
 
     push(gameObject, force, angle) {
