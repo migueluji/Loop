@@ -1,32 +1,53 @@
 class File {
 
-    load(URL, app) {
+    loadJson(URL, app) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (this.readyState == this.DONE && this.status == 200) {
                 var json = JSON.parse(this.responseText);
-                app.onFileLoaded(json);
+                app.onJsonLoaded(json);
             }
         }
         xhr.open("GET", URL, true);
         xhr.send();
     }
 
-    loadAssets(URL, imageList, app) {
-        this.loader = new PIXI.Loader(URL);
-        if (imageList) this.loader.add(imageList);
-        else this.loader.add("Loader", "https://gamesonomy.com/editor/images/gamesonomy.png");// trick to initialize the loader when there is not /image folder
+    loadImages(URL, json, app) {
+        this.loader = new PIXI.Loader(URL + "/images");
+        if (json.imageList) this.loader.add(json.imageList);
+        else this.loader.add("Loader", "../../../../editor/images/loop.png");// trick to initialize the loader when there is not /image folder
         this.loader.onLoad.add((loader, resource) => {
             console.log(resource.name, " loaded");
         });
         this.loader.load(() => {
-            console.log("Load finished!");
+            console.log("Loaded images!");
             if (app.file.loader.resources.hasOwnProperty("Loader")) {
                 app.file.loader.resources["Loader"].texture.destroy(true);
                 delete app.file.loader.resources["Loader"];
             }
-            app.onAssetLoaded();
+            app.onImagesLoaded();
         });
+    }
+
+    loadSounds(URL, json, app) {
+        this.playList = {};
+        this.soundCount = json.soundList.length;
+        json.soundList.forEach(sound => {
+            this.playList[sound.name] = new Howl({
+                src: [URL + "/sounds/" + sound.name],
+                format: sound.name.split(".")[1],
+                onload: this.onLoadSound.bind(this, sound, app), // wait to load a sound
+            })
+        })
+    }
+
+    onLoadSound(sound, app) {
+        this.soundCount--;
+        console.log(sound.name, " loaded");
+        if (!this.soundCount) {
+            console.log("Loaded sounds!");
+            app.onSoundsLoaded(); // after load sounds return to app
+        }
     }
 
     static save(json) {

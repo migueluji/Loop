@@ -8,12 +8,16 @@ class App {
         this.load = new LoadingView("var(--mdc-theme-primary)");
         document.body.appendChild(this.load.html);
 
-        this.file.load(this.serverGamesFolder+"/loadJson.php?gameFolder="+this.gameFolder,this);
+        this.file.loadJson(this.serverGamesFolder+"/loadJson.php?gameFolder="+this.gameFolder,this);
     }
     
-    onFileLoaded(json){
+    onJsonLoaded(json){
         this.data=json;
-        this.file.loadAssets(this.serverGamesFolder+"/"+this.gameFolder+"/images",json.imageList,this);
+        this.file.loadImages(this.serverGamesFolder+"/"+this.gameFolder,json,this);
+    }
+
+    onImagesLoaded(){
+        this.onAssetLoaded();
     }
 
     onAssetLoaded(){

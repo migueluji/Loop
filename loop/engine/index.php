@@ -54,7 +54,7 @@
         <script src="Input.js"></script>
         <script src="Logic.js"></script>
         <script src="Render.js"></script>        
-		<script src="Audio.js"></script>
+		<script src="Aural.js"></script>
 		<script src="Engine.js"></script>
 		
 		<script src="GameObject.js"></script>

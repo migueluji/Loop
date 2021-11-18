@@ -1,6 +1,7 @@
-class Audio {
+class Aural {
 
     constructor(engine) {
+        console.log("Audio ",engine);
         this.gameObjects = engine.gameObjects;
         this.gameProperties = engine.gameProperties;
         this.scope = engine.scope;

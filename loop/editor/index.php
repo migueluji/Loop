@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="scripts.css"></link>
 
 	<script src="https://pixijs.download/v6.1.3/pixi.min.js"></script>
+	<script src="../engine/libraries/howler.min.js"></script>
 
 	<script src="App.js"></script>
 	<script src="Editor.js"></script>
