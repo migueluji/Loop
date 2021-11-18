@@ -71,7 +71,7 @@ class Engine {
     }
 
     play(gameObject, soundID) {
-        gameObject.playList[soundID].play();
+       // gameObject.playList[soundID].play();
     }
 
     push(gameObject, force, angle) {

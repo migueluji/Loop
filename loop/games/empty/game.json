@@ -9,9 +9,9 @@
 	"backgroundColor": "#ffffff",
 	"soundOn": true,
 	"soundtrack": "highDown.mp3",
-	"volume": 0.2,
+	"volume": 0.5,
 	"start": 0,
-	"pan": 0,
+	"pan": 0.5,
 	"loop": true,
 	"physicsOn": true,
 	"gravityX": 0,
@@ -81,7 +81,7 @@
 								{
 									"type": "Touch",
 									"parameters": {
-										"mode": "Tap",
+										"mode": "Down",
 										"on_Actor": true
 									},
 									"nodeListTrue": [
@@ -97,8 +97,8 @@
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "Game.pan",
-												"value": "-1"
+												"property": "Game.soundOn",
+												"value": false
 											}
 										}
 									]
@@ -110,7 +110,7 @@
 				{
 					"name": "Actor_2",
 					"sleeping": false,
-					"x": -33.5,
+					"x": -34.5,
 					"y": 209.5,
 					"width": 50,
 					"height": 50,
@@ -139,12 +139,12 @@
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
+					"soundOn": true,
+					"sound": "highDown.mp3",
 					"start": 0,
 					"volume": 1,
 					"pan": 0,
-					"loop": false,
+					"loop": true,
 					"physicsOn": false,
 					"type": "Dynamic",
 					"fixedAngle": false,
@@ -219,9 +219,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Play",
+											"type": "Edit",
 											"parameters": {
-												"sound_File": "highDown.mp3"
+												"property": "Actor_2.sound",
+												"value": "Nine Lives - Unicorn Heads.mp3"
 											}
 										}
 									],

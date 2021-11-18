@@ -1,43 +1,27 @@
 class Aural {
 
     constructor(engine) {
-        console.log("Audio ",engine);
         this.gameObjects = engine.gameObjects;
         this.gameProperties = engine.gameProperties;
         this.scope = engine.scope;
-        this.startSound = engine.gameProperties.start;
-        this.scope = engine.scope;
-        var soundProperties = {
-            sound: this.gameProperties.soundtrack,
-            soundOn: this.gameProperties.soundOn,
-            volume: this.gameProperties.volume,
-            start: this.gameProperties.start,
-            pan: this.gameProperties.pan,
-            loop: this.gameProperties.loop
-        }
-        this.music = new Sound(soundProperties, false);
+        this.music = new Sound(this.gameProperties.soundtrack);
     }
 
     fixedPlay() {
         // update game music
-        if (this.scope["Game"].soundOn) {
-            if (!this.music.playing()) {
-                this.music.play();
-            }
+        if (this.music.source._src != player.file.playList[this.scope["Game"].soundtrack]._src) { // change soundtrack
+            this.music.source.stop(this.music.id);
+            this.music = new Sound(this.scope["Game"].soundtrack );
         }
-        else this.music.stop();
-        if (this.startSound != this.scope["Game"].start) {
-            this.music.seek(this.scope["Game"].start);
-            this.scope["Game"].start = this.startSound;
+        if (!this.scope["Game"].soundOn) this.music.source.stop(this.music.id);
+        else if (!this.music.source.playing(this.musicID)) {
+            console.log("play", this.music.id);
+            this.music.source.loop(this.scope["Game"].loop);
+            this.music.source.seek(this.scope["Game"].start);
+            this.music.source.volume(this.scope["Game"].volume);
+            this.music.source.stereo(this.scope["Game"].stereo);
+            this.music.source.play(this.music.id);
         }
-        if (this.music._src != serverGamesFolder + "/" + gameFolder + "/sounds/" + this.scope["Game"].soundtrack) {
-            this.music.unload();
-            this.music._src = serverGamesFolder + "/" + gameFolder + "/sounds/" + this.scope["Game"].soundtrack;
-            this.music.load();
-        }
-        this.music.volume(this.scope["Game"].volume);
-        this.music.loop(this.scope["Game"].loop);
-        this.music.stereo = this.scope["Game"].pan;
-        //this.gameObjects.forEach(gameObject => { gameObject.fixedPlay()});
+        this.gameObjects.forEach(gameObject => { gameObject.fixedPlay() });
     }
 }

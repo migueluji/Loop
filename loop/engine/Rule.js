@@ -48,11 +48,10 @@ class Rule {
     }
 
     play(params){
-        console.log(params);
-        var id = Utils.id();
-        if (!this.gameObject.playList) this.gameObject.playList = {} // creat play list if doesn't exist
-        this.gameObject.playList[id] = new Sound({sound:params.sound_File});
-        return("Engine.play("+this.gameObject.name+",'"+id+"')");
+        // var id = Utils.id();
+        // if (!this.gameObject.playList) this.gameObject.playList = {} // creat play list if doesn't exist
+        // this.gameObject.playList[id] = new Sound({sound:params.sound_File});
+        // return("Engine.play("+this.gameObject.name+",'"+id+"')");
     }
 
     move(params) {

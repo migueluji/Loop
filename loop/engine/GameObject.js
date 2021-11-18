@@ -8,10 +8,11 @@ class GameObject {
         this.sleeping = actor.sleeping;
         this.physicsOn = actor.physicsOn;
         this.soundOn = actor.soundOn;
+        this.sound = actor.sound;
         this.collider = actor.collider;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new gameObject properties
         // add audio
-        if (actor.sound)  this.sound = new Sound(actor,false);
+        if (actor.sound) this.audio = new Sound(actor.sound);
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
@@ -34,11 +35,21 @@ class GameObject {
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 
-    fixedPlay(){
-    //    if(this.sound) {
-    //        //if (!this.sound.playing() ) this.sound.play();
-    //        console.log(this.name,this.sound._loop);
-    //    }
+    fixedPlay() {
+        if (this.audio) {
+            if (this.audio.source._src != player.file.playList[this.sound]._src) { // change soundtrack
+                this.audio.source.stop(this.audio.id);
+                this.audio = new Sound(this.sound);
+            }
+            if (!this.soundOn) this.sound.source.stop(this.audio.id);
+            else if (!this.audio.source.playing(this.audio.id)) {
+                this.audio.source.loop(this.loop);
+                this.audio.source.seek(this.start);
+                this.audio.source.volume(this.volume);
+                this.audio.source.stereo(this.stereo);
+                this.audio.source.play(this.audio.id);
+            }
+        }
     }
 
     fixedStep() {
@@ -171,9 +182,9 @@ class GameObject {
     };
 
     get color() { return PIXI.utils.hex2string(this.container.sprite.tint) };
-    set color(value) { 
+    set color(value) {
         this.container.sprite.cacheAsBitmap = false;
-        this.container.sprite.tint = PIXI.utils.string2hex(value) ;
+        this.container.sprite.tint = PIXI.utils.string2hex(value);
     }
 
     get opacity() { return this.container.sprite.alpha };
@@ -242,8 +253,9 @@ class GameObject {
         this.container.text.position.y = value;
     };
 
-    get loop() {return this.sound._loop}
-    set loop(value){
+    get loop() { return this.sound._loop }
+    set loop(value) {
         this.sound.loop(value);
     }
+
 }
