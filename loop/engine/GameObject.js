@@ -12,7 +12,13 @@ class GameObject {
         this.collider = actor.collider;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new gameObject properties
         // add audio
-        if (actor.sound) this.audio = new Sound(actor.sound);
+        if (actor.sound) {
+            this.audio = new Sound(actor.sound);
+            this.audio.source.volume(actor.volume);
+            this.audio.source.loop(actor.loop);
+            this.audio.source.stereo(actor.pan);
+            this.audio.source.seek(actor.start);
+        }
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
@@ -37,18 +43,12 @@ class GameObject {
 
     fixedPlay() {
         if (this.audio) {
-            if (this.audio.source._src != player.file.playList[this.sound]._src) { // change soundtrack
+            if (this.audio.source._src != player.file.playList[this.sound]._src) { // change sound file
                 this.audio.source.stop(this.audio.id);
                 this.audio = new Sound(this.sound);
             }
-            if (!this.soundOn) this.sound.source.stop(this.audio.id);
-            else if (!this.audio.source.playing(this.audio.id)) {
-                this.audio.source.loop(this.loop);
-                this.audio.source.seek(this.start);
-                this.audio.source.volume(this.volume);
-                this.audio.source.stereo(this.stereo);
-                this.audio.source.play(this.audio.id);
-            }
+            if (!this.soundOn) this.audio.source.stop(this.audio.id);
+            else this.audio.source.play(this.audio.id);
         }
     }
 
@@ -249,13 +249,18 @@ class GameObject {
     };
 
     get offsetY() { return this.container.text.position.y };
-    set offsetY(value) {
-        this.container.text.position.y = value;
-    };
+    set offsetY(value) { this.container.text.position.y = value };
 
-    get loop() { return this.sound._loop }
-    set loop(value) {
-        this.sound.loop(value);
-    }
+    get volume() { return this.audio.source.volume() };
+    set volume(value) { this.audio.source.volume(value) };
+
+    get start() { return this.audio.source.seek() };
+    set start(value) { this.audio.source.seek(value) };
+
+    get pan() { return this.audio.source.stereo() };
+    set pan(value) { this.audio.source.stereo(value) };
+
+    get loop() { return this.audio.source.loop() }
+    set loop(value) { this.audio.source.loop(value) };
 
 }

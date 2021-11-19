@@ -71,7 +71,10 @@ class Engine {
     }
 
     play(gameObject, soundID) {
-       // gameObject.playList[soundID].play();
+        var sound = gameObject.playList[soundID];
+        sound.source.loop(false);
+        sound.source.volume(gameObject.volume); // sounds with game object volume
+        sound.source.play(sound.id);
     }
 
     push(gameObject, force, angle) {
