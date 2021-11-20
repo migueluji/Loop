@@ -10,7 +10,6 @@ class Engine {
         this.gameProperties = gameModel.allProperties;
         this.scope = new Object({ "Game": this.gameProperties, "Engine": this });
         // Create engines
-        console.log(this);
         this.render = new Render(this);
         this.input = new Input(this);
         this.logic = new Logic(this);
@@ -37,10 +36,10 @@ class Engine {
         while (this.accumulator >= this.dt) {
             this.physics.fixedStep(this.dt);
             this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
-            this.aural.fixedPlay();
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
+        this.aural.play();
         this.render.update(this.accumulator / this.dt);
         this.currentTime = newTime;
     }
@@ -74,7 +73,7 @@ class Engine {
         var sound = gameObject.playList[soundID];
         sound.source.loop(false);
         sound.source.volume(gameObject.volume); // sounds with game object volume
-        sound.source.play(sound.id);
+        sound.source.play(sound.id);   
     }
 
     push(gameObject, force, angle) {

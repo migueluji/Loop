@@ -31,7 +31,6 @@
 	</head>
 	
 	<body>
-		<button id="startTimer"></button>
 		<link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"></link>
 		<link rel="stylesheet" href="../editor/editor.css"></link>
 		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>

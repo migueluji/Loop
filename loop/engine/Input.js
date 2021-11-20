@@ -2,7 +2,6 @@ class Input {
     static keyList = {};
     static pointer = { down: false, up: true, over: false, tap: false };
     static gameObjects = {};
-    static keyUP = true; // to avoid repeated keydown events
 
     constructor(engine) {
         Input.pointerX = engine.gameProperties.mouseX;
@@ -22,13 +21,13 @@ class Input {
     }
 
     static addKey(key) {
-        if (!this.keyList.hasOwnProperty(key)) 
+        if (!this.keyList.hasOwnProperty(key))
             this.keyList[key] = { down: false, up: true, pressed: false };
     }
 
     static addActor(gameObject) {
         var name = gameObject.name;
-        if (!this.gameObjects.hasOwnProperty(name))
+        if (!this.gameObjects.hasOwnProperty(name)) 
             this.gameObjects[name] = { down: false, up: false, over: false, tap: false };
 
         gameObject.container.interactive = true;
@@ -75,18 +74,18 @@ class Input {
     }
 
     static keyDownHandler(event) {
+        console.log("down");
         event.preventDefault();
-        if ((Input.keyUP) && (Input.keyList.hasOwnProperty(event.code))) {
-            Input.keyList[event.code] = { down: true, up: false, pressed: true };
-            Input.keyUP = false;
+        if (Input.keyList.hasOwnProperty(event.code)) {
+            Input.keyList[event.code] = { down: !Input.keyList[event.code].pressed, up: false, pressed: true };
         }
     }
 
     static keyUpHandler(event) {
+        console.log("up");
         event.preventDefault();
         if (Input.keyList.hasOwnProperty(event.code)) {
             Input.keyList[event.code] = { down: false, up: true, pressed: false };
         }
-        Input.keyUP = true;
     }
 }

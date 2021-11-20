@@ -8,17 +8,12 @@ class GameObject {
         this.sleeping = actor.sleeping;
         this.physicsOn = actor.physicsOn;
         this.soundOn = actor.soundOn;
-        this.sound = actor.sound;
+        // this.sound = actor.sound;
         this.collider = actor.collider;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new gameObject properties
         // add audio
-        if (actor.sound) {
-            this.audio = new Sound(actor.sound);
-            this.audio.source.volume(actor.volume);
-            this.audio.source.loop(actor.loop);
-            this.audio.source.stereo(actor.pan);
-            this.audio.source.seek(actor.start);
-        }
+        var soundOpt = { volume: actor.volume, loop: actor.loop, pan: actor.pan, start: actor.start }
+        if (actor.sound) this.audio = new Sound(actor.sound, soundOpt);
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
@@ -41,14 +36,10 @@ class GameObject {
         this.previousState = { x: actor.x, y: actor.y, angle: actor.angle, tilePositionX: 0, tilePositionY: 0 };
     }
 
-    fixedPlay() {
+    play() {
         if (this.audio) {
-            if (this.audio.source._src != player.file.playList[this.sound]._src) { // change sound file
-                this.audio.source.stop(this.audio.id);
-                this.audio = new Sound(this.sound);
-            }
-            if (!this.soundOn) this.audio.source.stop(this.audio.id);
-            else this.audio.source.play(this.audio.id);
+            if (this.soundOn) this.audio.source.play(this.audio.id);
+            else this.audio.source.stop(this.audio.id);
         }
     }
 
@@ -250,6 +241,15 @@ class GameObject {
 
     get offsetY() { return this.container.text.position.y };
     set offsetY(value) { this.container.text.position.y = value };
+
+    get sound() { }
+    set sound(value) {
+        console.log(value, this.audio);
+        if (this.audio.source._src != player.file.playList[value]._src) { // change sound file
+            this.audio.source.stop(this.audio.id);
+            this.audio = new Sound(value);
+        }
+    }
 
     get volume() { return this.audio.source.volume() };
     set volume(value) { this.audio.source.volume(value) };
