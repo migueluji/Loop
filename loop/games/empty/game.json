@@ -301,13 +301,28 @@
 									},
 									"nodeListTrue": [
 										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.color",
+												"value": "#e33131"
+											}
+										},
+										{
 											"type": "Play",
 											"parameters": {
 												"sound_File": "laserSmall_001.ogg"
 											}
 										}
 									],
-									"nodeListFalse": []
+									"nodeListFalse": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.color",
+												"value": "#ffffff"
+											}
+										}
+									]
 								}
 							]
 						}

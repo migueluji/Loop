@@ -15,6 +15,7 @@ class Engine {
         this.logic = new Logic(this);
         this.physics = new Physics(this);
         this.aural = new Aural(this);
+        this.played = false;
         // Create gameObjects
         var zIndex = 0;
         gameModel.sceneList[0].actorList.forEach(actor => {
@@ -74,10 +75,11 @@ class Engine {
         sound.source.loop(false);
         sound.source.volume(gameObject.volume); // sounds with game object volume
         sound.source.play(sound.id);   
-        console.log(".....", sound,sound.id);
-        sound.source.on('end',function(id){
-            sound.source.stop();
-        })
+        // sound.source.on('end',function(id){
+        //     sound.source.stop();
+        //     console.log("end",sound.source,sound.id);
+        //     this.played= true;
+        // })
     }
 
     push(gameObject, force, angle) {
@@ -118,6 +120,7 @@ class Engine {
     }
 
     keyboard(key, mode) {
+        console.log(Input.keyList[key][mode]);
         return (Input.keyList[key][mode]);
     }
 

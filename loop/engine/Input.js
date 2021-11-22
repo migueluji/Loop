@@ -77,6 +77,7 @@ class Input {
         event.preventDefault();
         if (Input.keyList.hasOwnProperty(event.code)) {
             Input.keyList[event.code] = { down: !Input.keyList[event.code].pressed, up: false, pressed: true };
+          //  console.log(Input.keyList[event.code] );
         }
     }
 
