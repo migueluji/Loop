@@ -244,7 +244,6 @@ class GameObject {
 
     get sound() { }
     set sound(value) {
-        console.log(value, this.audio);
         if (this.audio.source._src != player.file.playList[value]._src) { // change sound file
             this.audio.source.stop(this.audio.id);
             this.audio = new Sound(value);

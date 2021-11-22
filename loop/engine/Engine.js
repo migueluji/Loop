@@ -70,15 +70,13 @@ class Engine {
     }
 
     play(gameObject, soundID) {
-        console.log("play ",soundID)
         var sound = gameObject.playList[soundID];
         sound.source.loop(false);
         sound.source.volume(gameObject.volume); // sounds with game object volume
-        sound.source.load(sound.id);
         sound.source.play(sound.id);   
-        sound.source.on('end',function(id,b){
-            console.log("fin ",sound.source,id,b);
-            sound.source.unload(sound.id);
+        console.log(".....", sound,sound.id);
+        sound.source.on('end',function(id){
+            sound.source.stop();
         })
     }
 

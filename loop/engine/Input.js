@@ -74,7 +74,6 @@ class Input {
     }
 
     static keyDownHandler(event) {
-        console.log("down");
         event.preventDefault();
         if (Input.keyList.hasOwnProperty(event.code)) {
             Input.keyList[event.code] = { down: !Input.keyList[event.code].pressed, up: false, pressed: true };
@@ -82,7 +81,6 @@ class Input {
     }
 
     static keyUpHandler(event) {
-        console.log("up");
         event.preventDefault();
         if (Input.keyList.hasOwnProperty(event.code)) {
             Input.keyList[event.code] = { down: false, up: true, pressed: false };
