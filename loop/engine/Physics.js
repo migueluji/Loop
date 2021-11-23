@@ -15,6 +15,7 @@ class Physics {
 
     fixedStep(dt) {
         this.world.step(dt / 1000);
+        // update gameObjects
         this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
     }
 

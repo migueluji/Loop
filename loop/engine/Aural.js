@@ -24,6 +24,7 @@ class Aural {
         }
         this.music.source.stereo(this.scope["Game"].pan);
         this.music.source.loop(this.scope["Game"].loop);
+        // update gameObjects
         this.gameObjects.forEach(gameObject => { gameObject.play() });
     }
 }

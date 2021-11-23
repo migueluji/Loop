@@ -19,6 +19,7 @@ class GameObject {
         // add rigidbody to world
         var body = new Body(actor);
         this.rigidbody = engine.physics.world.createBody(body.bodyDef);
+        console.log(this.rigidbody);
         this.rigidbody.createFixture(body.fixtureDef);
         if (!this.physicsOn) {
             this.rigidbody.setDynamic();
@@ -74,7 +75,7 @@ class GameObject {
                 catch (error) { console.log(error); }
         }
         if (this.dead) {
-            this.sound.stop();
+            if (this.audio) this.audio.source.stop(this.audio.id);
             this.engine.render.stage.removeChild(this.container);
             if (this.debug) this.engine.render.stage.removeChild(this.debug);
             this.engine.physics.world.destroyBody(this.rigidbody);
@@ -245,8 +246,10 @@ class GameObject {
     get sound() { }
     set sound(value) {
         if (this.audio.source._src != player.file.playList[value]._src) { // change sound file
+            var volume = this.volume; // get previous volume
             this.audio.source.stop(this.audio.id);
             this.audio = new Sound(value);
+            this.volume = volume; // update volume
         }
     }
 
@@ -261,5 +264,14 @@ class GameObject {
 
     get loop() { return this.audio.source.loop() }
     set loop(value) { this.audio.source.loop(value) };
+
+    get velocityX() { 
+        console.log(this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
+        return this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter; 
+    };
+    set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
+
+    get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
+    set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
 
 }

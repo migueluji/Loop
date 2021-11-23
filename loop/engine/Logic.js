@@ -11,6 +11,7 @@ class Logic {
         this.scope["Game"].mouseX = Input.pointerX;
         this.scope["Game"].mouseY = Input.pointerY;
         this.scope["Game"].FPS = 1000 / frameTime;
+        // update gameObjects
         this.gameObjects.forEach(gameObject => { gameObject.fixedUpdate(dt / 1000, this.scope); })
     }
 }

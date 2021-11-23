@@ -15,7 +15,6 @@ class Engine {
         this.logic = new Logic(this);
         this.physics = new Physics(this);
         this.aural = new Aural(this);
-        this.played = false;
         // Create gameObjects
         var zIndex = 0;
         gameModel.sceneList[0].actorList.forEach(actor => {
@@ -74,12 +73,7 @@ class Engine {
         var sound = gameObject.playList[soundID];
         sound.source.loop(false);
         sound.source.volume(gameObject.volume); // sounds with game object volume
-        sound.source.play(sound.id);   
-        // sound.source.on('end',function(id){
-        //     sound.source.stop();
-        //     console.log("end",sound.source,sound.id);
-        //     this.played= true;
-        // })
+        sound.source.play(sound.id);
     }
 
     push(gameObject, force, angle) {
@@ -120,8 +114,9 @@ class Engine {
     }
 
     keyboard(key, mode) {
-        console.log(Input.keyList[key][mode]);
-        return (Input.keyList[key][mode]);
+        var value = Input.keyList[key][mode]; // read key input
+        if (Input.keyList[key].down) Input.keyList[key].down = false; // after reading the input value the key is reset
+        return (value);
     }
 
     touch(mode, onActor, gameObject) {
@@ -133,7 +128,6 @@ class Engine {
         else {
             value = Input.pointer[mode];
             Input.pointer.tap = false;
-
         }
         return (value);
     }
