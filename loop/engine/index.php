@@ -25,7 +25,7 @@
 
 		</style>
 	
-		<title>Gamesonomy Engine</title>
+		<title>Loop Engine</title>
 		<!--span id="fps" style="display:flex;justify-content: center;align-items: center;color:white;font-size:36px;font-family:'Lato'">--</span-->
 
 	</head>

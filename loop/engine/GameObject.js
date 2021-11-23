@@ -19,7 +19,6 @@ class GameObject {
         // add rigidbody to world
         var body = new Body(actor);
         this.rigidbody = engine.physics.world.createBody(body.bodyDef);
-        console.log(this.rigidbody);
         this.rigidbody.createFixture(body.fixtureDef);
         if (!this.physicsOn) {
             this.rigidbody.setDynamic();
@@ -70,9 +69,7 @@ class GameObject {
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
             // update logic
-            if (this.rule)
-                try { this.rule.eval(scope); }
-                catch (error) { console.log(error); }
+            if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
         }
         if (this.dead) {
             if (this.audio) this.audio.source.stop(this.audio.id);
@@ -265,12 +262,14 @@ class GameObject {
     get loop() { return this.audio.source.loop() }
     set loop(value) { this.audio.source.loop(value) };
 
-    get velocityX() { 
-        console.log(this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
-        return this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter; 
+    get velocityX() {
+        console.log("get", this.name, this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
+        return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
     };
-    set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
-
+    set velocityX(value) {
+        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y));
+        console.log("set", this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
+    };
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
     set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
 

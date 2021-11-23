@@ -32,7 +32,7 @@ class Game {
             // Sound
             soundOn:this.soundOn || false, soundtrack:this.soundtrack || "", volume:this.volume || 1, start:this.start || 0, pan:this.pan || 0, loop:this.loop || false, 
             // Physics
-            physicsOn:this.physicsOn || true, gravityX: this.gravityX || 0, gravityY:this.gravityY || -9.8
+            physicsOn:this.physicsOn || true, gravityX: this.gravityX || 0, gravityY:this.gravityY || 0
         }
         if(obj.cameraZoom==undefined) obj.cameraZoom=1;
         return(obj);
@@ -53,19 +53,11 @@ class Game {
 
     get inputProperties(){
         var obj={
-            FPS:0,
-            time:0,
-            exit:false,
-            currentScene:"",
-            currentSceneNumber:0,
-            deltaTime:0,
-            mouseX:0,
-            mouseY:0,
-            accelerationX:0,
-            accelerationY:0,
-            accelerationZ:0,
-            latitude:0,
-            longitude:0
+            FPS:0, time:0, deltaTime:0, exit:false,
+            currentScene:"", currentSceneNumber:0,
+            mouseX:0, mouseY:0,
+            accelerationX:0, accelerationY:0, accelerationZ:0,
+            latitude:0, longitude:0
         }
         return(obj);
     }
@@ -100,6 +92,4 @@ class Game {
             default : this.imageList.splice(this.imageList.findIndex(i => i.id == assetID),1); break;
         }
     } 
-
-
 }

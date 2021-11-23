@@ -9,7 +9,6 @@ class Sound {
             this.source.stereo(options.pan);
             this.source.seek(options.start);
         }
-        console.log(src, this.id, this.source.seek());
         return (this);
     }
 }

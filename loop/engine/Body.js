@@ -5,7 +5,7 @@ class Body {
             type: actor.type.toLowerCase(),
             position: { x: actor.x * Physics.metersPerPixel, y: actor.y * Physics.metersPerPixel },
             angle: actor.angle * Math.PI / 180,
-            linearVelocity: { x: actor.velocityX, y: actor.velocityY },
+            linearVelocity: { x: actor.velocityX * Physics.metersPerPixel, y: actor.velocityY * Physics.metersPerPixel},
             fixedRotation: actor.fixedAngle, angularVelocity: actor.angularVelocity,
             angularDamping: actor.dampingLinear, linearDamping: actor.dampingAngular,
             userData: { name: actor.name, tags: actor.tags }
