@@ -8,7 +8,6 @@ class GameObject {
         this.sleeping = actor.sleeping;
         this.physicsOn = actor.physicsOn;
         this.soundOn = actor.soundOn;
-        // this.sound = actor.sound;
         this.collider = actor.collider;
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new gameObject properties
         // add audio
@@ -70,6 +69,8 @@ class GameObject {
             }
             // update logic
             if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
+        //  if (this.name== "star")this.engine.scope["star"].x += 100 * this.engine.scope["Game"].deltaTime;
+         //   if (this.name=="Blue") console.log(this.engine.scope["Blue"].x);
         }
         if (this.dead) {
             if (this.audio) this.audio.source.stop(this.audio.id);
@@ -262,14 +263,9 @@ class GameObject {
     get loop() { return this.audio.source.loop() }
     set loop(value) { this.audio.source.loop(value) };
 
-    get velocityX() {
-        console.log("get", this.name, this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
-        return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
-    };
-    set velocityX(value) {
-        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y));
-        console.log("set", this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter);
-    };
+    get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
+    set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
+    
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
     set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
 

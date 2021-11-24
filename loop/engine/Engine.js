@@ -1,7 +1,7 @@
 class Engine {
 
     constructor(gameModel) {
-        this.ffps = 60;
+        this.ffps = 100;
         this.dt = 1000 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
@@ -34,8 +34,8 @@ class Engine {
         if (this.frameTime > 100) this.frameTime = 100;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
-            this.physics.fixedStep(this.dt);
-            this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
+            if(this.t<8000) this.physics.fixedStep(this.dt);
+            if(this.t<8000) this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }

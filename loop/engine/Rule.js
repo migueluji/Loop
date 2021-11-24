@@ -7,7 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
-        //console.log(expression);
+        console.log(expression);
         return (math.compile(expression));
     }
 
@@ -49,7 +49,7 @@ class Rule {
 
     play(params){
         var id = Utils.id();
-        if (!this.gameObject.playList) this.gameObject.playList = {} // creat play list if doesn't exist
+        if (!this.gameObject.playList) this.gameObject.playList = {} // create play list if doesn't exist
         this.gameObject.playList[id] = new Sound(params.sound_File);
         return("Engine.play("+this.gameObject.name+",'"+id+"')");
     }
