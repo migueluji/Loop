@@ -44,7 +44,7 @@
 					"opacity": 1,
 					"flipX": false,
 					"flipY": false,
-					"scrollX": 40,
+					"scrollX": 100,
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
@@ -133,7 +133,7 @@
 									"type": "Edit",
 									"parameters": {
 										"property": "Me.velocityX",
-										"value": "40"
+										"value": "100"
 									}
 								}
 							]
@@ -181,7 +181,7 @@
 					"physicsOn": true,
 					"type": "Kinematic",
 					"fixedAngle": false,
-					"velocityX": 40,
+					"velocityX": 100,
 					"velocityY": 0,
 					"angularVelocity": 0,
 					"density": 1,
@@ -247,7 +247,7 @@
 								{
 									"type": "Move",
 									"parameters": {
-										"speed": "40",
+										"speed": "100",
 										"angle": 0
 									}
 								}
@@ -312,7 +312,7 @@
 									"type": "Edit",
 									"parameters": {
 										"property": "Me.x",
-										"value": "Me.x+40*Game.deltaTime"
+										"value": "Me.x+100*Game.deltaTime"
 									}
 								}
 							]
@@ -323,7 +323,7 @@
 					"name": "Actor_4",
 					"sleeping": false,
 					"x": 172.81953970431348,
-					"y": -195.32182594116753,
+					"y": -193.44014951800855,
 					"width": 403.7532388355433,
 					"height": 50,
 					"scaleX": 8.075064776710866,
@@ -343,12 +343,63 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "${Game.time} - ${Game.FPS}",
+					"text": "${Game.time} - ${Game.FPS} - ${Game.deltaTime}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
 					"style": "Normal",
 					"align": "Right",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": []
+				},
+				{
+					"name": "star",
+					"sleeping": false,
+					"x": -400,
+					"y": -218.2588716339158,
+					"width": 39,
+					"height": 38,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "starGold.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
 					"soundOn": false,
