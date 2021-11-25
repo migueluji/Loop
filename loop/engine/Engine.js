@@ -6,9 +6,9 @@ class Engine {
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         // Create data structures
+        this.gameLevel = new GameLevel(gameModel);
         this.gameObjects = new Map();
-        this.gameProperties = gameModel.allProperties;
-        this.scope = new Object({ "Game": this.gameProperties, "Engine": this });
+        this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
         // Create engines
         this.render = new Render(this);
         this.input = new Input(this);
@@ -34,8 +34,8 @@ class Engine {
         if (this.frameTime > 100) this.frameTime = 100;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
-            this.physics.fixedStep(this.dt);
-            this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
+            this.physics.fixedStep(this.dt / 1000);
+            this.logic.fixedUpdate(this.dt / 1000, this.t / 1000, this.frameTime / 1000);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }

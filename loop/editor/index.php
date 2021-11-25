@@ -15,13 +15,14 @@
 
 	<script src="App.js"></script>
 	<script src="Editor.js"></script>
-	<script src="Game.js"></script>
-	<script src="Scene.js"></script>
-	<script src="Actor.js"></script>
-	<script src="Script.js"></script>
-	<script src="File.js"></script>
-	<script src="Node.js"></script>
-	<script src="Utils.js"></script>
+
+	<script src="../core/Game.js"></script>
+	<script src="../core/Scene.js"></script>
+	<script src="../core/Actor.js"></script>
+	<script src="../core/Script.js"></script>
+	<script src="../core/File.js"></script>
+	<script src="../core/Node.js"></script>
+	<script src="../core/Utils.js"></script>
 
 	<script src="./views/EditorView.js"></script>
 	<script src="./views/AppBarView.js"></script>

@@ -1,4 +1,5 @@
 class Sound {
+    
     constructor(src, options) {
         this.source = player.file.playList[src];
         this.id = this.source.play(); // play to get the sound id

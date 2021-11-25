@@ -3,10 +3,11 @@ class Physics {
     static metersPerPixel = 1 / this.pixelsPerMeter;
 
     constructor(engine) {
+        this.gameLevel = engine.gameLevel;
         this.gameObjects = engine.gameObjects;
         // create physics world
         this.world = planck.World({
-            gravity: planck.Vec2(engine.gameProperties.gravityX, engine.gameProperties.gravityY),
+            gravity: planck.Vec2(this.gameLevel.gravityX, this.gameLevel.gravityY),
             allowSleep: false
         });
         this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
@@ -14,8 +15,8 @@ class Physics {
     }
 
     fixedStep(dt) {
-        this.world.step(dt / 1000);
-        // update gameObjects
+        this.gameLevel.fixedStep(this.world);
+        this.world.step(dt);
         this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
     }
 
@@ -39,7 +40,7 @@ class Physics {
         var userDataB = contact.getFixtureB().getBody().getUserData();
         var gameObjectA = this.gameObjects.get(userDataA.name);
         var gameObjectB = this.gameObjects.get(userDataB.name);
-          if (gameObjectA.collision)
+        if (gameObjectA.collision)
             Object.keys(gameObjectA.collision).forEach(tag => {
                 if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag].delete(gameObjectB.name);
             })

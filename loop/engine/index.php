@@ -40,15 +40,17 @@
 		<script src="libraries/howler.min.js"></script>
 
         <script src="Player.js"></script>
-        <script src="../editor/File.js"></script>
+
 		<script src="../editor/dialogs/LoadingView.js"></script>
-		<script src="../editor/Utils.js"></script>
-	
-		<script src="../editor/Game.js"></script>
-		<script src="../editor/Scene.js"></script>
-		<script src="../editor/Actor.js"></script>
-		<script src="../editor/Script.js"></script>
-		<script src="../editor/Node.js"></script>
+
+		<script src="../core/Game.js"></script>
+		<script src="../core/Scene.js"></script>
+		<script src="../core/Actor.js"></script>
+		<script src="../core/Script.js"></script>
+		<script src="../core/Node.js"></script>
+		<script src="../core/File.js"></script>
+		<script src="../core/Utils.js"></script>
+		
         <script src="Physics.js"></script>
         <script src="Input.js"></script>
         <script src="Logic.js"></script>
@@ -56,6 +58,7 @@
 		<script src="Aural.js"></script>
 		<script src="Engine.js"></script>
 		
+		<script src="GameLevel.js"></script>
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
 		<script src="Body.js"></script>
@@ -82,7 +85,8 @@
 				};
     
 			if (!window.cancelAnimationFrame) window.cancelAnimationFrame = function(id) {clearTimeout(id);};
-			// Geme info 
+			
+			// Game info 
 			var serverGamesFolder="<?php echo $_POST['serverGamesFolder'];?>";
 			var gameFolder="<?php echo $_POST['gameFolder'];?>";
 			var editor=true; /* to kown if the engine has been launched from the editor */

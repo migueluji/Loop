@@ -4,10 +4,10 @@ class Input {
     static gameObjects = {};
 
     constructor(engine) {
-        Input.pointerX = engine.gameProperties.mouseX;
-        Input.pointerY = engine.gameProperties.mouseY;
-        Input.width = engine.gameProperties.displayWidth;
-        Input.height = engine.gameProperties.displayHeight;
+        Input.pointerX = engine.gameLevel.mouseX;
+        Input.pointerY = engine.gameLevel.mouseY;
+        Input.width = engine.gameLevel.displayWidth;
+        Input.height = engine.gameLevel.displayHeight;
         var stage = engine.render.stage;
         // Stage pointer events
         stage.hitArea = new PIXI.Rectangle(-Input.width / 2, -Input.height / 2, Input.width, Input.height);

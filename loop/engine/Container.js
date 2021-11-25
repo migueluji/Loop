@@ -1,5 +1,5 @@
 class Container extends PIXI.Container {
-
+    
     constructor(actor) {
         super();
         this.zIndex = actor.zIndex;
