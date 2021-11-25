@@ -52,12 +52,8 @@ class GameObject {
 
     fixedUpdate(deltaTime, scope) { // logic update
         if (!this.sleeping) {
-            // store previous state
-            this.previousState = {
-                x: this.x, y: this.y, angle: this.angle,
-                tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
-                tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
-            }
+            // update logic
+            if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
             // update scrolling
             if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
@@ -67,10 +63,12 @@ class GameObject {
                 if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
-            // update logic
-            if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
-        //  if (this.name== "star")this.engine.scope["star"].x += 100 * this.engine.scope["Game"].deltaTime;
-         //   if (this.name=="Blue") console.log(this.engine.scope["Blue"].x);
+            // store previous state
+            this.previousState = {
+                x: this.x, y: this.y, angle: this.angle,
+                tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
+                tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
+            }
         }
         if (this.dead) {
             if (this.audio) this.audio.source.stop(this.audio.id);

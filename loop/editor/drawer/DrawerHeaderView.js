@@ -27,7 +27,7 @@ class DrawerHeaderView {
         mdc.textField.MDCTextField.attachTo(element);
 
         var input =this.html.querySelector("#gamename");
-		input.addEventListener("keypress",Utils.keyPressHandler.bind(this,input));
+		input.addEventListener("keypress",this.keyPressHandler.bind(this,input));
         input.addEventListener("change",this.onChangeInputHandler.bind(this,input)); 
     }
 
@@ -41,6 +41,16 @@ class DrawerHeaderView {
     addSceneHandler() {
         CmdManager.addSceneCmd(this.html.parentNode.querySelector("#scenes").querySelectorAll("li").length);
     }    
+
+    keyPressHandler(input,e){
+        var chr = String.fromCharCode(e.which);
+        var name= input.value;
+        var filter=" abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        if ((filter.indexOf(chr) < 0) || (name.length >= 20)){
+          e.preventDefault();
+        }	
+        return true;
+    }
 
     onChangeInputHandler(input){
         this.value=String(input.value).trim();

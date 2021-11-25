@@ -34,8 +34,8 @@ class Engine {
         if (this.frameTime > 100) this.frameTime = 100;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
-            if(this.t<8000) this.physics.fixedStep(this.dt);
-            if(this.t<8000) this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
+            this.physics.fixedStep(this.dt);
+            this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
