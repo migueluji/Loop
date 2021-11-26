@@ -2,7 +2,7 @@ class Engine {
 
     constructor(gameModel) {
         this.ffps = 100;
-        this.dt = 1000 / this.ffps;
+        this.dt = 1 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         // Create data structures
@@ -30,18 +30,19 @@ class Engine {
 
     gameLoop(newTime) {
         window.requestAnimationFrame(this.gameLoop.bind(this));
-        this.frameTime = newTime - this.currentTime;
-        if (this.frameTime > 100) this.frameTime = 100;
+        this.frameTime = (newTime - this.currentTime) / 1000;
+        if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.dt) {
-            this.physics.fixedStep(this.dt / 1000);
-            this.logic.fixedUpdate(this.dt / 1000, this.t / 1000, this.frameTime / 1000);
+            this.physics.fixedStep(this.dt);
+            this.logic.fixedUpdate(this.dt, this.t, this.frameTime);
             this.t += this.dt;
             this.accumulator -= this.dt;
         }
         this.aural.play();
         this.render.update(this.accumulator / this.dt);
         this.currentTime = newTime;
+        console.log(this.dt, this.frameTime, this.t);
     }
 
     // engine commands
@@ -77,19 +78,19 @@ class Engine {
     }
 
     move(gameObject, speed, angle) {
-        gameObject.x += speed * this.dt / 1000 * Math.cos(Utils.radians(angle));
-        gameObject.y += speed * this.dt / 1000 * Math.sin(Utils.radians(angle));
+        gameObject.x += speed * this.dt * Math.cos(Utils.radians(angle));
+        gameObject.y += speed * this.dt * Math.sin(Utils.radians(angle));
     }
 
     moveTo(gameObject, speed, px, py) {
         var dist = Utils.getDistance({ x: gameObject.x, y: gameObject.y }, { x: px, y: py });
-        gameObject.x = (dist > 1) ? gameObject.x + speed * this.dt / 1000 * (px - gameObject.x) / dist : px;
-        gameObject.y = (dist > 1) ? gameObject.y + speed * this.dt / 1000 * (py - gameObject.y) / dist : py;
+        gameObject.x = (dist > 1) ? gameObject.x + speed * this.dt * (px - gameObject.x) / dist : px;
+        gameObject.y = (dist > 1) ? gameObject.y + speed * this.dt * (py - gameObject.y) / dist : py;
     }
 
     rotate(gameObject, speed, pivotX, pivotY) {
         var dist = Utils.getDistance({ x: pivotX, y: pivotY }, { x: gameObject.x, y: gameObject.y });
-        gameObject.angle += speed * this.dt / 1000;
+        gameObject.angle += speed * this.dt;
         gameObject.x = pivotX + dist * Math.cos(Utils.radians(gameObject.angle));
         gameObject.y = pivotY + dist * Math.sin(Utils.radians(gameObject.angle));
     }
@@ -102,7 +103,7 @@ class Engine {
         var angle1 = Math.PI + Math.atan2(d1.y, d1.x); // angle between 0 and 2 PI
         var da = angle1 - angle0;
         da = (Math.abs(da) > Math.PI) ? (da < -Math.PI ? 2 * Math.PI + da : -2 * Math.PI + da) : da;
-        gameObject.angle = (Utils.degrees(Math.abs(da)) >0.5) ? gameObject.angle + speed * this.dt / 1000 : gameObject.angle;
+        gameObject.angle = (Utils.degrees(Math.abs(da)) > 0.5) ? gameObject.angle + speed * this.dt : gameObject.angle;
         gameObject.x = pivotX + dist * Math.cos(Utils.radians(gameObject.angle));
         gameObject.y = pivotY + dist * Math.sin(Utils.radians(gameObject.angle));
     }
