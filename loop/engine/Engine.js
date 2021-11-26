@@ -42,7 +42,6 @@ class Engine {
         this.aural.play();
         this.render.update(this.accumulator / this.dt);
         this.currentTime = newTime;
-        console.log(this.dt, this.frameTime, this.t);
     }
 
     // engine commands
