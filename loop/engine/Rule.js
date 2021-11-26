@@ -7,6 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
+       // console.log(gameObject.name,expression);
         return (math.compile(expression));
     }
 
@@ -23,6 +24,18 @@ class Rule {
     }
 
     // Actions 
+    go_to(params) {
+        return ("Engine.goTo(Game." + params.scene + ")");
+    }
+
+    add(params) {
+        return ("Engine.add(Game." + params.scene + "," + params.stop + ")");
+    }
+
+    remove(){
+        return ("Engine.remove()");
+    }
+
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);

@@ -1,6 +1,6 @@
 class GameObject {
 
-    constructor(engine, actor, spawnName) {
+    constructor(engine, scene, actor, spawnName) {
         this.dead = false; // to be delete in logic fixedUpdate
         this.engine = engine;
         this.actor = actor;
@@ -14,7 +14,7 @@ class GameObject {
         var soundOpt = { volume: actor.volume, loop: actor.loop, pan: actor.pan, start: actor.start }
         if (actor.sound) this.audio = new Sound(actor.sound, soundOpt);
         // add container to stage
-        this.container = engine.render.stage.addChild(new Container(actor));
+        this.container = engine.render[scene].addChild(new Container(actor));
         // add rigidbody to world
         var body = new Body(actor);
         this.rigidbody = engine.physics.world.createBody(body.bodyDef);
@@ -262,7 +262,7 @@ class GameObject {
 
     get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
     set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
-    
+
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
     set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
 

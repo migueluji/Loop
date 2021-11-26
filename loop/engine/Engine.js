@@ -6,24 +6,24 @@ class Engine {
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         // Create data structures
+        this.currentScene = gameModel.sceneList[0].name;
+        this.currentSceneNumber = 0;
         this.gameLevel = new GameLevel(gameModel);
+        this.scene = new Object();
+        gameModel.sceneList.forEach((scene, i) => {
+            this.scene[scene.name] = gameModel.sceneList[i];
+        });
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
+        console.log(this.scope);
         // Create engines
         this.render = new Render(this);
         this.input = new Input(this);
         this.logic = new Logic(this);
         this.physics = new Physics(this);
         this.aural = new Aural(this);
-        // Create gameObjects
-        var zIndex = 0;
-        gameModel.sceneList[0].actorList.forEach(actor => {
-            actor.zIndex = zIndex;
-            var gameObject = new GameObject(this, actor);
-            this.gameObjects.set(actor.name, gameObject); // gameObjets Map
-            this.scope[actor.name] = gameObject; // gameObjects Scope
-            zIndex++;
-        });
+        // load current scene
+        this.goTo(this.currentScene);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     };
@@ -42,6 +42,38 @@ class Engine {
         this.aural.play();
         this.render.update(this.accumulator / this.dt);
         this.currentTime = newTime;
+    }
+
+    remove() {
+        this.render.removeStage(this.currentScene);
+        // hay que actualizar la escena actual
+    }
+
+    add(scene, stop) {
+        this.currentScene = scene;
+        this.render.addStage(scene);
+        // Create gameObjects
+        this.scene[scene].actorList.forEach(actor => {
+            actor.zIndex = this.zIndex;
+            var gameObject = new GameObject(this, scene, actor);
+            this.gameObjects.set(actor.name, gameObject);
+            this.scope[actor.name] = gameObject;
+            this.zIndex++;
+        })
+    }
+
+    goTo(scene) {
+        this.currentScene = scene;
+        this.render.addStage(scene);
+        // Create gameObjects
+        this.zIndex = 0;
+        this.scene[scene].actorList.forEach(actor => {
+            actor.zIndex = this.zIndex;
+            var gameObject = new GameObject(this, scene, actor);
+            this.gameObjects.set(actor.name, gameObject);
+            this.scope[actor.name] = gameObject;
+            this.zIndex++;
+        });
     }
 
     // engine commands
@@ -126,12 +158,12 @@ class Engine {
         var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds * 1000);
         if (lostFlow || secReached) {
             gameObject.timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
-            return (true);
+            return true;
         }
         else {
             gameObject.timer[id].time += this.dt;
             gameObject.timer[id].previousTime = gameObject.timer[id].time;
-            return (false);
+            return false;
         }
     }
 
@@ -147,7 +179,7 @@ class Engine {
     keyboard(key, mode) {
         var value = Input.keyList[key][mode]; // read key input
         if (Input.keyList[key].down) Input.keyList[key].down = false; // after reading the input value the key is reset
-        return (value);
+        return value;
     }
 
     touch(mode, onActor, gameObject) {
@@ -160,6 +192,6 @@ class Engine {
             value = Input.pointer[mode];
             Input.pointer.tap = false;
         }
-        return (value);
+        return value;
     }
 }
