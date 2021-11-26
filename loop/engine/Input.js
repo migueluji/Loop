@@ -1,7 +1,7 @@
 class Input {
     static keyList = {};
     static pointer = { down: false, up: true, over: false, tap: false };
-    static gameObjects = {};
+    static touchObjects = {}; // touchable game object list
 
     constructor(engine) {
         Input.pointerX = engine.gameLevel.mouseX;
@@ -25,10 +25,10 @@ class Input {
             this.keyList[key] = { down: false, up: true, pressed: false };
     }
 
-    static addActor(gameObject) {
+    static addActor(gameObject) { // add touchable gameObject
         var name = gameObject.name;
-        if (!this.gameObjects.hasOwnProperty(name))
-            this.gameObjects[name] = { down: false, up: false, over: false, tap: false };
+        if (!this.touchObjects.hasOwnProperty(name))
+            this.touchObjects[name] = { down: false, up: false, over: false, tap: false };
 
         gameObject.container.interactive = true;
         gameObject.container.buttonMode = true;
@@ -41,21 +41,21 @@ class Input {
     }
 
     static actorPointerDownHandler(name) {
-        Input.gameObjects[name] = { down: true, up: false, over: true, tap: true };
+        Input.touchObjects[name] = { down: true, up: false, over: true, tap: true };
     }
 
     static actorPointerUpHandler(name) {
-        Input.gameObjects[name] = { down: false, up: true, over: true, tap: false };
+        Input.touchObjects[name] = { down: false, up: true, over: true, tap: false };
     }
 
     static actorPointerOverHandler(name) {
-        Input.gameObjects[name].over = true;
-        Input.gameObjects[name].up = true;
+        Input.touchObjects[name].over = true;
+        Input.touchObjects[name].up = true;
     }
 
     static actorPointerOutHandler(name) {
-        Input.gameObjects[name].over = false;
-        Input.gameObjects[name].up = false;
+        Input.touchObjects[name].over = false;
+        Input.touchObjects[name].up = false;
     }
 
     static pointerDownHandler() {

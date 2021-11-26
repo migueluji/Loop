@@ -76,6 +76,37 @@ class Engine {
         sound.source.play(sound.id);
     }
 
+    move(gameObject, speed, angle) {
+        gameObject.x += speed * this.dt / 1000 * Math.cos(Utils.radians(angle));
+        gameObject.y += speed * this.dt / 1000 * Math.sin(Utils.radians(angle));
+    }
+
+    moveTo(gameObject, speed, px, py) {
+        var dist = Utils.getDistance({ x: gameObject.x, y: gameObject.y }, { x: px, y: py });
+        gameObject.x = (dist > 1) ? gameObject.x + speed * this.dt / 1000 * (px - gameObject.x) / dist : px;
+        gameObject.y = (dist > 1) ? gameObject.y + speed * this.dt / 1000 * (py - gameObject.y) / dist : py;
+    }
+
+    rotate(gameObject, speed, pivotX, pivotY) {
+        var dist = Utils.getDistance({ x: pivotX, y: pivotY }, { x: gameObject.x, y: gameObject.y });
+        gameObject.angle += speed * this.dt / 1000;
+        gameObject.x = pivotX + dist * Math.cos(Utils.radians(gameObject.angle));
+        gameObject.y = pivotY + dist * Math.sin(Utils.radians(gameObject.angle));
+    }
+
+    rotateTo(gameObject, speed, x, y, pivotX, pivotY) {
+        var dist = Utils.getDistance({ x: pivotX, y: pivotY }, { x: gameObject.x, y: gameObject.y });
+        var d0 = { x: pivotX - gameObject.x, y: pivotY - gameObject.y };
+        var angle0 = ((d0.x == 0) && (d0.y == 0)) ? Utils.radians(gameObject.angle) : Math.PI + Math.atan2(d0.y, d0.x); // angle between 0 and 2 PI
+        var d1 = { x: pivotX - x, y: pivotY - y };
+        var angle1 = Math.PI + Math.atan2(d1.y, d1.x); // angle between 0 and 2 PI
+        var da = angle1 - angle0;
+        da = (Math.abs(da) > Math.PI) ? (da < -Math.PI ? 2 * Math.PI + da : -2 * Math.PI + da) : da;
+        gameObject.angle = (Utils.degrees(Math.abs(da)) >0.5) ? gameObject.angle + speed * this.dt / 1000 : gameObject.angle;
+        gameObject.x = pivotX + dist * Math.cos(Utils.radians(gameObject.angle));
+        gameObject.y = pivotY + dist * Math.sin(Utils.radians(gameObject.angle));
+    }
+
     push(gameObject, force, angle) {
         var forceX = force * Math.cos(angle * Math.PI / 180) * Physics.pixelsPerMeter;
         var forceY = force * Math.sin(angle * Math.PI / 180) * Physics.pixelsPerMeter;
@@ -122,8 +153,8 @@ class Engine {
     touch(mode, onActor, gameObject) {
         var value;
         if (onActor) {
-            value = Input.gameObjects[gameObject.name][mode];
-            Input.gameObjects[gameObject.name].tap = false;
+            value = Input.touchObjects[gameObject.name][mode];
+            Input.touchObjects[gameObject.name].tap = false;
         }
         else {
             value = Input.pointer[mode];

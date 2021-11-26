@@ -80,14 +80,13 @@ class GameObject {
         }
     }
 
-    integrate(lagOffset) { // integrate render positions
+    integrate(lagOffset) { // integrate render positions !!!! REVISE
         if (!this.sleeping) {
             this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
             this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
             this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
-
         }
         if (this.debug) {  // debug lines
             this.debug.clear();
