@@ -1,6 +1,6 @@
 class GameObject {
 
-    constructor(engine, scene, actor, spawnName) {
+    constructor(engine, actor, spawnName) {
         this.dead = false; // to be delete in logic fixedUpdate
         this.engine = engine;
         this.actor = actor;
@@ -14,7 +14,7 @@ class GameObject {
         var soundOpt = { volume: actor.volume, loop: actor.loop, pan: actor.pan, start: actor.start }
         if (actor.sound) this.audio = new Sound(actor.sound, soundOpt);
         // add container to stage
-        this.container = engine.render[scene].addChild(new Container(actor));
+        this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
         var body = new Body(actor);
         this.rigidbody = engine.physics.world.createBody(body.bodyDef);
@@ -80,13 +80,14 @@ class GameObject {
         }
     }
 
-    integrate(lagOffset) { // integrate render positions !!!! REVISE
+    integrate(lagOffset) { // integrate render positions
         if (!this.sleeping) {
             this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
             this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
             this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+
         }
         if (this.debug) {  // debug lines
             this.debug.clear();
@@ -262,7 +263,7 @@ class GameObject {
 
     get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
     set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
-
+    
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
     set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
 

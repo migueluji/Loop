@@ -4,9 +4,6 @@ class GameLevel {
         for (let key in gameModel.allProperties) { // add game properties
             this[key] = gameModel.allProperties[key];
         }
-        gameModel.sceneList.forEach(scene => {
-            this[scene.name] = scene.name;
-        });
     }
 
     fixedStep(world){

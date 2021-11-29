@@ -7,7 +7,6 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
-       // console.log(gameObject.name,expression);
         return (math.compile(expression));
     }
 
@@ -24,23 +23,11 @@ class Rule {
     }
 
     // Actions 
-    go_to(params) {
-        return ("Engine.goTo(Game." + params.scene + ")");
-    }
-
-    add(params) {
-        return ("Engine.add(Game." + params.scene + "," + params.stop + ")");
-    }
-
-    remove(){
-        return ("Engine.remove()");
-    }
-
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
-        var specialProperties = ["color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align"];
-        if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes if it doesn't have them
+        var specialProperties = ["color", "backgroundColor", "fill", "image","sound","soundtrack","font", "style", "align"];
+        if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes
         return (params.property + " = " + params.value);
     }
 
@@ -59,27 +46,48 @@ class Rule {
         return ("Engine.animate(" + this.gameObject.name + ",'" + id + "','" + params.animation + "'," + params.fps + ")");
     }
 
-    play(params) {
+    play(params){
         var id = Utils.id();
         if (!this.gameObject.playList) this.gameObject.playList = {} // create play list if doesn't exist
         this.gameObject.playList[id] = new Sound(params.sound_File);
-        return ("Engine.play(" + this.gameObject.name + ",'" + id + "')");
+        return("Engine.play("+this.gameObject.name+",'"+id+"')");
     }
 
     move(params) {
-        return ("Engine.move(" + this.gameObject.name + "," + params.speed + "," + params.angle + ")");
+        var x = "Me.x = Me.x + " + params.speed + " * Game.deltaTime * cos(" + params.angle + " deg);";
+        var y = "Me.y = Me.y + " + params.speed + " * Game.deltaTime * sin(" + params.angle + " deg)";
+        return (x + y);
     }
 
     move_to(params) {
-        return ("Engine.moveTo(" + this.gameObject.name + "," + params.speed + "," + params.x + "," + params.y + ")");
+        var distance = "dist = distance([Me.x,Me.y],[" + params.x + "," + params.y + "]);";
+        var x = "Me.x = (dist >= 1) ? Me.x + " + params.speed + " * Game.deltaTime * (" + params.x + "- Me.x) / dist : " + params.x + ";";
+        var y = "Me.y = (dist >= 1) ? Me.y + " + params.speed + " * Game.deltaTime * (" + params.y + "- Me.y) / dist : " + params.y;
+        return (distance + x + y);
     }
 
     rotate(params) {
-        return ("Engine.rotate(" + this.gameObject.name + "," + params.speed + "," + params.pivot_X + "," + params.pivot_Y + ")");
+        var dist = "dist = distance([" + params.pivot_X + ", " + params.pivot_Y + "],[Me.x, Me.y]);";
+        var angle = " Me.angle = Me.angle + " + params.speed + " * Game.deltaTime;";
+        var x = "Me.x = " + params.pivot_X + " + dist * cos(Me.angle deg);";
+        var y = "Me.y = " + params.pivot_Y + " + dist * sin(Me.angle deg)";
+        return (dist + angle + x + y);
     }
 
     rotate_to(params) {
-        return ("Engine.rotateTo(" + this.gameObject.name + "," + params.speed + "," + params.x + "," + params.y + "," + params.pivot_X + "," + params.pivot_Y + ")");
+        var dist = "dist = distance([" + params.pivot_X + ", " + params.pivot_Y + "],[Me.x, Me.y]);";
+        var dx0 = "dx0 = " + params.pivot_X + " - Me.x;";
+        var dy0 = "dy0 = " + params.pivot_Y + " - Me.y;";
+        var angle0 = "angle0  = ((dx0 == 0) and (dy0 == 0)) ? Me.angle * PI / 180 : PI + atan2(dy0, dx0);";
+        var dx1 = "dx1 = " + params.pivot_X + " - " + params.x + ";";
+        var dy1 = "dy1 = " + params.pivot_Y + " - " + params.y + ";";
+        var angle1 = "angle1 = PI + atan2(dy1, dx1);";
+        var da = "da = angle1 - angle0;";
+        var daa = " daa =(abs(da) > PI) ? (da < -PI ? 2 * PI + da : -2 * PI + da) : da;";
+        var angle = "Me. angle = Me.angle + daa * 180 / PI * " + params.speed + " * Game.deltaTime;";
+        var x = "Me.x = " + params.pivot_X + " + dist * cos(Me.angle deg);";
+        var y = "Me.y = " + params.pivot_Y + " + dist * sin(Me.angle deg)";
+        return (dist + dx0 + dy0 + angle0 + dx1 + dy1 + angle1 + da + daa + angle + x + y);
     }
 
     push(params) {
@@ -90,7 +98,7 @@ class Rule {
         return ("Engine.pushTo(" + this.gameObject.name + "," + params.force + "," + params.x + "," + params.y + ")");
     }
 
-    torque(params) {
+    torque(params){
         return ("Engine.torque(" + this.gameObject.name + "," + params.angle + ")");
     }
 

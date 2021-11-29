@@ -15,19 +15,8 @@ class Render {
         this.stage.interactive = true;
     }
 
-    addStage(scene) {
-        this[scene] = new PIXI.Container();
-        this[scene].sortableChildren = true;
-        this[scene].interactive = true;
-        this.stage.addChild(this[scene]);
-    }
-
-    removeStage(scene) {
-        this.stage.removeChild(this[scene]);
-    }
-
     update(lagOffset) {
-        this.gameLevel.update(this.renderer, this.stage);
+        this.gameLevel.update(this.renderer,this.stage);
         this.gameObjects.forEach(gameObject => { gameObject.integrate(lagOffset) });
         // render scene
         this.renderer.render(this.stage);
