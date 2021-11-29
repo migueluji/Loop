@@ -1,7 +1,7 @@
 class GameObject {
 
     constructor(engine, actor, spawnName) {
-        this.dead = false; // to be delete in logic fixedUpdate
+        this.dead = false; // to be deleted in the fixedUpdate(), in the evaluation of logic
         this.engine = engine;
         this.actor = actor;
         this.name = (spawnName) ? spawnName : actor.name;
@@ -80,14 +80,13 @@ class GameObject {
         }
     }
 
-    integrate(lagOffset) { // integrate render positions
+    update(lagOffset) { // integrate render positions !!!! REVISE
         if (!this.sleeping) {
             this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
             this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
             this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
-
         }
         if (this.debug) {  // debug lines
             this.debug.clear();
@@ -263,7 +262,7 @@ class GameObject {
 
     get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
     set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
-    
+
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
     set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
 

@@ -1,12 +1,8 @@
 class Render {
 
-    constructor(engine) {
-        this.gameLevel = engine.gameLevel;
-        this.gameObjects = engine.gameObjects;
-        // create renderer
-        this.renderer = new PIXI.Renderer({
-            width: this.gameLevel.displayWidth,
-            height: this.gameLevel.displayHeight,
+    constructor(gameLevel) {
+        this.renderer = new PIXI.Renderer({  // create renderer
+            width: gameLevel.displayWidth, height: gameLevel.displayHeight,
             view: document.getElementById('main')
         });
         // create stage
@@ -15,10 +11,9 @@ class Render {
         this.stage.interactive = true;
     }
 
-    update(lagOffset) {
-        this.gameLevel.update(this.renderer,this.stage);
-        this.gameObjects.forEach(gameObject => { gameObject.integrate(lagOffset) });
-        // render scene
-        this.renderer.render(this.stage);
+    update(engine, lagOffset) {
+        engine.gameLevel.update(this.renderer, this.stage);
+        engine.gameObjects.forEach(gameObject => { gameObject.update(lagOffset) });
+        this.renderer.render(this.stage);     // render scene
     }
 }

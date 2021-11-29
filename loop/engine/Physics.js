@@ -2,22 +2,21 @@ class Physics {
     static pixelsPerMeter = 50;
     static metersPerPixel = 1 / this.pixelsPerMeter;
 
-    constructor(engine) {
-        this.gameLevel = engine.gameLevel;
-        this.gameObjects = engine.gameObjects;
+    constructor(gameLevel, gameObjects) {
+        this.gameObjects = gameObjects;
         // create physics world
         this.world = planck.World({
-            gravity: planck.Vec2(this.gameLevel.gravityX, this.gameLevel.gravityY),
+            gravity: planck.Vec2(gameLevel.gravityX, gameLevel.gravityY),
             allowSleep: false
         });
         this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
         this.world.on('end-contact', this.collisionEndHandler.bind(this));
     }
 
-    fixedStep(dt) {
-        this.gameLevel.fixedStep(this.world);
+    fixedStep(engine, dt) {
+        engine.gameLevel.fixedStep(this.world);
         this.world.step(dt);
-        this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
+        engine.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
     }
 
     collisionBeginHandler(contact) {

@@ -1,16 +1,14 @@
 class Aural {
     
-    constructor(engine) {
-        this.gameLevel = engine.gameLevel;
-        this.gameObjects = engine.gameObjects;
-        this.music = new Sound(this.gameLevel.soundtrack, {
-            volume: this.gameLevel.volume, loop: this.gameLevel.loop, 
-            pan: this.gameLevel.pan, start: this.gameLevel.start 
+    constructor(gameLevel) {
+        this.music = new Sound(gameLevel.soundtrack, {
+            volume: gameLevel.volume, loop: gameLevel.loop, 
+            pan: gameLevel.pan, start: gameLevel.start 
         });
     }
 
-    play() {
-        this.gameLevel.play(this.music);
-        this.gameObjects.forEach(gameObject => { gameObject.play() });
+    play(engine) {
+        engine.gameLevel.play(this.music);
+        engine.gameObjects.forEach(gameObject => { gameObject.play() });
     }
 }

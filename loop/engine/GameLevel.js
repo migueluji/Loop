@@ -1,12 +1,11 @@
 class GameLevel {
-    
+
     constructor(gameModel) {
-        for (let key in gameModel.allProperties) { // add game properties
-            this[key] = gameModel.allProperties[key];
-        }
+        for (let key in gameModel.allProperties) { this[key] = gameModel.allProperties[key];}
+        gameModel.sceneList.forEach(scene => { this[scene.name] = scene.name;});
     }
 
-    fixedStep(world){
+    fixedStep(world) {
         world.setGravity(planck.Vec2(this.gravityX, this.gravityY));
     }
 
@@ -18,7 +17,7 @@ class GameLevel {
         this.mouseY = Input.pointerY;
     }
 
-    update(renderer,stage){
+    update(renderer, stage) {
         renderer.backgroundColor = PIXI.utils.string2hex(this.backgroundColor);
         stage.position = {
             x: this.displayWidth / 2.0 - this.cameraX,
@@ -28,7 +27,7 @@ class GameLevel {
         stage.angle = this.cameraAngle;
     }
 
-    play(music){
+    play(music) {
         if (this.soundOn) music.source.play(music.id);
         else music.source.stop(music.id);
         if (music.source._src != player.file.playList[this.soundtrack]._src) { // change soundtrack
