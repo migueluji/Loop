@@ -2,6 +2,7 @@ class Rule {
 
     constructor(gameObject) {
         this.gameObject = gameObject;
+        this.gameObject.resume = false;
         var expression = [];
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
@@ -25,7 +26,17 @@ class Rule {
 
     // Actions 
     go_to(params) {
-        return ("Engine.goTo(Game." + params.scene + ")");
+        return ("Engine.goTo(Engine.sceneList." + params.scene + ")");
+    }
+
+    add(params) { // pause
+        return ("Engine.pause()");
+    }
+
+    remove(params) { // resume
+        console.log("resume actor",this.gameObject);
+        this.gameObject.resume = true;
+        return ("Engine.resume()");
     }
 
     edit(params) {

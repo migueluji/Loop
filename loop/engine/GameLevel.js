@@ -2,7 +2,6 @@ class GameLevel {
 
     constructor(gameModel) {
         for (let key in gameModel.allProperties) { this[key] = gameModel.allProperties[key];}
-        gameModel.sceneList.forEach(scene => { this[scene.name] = scene.name;});
     }
 
     fixedStep(world) {

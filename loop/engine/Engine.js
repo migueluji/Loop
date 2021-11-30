@@ -6,12 +6,13 @@ class Engine {
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         this.changeScene = false;
+        this.gamePaused = false;
+        // create a object to acces by name to scenes on load and in scope
+        this.sceneList = new Object();
+        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene;});
         // Create data structures
         this.gameLevel = new GameLevel(gameModel);
-        this.sceneList = new Object();
-        gameModel.sceneList.forEach(scene => {
-            this.sceneList[scene.name] = scene;
-        });
+        this.gameLevel.deltaTime=this.dt;
         // init game music
         this.aural = new Aural(this.gameLevel);
         // load current scene
@@ -25,7 +26,7 @@ class Engine {
         this.frameTime = (newTime - this.currentTime) / 1000;
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
-        while (this.accumulator >= this.dt) {
+        while (this.accumulator >= this.dt && this.dt>0) {
             this.physics.fixedStep(this, this.dt);
             this.logic.fixedUpdate(this, this.dt, this.t, this.frameTime);
             this.t += this.dt;
@@ -37,6 +38,7 @@ class Engine {
     }
 
     loadScene(scene) {
+        console.log(scene);
         this.gameLevel.currentScene = scene;
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
@@ -135,8 +137,18 @@ class Engine {
 
     goTo(scene){
         this.changeScene = true;
-        this.newScene = scene;
+        this.goToScene = scene.name;
     }
+
+    pause(resumeActor){
+        this.gamePaused = true;
+    }
+
+    resume(){
+        console.log("resume");
+        this.gamePaused = false;
+    }
+
 
     // conditions
     timer(gameObject, id, expression) {

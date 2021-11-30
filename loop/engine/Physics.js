@@ -14,9 +14,11 @@ class Physics {
     }
 
     fixedStep(engine, dt) {
-        engine.gameLevel.fixedStep(this.world);
-        this.world.step(dt);
-        engine.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
+        if (!engine.gamePaused){
+            engine.gameLevel.fixedStep(this.world);
+            this.world.step(dt);
+            engine.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
+        }
     }
 
     collisionBeginHandler(contact) {
