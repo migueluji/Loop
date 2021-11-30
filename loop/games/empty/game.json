@@ -230,7 +230,7 @@
 					"name": "Actor_2",
 					"sleeping": false,
 					"x": 163.12536198750183,
-					"y": -148.1158360006097,
+					"y": -150,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -402,7 +402,7 @@
 					"scriptList": []
 				},
 				{
-					"name": "Actor_6",
+					"name": "blue",
 					"sleeping": false,
 					"x": 220.90740740740733,
 					"y": -149.932098765432,
@@ -479,7 +479,7 @@
 					"name": "Actor_6_copy",
 					"sleeping": false,
 					"x": 280.47530864197523,
-					"y": -151.4753086419753,
+					"y": -150,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
