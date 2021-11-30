@@ -5,6 +5,7 @@ class Engine {
         this.dt = 1 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
+        this.changeScene = false;
         // Create data structures
         this.gameLevel = new GameLevel(gameModel);
         this.sceneList = new Object();
@@ -14,7 +15,7 @@ class Engine {
         // init game music
         this.aural = new Aural(this.gameLevel);
         // load current scene
-        this.goTo(this.gameLevel.currentScene);
+        this.loadScene(this.gameLevel.currentScene);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     };
@@ -35,7 +36,7 @@ class Engine {
         this.currentTime = newTime;
     }
 
-    goTo(scene) {
+    loadScene(scene) {
         this.gameLevel.currentScene = scene;
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
@@ -55,7 +56,7 @@ class Engine {
         });
     }
 
-    // engine commands
+    // actions
     spawn(gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
             var spawnName = gameObject.name + Utils.id();
@@ -132,6 +133,12 @@ class Engine {
         gameObject.rigidbody.applyTorque(angle * 180 / Math.PI);
     }
 
+    goTo(scene){
+        this.changeScene = true;
+        this.newScene = scene;
+    }
+
+    // conditions
     timer(gameObject, id, expression) {
         var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
         var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds * 1000);

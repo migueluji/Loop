@@ -10103,79 +10103,6 @@
 					]
 				},
 				{
-					"name": "Actor_5",
-					"sleeping": false,
-					"x": 288.48148148148147,
-					"y": -200.62345679012347,
-					"width": 162.6543209876544,
-					"height": 50,
-					"scaleX": 3.2530864197530875,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": false,
-					"image": "",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "${Game.FPS}   ${blue.count}",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#f4f0f0",
-					"style": "Normal",
-					"align": "Right",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Scene_1"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							]
-						}
-					]
-				},
-				{
 					"name": "Actor_6",
 					"sleeping": false,
 					"x": 100,
@@ -10240,6 +10167,79 @@
 											"parameters": {
 												"property": "Game.start",
 												"value": "5"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Actor_5",
+					"sleeping": false,
+					"x": 288.48148148148147,
+					"y": -200.62345679012347,
+					"width": 162.6543209876544,
+					"height": 50,
+					"scaleX": 3.2530864197530875,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": false,
+					"image": "",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": true,
+					"text": "${Game.FPS} ${Game.time}",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#f4f0f0",
+					"style": "Normal",
+					"align": "Right",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Tap",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Scene_1"
 											}
 										}
 									],
