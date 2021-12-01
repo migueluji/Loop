@@ -9,7 +9,7 @@
 	"backgroundColor": "#ffffff",
 	"soundOn": true,
 	"soundtrack": "Home Base Groove - Kevin MacLeod.mp3",
-	"volume": 0.1,
+	"volume": 1,
 	"start": 0,
 	"pan": 0,
 	"loop": true,
