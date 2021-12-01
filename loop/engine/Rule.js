@@ -34,7 +34,6 @@ class Rule {
     }
 
     remove(params) { // resume
-        console.log("resume actor",this.gameObject);
         this.gameObject.resume = true;
         return ("Engine.resume()");
     }

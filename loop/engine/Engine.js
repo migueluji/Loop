@@ -9,10 +9,10 @@ class Engine {
         this.gamePaused = false;
         // create a object to acces by name to scenes on load and in scope
         this.sceneList = new Object();
-        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene;});
+        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Create data structures
         this.gameLevel = new GameLevel(gameModel);
-        this.gameLevel.deltaTime=this.dt;
+        this.gameLevel.deltaTime = this.dt;
         // init game music
         this.aural = new Aural(this.gameLevel);
         // load current scene
@@ -26,7 +26,7 @@ class Engine {
         this.frameTime = (newTime - this.currentTime) / 1000;
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
-        while (this.accumulator >= this.dt && this.dt>0) {
+        while (this.accumulator >= this.dt && this.dt > 0) {
             this.physics.fixedStep(this, this.dt);
             this.logic.fixedUpdate(this, this.dt, this.t, this.frameTime);
             this.t += this.dt;
@@ -135,16 +135,16 @@ class Engine {
         gameObject.rigidbody.applyTorque(angle * 180 / Math.PI);
     }
 
-    goTo(scene){
+    goTo(scene) {
         this.changeScene = true;
         this.goToScene = scene.name;
     }
 
-    pause(resumeActor){
+    pause(resumeActor) {
         this.gamePaused = true;
     }
 
-    resume(){
+    resume() {
         console.log("resume");
         this.gamePaused = false;
     }
@@ -174,8 +174,9 @@ class Engine {
         return value;
     }
 
-    keyboard(key, mode) {
+    keyboard(key, mode,) {
         var value = Input.keyList[key][mode]; // read key input
+        if (value) console.log(key, mode, Input.keyList[key][mode]);
         if (Input.keyList[key].down) Input.keyList[key].down = false; // after reading the input value the key is reset
         return value;
     }
