@@ -1,6 +1,7 @@
 class Engine {
 
     constructor(gameModel) {
+        console.log(gameModel);
         this.ffps = 100;
         this.dt = 1 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
