@@ -2,6 +2,7 @@ class Input {
     static keyList = {};
     static pointer = { down: false, up: true, over: false, tap: false };
     static touchObjects = {}; // touchable game object list
+    static firstTime = true;
 
     constructor(gameLevel, stage) {
         Input.pointerX = gameLevel.mouseX;
@@ -15,8 +16,11 @@ class Input {
         stage.on("pointerup", Input.pointerUpHandler.bind(this));
         stage.on("pointermove", Input.pointerMoveHandler.bind(this));
         // Key events
-        document.addEventListener("keydown", Input.keyDownHandler.bind(this));
-        document.addEventListener("keyup", Input.keyUpHandler.bind(this));
+        if (Input.firstTime) { // Key events are only added once
+            document.addEventListener("keydown", Input.keyDownHandler.bind(this));
+            document.addEventListener("keyup", Input.keyUpHandler.bind(this));
+            Input.firstTime=false;
+        }
     }
 
     static addKey(key) {

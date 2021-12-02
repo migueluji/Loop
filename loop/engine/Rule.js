@@ -26,11 +26,15 @@ class Rule {
 
     // Actions 
     go_to(params) {
+        this.gameObject.resume = true;
         return ("Engine.goTo(Engine.sceneList." + params.scene + ")");
     }
 
     add(params) { // pause
-        return ("Engine.pause()");
+        params.stopPhysics = true;
+        params.stopLogic = true;
+        params.stopSounds = true;
+        return ("Engine.pause("+params.stopPhysics+","+params.stopLogic+","+params.stopSounds+")");
     }
 
     remove(params) { // resume

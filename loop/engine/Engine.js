@@ -1,13 +1,11 @@
 class Engine {
 
     constructor(gameModel) {
-        console.log(gameModel);
         this.ffps = 100;
         this.dt = 1 / this.ffps;
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         this.changeScene = false;
-        this.gamePaused = false;
         // create a object to acces by name to scenes on load and in scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
@@ -39,8 +37,7 @@ class Engine {
     }
 
     loadScene(scene) {
-        console.log(scene);
-        this.gameLevel.currentScene = scene;
+        this.resume();
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
         // init engines
@@ -48,6 +45,7 @@ class Engine {
         this.logic = new Logic();
         this.input = new Input(this.gameLevel, this.render.stage);
         this.physics = new Physics(this.gameLevel, this.gameObjects);
+        Howler.stop(); // stop all sounds
         // Create gameObjects
         this.zIndex = 0;
         this.sceneList[scene].actorList.forEach(actor => {
@@ -57,6 +55,25 @@ class Engine {
             this.scope[actor.name] = gameObject;
             this.zIndex++;
         });
+        this.gameLevel.currentScene = scene;
+    }
+
+    // scene actions
+    goTo(scene) {
+        this.changeScene = true;
+        this.goToScene = scene.name;
+    }
+
+    pause(stopPhysics, stopLogic, stopSounds) {
+        this.stopPhysics = stopPhysics;
+        this.stopLogic = stopLogic;
+        this.stopSounds = stopSounds;
+    }
+
+    resume() {
+        this.stopPhysics = false;
+        this.stopLogic = false;
+        this.stopSounds = false;
     }
 
     // actions
@@ -86,6 +103,7 @@ class Engine {
 
     play(gameObject, soundID) {
         var sound = gameObject.playList[soundID];
+        console.log(gameObject.name,gamObjecto.playList,soundID);
         sound.source.loop(false);
         sound.source.volume(gameObject.volume); // sounds with game object volume
         sound.source.play(sound.id);
@@ -136,21 +154,6 @@ class Engine {
         gameObject.rigidbody.applyTorque(angle * 180 / Math.PI);
     }
 
-    goTo(scene) {
-        this.changeScene = true;
-        this.goToScene = scene.name;
-    }
-
-    pause(resumeActor) {
-        this.gamePaused = true;
-    }
-
-    resume() {
-        console.log("resume");
-        this.gamePaused = false;
-    }
-
-
     // conditions
     timer(gameObject, id, expression) {
         var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
@@ -175,9 +178,8 @@ class Engine {
         return value;
     }
 
-    keyboard(key, mode,) {
+    keyboard(key, mode) {
         var value = Input.keyList[key][mode]; // read key input
-        if (value) console.log(key, mode, Input.keyList[key][mode]);
         if (Input.keyList[key].down) Input.keyList[key].down = false; // after reading the input value the key is reset
         return value;
     }

@@ -9,7 +9,7 @@
 	"backgroundColor": "#ffffff",
 	"soundOn": true,
 	"soundtrack": "Stellar Wind - Unicorn Heads.mp3",
-	"volume": 0.1,
+	"volume": 1,
 	"start": 0,
 	"pan": 0,
 	"loop": true,
@@ -111,9 +111,9 @@
 					"soundOn": true,
 					"sound": "engineCircular_004.ogg",
 					"start": 0,
-					"volume": 0.1,
+					"volume": 1,
 					"pan": 0,
-					"loop": false,
+					"loop": true,
 					"physicsOn": false,
 					"type": "Dynamic",
 					"fixedAngle": false,
@@ -130,26 +130,12 @@
 							"name": "move",
 							"nodeList": [
 								{
-									"type": "Edit",
-									"parameters": {
-										"property": "Me.soundOn",
-										"value": false
-									}
-								},
-								{
 									"type": "Keyboard",
 									"parameters": {
 										"key": "ArrowUp",
 										"key_Mode": "Pressed"
 									},
 									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.soundOn",
-												"value": true
-											}
-										},
 										{
 											"type": "Move",
 											"parameters": {
@@ -167,13 +153,6 @@
 										"key_Mode": "Pressed"
 									},
 									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.soundOn",
-												"value": true
-											}
-										},
 										{
 											"type": "Move",
 											"parameters": {

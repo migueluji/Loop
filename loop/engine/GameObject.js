@@ -42,6 +42,10 @@ class GameObject {
         }
     }
 
+    pause(){
+        if (this.audio)  this.audio.source.pause(this.audio.id);
+    } 
+
     fixedStep() {
         if (!this.sleeping) {
             this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;

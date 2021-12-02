@@ -2,6 +2,7 @@ class Sound {
     
     constructor(src, options) {
         this.source = player.file.playList[src];
+        this.source.volume(0);
         this.id = this.source.play(); // play to get the sound id
         this.source.stop(this.id); //  stop to initialize the sound
         if (options) {
