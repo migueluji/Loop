@@ -2,8 +2,7 @@ class Engine {
 
     constructor(gameModel) {
         this.ffps = 100;
-        this.dt = 1 / this.ffps;
-        this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
+        this.currentTime = this.accumulator = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         this.changeScene = false;
         this.stopPhysics = false;
@@ -13,12 +12,26 @@ class Engine {
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Create data structures
-        this.gameLevel = new GameLevel(gameModel);
-        console.log(this.gameLevel,this.gameLevel.volume,gameModel.volume);
-        // init game music
-        this.aural = new Aural();
-        // load current scene
-        this.loadScene(this.gameLevel.currentScene);
+        this.gameObjects = new Map();
+        // init engines
+        this.render = new Render(gameModel);
+        this.logic = new Logic();
+        this.input = new Input(gameModel, this.render.stage);
+        this.physics = new Physics(gameModel, this.gameObjects);
+        this.aural = new Aural(gameModel);
+        this.gameLevel = new GameLevel(this, gameModel);
+        this.gameLevel.deltaTime = 1 / this.ffps;
+        // init scope
+        this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
+        // Create gameObjects
+        this.zIndex = 0;
+        this.sceneList[this.gameLevel.currentScene].actorList.forEach(actor => {
+            actor.zIndex = this.zIndex;
+            var gameObject = new GameObject(this, actor);
+            this.gameObjects.set(actor.name, gameObject);
+            this.scope[actor.name] = gameObject;
+            this.zIndex++;
+        });
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     };
@@ -28,14 +41,15 @@ class Engine {
         this.frameTime = (newTime - this.currentTime) / 1000;
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
-        while (this.accumulator >= this.dt && this.dt > 0) {
-            this.physics.fixedStep(this, this.dt);
-            this.logic.fixedUpdate(this, this.dt, this.t, this.frameTime);
-            this.t += this.dt;
-            this.accumulator -= this.dt;
+        while (this.accumulator >= this.gameLevel.deltaTime && this.gameLevel.deltaTime > 0) {
+            this.physics.fixedStep(this, this.gameLevel.deltaTime);
+            this.logic.fixedUpdate(this, this.gameLevel.deltaTime, this.gameLevel.time, this.frameTime);
+            this.gameLevel.time += this.gameLevel.deltaTime;
+            this.accumulator -= this.gameLevel.deltaTime;
         }
         this.aural.play(this);
-        this.render.update(this, this.accumulator / this.dt);
+        this.render.update(this, this.accumulator / this.gameLevel.deltaTime);
+        this.gameLevel.FPS= 1 / this.frameTime;
         this.currentTime = newTime;
     }
 
@@ -66,7 +80,7 @@ class Engine {
     }
 
     pause(stopPhysics, stopLogic, stopSounds) {
-        this.stopPhysics = stopPhysics; this.stopLogic = stopLogic; this.stopSounds = false;
+        this.stopPhysics = stopPhysics; this.stopLogic = stopLogic; this.stopSounds = stopSounds;
     }
 
     resume() {
@@ -92,31 +106,31 @@ class Engine {
     animate(gameObject, id, animation, fps) {
         var secuence = animation.split(",");
         var dtAnim = 1000 / fps;
-        if (gameObject.timer[id].time + this.dt < 1000) gameObject.timer[id].time += this.dt;
+        if (gameObject.timer[id].time + this.gameLevel.deltaTime < 1000) gameObject.timer[id].time += this.gameLevel.deltaTime;
         else gameObject.timer[id].time = 0;
         var frame = gameObject.timer[id].time / dtAnim;
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
-    play(gameObject,sound) {
-        var sound = new Sound(sound,{volume:gameObject.volume,loop:false});
+    play(gameObject, sound) {
+        var sound = new Sound(sound, { volume: gameObject.volume, loop: false });
         sound.source.play(sound.id);
     }
 
     move(gameObject, speed, angle) {
-        gameObject.x += speed * this.dt * Math.cos(Utils.radians(angle));
-        gameObject.y += speed * this.dt * Math.sin(Utils.radians(angle));
+        gameObject.x += speed * this.gameLevel.deltaTime * Math.cos(Utils.radians(angle));
+        gameObject.y += speed * this.gameLevel.deltaTime * Math.sin(Utils.radians(angle));
     }
 
     moveTo(gameObject, speed, px, py) {
         var dist = Utils.getDistance({ x: gameObject.x, y: gameObject.y }, { x: px, y: py });
-        gameObject.x = (dist > 1) ? gameObject.x + speed * this.dt * (px - gameObject.x) / dist : px;
-        gameObject.y = (dist > 1) ? gameObject.y + speed * this.dt * (py - gameObject.y) / dist : py;
+        gameObject.x = (dist > 1) ? gameObject.x + speed * this.gameLevel.deltaTime * (px - gameObject.x) / dist : px;
+        gameObject.y = (dist > 1) ? gameObject.y + speed * this.gameLevel.deltaTime * (py - gameObject.y) / dist : py;
     }
 
     rotate(gameObject, speed, pivotX, pivotY) {
         var dist = Utils.getDistance({ x: pivotX, y: pivotY }, { x: gameObject.x, y: gameObject.y });
-        gameObject.angle += speed * this.dt;
+        gameObject.angle += speed * this.gameLevel.deltaTime;
         gameObject.x = pivotX + dist * Math.cos(Utils.radians(gameObject.angle));
         gameObject.y = pivotY + dist * Math.sin(Utils.radians(gameObject.angle));
     }
@@ -129,7 +143,7 @@ class Engine {
         var angle1 = Math.PI + Math.atan2(d1.y, d1.x); // angle between 0 and 2 PI
         var da = angle1 - angle0;
         da = (Math.abs(da) > Math.PI) ? (da < -Math.PI ? 2 * Math.PI + da : -2 * Math.PI + da) : da;
-        gameObject.angle = (Utils.degrees(Math.abs(da)) > 0.5) ? gameObject.angle + speed * this.dt : gameObject.angle;
+        gameObject.angle = (Utils.degrees(Math.abs(da)) > 0.5) ? gameObject.angle + speed * this.gameLevel.deltaTime : gameObject.angle;
         gameObject.x = pivotX + dist * Math.cos(Utils.radians(gameObject.angle));
         gameObject.y = pivotY + dist * Math.sin(Utils.radians(gameObject.angle));
     }
@@ -157,7 +171,7 @@ class Engine {
             return true;
         }
         else {
-            gameObject.timer[id].time += this.dt;
+            gameObject.timer[id].time += this.gameLevel.deltaTime;
             gameObject.timer[id].previousTime = gameObject.timer[id].time;
             return false;
         }

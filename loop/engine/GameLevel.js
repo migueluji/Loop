@@ -1,60 +1,56 @@
 class GameLevel {
 
-    constructor(gameModel) {
-        var soundOpt = { volume: gameModel.volume, loop: gameModel.loop, pan: gameModel.pan, start: gameModel.start }
-        if (gameModel.soundtrack) this.music = new Sound(gameModel.soundtrack,soundOpt);
-        for (let key in gameModel.allProperties) { this[key] = gameModel.allProperties[key];}
+    constructor(engine, gameModel) {
+        this.engine = engine;
+        for (let key in gameModel.allProperties) { this[key] = gameModel.allProperties[key]; }
     }
 
-    fixedStep(world) {
-        world.setGravity(planck.Vec2(this.gravityX, this.gravityY));
+    get displayWidth() { return this.engine.render.renderer.width; }
+    set displayWidth(value) { }
+
+    get displayHeight() { return this.engine.render.renderer.height; }
+    set displayHeight(value) { }
+
+    get cameraX() { return (this.engine.render.stage.position.x * 2.0 / this.displayWidth) }
+    set cameraX(value) { this.engine.render.stage.x = this.displayWidth / 2.0 - value; }
+
+    get cameraY() { return (-this.engine.render.stage.position.y * 2.0 / this.displayHeight) }
+    set cameraY(value) { this.engine.render.stage.position.y = this.displayHeight / 2.0 + value }
+
+    get cameraZoom() { return this.engine.render.stage.scale.x }
+    set cameraZoom(value) { this.engine.render.stage.scale = { x: value, y: -value }; }
+
+    get soundtrack() { return this.engine.music.source._src }
+    set soundtrack(value) {
+        if (this.engine.aural.music.source._src != player.file.playList[value]._src) { // change sound file
+            var volume = this.volume; // get previous volume
+            this.engine.aural.music.source.stop(this.engien.aural.music.id);
+            this.engine.aural.music = new Sound(value);
+            this.volume = volume; // update volume
+        }
     }
 
-    fixedUpdate(deltaTime, time, frameTime) {
-        this.deltaTime = deltaTime;
-        this.time = time;
-        this.FPS = 1 / frameTime;
-        this.mouseX = Input.pointerX;
-        this.mouseY = Input.pointerY;
-    }
+    get volume() { return this.engine.aural.music.source.volume() };
+    set volume(value) { this.engine.aural.music.source.volume(value); }
 
-    update(renderer, stage) {
-        renderer.backgroundColor = PIXI.utils.string2hex(this.backgroundColor);
-        stage.position = {
-            x: this.displayWidth / 2.0 - this.cameraX,
-            y: this.displayHeight / 2.0 + this.cameraY
-        };
-        stage.scale = { x: this.cameraZoom, y: -this.cameraZoom };
-        stage.angle = this.cameraAngle;
-    }
+    get start() { return this.engine.aural.music.source.seek() };
+    set start(value) { this.engine.aural.music.source.seek(value) };
 
-    play() {
-        console.log(this.soundOn,this.music.id,this.music.source.playing());
-        if (this.soundOn) this.music.source.play(this.music.id);
-        else this.music.source.stop(this.music.id);
-        // if (music.source._src != player.file.playList[this.soundtrack]._src) { // change soundtrack
-        //     music.source.stop(music.id);
-        //     music = new Sound(this.soundtrack);
-        // }
+    get pan() { return this.engine.aural.music.source.stereo() };
+    set pan(value) { this.engine.aural.music.source.stereo(value) };
 
-        // if (this.start != this.start) {
-        //     music.source.seek(this.start);
-        //     this.start = this.start;
-        // }
-         //music.source.volume(this.volume);
-        // music.source.stereo(this.pan);
-        // music.source.loop(this.loop);
-    }
-    
-    get volume(){ return this.music.source.volume() };
-    set volume(value) { this.music.source.volume(value);}
+    get loop() { return this.engine.aural.music.source.loop() }
+    set loop(value) { this.engine.aural.music.source.loop(value) };
 
-    get start() { return this.music.source.seek() };
-    set start(value) { this.music.source.seek(value) };
+    get gravityX() { return this.engine.physics.world.getGravity().x; }
+    set gravityX(value) { this.engine.physics.world.setGravity(planck.Vec2(value, this.gravityY)) }
 
-    get pan() { return this.music.source.stereo() };
-    set pan(value) { this.music.source.stereo(value) };
+    get gravityY() { return this.engine.physics.world.getGravity().y }
+    set gravityY(value) { this.engine.physics.world.setGravity(planck.Vec2(this.gravityX, value)) }
 
-    get loop() { return this.music.source.loop() }
-    set loop(value) { this.music.source.loop(value) };
+    get mouseX() { return Input.pointerX }
+    set mouseX(value) { Input.pointerX = value };
+
+    get mouseY() { return Input.pointerY }
+    set mouseY(value) { Input.pointerY = value };
 }

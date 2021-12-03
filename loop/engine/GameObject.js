@@ -42,9 +42,9 @@ class GameObject {
         }
     }
 
-    pause(){
-        if (this.audio)  this.audio.source.pause(this.audio.id);
-    } 
+    pause() {
+        if (this.audio) this.audio.source.stop(this.audio.id);
+    }
 
     fixedStep() {
         if (!this.sleeping) {
@@ -242,7 +242,7 @@ class GameObject {
     get offsetY() { return this.container.text.position.y };
     set offsetY(value) { this.container.text.position.y = value };
 
-    get sound() { }
+    get sound() { return this.audio.source._src }
     set sound(value) {
         if (this.audio.source._src != player.file.playList[value]._src) { // change sound file
             var volume = this.volume; // get previous volume
@@ -265,9 +265,12 @@ class GameObject {
     set loop(value) { this.audio.source.loop(value) };
 
     get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
-    set velocityX(value) { this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) };
+    set velocityX(value) { 
+        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) 
+    };
 
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
-    set velocityY(value) { this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) };
-
+    set velocityY(value) { 
+        this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) 
+    };
 }
