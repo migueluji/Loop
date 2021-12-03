@@ -6,14 +6,17 @@ class Engine {
         this.currentTime = this.accumulator = this.t = this.frameTime = 0.0;
         this.debug = gameModel.debug;
         this.changeScene = false;
+        this.stopPhysics = false;
+        this.stopLogic = false;
+        this.stopSounds = false;
         // create a object to acces by name to scenes on load and in scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Create data structures
         this.gameLevel = new GameLevel(gameModel);
-        this.gameLevel.deltaTime = this.dt;
+        console.log(this.gameLevel,this.gameLevel.volume,gameModel.volume);
         // init game music
-        this.aural = new Aural(this.gameLevel);
+        this.aural = new Aural();
         // load current scene
         this.loadScene(this.gameLevel.currentScene);
         // Launch gameloop
@@ -45,7 +48,6 @@ class Engine {
         this.logic = new Logic();
         this.input = new Input(this.gameLevel, this.render.stage);
         this.physics = new Physics(this.gameLevel, this.gameObjects);
-        Howler.stop(); // stop all sounds
         // Create gameObjects
         this.zIndex = 0;
         this.sceneList[scene].actorList.forEach(actor => {
@@ -60,20 +62,15 @@ class Engine {
 
     // scene actions
     goTo(scene) {
-        this.changeScene = true;
-        this.goToScene = scene.name;
+        this.changeScene = true; this.goToScene = scene.name;
     }
 
     pause(stopPhysics, stopLogic, stopSounds) {
-        this.stopPhysics = stopPhysics;
-        this.stopLogic = stopLogic;
-        this.stopSounds = stopSounds;
+        this.stopPhysics = stopPhysics; this.stopLogic = stopLogic; this.stopSounds = false;
     }
 
     resume() {
-        this.stopPhysics = false;
-        this.stopLogic = false;
-        this.stopSounds = false;
+        this.stopPhysics = false; this.stopLogic = false; this.stopSounds = false;
     }
 
     // actions
@@ -101,11 +98,8 @@ class Engine {
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 
-    play(gameObject, soundID) {
-        var sound = gameObject.playList[soundID];
-        console.log(gameObject.name,gamObjecto.playList,soundID);
-        sound.source.loop(false);
-        sound.source.volume(gameObject.volume); // sounds with game object volume
+    play(gameObject,sound) {
+        var sound = new Sound(sound,{volume:gameObject.volume,loop:false});
         sound.source.play(sound.id);
     }
 

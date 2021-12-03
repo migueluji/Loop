@@ -8,7 +8,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
-       // console.log(gameObject.name,expression);
+        // console.log(gameObject.name,expression);
         return (math.compile(expression));
     }
 
@@ -34,7 +34,7 @@ class Rule {
         params.stopPhysics = true;
         params.stopLogic = true;
         params.stopSounds = true;
-        return ("Engine.pause("+params.stopPhysics+","+params.stopLogic+","+params.stopSounds+")");
+        return ("Engine.pause(" + params.stopPhysics + "," + params.stopLogic + "," + params.stopSounds + ")");
     }
 
     remove(params) { // resume
@@ -62,14 +62,11 @@ class Rule {
         var id = Utils.id();
         if (!this.gameObject.timer) this.gameObject.timer = {}; // create timers if doesn't exist
         this.gameObject.timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": 1 });
-        return ("Engine.animate(" + this.gameObject.name + ",'" + id + "','" + params.animation + "'," + params.fps + ")");
+        return ("Engine.animate(" + this.gameObject.name + ",'" + id + "','" + params.animation + "'," + params.fps + ")"); s
     }
 
     play(params) {
-        var id = Utils.id();
-        if (!this.gameObject.playList) this.gameObject.playList = {} // create play list if doesn't exist
-        this.gameObject.playList[id] = new Sound(params.sound_File);
-        return ("Engine.play(" + this.gameObject.name + ",'" + id + "')");
+        return ("Engine.play(" + this.gameObject.name + ",'" + params.sound_File + "')");
     }
 
     move(params) {
