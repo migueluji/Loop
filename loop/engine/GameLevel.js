@@ -2,6 +2,7 @@ class GameLevel {
 
     constructor(engine, gameModel) {
         this.engine = engine;
+        this.gameModel = gameModel;
         for (let key in gameModel.allProperties) { this[key] = gameModel.allProperties[key]; }
     }
 
@@ -12,41 +13,60 @@ class GameLevel {
     set displayHeight(value) { }
 
     get cameraX() { return (this.engine.render.stage.position.x * 2.0 / this.displayWidth) }
-    set cameraX(value) { this.engine.render.stage.x = this.displayWidth / 2.0 - value; }
+    set cameraX(value) { if (this.engine.render) this.engine.render.stage.position.x = this.displayWidth / 2.0 - value; }
 
     get cameraY() { return (-this.engine.render.stage.position.y * 2.0 / this.displayHeight) }
-    set cameraY(value) { this.engine.render.stage.position.y = this.displayHeight / 2.0 + value }
+    set cameraY(value) { if (this.engine.render) this.engine.render.stage.position.y = this.displayHeight / 2.0 + value }
+
+    get cameraAngle() { return (this.engine.render.stage.angle) }
+    set cameraAngle(value) { if (this.engine.render) this.engine.render.stage.angle = value }
 
     get cameraZoom() { return this.engine.render.stage.scale.x }
-    set cameraZoom(value) { this.engine.render.stage.scale = { x: value, y: -value }; }
+    set cameraZoom(value) { if (this.engine.render) this.engine.render.stage.scale = { x: value, y: -value }; }
+
+    get backgroundColor() { return this.engine.render.renderer.backgroundColor }
+    set backgroundColor(value) { if (this.engine.render) this.engine.render.renderer.backgroundColor = PIXI.utils.string2hex(value); }
+
+    get soundOn() { return this.engine.aural.music.playing() }
+    set soundOn(value) {
+        if (this.engine.aural)
+            (value) ? this.engine.aural.music.source.play(this.engine.aural.music.id) :
+                this.engine.aural.music.source.stop(this.engine.aural.music.id)
+    }
 
     get soundtrack() { return this.engine.music.source._src }
     set soundtrack(value) {
-        if (this.engine.aural.music.source._src != player.file.playList[value]._src) { // change sound file
+        if (this.engine.aural && (this.engine.aural.music.source._src != player.file.playList[value]._src)) { // change sound file
             var volume = this.volume; // get previous volume
-            this.engine.aural.music.source.stop(this.engien.aural.music.id);
+            this.engine.aural.music.source.stop(this.engine.aural.music.id);
             this.engine.aural.music = new Sound(value);
             this.volume = volume; // update volume
         }
     }
 
     get volume() { return this.engine.aural.music.source.volume() };
-    set volume(value) { this.engine.aural.music.source.volume(value); }
+    set volume(value) { if (this.engine.aural) this.engine.aural.music.source.volume(value); }
 
     get start() { return this.engine.aural.music.source.seek() };
-    set start(value) { this.engine.aural.music.source.seek(value) };
+    set start(value) { if (this.engine.aural) this.engine.aural.music.source.seek(value) };
 
     get pan() { return this.engine.aural.music.source.stereo() };
-    set pan(value) { this.engine.aural.music.source.stereo(value) };
+    set pan(value) { if (this.engine.aural) this.engine.aural.music.source.stereo(value) };
 
     get loop() { return this.engine.aural.music.source.loop() }
-    set loop(value) { this.engine.aural.music.source.loop(value) };
+    set loop(value) {
+        if (this.engine.aural) {
+            console.log(this.loop,value);
+            this.engine.aural.music.source.loop(value);
+            console.log(this.loop,value);
+        }
+    };
 
     get gravityX() { return this.engine.physics.world.getGravity().x; }
-    set gravityX(value) { this.engine.physics.world.setGravity(planck.Vec2(value, this.gravityY)) }
+    set gravityX(value) { if (this.engine.physics) this.engine.physics.world.setGravity(planck.Vec2(value, this.gravityY)) }
 
     get gravityY() { return this.engine.physics.world.getGravity().y }
-    set gravityY(value) { this.engine.physics.world.setGravity(planck.Vec2(this.gravityX, value)) }
+    set gravityY(value) { if (this.engine.physics) this.engine.physics.world.setGravity(planck.Vec2(this.gravityX, value)) }
 
     get mouseX() { return Input.pointerX }
     set mouseX(value) { Input.pointerX = value };

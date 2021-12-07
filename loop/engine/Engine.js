@@ -1,37 +1,22 @@
 class Engine {
 
     constructor(gameModel) {
+        this.gameModel = gameModel;
         this.ffps = 100;
         this.currentTime = this.accumulator = this.frameTime = 0.0;
         this.debug = gameModel.debug;
-        this.changeScene = false;
-        this.stopPhysics = false;
-        this.stopLogic = false;
-        this.stopSounds = false;
-        // create a object to acces by name to scenes on load and in scope
+        this.changeScene = this.stopPhysics = this.stopLogic = this.stopSounds = false;
+        // Create a new object to acces by name to scenes on load and in scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
-        // Create data structures
-        this.gameObjects = new Map();
-        // init engines
-        this.render = new Render(gameModel);
-        this.logic = new Logic();
-        this.input = new Input(gameModel, this.render.stage);
-        this.physics = new Physics(gameModel, this.gameObjects);
-        this.aural = new Aural(gameModel);
+        // Init gameLevel
         this.gameLevel = new GameLevel(this, gameModel);
         this.gameLevel.deltaTime = 1 / this.ffps;
-        // init scope
-        this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
-        // Create gameObjects
-        this.zIndex = 0;
-        this.sceneList[this.gameLevel.currentScene].actorList.forEach(actor => {
-            actor.zIndex = this.zIndex;
-            var gameObject = new GameObject(this, actor);
-            this.gameObjects.set(actor.name, gameObject);
-            this.scope[actor.name] = gameObject;
-            this.zIndex++;
-        });
+        this.gameLevel.currentScene = gameModel.sceneList[0].name;
+        // init audio engine
+        this.aural = new Aural(gameModel);
+        // load currente scene
+        this.loadScene(this.gameLevel.currentScene);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     };
@@ -49,19 +34,20 @@ class Engine {
         }
         this.aural.play(this);
         this.render.update(this, this.accumulator / this.gameLevel.deltaTime);
-        this.gameLevel.FPS= 1 / this.frameTime;
+        this.gameLevel.FPS = 1 / this.frameTime;
         this.currentTime = newTime;
     }
 
     loadScene(scene) {
-        this.resume();
+        this.resume(); // disables the stop of the different engines
+        // Create new data structures
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
-        // init engines
-        this.render = new Render(this.gameLevel);
+        // Init engines
+        this.render = new Render(this.gameModel);
         this.logic = new Logic();
-        this.input = new Input(this.gameLevel, this.render.stage);
-        this.physics = new Physics(this.gameLevel, this.gameObjects);
+        this.input = new Input(this.gameModel, this.render.stage);
+        this.physics = new Physics(this.gameModel, this.gameObjects);
         // Create gameObjects
         this.zIndex = 0;
         this.sceneList[scene].actorList.forEach(actor => {
@@ -84,7 +70,7 @@ class Engine {
     }
 
     resume() {
-        this.stopPhysics = false; this.stopLogic = false; this.stopSounds = false;
+        this.stopPhysics = this.stopLogic = this.stopSounds = false;
     }
 
     // actions
@@ -99,16 +85,14 @@ class Engine {
         }
     }
 
-    delete(gameObject) {
-        gameObject.dead = true; // mark to be eliminated
-    }
+    delete(gameObject) { gameObject.dead = true; }// mark to be eliminated
 
     animate(gameObject, id, animation, fps) {
         var secuence = animation.split(",");
         var dtAnim = 1000 / fps;
         if (gameObject.timer[id].time + this.gameLevel.deltaTime < 1000) gameObject.timer[id].time += this.gameLevel.deltaTime;
         else gameObject.timer[id].time = 0;
-        var frame = gameObject.timer[id].time / dtAnim;
+        var frame = (gameObject.timer[id].time / dtAnim) * 1000;
         gameObject.image = secuence[Math.floor(frame % secuence.length)];
     }
 

@@ -42,7 +42,7 @@
 					"spriteOn": true,
 					"image": "background.png",
 					"color": "#ffffff",
-					"opacity": 1,
+					"opacity": 0.9,
 					"flipX": false,
 					"flipY": false,
 					"scrollX": -100,
@@ -217,24 +217,25 @@
 											}
 										}
 									],
-									"nodeListFalse": []
-								},
-								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "ArrowUp",
-										"key_Mode": "Pressed"
-									},
-									"nodeListTrue": [
+									"nodeListFalse": [
 										{
-											"type": "Move",
+											"type": "Keyboard",
 											"parameters": {
-												"speed": "300",
-												"angle": "90"
-											}
+												"key": "ArrowUp",
+												"key_Mode": "Pressed"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Move",
+													"parameters": {
+														"speed": "300",
+														"angle": "90"
+													}
+												}
+											],
+											"nodeListFalse": []
 										}
-									],
-									"nodeListFalse": []
+									]
 								},
 								{
 									"type": "Keyboard",
@@ -259,6 +260,13 @@
 										}
 									],
 									"nodeListFalse": []
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Game.backgroundColor",
+										"value": "#ef3434"
+									}
 								},
 								{
 									"type": "Animate",
