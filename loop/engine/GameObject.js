@@ -12,7 +12,10 @@ class GameObject {
         for (let key in actor.newProperties) { this[key] = actor[key]; } // add new gameObject properties
         // add audio
         var soundOpt = { volume: actor.volume, loop: actor.loop, pan: actor.pan, start: actor.start }
-        if (actor.sound) this.audio = new Sound(actor.sound, soundOpt);
+        if (actor.sound) {
+            this.audio = new Sound(actor.sound, soundOpt);
+            if (actor.soundOn) this.audio.source.play(this.audio.id);
+        }
         // add container to stage
         this.container = engine.render.stage.addChild(new Container(actor));
         // add rigidbody to world
@@ -84,7 +87,7 @@ class GameObject {
         }
     }
 
-    update(lagOffset) { // integrate render positions !!!! REVISE
+    update(lagOffset) { // integrate render positions
         if (!this.sleeping) {
             this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
             this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
@@ -262,15 +265,54 @@ class GameObject {
     set pan(value) { this.audio.source.stereo(value) };
 
     get loop() { return this.audio.source.loop() }
-    set loop(value) { this.audio.source.loop(value) };
+    set loop(value) { this.audio.source.loop(value); };
+
+    get type() {
+        switch (true) {
+            case this.rigidbody.isDynamic(): return ("Dynamic");
+            case this.rigidbody.isKinematic(): return ("Kinematic");
+            case this.rigidbody.isStatic(): return ("Static");
+        }
+    }
+    set type(value) {
+        switch (value) {
+            case "Dynamic": this.rigidbody.setDynamic(); break;
+            case "Kinematic": this.rigidbody.setKinematic(); break;
+            case "Static": this.rigidbody.setStatic(); break;
+        }
+    }
+
+    get fixedAngle() { return this.rigidbody.isFixedRotation() }
+    set fixedAngle(value) { this.rigidbody.setFixedRotation(value) }
 
     get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
-    set velocityX(value) { 
-        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y)) 
+    set velocityX(value) {
+        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y))
     };
 
     get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.metersPerPixel };
-    set velocityY(value) { 
-        this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) 
+    set velocityY(value) {
+        this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel))
     };
+
+    get angularVelocity() { return this.rigidbody.getAngularVelocity() };
+    set angularVelocity(value) {
+        this.rigidbody.setAngularVelocity(value);
+    };
+
+    get density() { return this.rigidbody.getFixtureList().getDensity() };
+    set density(value) { this.rigidbody.getFixtureList().setDensity(value) };
+
+    get friction() { return this.rigidbody.getFixtureList().getFriction() };
+    set friction(value) { this.rigidbody.getFixtureList().setFriction(value) };
+
+    get restitution() { return this.rigidbody.getFixtureList().getRestitution() };
+    set restitution(value) { this.rigidbody.getFixtureList().setRestitution(value) };
+
+    get dampingLinear() { return this.rigidbody.getLinearDamping() };
+    set dampingLinear(value) { this.rigidbody.setLinearDamping(value) };
+
+    get dampingAngular() { return this.rigidbody.setAngularDamping() };
+    set dampingAngular(value) { this.rigidbody.getAngularDamping(value) };
+
 }

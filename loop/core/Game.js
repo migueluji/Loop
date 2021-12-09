@@ -32,7 +32,7 @@ class Game {
             // Sound
             soundOn: this.soundOn || false, soundtrack: this.soundtrack || "", volume: this.volume || 1, start: this.start || 0, pan: this.pan || 0, loop: this.loop || false,
             // Physics
-            physicsOn: this.physicsOn || true, gravityX: this.gravityX || 0, gravityY: this.gravityY || 0
+            physicsOn: this.physicsOn || false, gravityX: this.gravityX || 0, gravityY: this.gravityY || 0
         }
         if (obj.cameraZoom == undefined) obj.cameraZoom = 1;
         return (obj);

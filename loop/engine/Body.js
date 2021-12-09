@@ -7,7 +7,7 @@ class Body {
             angle: actor.angle * Math.PI / 180,
             linearVelocity: { x: actor.velocityX * Physics.metersPerPixel, y: actor.velocityY * Physics.metersPerPixel},
             fixedRotation: actor.fixedAngle, angularVelocity: actor.angularVelocity,
-            angularDamping: actor.dampingLinear, linearDamping: actor.dampingAngular,
+            linearDamping: actor.dampingLinear, angularDamping: actor.dampingAngular,
             userData: { name: actor.name, tags: actor.tags }
         }
         this.fixtureDef = {

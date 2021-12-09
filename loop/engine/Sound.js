@@ -11,7 +11,6 @@ class Sound {
             this.source.stereo(options.pan);
             this.source.seek(options.start);
         }
-        console.log(this.source.loop());
         return (this);
     }
 }

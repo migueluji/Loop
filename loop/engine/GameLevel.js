@@ -1,9 +1,12 @@
 class GameLevel {
 
-    constructor(engine, gameModel) {
+    constructor(engine) {
         this.engine = engine;
-        this.gameModel = gameModel;
-        for (let key in gameModel.allProperties) { this[key] = gameModel.allProperties[key]; }
+        for (let key in engine.gameModel.allProperties) {
+            this[key] = engine.gameModel.allProperties[key];
+        }
+        this.objectSoundsOn = true; // physicsOn is defined in the gameModel
+        this.logicOn = true;
     }
 
     get displayWidth() { return this.engine.render.renderer.width; }
@@ -26,13 +29,6 @@ class GameLevel {
 
     get backgroundColor() { return this.engine.render.renderer.backgroundColor }
     set backgroundColor(value) { if (this.engine.render) this.engine.render.renderer.backgroundColor = PIXI.utils.string2hex(value); }
-
-    get soundOn() { return this.engine.aural.music.playing() }
-    set soundOn(value) {
-        if (this.engine.aural)
-            (value) ? this.engine.aural.music.source.play(this.engine.aural.music.id) :
-                this.engine.aural.music.source.stop(this.engine.aural.music.id)
-    }
 
     get soundtrack() { return this.engine.music.source._src }
     set soundtrack(value) {

@@ -8,11 +8,11 @@
 	"cameraZoom": 1,
 	"backgroundColor": "#ffffff",
 	"soundOn": true,
-	"soundtrack": "laserLarge_000.ogg",
-	"volume": 0.5,
+	"soundtrack": "Stellar Wind - Unicorn Heads.mp3",
+	"volume": 1,
 	"start": 0,
 	"pan": 0,
-	"loop": false,
+	"loop": true,
 	"physicsOn": true,
 	"gravityX": 0,
 	"gravityY": -10,
@@ -142,7 +142,7 @@
 					]
 				},
 				{
-					"name": "plane5",
+					"name": "plane",
 					"sleeping": false,
 					"x": -230.29668426376247,
 					"y": -1.321548821548845,
@@ -173,12 +173,12 @@
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
-					"soundOn": false,
+					"soundOn": true,
 					"sound": "engineCircular_004.ogg",
 					"start": 0,
-					"volume": 0.5,
+					"volume": 0.4,
 					"pan": 0,
-					"loop": false,
+					"loop": true,
 					"physicsOn": false,
 					"type": "Dynamic",
 					"fixedAngle": false,
@@ -217,6 +217,23 @@
 											}
 										}
 									],
+									"nodeListFalse": []
+								},
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "ArrowDown",
+										"key_Mode": "Pressed"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Move",
+											"parameters": {
+												"speed": "300",
+												"angle": "-90"
+											}
+										}
+									],
 									"nodeListFalse": [
 										{
 											"type": "Keyboard",
@@ -238,37 +255,6 @@
 									]
 								},
 								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "ArrowDown",
-										"key_Mode": "Pressed"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.color",
-												"value": "#ffffff"
-											}
-										},
-										{
-											"type": "Move",
-											"parameters": {
-												"speed": "300",
-												"angle": "-90"
-											}
-										}
-									],
-									"nodeListFalse": []
-								},
-								{
-									"type": "Edit",
-									"parameters": {
-										"property": "Game.backgroundColor",
-										"value": "#ef3434"
-									}
-								},
-								{
 									"type": "Animate",
 									"parameters": {
 										"animation": "planeGreen1.png,planeGreen2.png,planeGreen3.png",
@@ -282,7 +268,7 @@
 				{
 					"name": "Actor_2",
 					"sleeping": false,
-					"x": 163.12536198750183,
+					"x": 164.64951989026065,
 					"y": -150,
 					"width": 50,
 					"height": 50,
@@ -340,13 +326,6 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.loop",
-												"value": true
-											}
-										},
-										{
 											"type": "Go_To",
 											"parameters": {
 												"scene": "scene2"
@@ -363,7 +342,7 @@
 					"name": "Actor_4",
 					"sleeping": false,
 					"x": -10,
-					"y": 158,
+					"y": 156.4758420972413,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -382,8 +361,8 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
-					"text": "",
+					"textOn": true,
+					"text": "${Me.type}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -391,15 +370,15 @@
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
-					"soundOn": false,
-					"sound": "engineCircular_004.ogg",
+					"soundOn": true,
+					"sound": "laserLarge_000.ogg",
 					"start": 0,
 					"volume": 0.5,
 					"pan": 0,
-					"loop": false,
+					"loop": true,
 					"physicsOn": true,
 					"type": "Dynamic",
-					"fixedAngle": false,
+					"fixedAngle": true,
 					"velocityX": 0,
 					"velocityY": 0,
 					"angularVelocity": 0,
@@ -430,6 +409,13 @@
 												"property": "Me.color",
 												"value": "#e15151"
 											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.type",
+												"value": "Static"
+											}
 										}
 									],
 									"nodeListFalse": [
@@ -441,6 +427,13 @@
 											}
 										}
 									]
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.friction",
+										"value": "4"
+									}
 								}
 							]
 						}
@@ -455,7 +448,7 @@
 					"height": 50,
 					"scaleX": 15.69,
 					"scaleY": 1,
-					"angle": 0,
+					"angle": 3.440438084646715,
 					"screen": false,
 					"collider": "Box",
 					"tags": "",
@@ -560,7 +553,7 @@
 										{
 											"type": "Add",
 											"parameters": {
-												"scene": "scene2",
+												"scene": null,
 												"stop": false
 											}
 										}
@@ -574,7 +567,7 @@
 				{
 					"name": "Actor_6_copy",
 					"sleeping": false,
-					"x": 280.47530864197523,
+					"x": 278.3845570606874,
 					"y": -150,
 					"width": 50,
 					"height": 50,
@@ -11293,5 +11286,5 @@
 			]
 		}
 	],
-	"debug": false
+	"debug": true
 }

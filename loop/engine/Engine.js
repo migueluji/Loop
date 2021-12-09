@@ -5,12 +5,12 @@ class Engine {
         this.ffps = 100;
         this.currentTime = this.accumulator = this.frameTime = 0.0;
         this.debug = gameModel.debug;
-        this.changeScene = this.stopPhysics = this.stopLogic = this.stopSounds = false;
+        this.changeScene = false;
         // Create a new object to acces by name to scenes on load and in scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Init gameLevel
-        this.gameLevel = new GameLevel(this, gameModel);
+        this.gameLevel = new GameLevel(this);
         this.gameLevel.deltaTime = 1 / this.ffps;
         this.gameLevel.currentScene = gameModel.sceneList[0].name;
         // init audio engine
@@ -39,7 +39,7 @@ class Engine {
     }
 
     loadScene(scene) {
-        this.resume(); // disables the stop of the different engines
+        // this.resume(); // Disables the stop of the different engines
         // Create new data structures
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
@@ -49,28 +49,28 @@ class Engine {
         this.input = new Input(this.gameModel, this.render.stage);
         this.physics = new Physics(this.gameModel, this.gameObjects);
         // Create gameObjects
-        this.zIndex = 0;
+        var zIndex = 0;
         this.sceneList[scene].actorList.forEach(actor => {
-            actor.zIndex = this.zIndex;
+            actor.zIndex = zIndex;
             var gameObject = new GameObject(this, actor);
             this.gameObjects.set(actor.name, gameObject);
             this.scope[actor.name] = gameObject;
-            this.zIndex++;
+            zIndex++;
         });
         this.gameLevel.currentScene = scene;
     }
 
     // scene actions
-    goTo(scene) {
-        this.changeScene = true; this.goToScene = scene.name;
-    }
+    goTo(scene) { this.changeScene = true; this.goToScene = scene.name; }
 
-    pause(stopPhysics, stopLogic, stopSounds) {
-        this.stopPhysics = stopPhysics; this.stopLogic = stopLogic; this.stopSounds = stopSounds;
+    pause(physics, logic, sounds) {
+        this.gameLevel.physicsOn = false;
+        this.gameLevel.logicOn = false;
+        this.gameLevel.objectSoundsOn = false; 
     }
 
     resume() {
-        this.stopPhysics = this.stopLogic = this.stopSounds = false;
+        this.gameLevel.physicsOn = this.gameLevel.logicOn = this.gameLevel.objectSoundsOn = true;
     }
 
     // actions

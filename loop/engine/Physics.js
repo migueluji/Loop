@@ -14,7 +14,7 @@ class Physics {
     }
 
     fixedStep(engine, dt) {
-        if (!engine.stopPhysics){
+        if (engine.gameLevel.physicsOn){
             this.world.step(dt);
             engine.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
         }

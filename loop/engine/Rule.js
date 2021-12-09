@@ -31,10 +31,10 @@ class Rule {
     }
 
     add(params) { // pause
-        params.stopPhysics = true;
-        params.stopLogic = true;
-        params.stopSounds = true;
-        return ("Engine.pause(" + params.stopPhysics + "," + params.stopLogic + "," + params.stopSounds + ")");
+        params.physics = true;
+        params.logic = true;
+        params.sounds = true;
+        return ("Engine.pause(" + params.physics + "," + params.logic + "," + params.sounds + ")");
     }
 
     remove(params) { // resume
@@ -45,7 +45,7 @@ class Rule {
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
-        var specialProperties = ["color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align"];
+        var specialProperties = ["type","color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align"];
         if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes if it doesn't have them
         return (params.property + " = " + params.value);
     }
