@@ -8,11 +8,11 @@
 	"cameraZoom": 1,
 	"backgroundColor": "#ffffff",
 	"soundOn": true,
-	"soundtrack": "Stellar Wind - Unicorn Heads.mp3",
+	"soundtrack": "laserLarge_000.ogg",
 	"volume": 0.5,
 	"start": 0,
 	"pan": 0,
-	"loop": true,
+	"loop": false,
 	"physicsOn": true,
 	"gravityX": 0,
 	"gravityY": -10,
@@ -178,7 +178,7 @@
 					"start": 0,
 					"volume": 0.5,
 					"pan": 0,
-					"loop": true,
+					"loop": false,
 					"physicsOn": false,
 					"type": "Dynamic",
 					"fixedAngle": false,
@@ -340,6 +340,13 @@
 									},
 									"nodeListTrue": [
 										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.loop",
+												"value": true
+											}
+										},
+										{
 											"type": "Go_To",
 											"parameters": {
 												"scene": "scene2"
@@ -384,7 +391,7 @@
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
-					"soundOn": true,
+					"soundOn": false,
 					"sound": "engineCircular_004.ogg",
 					"start": 0,
 					"volume": 0.5,
@@ -412,16 +419,16 @@
 									},
 									"nodeListTrue": [
 										{
+											"type": "Play",
+											"parameters": {
+												"sound_File": "laserLarge_000.ogg"
+											}
+										},
+										{
 											"type": "Edit",
 											"parameters": {
 												"property": "Me.color",
 												"value": "#e15151"
-											}
-										},
-										{
-											"type": "Play",
-											"parameters": {
-												"sound_File": "laserLarge_000.ogg"
 											}
 										}
 									],

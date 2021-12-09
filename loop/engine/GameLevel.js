@@ -56,9 +56,8 @@ class GameLevel {
     get loop() { return this.engine.aural.music.source.loop() }
     set loop(value) {
         if (this.engine.aural) {
-            console.log(this.loop,value);
             this.engine.aural.music.source.loop(value);
-            console.log(this.loop,value);
+            this.engine.aural.music.source.play();
         }
     };
 
