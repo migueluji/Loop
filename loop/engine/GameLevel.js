@@ -13,10 +13,10 @@ class GameLevel {
     get displayHeight() { return this.engine.render.renderer.height; }
     set displayHeight(value) { }
 
-    get cameraX() { return (this.engine.render.stageWorld.x)  }
+    get cameraX() { return (this.engine.render.stageWorld.x) }
     set cameraX(value) { if (this.engine.render) this.engine.render.stageWorld.x = -value; }
 
-    get cameraY() { return (this.engine.render.stageWorld.y ) }
+    get cameraY() { return (this.engine.render.stageWorld.y) }
     set cameraY(value) { if (this.engine.render) this.engine.render.stageWorld.y = -value; }
 
     get cameraAngle() { return (this.engine.render.stage.angle) }
@@ -71,11 +71,11 @@ class GameLevel {
     set deltaTime(value) { };
 
     get currentScene() { return this.engine.currentScene }
-    set currentScene(value) { this.engine.currentScene  = value };
+    set currentScene(value) { this.engine.currentScene = value };
 
     get currentSceneNumber() { return this.engine.currentSceneNumber }
-    set currentSceneNumber(value) { this.engine.currentSceneNumber  = value };
-    
+    set currentSceneNumber(value) { this.engine.currentSceneNumber = value };
+
     get mouseX() { return Input.pointerX }
     set mouseX(value) { Input.pointerX = value };
 
