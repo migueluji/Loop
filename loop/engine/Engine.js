@@ -39,7 +39,7 @@ class Engine {
     }
 
     loadScene(scene) {
-        // this.resume(); // Disables the stop of the different engines
+        this.resume(); // Disables the stop of the different engines
         // Create new data structures
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });

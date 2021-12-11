@@ -15,6 +15,10 @@ class Render {
             y: gameLevel.displayHeight / 2.0 + gameLevel.cameraY
         };
         this.stage.scale = { x: gameLevel.cameraZoom, y: -gameLevel.cameraZoom };
+        this.stageWorld = new PIXI.Container();
+        this.stageScreen = new PIXI.Container();
+        this.stage.addChild(this.stageWorld);
+        this.stage.addChild(this.stageScreen);
     }
 
     update(engine, lagOffset) {

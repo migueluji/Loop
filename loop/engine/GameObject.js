@@ -17,7 +17,8 @@ class GameObject {
             if (actor.soundOn) this.audio.source.play(this.audio.id);
         }
         // add container to stage
-        this.container = engine.render.stage.addChild(new Container(actor));
+        if (actor.screen) this.container = engine.render.stageScreen.addChild(new Container(actor));
+        else this.container = engine.render.stageWorld.addChild(new Container(actor));
         // add rigidbody to world
         var body = new Body(actor);
         this.rigidbody = engine.physics.world.createBody(body.bodyDef);
@@ -30,7 +31,8 @@ class GameObject {
         // add bounding box to debug
         if (engine.debug) {
             this.debug = new PIXI.Graphics();
-            engine.render.stage.addChild(this.debug);
+            if (actor.screen) engine.render.stageScreen.addChild(this.debug);
+            else engine.render.stageWorld.addChild(this.debug);
         }
         // compile the script if exist for this gameObject
         if (actor.scriptList.length) this.rule = new Rule(this);// this is the gameObject, no the actor

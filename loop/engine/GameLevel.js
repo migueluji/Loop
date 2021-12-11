@@ -15,11 +15,11 @@ class GameLevel {
     get displayHeight() { return this.engine.render.renderer.height; }
     set displayHeight(value) { }
 
-    get cameraX() { return (this.engine.render.stage.position.x * 2.0 / this.displayWidth) }
-    set cameraX(value) { if (this.engine.render) this.engine.render.stage.position.x = this.displayWidth / 2.0 - value; }
+    get cameraX() { return (this.engine.render.stageWorld.x)  }
+    set cameraX(value) { if (this.engine.render) this.engine.render.stageWorld.x = -value; }
 
-    get cameraY() { return (-this.engine.render.stage.position.y * 2.0 / this.displayHeight) }
-    set cameraY(value) { if (this.engine.render) this.engine.render.stage.position.y = this.displayHeight / 2.0 + value }
+    get cameraY() { return (this.engine.render.stageWorld.y ) }
+    set cameraY(value) { if (this.engine.render) this.engine.render.stageWorld.y = -value; }
 
     get cameraAngle() { return (this.engine.render.stage.angle) }
     set cameraAngle(value) { if (this.engine.render) this.engine.render.stage.angle = value }
