@@ -5,8 +5,6 @@ class GameLevel {
         for (let key in engine.gameModel.allProperties) {
             this[key] = engine.gameModel.allProperties[key];
         }
-        this.objectSoundsOn = true; // physicsOn is defined in the gameModel
-        this.logicOn = true;
     }
 
     get displayWidth() { return this.engine.render.renderer.width; }
@@ -63,6 +61,21 @@ class GameLevel {
     get gravityY() { return this.engine.physics.world.getGravity().y }
     set gravityY(value) { if (this.engine.physics) this.engine.physics.world.setGravity(planck.Vec2(this.gravityX, value)) }
 
+    get time() { return (this.engine.time).toFixed(1); }
+    set time(value) { };
+
+    get FPS() { return (1 / this.engine.frameTime).toFixed(0); }
+    set FPS(value) { };
+
+    get deltaTime() { return (this.engine.deltaTime).toFixed(3); }
+    set deltaTime(value) { };
+
+    get currentScene() { return this.engine.currentScene }
+    set currentScene(value) { this.engine.currentScene  = value };
+
+    get currentSceneNumber() { return this.engine.currentSceneNumber }
+    set currentSceneNumber(value) { this.engine.currentSceneNumber  = value };
+    
     get mouseX() { return Input.pointerX }
     set mouseX(value) { Input.pointerX = value };
 

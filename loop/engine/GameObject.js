@@ -68,7 +68,7 @@ class GameObject {
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             // update text
             if (this.textOn) {
-                this.text = math.print(this.container.text.expression, scope, { notation: 'fixed', precision: 1 });
+                this.text = math.print(this.container.text.expression, scope);
                 if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
@@ -81,8 +81,8 @@ class GameObject {
         }
         if (this.dead) {
             if (this.audio) this.audio.source.stop(this.audio.id);
-            this.engine.render.stage.removeChild(this.container);
-            if (this.debug) this.engine.render.stage.removeChild(this.debug);
+            this.engine.render.stageWorld.removeChild(this.container);
+            if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
             this.engine.physics.world.destroyBody(this.rigidbody);
             this.engine.gameObjects.delete(this.name);
             delete this.engine.scope[this.name];
@@ -100,7 +100,8 @@ class GameObject {
         if (this.debug) {  // debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
-            this.debug.lineStyle(1, 0xFF0000, 1, 0.5);
+            this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
+            this.debug.zIndex = this.actor.zIndex;
             switch (this.collider) {
                 case "Box": {
                     var shape = this.rigidbody.getFixtureList().getShape();
@@ -119,43 +120,43 @@ class GameObject {
     }
 
     // access to GameObject properties
-    get x() { return this.container.x };
+    get x() { return Math.round(this.container.x) };
     set x(value) {
         this.container.x = value;
         this.rigidbody.setPosition(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getPosition().y));
     };
 
-    get y() { return this.container.y };
+    get y() { return Math.round(this.container.y) };
     set y(value) {
         this.container.y = value;
         this.rigidbody.setPosition(planck.Vec2(this.rigidbody.getPosition().x, value * Physics.metersPerPixel));
     };
 
-    get width() { return Math.abs(this.container.sprite.width * this.container.sprite.scale.x) };
+    get width() { return Math.round(Math.abs(this.container.sprite.width * this.container.sprite.scale.x)) };
     set width(value) {  // sprite width don't include scale only tile
         this.container.sprite.scale.x = value / this.container.sprite.width;
         this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     };
 
-    get height() { return Math.abs(this.container.sprite.height * this.container.sprite.scale.y) };
+    get height() { return Math.round(Math.abs(this.container.sprite.height * this.container.sprite.scale.y)) };
     set height(value) {
         this.container.sprite.scale.y = value / this.container.sprite.height;
         this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     };
 
-    get scaleX() { return this.container.sprite.scale.x };
+    get scaleX() { return this.container.sprite.scale.x.toFixed(2) };
     set scaleX(value) {
         this.container.sprite.scale.x = value;
         this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     };
 
-    get scaleY() { return this.container.sprite.scale.y };
+    get scaleY() { return this.container.sprite.scale.y.toFixed(2) };
     set scaleY(value) {
         this.container.sprite.scale.y = value;
         this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     };
 
-    get angle() { return this.container.angle };
+    get angle() { return this.container.angle.toFixed(0) };
     set angle(value) {
         this.container.angle = value;
         this.rigidbody.setAngle(value * Math.PI / 180);
@@ -183,7 +184,7 @@ class GameObject {
         this.container.sprite.tint = PIXI.utils.string2hex(value);
     }
 
-    get opacity() { return this.container.sprite.alpha };
+    get opacity() { return this.container.sprite.alpha.toFixed(2) };
     set opacity(value) { this.container.sprite.alpha = value };
 
     get flipX() { return (Math.sign(this.container.sprite.scale.x) == 1) ? false : true };
@@ -192,20 +193,20 @@ class GameObject {
     get flipY() { return (Math.sign(this.container.sprite.scale.y) == 1) ? false : true };
     set flipY(value) { this.container.sprite.scale.y = (value) ? - Math.abs(this.container.sprite.scale.y) : Math.abs(this.container.sprite.scale.y) };
 
-    get scrollX() { return this.container.sprite.scrollX };
+    get scrollX() { return this.container.sprite.scrollX.toFixed(0) };
     set scrollX(value) { this.container.sprite.scrollX = value };
 
-    get scrollY() { return this.container.sprite.scrollY };
+    get scrollY() { return this.container.sprite.scrollY.toFixed(0) };
     set scrollY(value) { this.container.sprite.scrollY = value }
 
-    get tileX() { return this.container.sprite.tileX };
+    get tileX() { return this.container.sprite.tileX.toFixed(1) };
     set tileX(value) {
         const existsImage = Boolean(player.file.loader.resources[this.container.sprite.image]);
         this.container.sprite.tileX = value;
         this.container.sprite.width = (existsImage) ? this.container.sprite.texture.width * value : 50 * value;
     };
 
-    get tileY() { return this.container.sprite.tileY };
+    get tileY() { return this.container.sprite.tileY.toFixed(1) };
     set tileY(value) {
         const existsImage = Boolean(player.file.loader.resources[this.container.sprite.image]);
         this.container.sprite.tileY = value;
@@ -233,7 +234,7 @@ class GameObject {
     get align() { return this.container.text.style.align };
     set align(value) { this.container.text.style.align = value.toLowerCase() };
 
-    get offsetX() { return this.container.text.position.x };
+    get offsetX() { return Math.round(this.container.text.position.x) };
     set offsetX(value) {
         const w = Math.abs(this.container.sprite.width * this.container.sprite.scale.x);
         var pivot = { x: 0, y: 0 };
@@ -244,7 +245,7 @@ class GameObject {
         this.container.text.position.x = pivot.x + value;
     };
 
-    get offsetY() { return this.container.text.position.y };
+    get offsetY() { return Math.round(this.container.text.position.y) };
     set offsetY(value) { this.container.text.position.y = value };
 
     get sound() { return this.audio.source._src }
@@ -287,7 +288,7 @@ class GameObject {
     get fixedAngle() { return this.rigidbody.isFixedRotation() }
     set fixedAngle(value) { this.rigidbody.setFixedRotation(value) }
 
-    get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter) };
+    get velocityX() { return (this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter).toFixed(1) };
     set velocityX(value) {
         this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y))
     };
@@ -297,24 +298,23 @@ class GameObject {
         this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel))
     };
 
-    get angularVelocity() { return this.rigidbody.getAngularVelocity() };
+    get angularVelocity() { return this.rigidbody.getAngularVelocity().toFixed(1) };
     set angularVelocity(value) {
         this.rigidbody.setAngularVelocity(value);
     };
 
-    get density() { return this.rigidbody.getFixtureList().getDensity() };
+    get density() { return this.rigidbody.getFixtureList().getDensity().toFixed(1) };
     set density(value) { this.rigidbody.getFixtureList().setDensity(value) };
 
-    get friction() { return this.rigidbody.getFixtureList().getFriction() };
+    get friction() { return this.rigidbody.getFixtureList().getFriction().toFixed(1) };
     set friction(value) { this.rigidbody.getFixtureList().setFriction(value) };
 
-    get restitution() { return this.rigidbody.getFixtureList().getRestitution() };
+    get restitution() { return this.rigidbody.getFixtureList().getRestitution().toFixed(1) };
     set restitution(value) { this.rigidbody.getFixtureList().setRestitution(value) };
 
-    get dampingLinear() { return this.rigidbody.getLinearDamping() };
+    get dampingLinear() { return this.rigidbody.getLinearDamping().toFixed(1) };
     set dampingLinear(value) { this.rigidbody.setLinearDamping(value) };
 
-    get dampingAngular() { return this.rigidbody.setAngularDamping() };
+    get dampingAngular() { return this.rigidbody.setAngularDamping().toFixed(1) };
     set dampingAngular(value) { this.rigidbody.getAngularDamping(value) };
-
 }

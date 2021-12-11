@@ -2,7 +2,7 @@ class Logic {
 
     fixedUpdate(engine, dt, t, frameTime) { // time in miliseconds
         engine.gameObjects.forEach(gameObject => { 
-            if (engine.gameLevel.logicOn) gameObject.fixedUpdate(dt, engine.scope); 
+            if (engine.logicOn) gameObject.fixedUpdate(dt, engine.scope); 
             else if (gameObject.resume) gameObject.fixedUpdate(dt, engine.scope);
         })
         if (engine.changeScene) { // the change of scene occurs after evaluating all logic
