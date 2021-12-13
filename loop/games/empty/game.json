@@ -542,8 +542,8 @@
 				{
 					"name": "blue",
 					"sleeping": false,
-					"x": 221.90740740740733,
-					"y": -150,
+					"x": 223.90740740740733,
+					"y": -149,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -603,7 +603,7 @@
 											"type": "Pause",
 											"parameters": {
 												"physics": true,
-												"logic": true,
+												"logic": false,
 												"sounds": true
 											}
 										}
