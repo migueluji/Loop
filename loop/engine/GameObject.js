@@ -52,6 +52,12 @@ class GameObject {
     }
 
     fixedStep() {
+        // store previous state
+        this.previousState = {
+            x: this.x, y: this.y, angle: this.angle,
+            tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
+            tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
+        }
         if (!this.sleeping) {
             this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
             this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
@@ -80,22 +86,15 @@ class GameObject {
                 if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
-            // store previous state
-            this.previousState = {
-                x: this.rigidbody.getPosition().x * Physics.pixelsPerMeter,
-                y: this.rigidbody.getPosition().y * Physics.pixelsPerMeter,
-                angle: this.rigidbody.getAngle() * 180 / Math.PI,
-                tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
-                tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
-            }
+
         }
     }
 
     update(lagOffset) { // integrate render positions
         if (!this.sleeping) {
-            this.x = (this.rigidbody.getPosition().x * Physics.pixelsPerMeter) * lagOffset + this.previousState.x * (1 - lagOffset);
-            this.y = (this.rigidbody.getPosition().y * Physics.pixelsPerMeter) * lagOffset + this.previousState.y * (1 - lagOffset);
-            this.angle = (this.rigidbody.getAngle() * 180 / Math.PI) * lagOffset + this.previousState.angle * (1 - lagOffset);
+            this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
+            this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
+           // this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
         }
@@ -158,7 +157,10 @@ class GameObject {
         this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     };
 
-    get angle() { return this.container.angle.toFixed(0) };
+    get angle() { 
+        if (this.container.angle < 0) return (360+this.container.angle).toFixed(0);
+        else return this.container.angle.toFixed(0)
+     };
     set angle(value) {
         this.container.angle = value;
         this.rigidbody.setAngle(value * Math.PI / 180);
