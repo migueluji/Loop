@@ -603,7 +603,7 @@
 											"type": "Pause",
 											"parameters": {
 												"physics": true,
-												"logic": false,
+												"logic": true,
 												"sounds": true
 											}
 										}
