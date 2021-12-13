@@ -47,7 +47,7 @@ class GameObject {
         }
     }
 
-    pause() {
+    stop() {
         if (this.audio) this.audio.source.stop(this.audio.id);
     }
 
@@ -60,7 +60,15 @@ class GameObject {
     }
 
     fixedUpdate(deltaTime, scope) { // logic update
-        if (!this.sleeping) {
+        if (this.dead) {
+            if (this.audio) this.audio.source.stop(this.audio.id);
+            this.engine.render.stageWorld.removeChild(this.container);
+            if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
+            this.engine.physics.world.destroyBody(this.rigidbody);
+            this.engine.gameObjects.delete(this.name);
+            delete this.engine.scope[this.name];
+        }
+        else if (!this.sleeping) {
             // update logic
             if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
             // update scrolling
@@ -79,21 +87,13 @@ class GameObject {
                 tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
             }
         }
-        if (this.dead) {
-            if (this.audio) this.audio.source.stop(this.audio.id);
-            this.engine.render.stageWorld.removeChild(this.container);
-            if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
-            this.engine.physics.world.destroyBody(this.rigidbody);
-            this.engine.gameObjects.delete(this.name);
-            delete this.engine.scope[this.name];
-        }
     }
 
     update(lagOffset) { // integrate render positions
         if (!this.sleeping) {
-            this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
-            this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
-            this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
+            // this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
+            // this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
+            // this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
             if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
             if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
         }

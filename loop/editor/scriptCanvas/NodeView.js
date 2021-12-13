@@ -93,8 +93,8 @@ class NodeView {
 			case "Push_To" : icon="keyboard_tab";break;
 			case "Torque" : icon="sync";break;
 			case "Go_To" : icon="input";break;
-			case "Add" : icon="present_to_all";break;
-			case "Remove" : icon="cancel_presentation";break;
+			case "Pause" : icon="pause";break;
+			case "Resume" : icon="restart_alt";break;
 			case "Compare" : icon="code"; break;
 			case "Check" : icon="check";break;
 			case "Collision" : icon="hdr_weak";break;

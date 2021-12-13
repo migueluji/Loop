@@ -8,6 +8,6 @@ class Aural {
     
     play(engine) {
         if (engine.objectSoundsOn) engine.gameObjects.forEach(gameObject => { gameObject.play() });
-        else engine.gameObjects.forEach(gameObject => { gameObject.pause() });
+        else engine.gameObjects.forEach(gameObject => { gameObject.stop() });
     }
 }

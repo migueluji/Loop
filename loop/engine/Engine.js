@@ -6,33 +6,34 @@ class Engine {
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
         this.debug = gameModel.debug;
-        this.changeScene = false;
-        this.objectSounds = true;
+        this.changeScene = false; 
+        // To stop de engines
+        this.physicsOn = true; 
         this.logicOn = true;
-        this.physicsOn = true;  // to stpp physics in the engine
-        // Create a new object to acces by name to scenes on load and in scope
+        this.objectSoundsOn = true;
+        // Create a new object to acces by name to the scenes in the load and in the scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Init gameLevel
         this.gameLevel = new GameLevel(this);
         this.currentScene = gameModel.sceneList[0].name;
         this.currentSceneNumber = 0;
-        // init audio engine
+        // Init audio engine
         this.aural = new Aural(gameModel);
-        // load currente scene
+        // Load currente scene
         this.loadScene(this.currentScene);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
-    };
+    }
 
     gameLoop(newTime) {
         window.requestAnimationFrame(this.gameLoop.bind(this));
         this.frameTime = (newTime - this.currentTime) / 1000;
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
-        while (this.accumulator >= this.deltaTime && this.deltaTime > 0) {
+        while (this.accumulator >= this.deltaTime) {
             this.physics.fixedStep(this, this.deltaTime);
-            this.logic.fixedUpdate(this, this.deltaTime, this.time, this.frameTime);
+            this.logic.fixedUpdate(this, this.deltaTime);
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;
         }
@@ -42,7 +43,7 @@ class Engine {
     }
 
     loadScene(scene) {
-        this.resume(); // Disables the stop of the different engines
+        this.resume(); // Active the different engines
         // Create new data structures
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
@@ -68,9 +69,7 @@ class Engine {
     goTo(scene) { this.changeScene = true; this.goToScene = scene.name; }
 
     pause(physics, logic, sounds) {
-        this.physicsOn = false;
-        this.logicOn = false;
-        this.objectSoundsOn = false;
+        this.physicsOn = !physics; this.logicOn = !logic; this.objectSoundsOn = !sounds;
     }
 
     resume() {
@@ -102,7 +101,7 @@ class Engine {
 
     play(gameObject, sound) {
         var sound = new Sound(sound, { volume: gameObject.volume, loop: false });
-        sound.source.play(sound.id);
+        if (this.objectSoundsOn) sound.source.play(sound.id);
     }
 
     move(gameObject, speed, angle) {

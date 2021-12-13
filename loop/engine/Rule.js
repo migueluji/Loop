@@ -8,7 +8,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
         });
         expression = expression.replace(/Me\./g, gameObject.name + ".");
-       // console.log(gameObject.name,expression);
+        // console.log(gameObject.name,expression);
         return (math.compile(expression));
     }
 
@@ -30,14 +30,11 @@ class Rule {
         return ("Engine.goTo(Engine.sceneList." + params.scene + ")");
     }
 
-    add(params) { // pause
-        params.physics = true;
-        params.logic = true;
-        params.sounds = true;
+    pause(params) { // pause
         return ("Engine.pause(" + params.physics + "," + params.logic + "," + params.sounds + ")");
     }
 
-    remove(params) { // resume
+    resume() { // resume
         this.gameObject.resume = true;
         return ("Engine.resume()");
     }
@@ -45,7 +42,7 @@ class Rule {
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
-        var specialProperties = ["type","color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align"];
+        var specialProperties = ["type", "color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align"];
         if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes if it doesn't have them
         return (params.property + " = " + params.value);
     }

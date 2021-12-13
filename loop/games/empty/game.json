@@ -600,10 +600,11 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Add",
+											"type": "Pause",
 											"parameters": {
-												"scene": null,
-												"stop": false
+												"physics": true,
+												"logic": false,
+												"sounds": true
 											}
 										}
 									],
@@ -674,7 +675,7 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Remove",
+											"type": "Resume",
 											"parameters": {}
 										}
 									],

@@ -1,11 +1,12 @@
 class Logic {
 
-    fixedUpdate(engine, dt, t, frameTime) { // time in miliseconds
+    fixedUpdate(engine, dt) { // time in miliseconds
         engine.gameObjects.forEach(gameObject => { 
             if (engine.logicOn) gameObject.fixedUpdate(dt, engine.scope); 
             else if (gameObject.resume) gameObject.fixedUpdate(dt, engine.scope);
         })
-        if (engine.changeScene) { // the change of scene occurs after evaluating all logic
+        if (engine.changeScene) { // The change of scene occurs after evaluating the entire logic
+            engine.gameObjects.forEach(gameObject => { gameObject.stop(); }) // Stop gameObject sounds
             engine.loadScene(engine.goToScene);
             engine.changeScene = false;
         }
