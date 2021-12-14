@@ -17,6 +17,10 @@ class Render {
         this.stage.scale = { x: gameLevel.cameraZoom, y: -gameLevel.cameraZoom };
         this.stageWorld = new PIXI.Container();
         this.stageScreen = new PIXI.Container();
+        this.stageWorld.sortableChildren = true;
+        this.stageWorld.interactive = true;
+        this.stageScreen.sortableChildren = true;
+        this.stageScreen.interactive = true;
         this.stage.addChild(this.stageWorld);
         this.stage.addChild(this.stageScreen);
     }

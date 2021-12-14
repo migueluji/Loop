@@ -53,11 +53,11 @@ class GameObject {
 
     fixedStep() {
         // store previous state
-        this.previousState = {
-            x: this.x, y: this.y, angle: this.angle,
-            tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
-            tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
-        }
+        // this.previousState = {
+        //     x: this.x, y: this.y, angle: this.angle,
+        //     tilePositionX: (this.scrollX != 0) ? this.container.sprite.tilePosition.x : 0,
+        //     tilePositionY: (this.scrollY != 0) ? this.container.sprite.tilePosition.y : 0,
+        // }
         if (!this.sleeping) {
             this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
             this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
@@ -91,15 +91,13 @@ class GameObject {
     }
 
     update(lagOffset) { // integrate render positions
-     //   lagOffset = 1;
-        if (this.name == "plane") console.log(lagOffset, this.x, this.previousState.x, this.x * lagOffset + this.previousState.x * (1 - lagOffset));
-        if (!this.sleeping) {
-            this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
-            this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
-            this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
-            if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
-            if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
-        }
+        // if (!this.sleeping) {
+        //     this.x = this.x * lagOffset + this.previousState.x * (1 - lagOffset);
+        //     this.y = this.y * lagOffset + this.previousState.y * (1 - lagOffset);
+        //     this.angle = this.angle * lagOffset + this.previousState.angle * (1 - lagOffset);
+        //     if (this.scrollX != 0) this.container.sprite.tilePosition.x = this.container.sprite.tilePosition.x * lagOffset + this.previousState.tilePositionX * (1 - lagOffset);
+        //     if (this.scrollY != 0) this.container.sprite.tilePosition.y = this.container.sprite.tilePosition.y * lagOffset + this.previousState.tilePositionY * (1 - lagOffset);
+        // }
         if (this.debug) {  // debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
@@ -126,13 +124,13 @@ class GameObject {
     get x() { return Math.round(this.container.x) };
     set x(value) {
         this.container.x = value;
-        this.rigidbody.setPosition(planck.Vec2(value * Physics.metersPerPixel, this.y * Physics.metersPerPixel));
+        this.rigidbody.setPosition(planck.Vec2(value * Physics.metersPerPixel,this.rigidbody.getPosition().y));
     };
 
     get y() { return Math.round(this.container.y) };
     set y(value) {
         this.container.y = value;
-        this.rigidbody.setPosition(planck.Vec2(this.x * Physics.metersPerPixel, value * Physics.metersPerPixel));
+        this.rigidbody.setPosition(planck.Vec2(this.rigidbody.getPosition().x, value * Physics.metersPerPixel));
     };
 
     get width() { return Math.round(Math.abs(this.container.sprite.width * this.container.sprite.scale.x)) };
