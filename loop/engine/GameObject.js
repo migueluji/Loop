@@ -28,6 +28,8 @@ class GameObject {
             this.rigidbody.getFixtureList().setSensor(true);
             this.rigidbody.setGravityScale(0);
         }
+        (this.sleeping) ? this.rigidbody.setActive(false) : this.rigidbody.setActive(true);
+        console.log(this.name, this.sleeping,this.rigidbody.isActive())
         // add bounding box to debug
         if (engine.debug) {
             this.debug = new PIXI.Graphics();

@@ -48,7 +48,7 @@ class Rule {
     }
 
     spawn(params) {
-        return ("Engine.spawn(" + params.actor + ",Me.x+" + params.x + ",Me.y +" + params.y + ",Me.angle+" + params.angle + ")");
+        return ("Engine.spawn("+ this.gameObject.name+","+ params.actor + "," + params.x + "," + params.y + "," + params.angle + ")");
     }
 
     delete() {

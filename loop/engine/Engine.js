@@ -6,9 +6,9 @@ class Engine {
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
         this.debug = gameModel.debug;
-        this.changeScene = false; 
+        this.changeScene = false;
         // To stop de engines
-        this.physicsOn = true; 
+        this.physicsOn = true;
         this.logicOn = true;
         this.objectSoundsOn = true;
         // Create a new object to acces by name to the scenes in the load and in the scope
@@ -77,12 +77,18 @@ class Engine {
     }
 
     // actions
-    spawn(gameObject, x, y, angle) {
+    spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
             var spawnName = gameObject.name + Utils.id();
+            gameObject.actor.sleeping = false; // to active the object
             var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
-            spawnObject = Object.assign(spawnObject, { "x": x, "y": y, "angle": angle, "sleeping": false });
+            spawnObject = Object.assign(spawnObject, {
+                "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle)),
+                "y": spawnerObject.y + y * Math.sin(Utils.radians(spawnerObject.angle)),
+                "angle": spawnerObject.angle + angle
+            });
+            console.log("spawn", spawnerObject.angle, spawnObject.x, spawnObject.y);
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }

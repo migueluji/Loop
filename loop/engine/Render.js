@@ -18,9 +18,9 @@ class Render {
         this.stageWorld = new PIXI.Container();
         this.stageScreen = new PIXI.Container();
         this.stageWorld.sortableChildren = true;
-        this.stageWorld.interactive = true;
+     //   this.stageWorld.interactive = true;
         this.stageScreen.sortableChildren = true;
-        this.stageScreen.interactive = true;
+     //   this.stageScreen.interactive = true;
         this.stage.addChild(this.stageWorld);
         this.stage.addChild(this.stageScreen);
     }
