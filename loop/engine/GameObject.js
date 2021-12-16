@@ -158,8 +158,8 @@ class GameObject {
     };
 
     get angle() {
-        if (this.container.angle < 0) return (360 + this.container.angle).toFixed(0);
-        else return this.container.angle.toFixed(0)
+        if (this.container.angle < 0) return Math.round(360 + this.container.angle).toFixed(0);
+        else return Math.round(this.container.angle.toFixed(0))
     };
     set angle(value) {
         this.container.angle = value;

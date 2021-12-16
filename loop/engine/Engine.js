@@ -81,14 +81,12 @@ class Engine {
             gameObject.actor.sleeping = false; // to active the object
             var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
-            console.log(spawnObject.angle);
             spawnObject = Object.assign(spawnObject, {
-                "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle)),
-                "y": spawnerObject.y + y * Math.sin(Utils.radians(spawnerObject.angle)),
-              //  "angle": spawnerObject.angle + gameObject.angle + angle,
+                "x": Math.round(spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle))),
+                "y": Math.round(spawnerObject.y - y * Math.sin(Utils.radians(spawnerObject.angle))),
+                "angle": spawnerObject.angle + gameObject.angle + angle,
             });
-            spawnObject.angle= spawnerObject.angle  + angle ;
-            console.log(spawnerObject.angle, gameObject.angle,angle,spawnObject.angle);
+            console.log(spawnerObject.y,spawnerObject.y,spawnerObject.angle,y * Math.sin(Utils.radians(spawnerObject.angle)));
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }
