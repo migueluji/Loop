@@ -6,19 +6,18 @@ class Engine {
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
         this.debug = gameModel.debug;
-        this.changeScene = false;
-        // To stop de engines
+        // Start variables to pause the engine
         this.physicsOn = true;
         this.logicOn = true;
         this.objectSoundsOn = true;
         // Create a new object to acces by name to the scenes in the load and in the scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
-        // Init gameLevel
+        // Start the game execution properties
         this.gameLevel = new GameLevel(this);
         this.currentScene = gameModel.sceneList[0].name;
         this.currentSceneNumber = 0;
-        // Init audio engine
+        // Start audio engine
         this.aural = new Aural(gameModel);
         // Load currente scene
         this.loadScene(this.currentScene);
@@ -63,6 +62,7 @@ class Engine {
         });
         this.currentScene = scene;
         this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[scene]);
+        this.changeScene = false;
     }
 
     // scene actions
@@ -88,7 +88,6 @@ class Engine {
                 "y": spawnerObject.y + y * Math.sin(Utils.radians(spawnerObject.angle)),
                 "angle": spawnerObject.angle + angle
             });
-            console.log("spawn", spawnerObject.angle, spawnObject.x, spawnObject.y);
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }

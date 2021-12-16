@@ -29,7 +29,6 @@ class GameObject {
             this.rigidbody.setGravityScale(0);
         }
         (this.sleeping) ? this.rigidbody.setActive(false) : this.rigidbody.setActive(true);
-        console.log(this.name, this.sleeping,this.rigidbody.isActive())
         // add bounding box to debug
         if (engine.debug) {
             this.debug = new PIXI.Graphics();
@@ -88,7 +87,6 @@ class GameObject {
                 if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
                 if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
             }
-
         }
     }
 

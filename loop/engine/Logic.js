@@ -8,7 +8,6 @@ class Logic {
         if (engine.changeScene) { // The change of scene occurs after evaluating the entire logic
             engine.gameObjects.forEach(gameObject => { gameObject.stop(); }) // Stop gameObject sounds
             engine.loadScene(engine.goToScene);
-            engine.changeScene = false;
         }
     }
 }
