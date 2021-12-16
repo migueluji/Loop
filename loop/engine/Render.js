@@ -1,12 +1,12 @@
 class Render {
 
     constructor(gameLevel) {
-        this.renderer = new PIXI.Renderer({  // create renderer
+        this.renderer = new PIXI.Renderer({  // Create renderer
             width: gameLevel.displayWidth, height: gameLevel.displayHeight,
             backgroundColor: PIXI.utils.string2hex(gameLevel.backgroundColor),
             view: document.getElementById('main')
         });
-        // create stage
+        // Create stage
         this.stage = new PIXI.Container();
         this.stage.sortableChildren = true;
         this.stage.interactive = true;
@@ -15,13 +15,14 @@ class Render {
             y: gameLevel.displayHeight / 2.0 + gameLevel.cameraY
         };
         this.stage.scale = { x: gameLevel.cameraZoom, y: -gameLevel.cameraZoom };
+        this.stage.angle = gameLevel.cameraAngle;
+        // Stage for world objects
         this.stageWorld = new PIXI.Container();
-        this.stageScreen = new PIXI.Container();
         this.stageWorld.sortableChildren = true;
-     //   this.stageWorld.interactive = true;
-        this.stageScreen.sortableChildren = true;
-     //   this.stageScreen.interactive = true;
         this.stage.addChild(this.stageWorld);
+        // Stage for screen objects
+        this.stageScreen = new PIXI.Container();
+        this.stageScreen.sortableChildren = true;
         this.stage.addChild(this.stageScreen);
     }
 

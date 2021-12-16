@@ -15,12 +15,10 @@ class Engine {
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Start the game execution properties
         this.gameLevel = new GameLevel(this);
-        this.currentScene = gameModel.sceneList[0].name;
-        this.currentSceneNumber = 0;
         // Start audio engine
         this.aural = new Aural(gameModel);
         // Load currente scene
-        this.loadScene(this.currentScene);
+        this.loadScene(this.gameLevel.currentScene);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     }
@@ -83,11 +81,14 @@ class Engine {
             gameObject.actor.sleeping = false; // to active the object
             var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
+            console.log(spawnObject.angle);
             spawnObject = Object.assign(spawnObject, {
                 "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle)),
                 "y": spawnerObject.y + y * Math.sin(Utils.radians(spawnerObject.angle)),
-                "angle": spawnerObject.angle + angle
+              //  "angle": spawnerObject.angle + gameObject.angle + angle,
             });
+            spawnObject.angle= spawnerObject.angle  + angle ;
+            console.log(spawnerObject.angle, gameObject.angle,angle,spawnObject.angle);
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }
