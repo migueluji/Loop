@@ -5,11 +5,18 @@ class GameLevel {
         for (let key in engine.gameModel.allProperties) {
             this["_" + key] = engine.gameModel.allProperties[key];
         }
+        // Define get and set functions for new game properties
+        for (let key in engine.gameModel.newProperties) {
+            Object.defineProperty(this, key, {
+                get() { return this["_" + key] },
+                set(value) { this["_" + key] = value }
+            });
+        }
         this._currentScene = engine.gameModel.sceneList[0].name;
         this._currentSceneNumber = 0;
-        console.log(this);
     }
 
+    // Render Properties
     get displayWidth() { return this._displayWidth }
 
     get displayHeight() { return this._displayHeight }
@@ -31,6 +38,10 @@ class GameLevel {
         this._backgroundColor = value;
         if (this.engine) this.engine.render.renderer.backgroundColor = PIXI.utils.string2hex(value)
     }
+
+    // Sound properties
+    get soundOn() { return this._soundOn }
+    set soundOn(value) { this.soundOn = value }
 
     get soundtrack() { return this._soundtrack }
     set soundtrack(value) {
@@ -60,6 +71,10 @@ class GameLevel {
         }
     }
 
+    // Physic properties
+    get physicsOn() { return this._physicsOn }
+    set physicsOn(value) { this._physicsOn = value }
+
     get gravityX() { return this._gravityX }
     set gravityX(value) {
         this._gravityX = value;
@@ -72,24 +87,20 @@ class GameLevel {
         if (this.engine) this.engine.physics.world.setGravity(planck.Vec2(this.gravityX, value))
     }
 
-    get time() { return (this.engine.time).toFixed(1); }
-    set time(value) { };
-
-    get FPS() { return (1 / this.engine.frameTime).toFixed(0); }
-    set FPS(value) { };
-
-    get deltaTime() { return (this.engine.deltaTime).toFixed(3); }
-    set deltaTime(value) { };
-
+    // Input properties
     get currentScene() { return this._currentScene }
     set currentScene(value) { this._currentScene = this.engine.currentScene = value }
 
     get currentSceneNumber() { return this._currentSceneNumber }
     set currentSceneNumber(value) { this._currentSceneNumber = this.engine.currentSceneNumber = value };
+    
+    get time() { return this.engine.time.toFixed(1) }
+
+    get FPS() { return (1 / this.engine.frameTime).toFixed(0) }
+
+    get deltaTime() { return this.engine.deltaTime.toFixed(3) }
 
     get mouseX() { return Input.pointerX }
-    set mouseX(value) { Input.pointerX = value };
 
     get mouseY() { return Input.pointerY }
-    set mouseY(value) { Input.pointerY = value };
 }

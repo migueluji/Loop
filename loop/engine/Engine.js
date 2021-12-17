@@ -16,7 +16,7 @@ class Engine {
         // Start the game execution properties
         this.gameLevel = new GameLevel(this);
         // Start audio engine
-        this.aural = new Aural(gameModel);
+        this.aural = new Aural(this.gameLevel);
         // Load currente scene
         this.loadScene(this.gameLevel.currentScene);
         // Launch gameloop
@@ -45,10 +45,10 @@ class Engine {
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
         // Init engines
-        this.render = new Render(this.gameModel);
+        this.render = new Render(this.gameLevel);
         this.logic = new Logic();
-        this.input = new Input(this.gameModel, this.render.stage);
-        this.physics = new Physics(this.gameModel, this.gameObjects);
+        this.input = new Input(this.gameLevel, this.render.stage);
+        this.physics = new Physics(this.gameLevel, this.gameObjects);
         // Create gameObjects
         var zIndex = 0;
         this.sceneList[scene].actorList.forEach(actor => {
@@ -82,11 +82,10 @@ class Engine {
             var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
             spawnObject = Object.assign(spawnObject, {
-                "x": Math.round(spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle))),
-                "y": Math.round(spawnerObject.y - y * Math.sin(Utils.radians(spawnerObject.angle))),
+                "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle) - y * Math.sin(Utils.radians(spawnerObject.angle))),
+                "y": spawnerObject.y + x * Math.sin(Utils.radians(spawnerObject.angle) + y * Math.sin(Utils.radians(spawnerObject.angle))),
                 "angle": spawnerObject.angle + gameObject.angle + angle,
             });
-            console.log(spawnerObject.y,spawnerObject.y,spawnerObject.angle,y * Math.sin(Utils.radians(spawnerObject.angle)));
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }
