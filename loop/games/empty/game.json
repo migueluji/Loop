@@ -7,7 +7,7 @@
 	"cameraAngle": 0,
 	"cameraZoom": 1,
 	"backgroundColor": "#ffffff",
-	"soundOn": true,
+	"soundOn": false,
 	"soundtrack": "Stellar Wind - Unicorn Heads.mp3",
 	"volume": 1,
 	"start": 0,
@@ -312,7 +312,8 @@
 								}
 							]
 						}
-					]
+					],
+					"points": 0
 				},
 				{
 					"name": "Actor_2",
@@ -419,7 +420,7 @@
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
-					"soundOn": true,
+					"soundOn": false,
 					"sound": "laserLarge_000.ogg",
 					"start": 0,
 					"volume": 0.5,
@@ -596,7 +597,7 @@
 											"type": "Pause",
 											"parameters": {
 												"physics": true,
-												"logic": false,
+												"logic": true,
 												"sounds": true
 											}
 										}

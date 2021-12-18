@@ -26,8 +26,8 @@ class Render {
         this.stage.addChild(this.stageScreen);
     }
 
-    update(engine, lagOffset) {
-        engine.gameObjects.forEach(gameObject => { gameObject.update(lagOffset) });
+    update(engine) {
+        engine.gameObjects.forEach(gameObject => { gameObject.update() });
         this.renderer.render(engine.render.stage);     // render scene
     }
 }
