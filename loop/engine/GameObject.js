@@ -8,6 +8,7 @@ class GameObject {
         this._actor = actor; // To store the original Object
         // Define get and set functions for new game properties
         var keys = Object.keys(actor.newProperties); // zIndex is included in newProperties
+        keys.forEach(key => this["_" + key] = actor[key])
         var otherKeys = ["dead", "name", "sleeping", "physicsOn", "soundOn", "collider", "actor",
             "container", "audio", "rigidbody", "engine"];
         keys.concat(otherKeys).forEach(key => {
