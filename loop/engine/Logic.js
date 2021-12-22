@@ -2,6 +2,7 @@ class Logic {
 
     fixedUpdate(engine, dt) { // time in miliseconds
         engine.gameObjects.forEach(gameObject => { 
+            console.log(gameObject.name);
             if (engine.logicOn) gameObject.fixedUpdate(dt, engine.scope); 
             else if (gameObject.resume) gameObject.fixedUpdate(dt, engine.scope);
         })

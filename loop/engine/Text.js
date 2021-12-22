@@ -16,12 +16,13 @@ class Text {
         var text = new PIXI.Text(textExpression, style);
         text.visible = actor.textOn;
         text.anchor.set(0.5);
-        var pivot = { x: 0, y: 0 };
-        switch (actor.align) {
-            case "Left": pivot.x = - actor.width / 2 + text.width / 2; break;
-            case "Right": pivot.x =  actor.width / 2 - text.width / 2; break;
-        }
-        text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
+        // var pivot = { x: 0, y: 0 };
+        // switch (actor.align) {
+        //     case "Left": pivot.x = - actor.width / 2 + text.width / 2; break;
+        //     case "Right": pivot.x =  actor.width / 2 - text.width / 2; break;
+        // }
+        // text.position = { x: pivot.x + actor.offsetX, y: pivot.y + actor.offsetY };
+        text.position = { x: actor.offsetX, y: actor.offsetY };
         text.scale.y = -1;
         text.expression = textExpression;
         return (text);

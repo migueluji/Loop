@@ -85,7 +85,7 @@ class Engine {
             spawnObject = Object.assign(spawnObject, {
                 "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle) - y * Math.sin(Utils.radians(spawnerObject.angle))),
                 "y": spawnerObject.y + x * Math.sin(Utils.radians(spawnerObject.angle) + y * Math.sin(Utils.radians(spawnerObject.angle))),
-                "angle": spawnerObject.angle + gameObject.angle + angle,
+                "angle":  spawnerObject.angle * 1.0 + gameObject.angle * 1.0   + angle * 1.0 ,
             });
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
@@ -173,6 +173,7 @@ class Engine {
         var value = true;
         tagsToCollide.forEach(tag => {
             value = (value && (gameObject.collision[tag].size > 0));
+            console.log(value,tag,gameObject.collision[tag].size);
         })
         return value;
     }

@@ -82,8 +82,8 @@ class GameObject {
             // update text
             if (this.textOn) {
                 this.text = math.print(this.container.text.expression, scope);
-                if (this.align == "left") this.container.text.position.x -= (this.width / 2 - this.container.text.width / 2) + this.offsetX;
-                if (this.align == "right") this.container.text.position.x -= (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
+                if (this.align == "Left") this.container.text.position.x = (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
+                if (this.align == "Right") this.container.text.position.x = (this.width / 2 - this.container.text.width / 2) + this.offsetX;
             }
         }
     }
@@ -201,7 +201,7 @@ class GameObject {
     set scrollX(value) { this._scrollX = this._container.sprite.scrollX = value };
 
     get scrollY() { return this._scrollY.toFixed(0) }
-    set scrollY(value) { this.scrollY = this._container.sprite.scrollY = value }
+    set scrollY(value) { this._scrollY = this._container.sprite.scrollY = value }
 
     get tileX() { return this._tileX.toFixed(1) }
     set tileX(value) {
@@ -297,7 +297,7 @@ class GameObject {
         this._rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this._rigidbody.getLinearVelocity().y))
     }
 
-    get velocityY() { return this._velcityY.toFixed(1) }
+    get velocityY() { return this._velocityY.toFixed(1) }
     set velocityY(value) {
         this._velocityY = value;
         this._rigidbody.setLinearVelocity(planck.Vec2(this._rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel))
