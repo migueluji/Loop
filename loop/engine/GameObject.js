@@ -4,12 +4,14 @@ class GameObject {
         this._engine = engine;
         Object.keys(actor.properties).forEach(key => { this["_" + key] = actor[key] });
         this._name = (spawnName) ? spawnName : actor.name;
+        this._sleeping = (spawnName) ? false : actor.sleeping;
+        this._spawned = false; // to be added
         this._dead = false; // To be deleted in the fixedUpdate(), in the evaluation of logic
         this._actor = actor; // To store the original Object
         // Define get and set functions for new game properties
         var keys = Object.keys(actor.newProperties); // zIndex is included in newProperties
         keys.forEach(key => this["_" + key] = actor[key])
-        var otherKeys = ["dead", "name", "sleeping", "physicsOn", "soundOn", "collider", "actor",
+        var otherKeys = ["spawned", "dead", "name", "sleeping", "physicsOn", "soundOn", "collider", "actor",
             "container", "audio", "rigidbody", "engine"];
         keys.concat(otherKeys).forEach(key => {
             Object.defineProperty(this, key, {
@@ -65,7 +67,10 @@ class GameObject {
     }
 
     fixedUpdate(deltaTime, scope) { // logic update
-        if (this.dead) {
+        if (this.spawned) { // CRUD - CREATE
+            this.spawned = false; // Do not execute rules the first time the object is spawned
+        }
+        else if (this.dead) { // CRUD - DELETE
             if (this.audio) this.audio.source.stop(this.audio.id);
             this.engine.render.stageWorld.removeChild(this.container);
             if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
@@ -73,12 +78,12 @@ class GameObject {
             this.engine.gameObjects.delete(this.name);
             delete this.engine.scope[this.name];
         }
-        else if (!this.sleeping) {
+        else if (!this.sleeping) { // CRUD - UPDATE
             // update logic
             if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
             // update scrolling
-            if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
-            if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
+            if (this._scrollX != 0) this.container.sprite.tilePosition.x += this._scrollX * deltaTime;
+            if (this._scrollY != 0) this.container.sprite.tilePosition.y += this._scrollY * deltaTime;
             // update text
             if (this.textOn) {
                 this.text = math.print(this.container.text.expression, scope);
@@ -197,10 +202,10 @@ class GameObject {
             Math.abs(this._container.sprite.scale.y)
     }
 
-    get scrollX() { return this._scrollX.toFixed(0) }
+    get scrollX() { return this._scrollX }
     set scrollX(value) { this._scrollX = this._container.sprite.scrollX = value };
 
-    get scrollY() { return this._scrollY.toFixed(0) }
+    get scrollY() { return this._scrollY }
     set scrollY(value) { this._scrollY = this._container.sprite.scrollY = value }
 
     get tileX() { return this._tileX.toFixed(1) }
@@ -291,13 +296,19 @@ class GameObject {
     get fixedAngle() { return this._fixedAngle }
     set fixedAngle(value) { this._fixedAngle = value; this._rigidbody.setFixedRotation(value) }
 
-    get velocityX() { return this._velocityX.toFixed(1) }
+    get velocityX() {
+        this._velocityX = this._rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter;
+        return this._velocityX.toFixed(1)
+    }
     set velocityX(value) {
         this._velocityX = value;
         this._rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this._rigidbody.getLinearVelocity().y))
     }
 
-    get velocityY() { return this._velocityY.toFixed(1) }
+    get velocityY() {
+        this._velocityY = this._rigidbody.getLinearVelocity().y * Physics.pixelsPerMeter;
+        return this._velocityY.toFixed(1)
+    }
     set velocityY(value) {
         this._velocityY = value;
         this._rigidbody.setLinearVelocity(planck.Vec2(this._rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel))

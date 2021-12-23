@@ -14,6 +14,12 @@ class GameLevel {
         }
     }
 
+    updateScene (){
+        for (let key in this._engine.gameModel.properties) {
+            this["_" + key] = this._engine.gameModel.properties[key];
+        }
+    }
+
     // Render Properties
     get displayWidth() { return this._displayWidth }
 

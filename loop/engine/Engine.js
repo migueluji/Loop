@@ -14,6 +14,7 @@ class Engine {
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
         // Start audio engine
+        this.gameLevel = new GameLevel(this);
         this.aural = new Aural(this.gameModel);
         // Load currente scene
         this.currentScene = gameModel.sceneList[0].name;
@@ -42,7 +43,7 @@ class Engine {
     loadScene(scene) {
         this.resume(); // Active the different engines
         // Create new data structures
-        this.gameLevel = new GameLevel(this);
+        this.gameLevel.updateScene();
         this.gameObjects = new Map();
         this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
         // Init engines
@@ -79,14 +80,16 @@ class Engine {
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
             var spawnName = gameObject.name + Utils.id();
-            gameObject.actor.sleeping = false; // to active the object
+            //gameObject.actor.sleeping = false; // to active the object
             var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
             spawnObject = Object.assign(spawnObject, {
                 "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle) - y * Math.sin(Utils.radians(spawnerObject.angle))),
                 "y": spawnerObject.y + x * Math.sin(Utils.radians(spawnerObject.angle) + y * Math.sin(Utils.radians(spawnerObject.angle))),
                 "angle":  spawnerObject.angle * 1.0 + gameObject.angle * 1.0   + angle * 1.0 ,
+                "sleeping" : false
             });
+            spawnObject.spawned = true; // to avoid execute rules the first time
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }
@@ -156,7 +159,7 @@ class Engine {
     // conditions
     timer(gameObject, id, expression) {
         var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
-        var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds * 1000);
+        var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds );
         if (lostFlow || secReached) {
             gameObject.timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
             return true;
@@ -173,7 +176,6 @@ class Engine {
         var value = true;
         tagsToCollide.forEach(tag => {
             value = (value && (gameObject.collision[tag].size > 0));
-            console.log(value,tag,gameObject.collision[tag].size);
         })
         return value;
     }

@@ -19,7 +19,8 @@
 	"tagList": [
 		"laser",
 		"asteroid",
-		"ground"
+		"player",
+		"background"
 	],
 	"sceneList": [
 		{
@@ -28,8 +29,8 @@
 				{
 					"name": "background",
 					"sleeping": false,
-					"x": 11.723582125041503,
-					"y": -101.78865700033222,
+					"x": 0,
+					"y": 0,
 					"width": 802,
 					"height": 482,
 					"scaleX": 0.783203125,
@@ -37,14 +38,14 @@
 					"angle": 0,
 					"screen": false,
 					"collider": "Box",
-					"tags": "ground",
+					"tags": "background",
 					"spriteOn": true,
 					"image": "purple.png",
 					"color": "#ffffff",
 					"opacity": 1,
 					"flipX": false,
 					"flipY": false,
-					"scrollX": 0,
+					"scrollX": 10,
 					"scrollY": 0,
 					"tileX": 4,
 					"tileY": 2,
@@ -150,39 +151,64 @@
 							"name": "Movement",
 							"nodeList": [
 								{
+									"type": "Check",
+									"parameters": {
+										"property": "Me.init"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.angle",
+												"value": "ship.angle"
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.init",
+												"value": false
+											}
+										}
+									],
+									"nodeListFalse": []
+								},
+								{
 									"type": "Move",
 									"parameters": {
-										"speed": "30",
-										"angle": "ship.angle"
+										"speed": "600",
+										"angle": "Me.angle"
 									}
-								},
+								}
+							]
+						},
+						{
+							"name": "Destroy",
+							"nodeList": [
 								{
 									"type": "Collision",
 									"parameters": {
-										"tags": "ground"
+										"tags": "background"
 									},
-									"nodeListTrue": [],
-									"nodeListFalse": [
+									"nodeListTrue": [
 										{
-											"type": "Check",
+											"type": "Collision",
 											"parameters": {
-												"property": "Me.init"
+												"tags": "asteroid"
 											},
 											"nodeListTrue": [
-												{
-													"type": "Edit",
-													"parameters": {
-														"property": "Me.init",
-														"value": false
-													}
-												}
-											],
-											"nodeListFalse": [
 												{
 													"type": "Delete",
 													"parameters": {}
 												}
-											]
+											],
+											"nodeListFalse": []
+										}
+									],
+									"nodeListFalse": [
+										{
+											"type": "Delete",
+											"parameters": {}
 										}
 									]
 								}
@@ -214,7 +240,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "${Me.angle}",
 					"font": "Arial",
 					"size": 30,
@@ -390,7 +416,7 @@
 											"type": "Spawn",
 											"parameters": {
 												"actor": "laser",
-												"x": "100",
+												"x": "25",
 												"y": 0,
 												"angle": "0"
 											}
@@ -399,60 +425,28 @@
 									"nodeListFalse": []
 								}
 							]
+						},
+						{
+							"name": "Dead",
+							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "asteroid"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Scene_2"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							]
 						}
 					]
-				},
-				{
-					"name": "score",
-					"sleeping": false,
-					"x": -280.9598765432099,
-					"y": 212.0246913580247,
-					"width": 200.5,
-					"height": 50,
-					"scaleX": 4.01,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": false,
-					"image": "",
-					"color": "#e73636",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "Score: ${Me.p}",
-					"font": "Impact",
-					"size": 30,
-					"fill": "#ffffff",
-					"style": "Normal",
-					"align": "Left",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"scriptList": [],
-					"p": 0
 				},
 				{
 					"name": "asteroid",
@@ -701,7 +695,7 @@
 					"velocityX": 0,
 					"velocityY": 0,
 					"angularVelocity": 0,
-					"density": 0.6,
+					"density": 1.2,
 					"friction": 0.5,
 					"restitution": 0.5,
 					"dampingLinear": 0,
@@ -904,7 +898,7 @@
 					"velocityX": 0,
 					"velocityY": 0,
 					"angularVelocity": 0,
-					"density": 1,
+					"density": 2.4,
 					"friction": 0.5,
 					"restitution": 0.5,
 					"dampingLinear": 0,
@@ -1048,8 +1042,8 @@
 				{
 					"name": "generator",
 					"sleeping": false,
-					"x": 0,
-					"y": 275.5,
+					"x": -23.77686328303605,
+					"y": 306.7452370065538,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -1094,7 +1088,83 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Timer",
+									"parameters": {
+										"seconds": "5"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Spawn",
+											"parameters": {
+												"actor": "asteroid",
+												"x": 0,
+												"y": 0,
+												"angle": 0
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "score",
+					"sleeping": false,
+					"x": -280.9598765432099,
+					"y": 212.0246913580247,
+					"width": 200.5,
+					"height": 50,
+					"scaleX": 4.01,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": false,
+					"image": "",
+					"color": "#e73636",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": true,
+					"text": "Score: ${Me.p}",
+					"font": "Impact",
+					"size": 30,
+					"fill": "#ffffff",
+					"style": "Normal",
+					"align": "Left",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": [],
+					"p": 0
 				}
 			]
 		},
@@ -1279,5 +1349,6 @@
 			]
 		}
 	],
-	"score": 0
+	"score": 0,
+	"debug": true
 }
