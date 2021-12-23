@@ -135,8 +135,6 @@
 	//	gameFolder="move";
 	//	gameFolder="box-doger";
 	// 	gameFolder="bird";
-	//	gameFolder="flying-plane";
-      	gameFolder="asteroids";
 	//	gameFolder="arkanoid";
 	//	gameFolder="alien-invasion";
 	//	gameFolder="babe-plataformer";
@@ -144,7 +142,8 @@
 	//	gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
-
+	//	gameFolder="asteroids";
+		gameFolder="flying-plane";
 		var app = new App(serverGamesFolder,gameFolder,gameId);
 		
 	</script>

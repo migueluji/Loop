@@ -15,7 +15,7 @@ class GameLevel {
     }
 
     updateScene (){
-        for (let key in this._engine.gameModel.properties) {
+        for (let key in this._engine.gameModel.properties) { // Update game properties
             this["_" + key] = this._engine.gameModel.properties[key];
         }
     }

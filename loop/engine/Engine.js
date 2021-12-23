@@ -66,15 +66,11 @@ class Engine {
     }
 
     // scene actions
-    goTo(scene) { this.changeScene = true; this.goToScene = scene.name; }
+    goTo(scene) { this.changeScene = true; this.goToScene = scene.name }
 
-    pause(physics, logic, sounds) {
-        this.physicsOn = !physics; this.logicOn = !logic; this.objectSoundsOn = !sounds;
-    }
+    pause(physics, logic, sounds) { this.physicsOn = !physics; this.logicOn = !logic; this.objectSoundsOn = !sounds }
 
-    resume() {
-        this.physicsOn = this.logicOn = this.objectSoundsOn = true;
-    }
+    resume() { this.physicsOn = this.logicOn = this.objectSoundsOn = true }
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
@@ -86,8 +82,8 @@ class Engine {
             spawnObject = Object.assign(spawnObject, {
                 "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle) - y * Math.sin(Utils.radians(spawnerObject.angle))),
                 "y": spawnerObject.y + x * Math.sin(Utils.radians(spawnerObject.angle) + y * Math.sin(Utils.radians(spawnerObject.angle))),
-                "angle":  spawnerObject.angle * 1.0 + gameObject.angle * 1.0   + angle * 1.0 ,
-                "sleeping" : false
+                "angle": spawnerObject.angle * 1.0 + gameObject.angle * 1.0 + angle * 1.0,
+                "sleeping": false
             });
             spawnObject.spawned = true; // to avoid execute rules the first time
             this.scope[spawnObject.name] = spawnObject;
@@ -159,7 +155,7 @@ class Engine {
     // conditions
     timer(gameObject, id, expression) {
         var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
-        var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds );
+        var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds);
         if (lostFlow || secReached) {
             gameObject.timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
             return true;

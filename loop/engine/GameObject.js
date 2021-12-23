@@ -155,9 +155,9 @@ class GameObject {
         this._rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     }
 
-    get angle() { return Number(this._angle).toFixed(0) } /*** investigar porque no es un número */
+    get angle() { return Math.round(this._angle) } /*** investigar porque no es un número */
     set angle(value) {
-        this._angle = this._container.angle = value;
+        this._angle =  this._container.angle = value;
         this._rigidbody.setAngle(value * Math.PI / 180);
     }
 
