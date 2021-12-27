@@ -12,7 +12,7 @@ class GameObject {
         var keys = Object.keys(actor.newProperties); // zIndex is included in newProperties
         keys.forEach(key => this["_" + key] = actor[key])
         var otherKeys = ["spawned", "dead", "name", "sleeping", "physicsOn", "soundOn", "collider", "actor",
-            "container", "audio", "rigidbody", "engine"];
+            "container", "audio", "rigidbody", "engine", "screen"];
         keys.concat(otherKeys).forEach(key => {
             Object.defineProperty(this, key, {
                 get() { return this["_" + key] },
@@ -26,8 +26,9 @@ class GameObject {
             if (actor.soundOn) this._audio.source.play(this._audio.id);
         }
         // Add container to stage
-        if (actor.screen) this._container = engine.render.stageScreen.addChild(new Container(actor));
-        else this._container = engine.render.stageWorld.addChild(new Container(actor));
+        this._container = engine.render.stage.addChild(new Container(actor));
+        this._previousCameraX = engine.gameLevel.cameraX;
+        this._previousCameraY = engine.gameLevel.cameraY;
         // Add rigidbody to world
         var body = new Body(actor);
         this._rigidbody = engine.physics.world.createBody(body.bodyDef);
@@ -43,7 +44,7 @@ class GameObject {
         // add bounding box to debug
         if (engine.debug) {
             this.debug = new PIXI.Graphics();
-            (actor.screen) ? engine.render.stageScreen.addChild(this.debug) : engine.render.stageWorld.addChild(this.debug);
+            engine.render.stage.addChild(this.debug);
         }
     }
 
@@ -72,8 +73,10 @@ class GameObject {
         }
         else if (this.dead) { // CRUD - DELETE
             if (this.audio) this.audio.source.stop(this.audio.id);
-            this.engine.render.stageWorld.removeChild(this.container);
-            if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
+            //  this.engine.render.stageWorld.removeChild(this.container);
+            //  if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
+            this.engine.render.stage.removeChild(this.container);
+            if (this.debug) this.engine.render.stage.removeChild(this.debug);
             this.engine.physics.world.destroyBody(this.rigidbody);
             this.engine.gameObjects.delete(this.name);
             delete this.engine.scope[this.name];
@@ -94,6 +97,10 @@ class GameObject {
     }
 
     update() {
+        if (this.screen) {
+            if (this.engine.gameLevel.cameraX != this._previousCameraX) this.x = this.engine.gameLevel.cameraX + this._actor.x;
+            if (this.engine.gameLevel.cameraY != this._previousCameraY) this.y = this.engine.gameLevel.cameraY + this._actor.y;
+        }
         if (this.debug) {  // debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
@@ -117,13 +124,13 @@ class GameObject {
     }
 
     // access to GameObject properties
-    get x() { return this._x }
+    get x() { return Math.round(this._x) }
     set x(value) {
         this._x = this._container.x = value;
         this._rigidbody.setPosition(planck.Vec2(value * Physics.metersPerPixel, this._rigidbody.getPosition().y));
     }
 
-    get y() { return this._y }
+    get y() { return Math.round(this._y) }
     set y(value) {
         this._y = this._container.y = value;
         this._rigidbody.setPosition(planck.Vec2(this._rigidbody.getPosition().x, value * Physics.metersPerPixel));
@@ -157,7 +164,7 @@ class GameObject {
 
     get angle() { return Math.round(this._angle) } /*** investigar porque no es un número */
     set angle(value) {
-        this._angle =  this._container.angle = value;
+        this._angle = this._container.angle = value;
         this._rigidbody.setAngle(value * Math.PI / 180);
     }
 
@@ -190,14 +197,14 @@ class GameObject {
 
     get flipX() { return this._flipX }
     set flipX(value) {
-        this.flipX = value;
+        this._flipX = value;
         this._container.sprite.scale.x = (value) ? -Math.abs(this._container.sprite.scale.x) :
             Math.abs(this._container.sprite.scale.x)
     }
 
     get flipY() { return this._flipY }
     set flipY(value) {
-        this.flipY = valuea;
+        this._flipY = valuea;
         this._container.sprite.scale.y = (value) ? - Math.abs(this._container.sprite.scale.y) :
             Math.abs(this._container.sprite.scale.y)
     }

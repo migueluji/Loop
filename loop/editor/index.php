@@ -135,15 +135,17 @@
 	//	gameFolder="move";
 	//	gameFolder="box-doger";
 	// 	gameFolder="bird";
-	//	gameFolder="arkanoid";
+
 	//	gameFolder="alien-invasion";
-	//	gameFolder="babe-plataformer";
+
 	//  gameFolder="ludumdare46-carlos";
 	//	gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
 		gameFolder="asteroids";
-	//	gameFolder="flying-plane";
+		gameFolder="flying-plane";
+		gameFolder="arkanoid";
+		gameFolder="babe-plataformer";
 		var app = new App(serverGamesFolder,gameFolder,gameId);
 		
 	</script>

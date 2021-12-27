@@ -16,14 +16,6 @@ class Render {
         };
         this.stage.scale = { x: gameLevel.cameraZoom, y: -gameLevel.cameraZoom };
         this.stage.angle = gameLevel.cameraAngle;
-        // Stage for world objects
-        this.stageWorld = new PIXI.Container();
-        this.stageWorld.sortableChildren = true;
-        this.stage.addChild(this.stageWorld);
-        // Stage for screen objects
-        this.stageScreen = new PIXI.Container();
-        this.stageScreen.sortableChildren = true;
-        this.stage.addChild(this.stageScreen);
     }
 
     update(engine) {

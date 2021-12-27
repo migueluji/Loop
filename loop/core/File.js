@@ -32,7 +32,6 @@ class File {
     loadSounds(URL, json, app) {
         this.playList = {};
         this.soundCount = json.soundList.length;
-        console.log("load sounds ",this.soundCount);
         if (this.soundCount == 0 ) app.onSoundsLoaded(); // no sounds return to app
         else json.soundList.forEach(sound => {
             this.playList[sound.name] = new Howl({

@@ -227,8 +227,8 @@
 				{
 					"name": "ship",
 					"sleeping": false,
-					"x": -1.5,
-					"y": -1.5,
+					"x": 0,
+					"y": 0,
 					"width": 45,
 					"height": 59,
 					"scaleX": 0.6,
@@ -1037,8 +1037,8 @@
 				{
 					"name": "generator",
 					"sleeping": false,
-					"x": -23.77686328303605,
-					"y": 306.7452370065538,
+					"x": 0,
+					"y": 295.6341258954426,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -1345,5 +1345,5 @@
 		}
 	],
 	"score": 0,
-	"debug": true
+	"debug": false
 }

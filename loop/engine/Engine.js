@@ -76,22 +76,21 @@ class Engine {
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
             var spawnName = gameObject.name + Utils.id();
-            //gameObject.actor.sleeping = false; // to active the object
             var spawnObject = new GameObject(this, gameObject.actor, spawnName);
-            spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
-            spawnObject = Object.assign(spawnObject, {
-                "x": spawnerObject.x + x * Math.cos(Utils.radians(spawnerObject.angle) - y * Math.sin(Utils.radians(spawnerObject.angle))),
-                "y": spawnerObject.y + x * Math.sin(Utils.radians(spawnerObject.angle) + y * Math.sin(Utils.radians(spawnerObject.angle))),
-                "angle": spawnerObject.angle * 1.0 + gameObject.angle * 1.0 + angle * 1.0,
-                "sleeping": false
-            });
+            var sin = Math.sin(Utils.radians(spawnerObject.angle));
+            var cos = Math.cos(Utils.radians(spawnerObject.angle));
+            spawnObject.x = spawnerObject.x + (spawnerObject.x - x) * cos - (spawnerObject.y - y) * sin;
+            spawnObject.y = spawnerObject.y + (spawnerObject.x - x) * sin + (spawnerObject.y - y) * cos;
+            spawnObject.angle = spawnerObject.angle * 1.0 + gameObject.angle * 1.0 + angle * 1.0;
+            spawnObject.sleeping = false;
             spawnObject.spawned = true; // to avoid execute rules the first time
+            spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }
     }
 
-    delete(gameObject) { gameObject.dead = true; }// mark to be eliminated
+    delete(gameObject) { gameObject.dead = true; } // mark to be eliminated
 
     animate(gameObject, id, animation, fps) {
         var secuence = animation.split(",");
@@ -114,8 +113,8 @@ class Engine {
 
     moveTo(gameObject, speed, px, py) {
         var dist = Utils.getDistance({ x: gameObject.x, y: gameObject.y }, { x: px, y: py });
-        gameObject.x = (dist > 1) ? gameObject.x + speed * this.deltaTime * (px - gameObject.x) / dist : px;
-        gameObject.y = (dist > 1) ? gameObject.y + speed * this.deltaTime * (py - gameObject.y) / dist : py;
+        gameObject.x = (dist > speed * this.deltaTime) ? gameObject.x + speed * this.deltaTime * (px - gameObject.x) / dist : px;
+        gameObject.y = (dist > speed * this.deltaTime) ? gameObject.y + speed * this.deltaTime * (py - gameObject.y) / dist : py;
     }
 
     rotate(gameObject, speed, pivotX, pivotY) {

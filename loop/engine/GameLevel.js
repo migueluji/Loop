@@ -14,7 +14,7 @@ class GameLevel {
         }
     }
 
-    updateScene (){
+    updateScene() {
         for (let key in this._engine.gameModel.properties) { // Update game properties
             this["_" + key] = this._engine.gameModel.properties[key];
         }
@@ -26,13 +26,13 @@ class GameLevel {
     get displayHeight() { return this._displayHeight }
 
     get cameraX() { return this._cameraX }
-    set cameraX(value) { this._cameraX = value; if (this._engine) this._engine.render.stageWorld.x = -value }
+    set cameraX(value) { this._cameraX = value; if (this._engine) this._engine.render.stage.x = this.displayWidth / 2.0 - value }
 
     get cameraY() { return this._cameraY }
-    set cameraY(value) { this._cameraY = value; if (this._engine) this._engine.render.stageWorld.y = -value }
+    set cameraY(value) { this._cameraY = value; if (this._engine) this._engine.render.stage.y = this.displayHeight / 2.0 - value }
 
     get cameraAngle() { return this._cameraAngle }
-    set cameraAngle(value) { this._cameraAngle = value; if (this._engine) this._engine.render.stageWorld.angle = value }
+    set cameraAngle(value) { this._cameraAngle = value; if (this._engine) this._engine.render.stage.angle = value }
 
     get cameraZoom() { return this._cameraZoom }
     set cameraZoom(value) { this._cameraZoom = value; if (this._engine) this._engine.render.stage.scale = { x: value, y: -value } }
