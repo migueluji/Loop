@@ -12,7 +12,7 @@ class Engine {
         this.objectSoundsOn = true;
         // Create a new object to acces by name to the scenes in the load and in the scope
         this.sceneList = new Object();
-        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene; });
+        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
         // Start audio engine
         this.gameLevel = new GameLevel(this);
         this.aural = new Aural(this.gameModel);
@@ -40,7 +40,7 @@ class Engine {
         this.currentTime = newTime;
     }
 
-    loadScene(scene) {
+    loadScene(sceneName) {
         this.resume(); // Active the different engines
         // Create new data structures
         this.gameLevel.updateScene();
@@ -53,15 +53,15 @@ class Engine {
         this.physics = new Physics(this.gameLevel, this.gameObjects);
         // Create gameObjects
         var zIndex = 0;
-        this.sceneList[scene].actorList.forEach(actor => {
+        this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
             var gameObject = new GameObject(this, actor);
             this.gameObjects.set(actor.name, gameObject);
             this.scope[actor.name] = gameObject;
             zIndex++;
         });
-        this.currentScene = scene;
-        this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[scene]);
+        this.currentScene = sceneName;
+        this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
         this.changeScene = false;
     }
 

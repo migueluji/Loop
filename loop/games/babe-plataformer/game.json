@@ -1027,14 +1027,14 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "",
+					"text": "${Game.lives}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
 					"style": "Normal",
 					"align": "Center",
 					"offsetX": 0,
-					"offsetY": 0,
+					"offsetY": 42,
 					"soundOn": false,
 					"sound": "",
 					"start": 0,
@@ -1188,6 +1188,27 @@
 									},
 									"nodeListTrue": [
 										{
+											"type": "Edit",
+											"parameters": {
+												"property": "button.sleeping",
+												"value": false
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "button.textOn",
+												"value": true
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "button.spriteOn",
+												"value": true
+											}
+										},
+										{
 											"type": "Compare",
 											"parameters": {
 												"value_1": "Game.lives",
@@ -1196,22 +1217,30 @@
 											},
 											"nodeListTrue": [
 												{
-													"type": "Pause",
-													"parameters": {
-														"physics": true,
-														"logic": true,
-														"sounds": true
-													}
-												},
-												{
 													"type": "Edit",
 													"parameters": {
-														"property": "Continue.textOn",
-														"value": true
+														"property": "button.text",
+														"value": "\"Continue\""
 													}
 												}
 											],
-											"nodeListFalse": []
+											"nodeListFalse": [
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "button.text",
+														"value": "\"Replay\""
+													}
+												}
+											]
+										},
+										{
+											"type": "Pause",
+											"parameters": {
+												"physics": true,
+												"logic": true,
+												"sounds": true
+											}
 										},
 										{
 											"type": "Edit",
@@ -1670,13 +1699,13 @@
 					]
 				},
 				{
-					"name": "Continue",
-					"sleeping": false,
+					"name": "texto",
+					"sleeping": true,
 					"x": 0,
-					"y": 0,
-					"width": 50,
+					"y": 76,
+					"width": 500,
 					"height": 50,
-					"scaleX": 1,
+					"scaleX": 10,
 					"scaleY": 1,
 					"angle": 0,
 					"screen": true,
@@ -1743,16 +1772,16 @@
 					]
 				},
 				{
-					"name": "Gameover",
-					"sleeping": false,
+					"name": "button",
+					"sleeping": true,
 					"x": 0,
-					"y": -70,
+					"y": 0,
 					"width": 150,
 					"height": 50,
 					"scaleX": 3,
 					"scaleY": 1,
 					"angle": 0,
-					"screen": false,
+					"screen": true,
 					"collider": "Box",
 					"tags": "",
 					"spriteOn": false,
@@ -1798,17 +1827,10 @@
 								{
 									"type": "Touch",
 									"parameters": {
-										"mode": "Down",
+										"mode": "Tap",
 										"on_Actor": true
 									},
 									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.lives",
-												"value": "3"
-											}
-										},
 										{
 											"type": "Go_To",
 											"parameters": {

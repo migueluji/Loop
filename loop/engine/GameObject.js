@@ -11,8 +11,8 @@ class GameObject {
         // Define get and set functions for new game properties
         var keys = Object.keys(actor.newProperties); // zIndex is included in newProperties
         keys.forEach(key => this["_" + key] = actor[key])
-        var otherKeys = ["spawned", "dead", "name", "sleeping", "physicsOn", "soundOn", "collider", "actor",
-            "container", "audio", "rigidbody", "engine", "screen"];
+        var otherKeys = ["spawned", "dead", "name", "sleeping", "screen", "physicsOn", "soundOn",
+            "collider", "actor", "container", "audio", "rigidbody", "engine"];
         keys.concat(otherKeys).forEach(key => {
             Object.defineProperty(this, key, {
                 get() { return this["_" + key] },
@@ -67,13 +67,13 @@ class GameObject {
         }
     }
 
-    fixedUpdate(deltaTime, scope) { // logic update
+    fixedUpdate(deltaTime) { // logic update
         if (this.spawned) { // CRUD - CREATE
             this.spawned = false; // Do not execute rules the first time the object is spawned
         }
         else if (this.dead) { // CRUD - DELETE
             if (this.audio) this.audio.source.stop(this.audio.id);
-            this.engine.render.stage.removeChild(this.container);
+            this.engine.render.stage.removeChild(this._container);
             if (this.debug) this.engine.render.stage.removeChild(this.debug);
             this.engine.physics.world.destroyBody(this.rigidbody);
             this.engine.gameObjects.delete(this.name);
@@ -81,15 +81,15 @@ class GameObject {
         }
         else if (!this.sleeping) { // CRUD - UPDATE
             // update logic
-            if (this.rule) try { this.rule.eval(scope); } catch (error) { console.log(error); }
+            if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }
             // update scrolling
-            if (this._scrollX != 0) this.container.sprite.tilePosition.x += this._scrollX * deltaTime;
-            if (this._scrollY != 0) this.container.sprite.tilePosition.y += this._scrollY * deltaTime;
+            if (this._scrollX != 0) this._container.sprite.tilePosition.x += this._scrollX * deltaTime;
+            if (this._scrollY != 0) this._container.sprite.tilePosition.y += this._scrollY * deltaTime;
             // update text
             if (this.textOn) {
-                this.text = math.print(this.container.text.expression, scope);
-                if (this.align == "Left") this.container.text.position.x = (-this.width / 2 + this.container.text.width / 2) + this.offsetX;
-                if (this.align == "Right") this.container.text.position.x = (this.width / 2 - this.container.text.width / 2) + this.offsetX;
+                this._container.spriteText.text = math.print(this._container.spriteText.expression, this.engine.scope);
+                if (this.align == "Left") this._container.spriteText.position.x = (-this.width / 2 + this._container.spriteText.width / 2) + this.offsetX;
+                if (this.align == "Right") this._container.spriteText.position.x = (this.width / 2 - this._container.spriteText.width / 2) + this.offsetX;
             }
         }
     }
@@ -230,40 +230,40 @@ class GameObject {
     }
 
     get textOn() { return this._textOn }
-    set textOn(value) { this._textOn = this._container.text.visible = value }
+    set textOn(value) { this._textOn = this._container.spriteText.visible = value }
 
     get text() { return this._text }
-    set text(value) { this._text = this._container.text.text = value }
+    set text(value) { this._text = this._container.spriteText.expression = value }
 
     get font() { return this._font }
-    set font(value) { this._font = this._container.text.style.fontFamily = value }
+    set font(value) { this._font = this._container.spriteText.style.fontFamily = value }
 
     get size() { return this._size }
-    set size(value) { this._size = this._container.text.style.fontSize = value }
+    set size(value) { this._size = this._container.spriteText.style.fontSize = value }
 
     get fill() { return this._fill }
-    set fill(value) { this._fill = this._container.text.style.fill = value }
+    set fill(value) { this._fill = this._container.spriteText.style.fill = value }
 
     get style() { return this._style };
-    set style(value) { this._style = this._container.text.style.fontStyle = value }
+    set style(value) { this._style = this._container.spriteText.style.fontStyle = value }
 
     get align() { return this._align }
-    set align(value) { this._align = value; this._container.text.style.align = value.toLowerCase() };
+    set align(value) { this._align = value; this._container.spriteText.style.align = value.toLowerCase() };
 
     get offsetX() { return this._offsetX }
     set offsetX(value) {
         this._offsetX = value;
         const w = Math.abs(this._container.sprite.width * this._container.sprite.scale.x);
         var pivot = { x: 0, y: 0 };
-        switch (this._container.text.style.align) {
-            case "left": pivot = { x: -w / 2 + this._container.text.width / 2 }; break;
-            case "right": pivot = { x: w / 2 - this._container.text.width / 2 }; break;
+        switch (this._container.spriteText.style.align) {
+            case "left": pivot = { x: -w / 2 + this._container.spriteText.width / 2 }; break;
+            case "right": pivot = { x: w / 2 - this._container.spriteText.width / 2 }; break;
         }
         this._container.text.position.x = pivot.x + value;
     }
 
     get offsetY() { return this._offsetY }
-    set offsetY(value) { this._offsetY = this._container.text.position.y = value }
+    set offsetY(value) { this._offsetY = this._container.spriteText.position.y = value }
 
     get sound() { return this._sound }
     set sound(value) {
