@@ -414,10 +414,17 @@
 											},
 											"nodeListTrue": [
 												{
-													"type": "Add",
+													"type": "Edit",
 													"parameters": {
-														"scene": "Win",
-														"stop": true
+														"property": "Continue.sleeping",
+														"value": false
+													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Continue.text",
+														"value": "You Win"
 													}
 												}
 											],
@@ -455,7 +462,7 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "${Me.coins}",
+					"text": "${Game.coins}",
 					"font": "Tahoma",
 					"size": 20,
 					"fill": "#d8af52",
@@ -480,12 +487,7 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": []
-						}
-					],
+					"scriptList": [],
 					"coins": 0
 				},
 				{
@@ -550,8 +552,8 @@
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "coinsControler.coins",
-												"value": "coinsControler.coins+1"
+												"property": "Game.coins",
+												"value": "Game.coins+1"
 											}
 										},
 										{
@@ -1194,22 +1196,22 @@
 											},
 											"nodeListTrue": [
 												{
-													"type": "Add",
+													"type": "Pause",
 													"parameters": {
-														"scene": "Continue",
-														"stop": true
+														"physics": true,
+														"logic": true,
+														"sounds": true
+													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Continue.textOn",
+														"value": true
 													}
 												}
 											],
-											"nodeListFalse": [
-												{
-													"type": "Add",
-													"parameters": {
-														"scene": "Game_Over",
-														"stop": true
-													}
-												}
-											]
+											"nodeListFalse": []
 										},
 										{
 											"type": "Edit",
@@ -1666,6 +1668,159 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "Continue",
+					"sleeping": false,
+					"x": 0,
+					"y": 0,
+					"width": 50,
+					"height": 50,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": true,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": false,
+					"image": "",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "Continue",
+					"font": "Arial",
+					"size": 60,
+					"fill": "#b04f4f",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Init"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Gameover",
+					"sleeping": false,
+					"x": 0,
+					"y": -70,
+					"width": 150,
+					"height": 50,
+					"scaleX": 3,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": false,
+					"image": "",
+					"color": "#a05a5a",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "Replay",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#ffffff",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"scriptList": [
+						{
+							"name": "Script_1",
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.lives",
+												"value": "3"
+											}
+										},
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Init"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -2064,5 +2219,6 @@
 			]
 		}
 	],
-	"lives": 3
+	"lives": 3,
+	"coins": 0
 }
