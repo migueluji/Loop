@@ -73,8 +73,6 @@ class GameObject {
         }
         else if (this.dead) { // CRUD - DELETE
             if (this.audio) this.audio.source.stop(this.audio.id);
-            //  this.engine.render.stageWorld.removeChild(this.container);
-            //  if (this.debug) this.engine.render.stageWorld.removeChild(this.debug);
             this.engine.render.stage.removeChild(this.container);
             if (this.debug) this.engine.render.stage.removeChild(this.debug);
             this.engine.physics.world.destroyBody(this.rigidbody);
