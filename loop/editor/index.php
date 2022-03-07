@@ -142,10 +142,12 @@
 	//	gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
-		gameFolder="asteroids";
-		gameFolder="flying-plane";
+		
+		
 		gameFolder="arkanoid";
 		gameFolder="babe-plataformer";
+		gameFolder="asteroids";
+		gameFolder="flying-plane";
 		var app = new App(serverGamesFolder,gameFolder,gameId);
 		
 	</script>

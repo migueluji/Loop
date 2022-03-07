@@ -1222,6 +1222,13 @@
 														"property": "button.text",
 														"value": "\"Continue\""
 													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Game.lives",
+														"value": "Game.lives-1"
+													}
 												}
 											],
 											"nodeListFalse": [
@@ -1230,6 +1237,13 @@
 													"parameters": {
 														"property": "button.text",
 														"value": "\"Replay\""
+													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Game.lives",
+														"value": "3"
 													}
 												}
 											]
@@ -1240,13 +1254,6 @@
 												"physics": true,
 												"logic": true,
 												"sounds": true
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.lives",
-												"value": "Game.lives-1"
 											}
 										}
 									],

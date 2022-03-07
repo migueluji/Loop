@@ -155,6 +155,7 @@ class Engine {
     timer(gameObject, id, expression) {
         var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
         var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds);
+        console.log(secReached,gameObject.timer[id].time,gameObject.timer[id].seconds );
         if (lostFlow || secReached) {
             gameObject.timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
             return true;
