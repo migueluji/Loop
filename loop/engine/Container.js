@@ -11,7 +11,7 @@ class Container extends PIXI.Container {
         this.sprite = new Sprite(actor);
         this.addChild(this.sprite);
         // Text properties
-        this.text = new Text(actor);
-        this.addChild(this.text);
+        this.spriteText = new Text(actor);
+        this.addChild(this.spriteText);
     }
 }
