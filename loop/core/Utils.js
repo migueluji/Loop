@@ -4,13 +4,6 @@ class Utils {
         return "_" + new Date().valueOf() + Math.random().toFixed(16).substring(2);
     }
 
-    static rotatePoint(p, angle) {
-        angle = angle * Math.PI / 180;
-        var newX = p.x * Math.cos(angle) - p.y * Math.sin(angle);
-        var newY = p.x * Math.sin(angle) + p.y * Math.cos(angle);
-        return { x: newX, y: newY }
-    }
-
     static newName(name, list) {
         var strings = name.split("_");
         if (!isNaN(strings[strings.length - 1]) && strings[strings.length - 2] == "copy") {
@@ -31,6 +24,13 @@ class Utils {
             }
         }
         return newName;
+    }
+
+    static rotatePoint(p, angle) {
+        angle = Utils.radians(angle);
+        var newX = p.x * Math.cos(angle) - p.y * Math.sin(angle);
+        var newY = p.x * Math.sin(angle) + p.y * Math.cos(angle);
+        return { x: newX, y: newY }
     }
 
     static radians(degrees) {
