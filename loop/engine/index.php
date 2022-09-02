@@ -77,8 +77,8 @@
 			var gameFolder="<?php echo $_POST['gameFolder'];?>";
 			var editor=true; /* to kown if the engine has been launched from the editor */
 
-			var json = (editor) ? JSON.parse(localStorage.getItem("localStorage_GameData")) : null;
-			var player = new Player(serverGamesFolder,gameFolder,json);
+			//var json = (editor) ? JSON.parse(localStorage.getItem("localStorage_GameData")) : null;
+			var player = new Player();
 			
 		</script>
 		<canvas id="main"></canvas>
