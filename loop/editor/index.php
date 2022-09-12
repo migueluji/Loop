@@ -127,28 +127,27 @@
 
 	//	userId=1455;
 	//	userName="Editor";
-		gameId=Utils.id();
-		serverGamesFolder="http://localhost/loop/games";
+		var gameId=Utils.id();
+		var serverGamesFolder="http://localhost/loop/games";
+		var gameFolder;
 
 	//	gameFolder="prueba";
 	//	gameFolder="null";
 	//	gameFolder="move";
 	//	gameFolder="box-doger";
 	// 	gameFolder="bird";
-
 	//	gameFolder="alien-invasion";
-
 	//  gameFolder="ludumdare46-carlos";
-	//	gameFolder="empty";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
-		
-		
-		gameFolder="arkanoid";
-		gameFolder="babe-plataformer";
-		gameFolder="asteroids";
-		gameFolder="flying-plane";
-		var app = new App(serverGamesFolder,gameFolder,gameId);
+
+		gameFolder="empty";
+	 	gameFolder="arkanoid";
+	  	gameFolder="babe-plataformer";
+	  	gameFolder="asteroids";
+	  	gameFolder="flying-plane";
+
+		var app = new App();
 		
 	</script>
 </body>

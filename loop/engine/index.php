@@ -20,14 +20,14 @@
 		<!--link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"></link-->
 		<!--link rel="stylesheet" href="../editor/editor.css"></link-->
 		<!--script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script-->
+		<!--script src="../editor/dialogs/LoadingView.js"></script-->
+
 		<script src="libraries/math.js"></script>
 		<script src="https://pixijs.download/v6.1.3/pixi.min.js"></script>
 		<script src="libraries/Planck.js"></script>
 		<script src="libraries/howler.min.js"></script>
 
         <script src="Player.js"></script>
-
-		<!--script src="../editor/dialogs/LoadingView.js"></script-->
 
 		<script src="../core/Game.js"></script>
 		<script src="../core/Scene.js"></script>

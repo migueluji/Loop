@@ -32,7 +32,7 @@ class ActorView {
 			span.innerHTML="";
 			var image = new Image();
 			image.style="width:40px;height:40px;object-fit:contain";
-			image.src=app.serverGamesFolder+"/"+app.gameFolder+"/images/"+actor.image;
+			image.src=serverGamesFolder+"/"+gameFolder+"/images/"+actor.image;
 			span.appendChild(image);
 		}
 	}
