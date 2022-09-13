@@ -1,7 +1,6 @@
 class App {
     constructor(){		
         this.file = new File();
-
         this.load = new LoadingView("var(--mdc-theme-primary)");
         document.body.appendChild(this.load.html);
         this.file.loadJson(serverGamesFolder+"/loadJson.php?gameFolder="+gameFolder,this);

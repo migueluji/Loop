@@ -97,13 +97,13 @@ class Editor {
         var inputFolder = document.createElement('input');
         inputFolder.type = 'text';
         inputFolder.name = "gameFolder";
-        inputFolder.value = app.gameFolder;
+        inputFolder.value = gameFolder;
         form.appendChild(inputFolder);
         
         var inputUrl = document.createElement('input');
         inputUrl.type = 'text';
         inputUrl.name = "serverGamesFolder";
-        inputUrl.value = app.serverGamesFolder;
+        inputUrl.value = serverGamesFolder;
         form.appendChild(inputUrl);
         document.body.appendChild(form);
 
@@ -536,7 +536,7 @@ class Editor {
     }
 
     deleteFile(assetID, fileName, type){   
-            File.deleteFile(app.gameFolder, assetID, fileName, type);
+            File.deleteFile(gameFolder, assetID, fileName, type);
     }
     
     removeAsset(assetID, type){

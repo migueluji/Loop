@@ -1,27 +1,13 @@
 <!DOCTYPE HTML>
-
 <html>
 	<head>
-		<style type="text/css">
-			
+		<style type="text/css">			
 			body { background: #222222; }
-			canvas {
-				display:block; 
-                position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translateX(-50%) translateY(-50%);
-			} 
+			canvas { display:block; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);} 
 		</style>
 		<title>Loop Engine</title>
 	</head>
-	
 	<body>
-		<!--link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"></link-->
-		<!--link rel="stylesheet" href="../editor/editor.css"></link-->
-		<!--script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script-->
-		<!--script src="../editor/dialogs/LoadingView.js"></script-->
-
 		<script src="libraries/math.js"></script>
 		<script src="https://pixijs.download/v6.1.3/pixi.min.js"></script>
 		<script src="libraries/Planck.js"></script>
@@ -77,11 +63,9 @@
 			var gameFolder="<?php echo $_POST['gameFolder'];?>";
 			var editor=true; /* to kown if the engine has been launched from the editor */
 
-			//var json = (editor) ? JSON.parse(localStorage.getItem("localStorage_GameData")) : null;
 			var player = new Player();
 			
 		</script>
 		<canvas id="main"></canvas>
 	</body>
-
 </html>

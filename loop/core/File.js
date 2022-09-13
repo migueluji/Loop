@@ -13,7 +13,6 @@ class File {
     }
 
     loadImages(URL, json, app) {
-        console.log(URL );
         this.loader = new PIXI.Loader(URL + "/images");
         if (json.imageList) this.loader.add(json.imageList);
         else this.loader.add("Loader", "../../../editor/images/loop.png");// trick to initialize the loader when there is not /image folder

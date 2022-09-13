@@ -5,7 +5,6 @@
 	<title>Gamesonomy Editor</title>
 	
 	<link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@10.0.0/dist/material-components-web.min.css"></link>
-
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="editor.css"></link>
 	<link rel="stylesheet" href="scripts.css"></link>
@@ -115,7 +114,6 @@
 	<script>
 
 		window.onbeforeunload = () => "";
-
 	/*    
 		var userId="<?php echo $_POST['iduser'];?>";
 		var userName="<?php echo $_POST['nameuser'];?>";
@@ -140,13 +138,11 @@
 	//  gameFolder="ludumdare46-carlos";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
-
-		gameFolder="empty";
 	 	gameFolder="arkanoid";
 	  	gameFolder="babe-plataformer";
 	  	gameFolder="asteroids";
 	  	gameFolder="flying-plane";
-
+		gameFolder="empty";
 		var app = new App();
 		
 	</script>

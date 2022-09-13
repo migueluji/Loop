@@ -30,7 +30,7 @@ class File {
     }
   
     static save(json) {
-        var url=app.serverGamesFolder+"/saveJson.php?gameId="+app.gameId+"&gameFolder="+app.gameFolder;
+        var url=serverGamesFolder+"/saveJson.php?gameId="+gameId+"&gameFolder="+gameFolder;
 		var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/json");
@@ -56,7 +56,7 @@ class File {
             case (type=="Sound") : destination="sounds"; break;
             case (type=="ScreenShoot") : destination=""; break;
         }
-		var url=app.serverGamesFolder+"/uploadFile.php?gameFolder="+app.gameFolder+"&assetFolder="+destination;
+		var url=serverGamesFolder+"/uploadFile.php?gameFolder="+gameFolder+"&assetFolder="+destination;
 		var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
 		xhr.type=type;
@@ -75,7 +75,7 @@ class File {
 		var assetFolder="";
 		if(type=="Image" || type=="Animation")	assetFolder="images";
 		else if(type=="Sound") assetFolder="sounds";
-		var url=app.serverGamesFolder+"/deleteAsset.php?gameFolder="+gameFolder+"&assetFolder="+assetFolder+"&filename="+fileName;
+		var url=serverGamesFolder+"/deleteAsset.php?gameFolder="+gameFolder+"&assetFolder="+assetFolder+"&filename="+fileName;
 		var xhr = new XMLHttpRequest();
 		xhr.assetID=assetID;
 		xhr.fileName=fileName;
