@@ -2,21 +2,22 @@ class Script {
 
     constructor(script) {
         this.id = Utils.id();
-        this.name = script.name;
         this.nodeList = [];
         Object.assign(this, script);
         this.assignNodes(this.nodeList);
     }
 
-    addNode(insert, node) { // father, side, position, node 
+    addNode(insert, node) { // parentID, side, position, node 
         if (insert.parentID == null) { //script vacio
             this.nodeList.splice(insert.position, 0, node);
         }
         else {
             var nodeList = this.findNode(this.nodeList, insert.parentID, null, null); // returns parent nodeList and position
             if (nodeList) {
-                if (insert.side == "right") nodeList.list[nodeList.position].nodeListTrue.splice(insert.position, 0, node);
-                else if (insert.side == "left") nodeList.list[nodeList.position].nodeListFalse.splice(insert.position, 0, node);
+                switch (insert.side) {
+                    case "right": nodeList.list[nodeList.position].nodeListTrue.splice(insert.position, 0, node); break;
+                    case "left": nodeList.list[nodeList.position].nodeListFalse.splice(insert.position, 0, node); break;
+                }
             }
         }
     }

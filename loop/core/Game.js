@@ -1,19 +1,16 @@
 class Game {
-
+    
     constructor(game) {
-        this.fontList = [];
-        this.imageList = [];
-        this.soundList = [];
-        this.tagList = [];
-        this.sceneList = [];
+        this.fontList = []; this.imageList = []; this.soundList = []; 
+        this.tagList = []; this.sceneList = [];
 
-        if (!game.sceneList) { // if game is empty
+        if (!game.sceneList) { // if the game is empty
             this.name = "Untitled Game";
-            Object.assign(this, this.properties); // init properties
-            this.sceneList[0] = new Scene({ "id": Utils.id(), "name": "Scene_1", "actorList": [] });
+            Object.assign(this, this.properties); // add basic game properties
+            this.sceneList[0] = new Scene({"name": "Scene_1", "actorList": [] });
         }
         else {
-            Object.assign(this, game); // game properties
+            Object.assign(this, game);
             this.sceneList.forEach((scene, i) => this.sceneList[i] = new Scene(scene));
         }
 
@@ -32,7 +29,8 @@ class Game {
             cameraX: this.cameraX || 0, cameraY: this.cameraY || 0, cameraAngle: this.cameraAngle || 0, cameraZoom: this.cameraZoom || 1,
             backgroundColor: this.backgroundColor || "#ffffff",
             // Sound
-            soundOn: this.soundOn || false, soundtrack: this.soundtrack || "", volume: this.volume || 1, start: this.start || 0, pan: this.pan || 0, loop: this.loop || false,
+            soundOn: this.soundOn || false, soundtrack: this.soundtrack || "", volume: this.volume || 1, start: this.start || 0, 
+            pan: this.pan || 0, loop: this.loop || false,
             // Physics
             physicsOn: this.physicsOn || false, gravityX: this.gravityX || 0, gravityY: this.gravityY || 0
         }

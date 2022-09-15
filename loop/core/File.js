@@ -111,5 +111,4 @@ class File {
         }
         xhr.send();
     }
-
 }
