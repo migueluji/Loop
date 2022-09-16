@@ -4,11 +4,11 @@ class Input {
     static touchObjects = {}; // touchable game object list
     static firstTime = true;
 
-    constructor(gameLevel, stage) {
-        Input.pointerX = gameLevel.mouseX;
-        Input.pointerY = gameLevel.mouseY;
-        Input.width = gameLevel.displayWidth;
-        Input.height = gameLevel.displayHeight;
+    constructor(gameState, stage) {
+        Input.pointerX = gameState.mouseX;
+        Input.pointerY = gameState.mouseY;
+        Input.width = gameState.displayWidth;
+        Input.height = gameState.displayHeight;
         // Stage pointer events
         stage.hitArea = new PIXI.Rectangle(-Input.width / 2, -Input.height / 2, Input.width, Input.height);
         stage.on("pointerdown", Input.pointerDownHandler.bind(this));

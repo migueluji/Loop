@@ -46,17 +46,17 @@ class Game {
 
     get inputProperties() {
         var obj = {
-            FPS: 0, time: 0, deltaTime: 0, exit: false,
+          //  FPS: 0, time: 0, deltaTime: 0, exit: false,
             currentScene: this.sceneList[0].name, currentSceneNumber: 0,
-            mouseX: 0, mouseY: 0,
-            accelerationX: 0, accelerationY: 0, accelerationZ: 0,
-            latitude: 0, longitude: 0
+           // mouseX: 0, mouseY: 0,
+            // accelerationX: 0, accelerationY: 0, accelerationZ: 0,
+            // latitude: 0, longitude: 0
         }
         return (obj);
     }
 
     get allProperties() {
-        var obj = Object.assign({}, this.properties, this.newProperties, this, this.inputProperties);
+        var obj = Object.assign({}, this.properties, this.newProperties, this.inputProperties);
         return (obj);
     }
 

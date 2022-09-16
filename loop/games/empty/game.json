@@ -199,5 +199,6 @@
 	"loop": false,
 	"physicsOn": false,
 	"gravityX": 0,
-	"gravityY": 0
+	"gravityY": 0,
+	"aaa": 0
 }

@@ -27,8 +27,8 @@ class GameObject {
         }
         // Add container to stage
         this._container = engine.render.stage.addChild(new Container(actor));
-        this._previousCameraX = engine.gameLevel.cameraX;
-        this._previousCameraY = engine.gameLevel.cameraY;
+        this._previousCameraX = engine.gameState.cameraX;
+        this._previousCameraY = engine.gameState.cameraY;
         // Add rigidbody to world
         var body = new Body(actor);
         this._rigidbody = engine.physics.world.createBody(body.bodyDef);
@@ -96,8 +96,8 @@ class GameObject {
 
     update() {
         if (this.screen) {
-            if (this.engine.gameLevel.cameraX != this._previousCameraX) this.x = this.engine.gameLevel.cameraX + this._actor.x;
-            if (this.engine.gameLevel.cameraY != this._previousCameraY) this.y = this.engine.gameLevel.cameraY + this._actor.y;
+            if (this.engine.gameState.cameraX != this._previousCameraX) this.x = this.engine.gameState.cameraX + this._actor.x;
+            if (this.engine.gameState.cameraY != this._previousCameraY) this.y = this.engine.gameState.cameraY + this._actor.y;
         }
         if (this.debug) {  // debug lines
             this.debug.clear();

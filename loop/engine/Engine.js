@@ -1,27 +1,29 @@
 class Engine {
 
     constructor(gameModel) {
-        this.gameModel = gameModel;
+        console.log(this);
+        // Define debug mode (boolean property that can defined as game property in the editor to show collision shapes)
+        this.debug = gameModel.debug || false;
+        // Gameloop properties
         this.ffps = 100;
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
-        // Define debug mode (boolean property that can defined as game property in the editor to show collision shapes)
-        this.debug = gameModel.debug || false;
-        // Start variables to active the engines
-        this.physicsOn = this.logicOn = this.objectSoundsOn = true;
-        // Create a new object to acces by name to the scenes in load and scope
-        this.sceneList = new Object();
+        // Engine properties
+        this.gameProperties = gameModel.allProperties;
+        this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
-        // Create the class to manage game properties in runtime
-        this.gameLevel = new GameLevel(this);
-        // Start audio engine
-        // this.audio = new Audio(this.gameModel);
+        this.gameObjects = new Map();
+        // Start engines
+        this.render = new Render();
+        this.audio = new Audio();
+        this.physics = new Physics(this.gameObjects);
+        this.gameState = new GameState(this);
         // Load currente scene
-        // this.currentScene = gameModel.sceneList[0].name;
-        // this.currentSceneNumber = 0;
-        // this.loadScene(this.currentScene);
+        this.currentScene = gameModel.sceneList[0].name;
+        this.currentSceneNumber = 0;
+        this.loadScene(this.currentScene);
         // // Launch gameloop
-        // window.requestAnimationFrame(this.gameLoop.bind(this));
+        window.requestAnimationFrame(this.gameLoop.bind(this));
     }
 
     gameLoop(newTime) {
@@ -41,16 +43,17 @@ class Engine {
     }
 
     loadScene(sceneName) {
+        console.log(sceneName, this.sceneList);
         this.resume(); // Active the different engines
         // Create new data structures
-        this.gameLevel.updateScene();
-        this.gameObjects = new Map();
-        this.scope = new Object({ "Game": this.gameLevel, "Engine": this });
+        //this.gameState.updateScene();
+        // this.gameObjects = new Map();
+        this.scope = new Object({ "Game": this.gameState, "Engine": this });
         // Init engines
-        this.render = new Render(this.gameLevel);
+        //  this.render = new Render(this.gameState);
         this.logic = new Logic();
-        this.input = new Input(this.gameLevel, this.render.stage);
-        this.physics = new Physics(this.gameLevel, this.gameObjects);
+        this.input = new Input(this.gameState, this.render.stage);
+        // this.physics = new Physics(this.gameState, this.gameObjects);
         // Create gameObjects
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
@@ -61,7 +64,7 @@ class Engine {
             zIndex++;
         });
         this.currentScene = sceneName;
-        this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
+        // this.currentSceneNumber = this.sceneList.indexOf(this.sceneList[sceneName]);
         this.changeScene = false;
     }
 

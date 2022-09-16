@@ -30,7 +30,7 @@
 		<script src="Audio.js"></script>
 		<script src="Engine.js"></script>
 		
-		<script src="GameLevel.js"></script>
+		<script src="GameState.js"></script>
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
 		<script src="Body.js"></script>
