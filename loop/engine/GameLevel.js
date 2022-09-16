@@ -1,6 +1,7 @@
 class GameLevel {
 
     constructor(engine) {
+        console.log(this);
         this._engine = engine;
         for (let key in engine.gameModel.allProperties) {
             this["_" + key] = engine.gameModel.allProperties[key];
@@ -51,27 +52,27 @@ class GameLevel {
     set soundtrack(value) {
         this._soundtrack = value;
         if (this._engine) { // change sound file
-            this._engine.aural.music.source.stop(this._engine.aural.music.id);
-            this._engine.aural.music = new Sound(value);
-            this._engine.aural.music.source.play(this._engine.aural.music.id);
+            this._engine.audio.music.source.stop(this._engine.audio.music.id);
+            this._engine.audio.music = new Sound(value);
+            this._engine.audio.music.source.play(this._engine.audio.music.id);
         }
     }
 
     get volume() { return this._volume };
-    set volume(value) { this._voluem = value; if (this._engine) this._engine.aural.music.source.volume(value) }
+    set volume(value) { this._voluem = value; if (this._engine) this._engine.audio.music.source.volume(value) }
 
     get start() { return this._start };
-    set start(value) { this._start = value; if (this._engine) this._engine.aural.music.source.seek(value) }
+    set start(value) { this._start = value; if (this._engine) this._engine.audio.music.source.seek(value) }
 
     get pan() { return this._pan };
-    set pan(value) { this._pan = value; if (this._engine) this._engine.aural.music.source.stereo(value) }
+    set pan(value) { this._pan = value; if (this._engine) this._engine.audio.music.source.stereo(value) }
 
     get loop() { return this._loop }
     set loop(value) {
         this._loop = value;
         if (this._engine) {
-            this._engine.aural.music.source.loop(value);
-            this._engine.aural.music.source.play();
+            this._engine.audio.music.source.loop(value);
+            this._engine.audio.music.source.play();
         }
     }
 

@@ -5,23 +5,23 @@ class Engine {
         this.ffps = 100;
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
-        this.debug = gameModel.debug;
-        // Start variables to pause the engine
-        this.physicsOn = true;
-        this.logicOn = true;
-        this.objectSoundsOn = true;
-        // Create a new object to acces by name to the scenes in the load and in the scope
+        // Define debug mode (boolean property that can defined as game property in the editor to show collision shapes)
+        this.debug = gameModel.debug || false;
+        // Start variables to active the engines
+        this.physicsOn = this.logicOn = this.objectSoundsOn = true;
+        // Create a new object to acces by name to the scenes in load and scope
         this.sceneList = new Object();
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
-        // Start audio engine
+        // Create the class to manage game properties in runtime
         this.gameLevel = new GameLevel(this);
-        this.aural = new Aural(this.gameModel);
+        // Start audio engine
+        // this.audio = new Audio(this.gameModel);
         // Load currente scene
-        this.currentScene = gameModel.sceneList[0].name;
-        this.currentSceneNumber = 0;
-        this.loadScene(this.currentScene);
-        // Launch gameloop
-        window.requestAnimationFrame(this.gameLoop.bind(this));
+        // this.currentScene = gameModel.sceneList[0].name;
+        // this.currentSceneNumber = 0;
+        // this.loadScene(this.currentScene);
+        // // Launch gameloop
+        // window.requestAnimationFrame(this.gameLoop.bind(this));
     }
 
     gameLoop(newTime) {
@@ -35,7 +35,7 @@ class Engine {
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;
         }
-        this.aural.play(this);
+        this.audio.play(this);
         this.render.update(this);
         this.currentTime = newTime;
     }

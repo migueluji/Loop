@@ -1,4 +1,4 @@
-class Aural {
+class Audio {
 
     constructor(gameModel){
         var soundOpt = { volume: gameModel.volume, loop: gameModel.loop, pan: gameModel.pan, start: gameModel.start }
