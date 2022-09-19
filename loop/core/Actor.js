@@ -50,6 +50,11 @@ class Actor {
         return (obj);
     }
 
+    get allProperties() {
+        var obj = Object.assign({}, this.properties, this.newProperties);
+        return (obj);
+    }
+
     addScript(script, pos) {
         this.scriptList.splice(pos, 0, script);
     }

@@ -2,22 +2,24 @@ class Engine {
 
     constructor(gameModel) {
         console.log(this);
+        this.gameModel = gameModel;
         // Define debug mode (boolean property that can defined as game property in the editor to show collision shapes)
         this.debug = gameModel.debug || false;
         // Gameloop properties
         this.ffps = 100;
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
-        // Engine properties
-        this.gameProperties = gameModel.allProperties;
-        this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
-        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
-        this.gameObjects = new Map();
         // Start engines
         this.render = new Render();
+        this.input = new Input(this.render);
         this.audio = new Audio();
         this.physics = new Physics(this.gameObjects);
+        this.logic = new Logic();
+        // Engine properties
+        this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
+        gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
         this.gameState = new GameState(this);
+        this.scope = new Object({ "Game": this.gameState, "Engine": this});
         // Load currente scene
         this.currentScene = gameModel.sceneList[0].name;
         this.currentSceneNumber = 0;
@@ -43,18 +45,7 @@ class Engine {
     }
 
     loadScene(sceneName) {
-        console.log(sceneName, this.sceneList);
-        this.resume(); // Active the different engines
-        // Create new data structures
-        //this.gameState.updateScene();
-        // this.gameObjects = new Map();
-        this.scope = new Object({ "Game": this.gameState, "Engine": this });
-        // Init engines
-        //  this.render = new Render(this.gameState);
-        this.logic = new Logic();
-        this.input = new Input(this.gameState, this.render.stage);
-        // this.physics = new Physics(this.gameState, this.gameObjects);
-        // Create gameObjects
+        this.gameObjects = new Map();
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
@@ -64,8 +55,8 @@ class Engine {
             zIndex++;
         });
         this.currentScene = sceneName;
-        // this.currentSceneNumber = this.sceneList.indexOf(this.sceneList[sceneName]);
-        this.changeScene = false;
+        this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
+      //  this.changeScene = false;
     }
 
     // scene actions
@@ -78,10 +69,10 @@ class Engine {
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
-            var spawnName = gameObject.name + Utils.id();
-            var spawnObject = new GameObject(this, gameObject.actor, spawnName);
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
+            var spawnObject = new GameObject(this, gameObject.actor);
+            spawnObject.name = gameObject.name + Utils.id();
             spawnObject.x = spawnerObject.x + (spawnerObject.x - x) * cos - (spawnerObject.y - y) * sin;
             spawnObject.y = spawnerObject.y + (spawnerObject.x - x) * sin + (spawnerObject.y - y) * cos;
             spawnObject.angle = spawnerObject.angle * 1.0 + gameObject.angle * 1.0 + angle * 1.0;

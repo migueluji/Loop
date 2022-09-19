@@ -4,17 +4,17 @@ class Input {
     static touchObjects = {}; // touchable game object list
     static firstTime = true;
 
-    constructor(gameState, stage) {
-        Input.pointerX = gameState.mouseX;
-        Input.pointerY = gameState.mouseY;
-        Input.width = gameState.displayWidth;
-        Input.height = gameState.displayHeight;
+    constructor(render) {
+        // Input.pointerX = gameState.mouseX;
+        // Input.pointerY = gameState.mouseY;
+        // Input.width = render.renderer.width;
+        // Input.height = render.renderer.height;
         // Stage pointer events
-        stage.hitArea = new PIXI.Rectangle(-Input.width / 2, -Input.height / 2, Input.width, Input.height);
-        stage.on("pointerdown", Input.pointerDownHandler.bind(this));
-        stage.on("pointerupoutside", Input.pointerUpHandler.bind(this));
-        stage.on("pointerup", Input.pointerUpHandler.bind(this));
-        stage.on("pointermove", Input.pointerMoveHandler.bind(this));
+        //render.stage.hitArea = new PIXI.Rectangle(-Input.width / 2, -Input.height / 2, Input.width, Input.height);
+        render.stage.on("pointerdown", Input.pointerDownHandler.bind(this));
+        render.stage.on("pointerupoutside", Input.pointerUpHandler.bind(this));
+        render.stage.on("pointerup", Input.pointerUpHandler.bind(this));
+        render.stage.on("pointermove", Input.pointerMoveHandler.bind(this));
         // Key events
         if (Input.firstTime) { // Key events are only added once
             document.addEventListener("keydown", Input.keyDownHandler.bind(this));
@@ -30,9 +30,7 @@ class Input {
 
     static addActor(gameObject) { // add touchable gameObject
         var name = gameObject.name;
-        if (!this.touchObjects.hasOwnProperty(name))
-            this.touchObjects[name] = { down: false, up: false, over: false, tap: false };
-
+        if (!this.touchObjects.hasOwnProperty(name)) this.touchObjects[name] = { down: false, up: false, over: false, tap: false };
         gameObject.container.interactive = true;
         gameObject.container.buttonMode = true;
         // GameObject pointer events
