@@ -6,7 +6,7 @@ class Logic {
 
     fixedUpdate(dt, scope) { // time in miliseconds
         this.gameObjects.forEach(gameObject => {
-            gameObject.fixedUpdate(dt, scope);
+            if (!gameObject.sleeping) gameObject.fixedUpdate(dt, scope);
         })
     }
 }

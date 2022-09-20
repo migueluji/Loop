@@ -35,7 +35,7 @@ class Engine {
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.deltaTime) {
-            this.physics.fixedStep(this.deltaTime);
+            if (this.gameState.physicsOn) this.physics.fixedStep(this.deltaTime);
             this.logic.fixedUpdate(this.deltaTime,this.scope);
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;

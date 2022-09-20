@@ -1,41 +1,39 @@
 class GameObject {
 
     constructor(engine, actor) {
+        console.log(this);
         this.engine = engine;
         this.actor = actor;
         this.name = actor.name;
         // Add gameObject to the engines
         this.container = engine.render.stage.addChild(new Container(actor));
         this.rigidbody = engine.physics.world.createBody(new Body(actor));
-        if (actor.sound) this.audio = new Sound(actor.sound, { volume: actor.volume, loop: actor.loop, pan: actor.pan, start: actor.start });
+        this.audio = new Sound(actor.sound, { volume: actor.volume, loop: actor.loop, pan: actor.pan, start: actor.start });
         if (this.actor.scriptList) this.rule = new Rule(this);
         // Add actor properties
         Object.assign(this, actor.allProperties);
 
         // this._dead = false; // To be deleted in the fixedUpdate(), in the evaluation of logic
-        // this._previousCameraX = engine.gameState.cameraX;
-        // this._previousCameraY = engine.gameState.cameraY;
-        // // Compile the script if exist for this gameObject
-        // if (actor.scriptList.length) this.rule = new Rule(this);// this is the gameObject, no the actor
-        // // add bounding box to debug
-        // if (engine.debug) {
-        //     this.debug = new PIXI.Graphics();
-        //     engine.render.stage.addChild(this.debug);
-        // }
+        this.previousCameraX = engine.gameState.cameraX;
+        this.previousCameraY = engine.gameState.cameraY;
+        if (engine.debug) {
+            this.debug = new PIXI.Graphics();
+            engine.render.stage.addChild(this.debug);
+        }
     }
 
     play() {
-        if (this.audio && this.soundOn) this.audio.source.play(this.audio.id);
+        if (this.audio.source) this.audio.source.play(this.audio.id);
     }
 
     stop() {
-        if (this.audio && !this.soundOn) this.audio.source.stop(this.audio.id);
+        if (this.audio.source) this.audio.source.stop(this.audio.id);
     }
 
     fixedStep() {
-            this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
-            this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
-            this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
+        this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
+        this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
+        this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
     }
 
     fixedUpdate(deltaTime) { // logic update
@@ -51,45 +49,45 @@ class GameObject {
         //     delete this.engine.scope[this.name];
         // }
         // else if (!this.sleeping) { // CRUD - UPDATE
-            // update logic
-            if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }
-            // update scrolling
-            if (this._scrollX != 0) this.container.sprite.tilePosition.x += this._scrollX * deltaTime;
-            if (this._scrollY != 0) this.container.sprite.tilePosition.y += this._scrollY * deltaTime;
-            // update text
-            if (this.textOn) {
-                this.container.spriteText.text = math.print(this.container.spriteText.expression, this.engine.scope);
-                if (this.align == "Left") this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
-                if (this.align == "Right") this.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
-            }
+        // update logic
+        if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }
+        // update scrolling
+        if (this._scrollX != 0) this.container.sprite.tilePosition.x += this._scrollX * deltaTime;
+        if (this._scrollY != 0) this.container.sprite.tilePosition.y += this._scrollY * deltaTime;
+        // update text
+        if (this.textOn) {
+            this.container.spriteText.text = math.print(this.container.spriteText.expression, this.engine.scope);
+            if (this.align == "Left") this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
+            if (this.align == "Right") this.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
+        }
         //}
     }
 
     update() {
-        // if (this.screen) {
-        //     if (this.engine.gameState.cameraX != this._previousCameraX) this.x = this.engine.gameState.cameraX + this._actor.x;
-        //     if (this.engine.gameState.cameraY != this._previousCameraY) this.y = this.engine.gameState.cameraY + this._actor.y;
-        // }
-        // if (this.debug) {  // debug lines
-        //     this.debug.clear();
-        //     this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
-        //     this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
-        //     this.debug.zIndex = this._zIndex;
-        //     switch (this.collider) {
-        //         case "Box": {
-        //             var shape = this.rigidbody.getFixtureList().getShape();
-        //             this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
-        //             for (var v = 1; v < shape.m_count; v++) {
-        //                 this.debug.lineTo(shape.getVertex(v).x * Physics.pixelsPerMeter, shape.getVertex(v).y * Physics.pixelsPerMeter);
-        //             }
-        //             this.debug.lineTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter); break;
-        //         }
-        //         case "Circle": {
-        //             var radius = this.rigidbody.getFixtureList().getShape().m_radius;
-        //             this.debug.drawCircle(0, 0, radius * Physics.pixelsPerMeter); break;
-        //         }
-        //     }
-        // }
+        if (this.screen) {
+            if (this.engine.gameState.cameraX != this.previousCameraX) this.x = this.actor.x + this.engine.gameState.cameraX;
+            if (this.engine.gameState.cameraY != this.previousCameraY) this.y = this.actor.y + this.engine.gameState.cameraY;
+        }
+        if (this.debug) {  // debug lines
+            this.debug.clear();
+            this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
+            this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
+            this.debug.zIndex = this.zIndex;
+            switch (this.collider) {
+                case "Box": {
+                    var shape = this.rigidbody.getFixtureList().getShape();
+                    this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
+                    for (var v = 1; v < shape.m_count; v++) {
+                        this.debug.lineTo(shape.getVertex(v).x * Physics.pixelsPerMeter, shape.getVertex(v).y * Physics.pixelsPerMeter);
+                    }
+                    this.debug.lineTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter); break;
+                }
+                case "Circle": {
+                    var radius = this.rigidbody.getFixtureList().getShape().m_radius;
+                    this.debug.drawCircle(0, 0, radius * Physics.pixelsPerMeter); break;
+                }
+            }
+        }
     }
 
     // access to GameObject properties
@@ -257,7 +255,7 @@ class GameObject {
     get sound() { return this._sound }
     set sound(value) {
         this._sound = value;
-        if (this.audio && this.audio.source._src != player.file.playList[value]._src) { // change sound file
+        if (this.audio.source && this.audio.source._src != player.file.playList[value]._src) { // change sound file
             var volume = this.volume; // get previous volume
             this.audio.source.stop(this.audio.id);
             this.audio = new Sound(value);
@@ -266,16 +264,16 @@ class GameObject {
     }
 
     get volume() { return this._volume }
-    set volume(value) { this._volume = value; if (this.audio) this.audio.source.volume(value) }
+    set volume(value) { this._volume = value; if (this.audio.source) this.audio.source.volume(value) }
 
     get start() { return this._start }
-    set start(value) { this._start = value; if (this.audio) this.audio.source.seek(value) }
+    set start(value) { this._start = value; if (this.audio.source) this.audio.source.seek(value) }
 
     get pan() { return this._pan }
-    set pan(value) { this._pan = value; if (this.audio) this.audio.source.stereo(value) }
+    set pan(value) { this._pan = value; if (this.audio.source) this.audio.source.stereo(value) }
 
     get loop() { return this._loop }
-    set loop(value) { this._loop = value; if (this.audio) this.audio.source.loop(value) }
+    set loop(value) { this._loop = value; if (this.audio.source) this.audio.source.loop(value) }
 
     // Physics
     get physicsOn() { return this._physicsOn }

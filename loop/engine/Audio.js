@@ -1,10 +1,12 @@
 class Audio {
 
-    constructor(gameObjects){
+    constructor(gameObjects) {
         this.gameObjects = gameObjects;
     }
 
     play() {
-        this.gameObjects.forEach(gameObject => { gameObject.play() });
+        this.gameObjects.forEach(gameObject => {
+            (gameObject.soundOn && !gameObject.sleeping) ? gameObject.play() : gameObject.stop();
+        });
     }
 }

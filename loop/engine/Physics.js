@@ -11,7 +11,9 @@ class Physics {
 
     fixedStep(dt) {
         this.world.step(dt);
-        this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
+        this.gameObjects.forEach(gameObject => {
+            if (gameObject.physicsOn && !gameObject.sleeping) gameObject.fixedStep();
+        })
     }
 
     collisionBeginHandler(contact) {

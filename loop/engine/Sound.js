@@ -13,6 +13,5 @@ class Sound {
                 this.source.seek(options.start);
             }
         }
-        return (this);
     }
 }
