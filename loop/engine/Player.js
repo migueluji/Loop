@@ -1,10 +1,7 @@
 class Player {
 
     constructor() {
-        //  this.load = new LoadingView("#222222"); //clase del editor dialogs/LoadingView
-        //  document.body.appendChild(this.load.html);
         this.file = new File();
-
         (editor) ? this.onJsonLoaded(JSON.parse(localStorage.getItem("localStorage_GameData")) ): 
              this.file.loadJson(serverGamesFolder + "/loadJson.php?gameFolder=" + gameFolder, this) ;
     }
@@ -23,7 +20,6 @@ class Player {
     }
 
     onAssetLoaded() {
-    //  this.load.closeDialog(); //clase del editor dialogs/LoadingView
         new Engine(new Game(this.json));
     }
 }

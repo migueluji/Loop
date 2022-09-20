@@ -1,44 +1,35 @@
 class Input {
-    static keyList = {};
+    static keyList = new Object();
+    static touchObjects = new Object();
     static pointer = { down: false, up: true, over: false, tap: false };
-    static touchObjects = {}; // touchable game object list
     static firstTime = true;
 
-    constructor(render) {
-        // Input.pointerX = gameState.mouseX;
-        // Input.pointerY = gameState.mouseY;
-        // Input.width = render.renderer.width;
-        // Input.height = render.renderer.height;
-        // Stage pointer events
-        //render.stage.hitArea = new PIXI.Rectangle(-Input.width / 2, -Input.height / 2, Input.width, Input.height);
-        render.stage.on("pointerdown", Input.pointerDownHandler.bind(this));
-        render.stage.on("pointerupoutside", Input.pointerUpHandler.bind(this));
-        render.stage.on("pointerup", Input.pointerUpHandler.bind(this));
-        render.stage.on("pointermove", Input.pointerMoveHandler.bind(this));
-        // Key events
+    constructor(stage) {
+        stage.on("pointerdown", Input.pointerDownHandler.bind(this));
+        stage.on("pointerupoutside", Input.pointerUpHandler.bind(this));
+        stage.on("pointerup", Input.pointerUpHandler.bind(this));
+        stage.on("pointermove", Input.pointerMoveHandler.bind(this));
         if (Input.firstTime) { // Key events are only added once
             document.addEventListener("keydown", Input.keyDownHandler.bind(this));
             document.addEventListener("keyup", Input.keyUpHandler.bind(this));
-            Input.firstTime=false;
+            Input.firstTime = false;
         }
     }
 
     static addKey(key) {
-        if (!this.keyList.hasOwnProperty(key))
-            this.keyList[key] = { down: false, up: true, pressed: false };
+        if (!this.keyList.hasOwnProperty(key)) this.keyList[key] = { down: false, up: true, pressed: false };
     }
 
     static addActor(gameObject) { // add touchable gameObject
-        var name = gameObject.name;
         if (!this.touchObjects.hasOwnProperty(name)) this.touchObjects[name] = { down: false, up: false, over: false, tap: false };
         gameObject.container.interactive = true;
         gameObject.container.buttonMode = true;
         // GameObject pointer events
-        gameObject.container.on("pointerdown", this.actorPointerDownHandler.bind(this, name));
-        gameObject.container.on("pointerupoutside", this.actorPointerUpHandler.bind(this, name));
-        gameObject.container.on("pointerup", this.actorPointerUpHandler.bind(this, name));
-        gameObject.container.on("pointerover", this.actorPointerOverHandler.bind(this, name));
-        gameObject.container.on("pointerout", this.actorPointerOutHandler.bind(this, name));
+        gameObject.container.on("pointerdown", this.actorPointerDownHandler.bind(this, gameObject.name));
+        gameObject.container.on("pointerupoutside", this.actorPointerUpHandler.bind(this, gameObject.name));
+        gameObject.container.on("pointerup", this.actorPointerUpHandler.bind(this, gameObject.name));
+        gameObject.container.on("pointerover", this.actorPointerOverHandler.bind(this, gameObject.name));
+        gameObject.container.on("pointerout", this.actorPointerOutHandler.bind(this, gameObject.name));
     }
 
     static actorPointerDownHandler(name) {
@@ -76,15 +67,13 @@ class Input {
 
     static keyDownHandler(event) {
         event.preventDefault();
-        if (Input.keyList.hasOwnProperty(event.code)) {
+        if (Input.keyList.hasOwnProperty(event.code))
             Input.keyList[event.code] = { down: !Input.keyList[event.code].pressed, up: false, pressed: true };
-        }
     }
 
     static keyUpHandler(event) {
         event.preventDefault();
-        if (Input.keyList.hasOwnProperty(event.code)) {
+        if (Input.keyList.hasOwnProperty(event.code))
             Input.keyList[event.code] = { down: false, up: true, pressed: false };
-        }
     }
 }

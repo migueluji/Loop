@@ -10,11 +10,12 @@ class Engine {
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
         // Start engines
-        this.render = new Render();
-        this.input = new Input(this.render);
-        this.audio = new Audio();
+        this.gameObjects = new Map();
+        this.render = new Render(this.gameObjects);
+        this.audio = new Audio(this.gameObjects);
         this.physics = new Physics(this.gameObjects);
-        this.logic = new Logic();
+        this.logic = new Logic(this.gameObjects);
+        this.input = new Input(this.render.stage);
         // Engine properties
         this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
@@ -34,18 +35,17 @@ class Engine {
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.deltaTime) {
-            this.physics.fixedStep(this, this.deltaTime);
-            this.logic.fixedUpdate(this, this.deltaTime);
+            this.physics.fixedStep(this.deltaTime);
+            this.logic.fixedUpdate(this.deltaTime,this.scope);
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;
         }
-        this.audio.play(this);
-        this.render.update(this);
+        this.audio.play();
+        this.render.update();
         this.currentTime = newTime;
     }
 
     loadScene(sceneName) {
-        this.gameObjects = new Map();
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;

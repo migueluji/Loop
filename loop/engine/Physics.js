@@ -4,16 +4,14 @@ class Physics {
 
     constructor(gameObjects) {
         this.gameObjects = gameObjects;
-        this.world = planck.World({ allowSleep: false});
+        this.world = planck.World({ allowSleep: false });
         this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
         this.world.on('end-contact', this.collisionEndHandler.bind(this));
     }
 
-    fixedStep(engine, dt) {
-        if (engine.physicsOn) {
-            this.world.step(dt);
-            if (engine.gameState.physicsOn) engine.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
-        }
+    fixedStep(dt) {
+        this.world.step(dt);
+        this.gameObjects.forEach(gameObject => { gameObject.fixedStep() });
     }
 
     collisionBeginHandler(contact) {
