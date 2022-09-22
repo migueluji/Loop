@@ -12,7 +12,7 @@ class Engine {
         // Start engines
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
-        this.audio = new Audio(this.gameObjects);
+   //    this.audio = new Audio(this.gameObjects);
         this.physics = new Physics(this.gameObjects);
         this.logic = new Logic(this.gameObjects);
         this.input = new Input(this.render.stage);
@@ -40,7 +40,6 @@ class Engine {
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;
         }
-        this.audio.play();
         this.render.update();
         this.currentTime = newTime;
     }

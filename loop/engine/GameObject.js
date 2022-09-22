@@ -13,21 +13,13 @@ class GameObject {
         // Add actor properties
         Object.assign(this, actor.allProperties);
 
-        // this._dead = false; // To be deleted in the fixedUpdate(), in the evaluation of logic
         this.previousCameraX = engine.gameState.cameraX;
         this.previousCameraY = engine.gameState.cameraY;
         if (engine.debug) {
             this.debug = new PIXI.Graphics();
             engine.render.stage.addChild(this.debug);
         }
-    }
-
-    play() {
-        if (this.audio.source) this.audio.source.play(this.audio.id);
-    }
-
-    stop() {
-        if (this.audio.source) this.audio.source.stop(this.audio.id);
+        // this._dead = false; // To be deleted in the fixedUpdate(), in the evaluation of logic
     }
 
     fixedStep() {
@@ -73,19 +65,16 @@ class GameObject {
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
             this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
             this.debug.zIndex = this.zIndex;
+            var shape = this.rigidbody.getFixtureList().getShape();
             switch (this.collider) {
                 case "Box": {
-                    var shape = this.rigidbody.getFixtureList().getShape();
                     this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
                     for (var v = 1; v < shape.m_count; v++) {
                         this.debug.lineTo(shape.getVertex(v).x * Physics.pixelsPerMeter, shape.getVertex(v).y * Physics.pixelsPerMeter);
                     }
                     this.debug.lineTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter); break;
                 }
-                case "Circle": {
-                    var radius = this.rigidbody.getFixtureList().getShape().m_radius;
-                    this.debug.drawCircle(0, 0, radius * Physics.pixelsPerMeter); break;
-                }
+                case "Circle": { this.debug.drawCircle(0, 0, shape.m_radius * Physics.pixelsPerMeter); break; }
             }
         }
     }
@@ -250,7 +239,7 @@ class GameObject {
     set offsetY(value) { this._offsetY = this.container.spriteText.position.y = value }
 
     get soundOn() { return this._soundOn }
-    set soundOn(value) { this._soundOn = value; if (value) this.audio.source.play(this.audio.id) }
+    set soundOn(value) { this._soundOn = value; if (this.audio.source) this.audio.source.play(this.audio.id) }
 
     get sound() { return this._sound }
     set sound(value) {
@@ -273,7 +262,10 @@ class GameObject {
     set pan(value) { this._pan = value; if (this.audio.source) this.audio.source.stereo(value) }
 
     get loop() { return this._loop }
-    set loop(value) { this._loop = value; if (this.audio.source) this.audio.source.loop(value) }
+    set loop(value) {
+        this._loop = value;
+        console.log(value, this.audio.source); if (this.audio.source) this.audio.source.loop(value)
+    }
 
     // Physics
     get physicsOn() { return this._physicsOn }

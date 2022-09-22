@@ -8,7 +8,7 @@ class Sound {
             this.source.stop(this.id); //  stop the sound id
             if (options) {
                 this.source.volume(options.volume);
-                this.source.loop(options.loop);
+              //  this.source.loop(options.loop);
                 this.source.stereo(options.pan);
                 this.source.seek(options.start);
             }

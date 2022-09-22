@@ -4,9 +4,9 @@ class Rule {
         this.gameObject = gameObject;
         var expression = "";
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
-            expression += this.parseNodeList(script.nodeList) + ";"; // replace Me by actor's name
+            expression += this.parseNodeList(script.nodeList) + ";"; 
         });
-        expression = expression.replace(/Me\./g, gameObject.name + ".");
+        expression = expression.replace(/Me\./g, gameObject.name + "."); // replace Me by actor's name
         return (math.compile(expression));
     }
 
