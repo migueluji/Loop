@@ -19,11 +19,11 @@ class Sprite {
         sprite.height =  sprite.texture.height * actor.tileY ;
         sprite.scale.x = (actor.flipX) ? -actor.scaleX : actor.scaleX;
         sprite.scale.y = (actor.flipY) ? -actor.scaleY : actor.scaleY;
-        sprite.scrollX = actor.scrollX;
-        sprite.scrollY = actor.scrollY;
-        sprite.tileX = actor.tileX;
-        sprite.tileY = actor.tileY;
-        if (!scroll) sprite.cacheAsBitmap = true;
+        // sprite.scrollX = actor.scrollX;
+        // sprite.scrollY = actor.scrollY;
+        // sprite.tileX = actor.tileX;
+        // sprite.tileY = actor.tileY;
+   //     if (!scroll) sprite.cacheAsBitmap = true;
         return (sprite);
     }
 }
