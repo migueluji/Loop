@@ -7,12 +7,12 @@ class GameObject {
         this.name = actor.name;
         // Add gameObject to the engines
         this.container = engine.render.stage.addChild(new Container(actor));
-        this.rigidbody = engine.physics.world.createBody(new Body(actor));
+        this.rigidbody = engine.physics.world.createBody({ userData: { name: actor.name, tags: actor.tags } });
         this.audio = new Sound(actor.sound);
-        if (this.actor.scriptList) this.rule = new Rule(this);
+        this.rule = new Rule(this);
         // Add actor properties
         Object.assign(this, actor.allProperties);
-
+        // other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
         this.debug = new PIXI.Graphics();
@@ -21,9 +21,10 @@ class GameObject {
     }
 
     fixedStep() {
+        this.rigidbody.setFixedRotation(false); // posible bug
         this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
         this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
-        this.angle = this.rigidbody.getAngle() * 180 / Math.PI;
+        this.angle = Utils.degrees(this.rigidbody.getAngle());
     }
 
     fixedUpdate(deltaTime) { // logic update
@@ -42,8 +43,8 @@ class GameObject {
         // update logic
         if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }
         // update scrolling
-        if (this._scrollX != 0) this.container.sprite.tilePosition.x += this._scrollX * deltaTime;
-        if (this._scrollY != 0) this.container.sprite.tilePosition.y += this._scrollY * deltaTime;
+        if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
+        if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
         // update text
         if (this.textOn) {
             this.container.spriteText.text = math.print(this.container.spriteText.expression, this.engine.scope, { notation: 'fixed', precision: 0 });
@@ -64,7 +65,6 @@ class GameObject {
             this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
             this.debug.zIndex = this.zIndex;
             var shape = this.rigidbody.getFixtureList().getShape();
-            console.log(this.rigidbody.getFixtureList().getShape());
             switch (this.collider) {
                 case "Box": {
                     this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
@@ -99,36 +99,41 @@ class GameObject {
     set width(value) {  // sprite width don't include scale only tile
         this._width = value;
         this.container.sprite.scale.x = value / this.container.sprite.width;
-        if (this.rigidbody.getFixtureList()) this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     }
 
     get height() { return this._height }
     set height(value) {
         this._height = value;
         this.container.sprite.scale.y = value / this.container.sprite.height;
-        if (this.rigidbody.getFixtureList()) this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     }
 
     get scaleX() { return this._scaleX }
     set scaleX(value) {
         this._scaleX = this.container.sprite.scale.x = value;
-        if (this.rigidbody.getFixtureList()) this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     }
 
     get scaleY() { return this._scaleY }
     set scaleY(value) {
         this._scaleY = this.container.sprite.scale.y = value;
-        if (this.rigidbody.getFixtureList()) this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     }
 
-    get angle() { return Math.round(this._angle) } /*** investigar porque no es un número */
-    set angle(value) { this._angle = this.container.angle = value; this.rigidbody.setAngle(value * Math.PI / 180); }
+    get angle() { return this._angle }
+    set angle(value) {
+        this._angle = this.container.angle = value;
+        this.rigidbody.setAngle(Utils.radians(value));
+    }
 
     get screen() { return this._screen }
     set screen(value) { this._screen = value }
 
     get collider() { return this._collider }
-    set collider(value) { this._collider = value; this.rigidbody.createFixture(new Fixture(this)); }
+    set collider(value) {
+        this._collider = value;
+        if (this.rigidbody.getFixtureList()) this.rigidbody.destroyFixture(this.rigidbody.getFixtureList());
+        var collisionShape = (value != "Circle") ? planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel) :
+            planck.Circle((this.width > this.height) ? this.width / 2 * Physics.metersPerPixel : this.height / 2 * Physics.metersPerPixel);
+        this.rigidbody.createFixture({ shape: collisionShape });
+    }
 
     get tags() { return this._tags }
     set tags(value) { this._tags = value }
@@ -161,30 +166,28 @@ class GameObject {
     get scrollX() { return this._scrollX }
     set scrollX(value) {
         this._scrollX = this.container.sprite.scrollX = value;
-        if (value) this.container.sprite.cacheAsBitmap = false;
-        else this.container.sprite.cacheAsBitmap = true;
+        if (value != 0) this.container.sprite.cacheAsBitmap = false;
+        else if (this.scrollY == 0) this.container.sprite.cacheAsBitmap = true;
     };
 
     get scrollY() { return this._scrollY }
     set scrollY(value) {
         this._scrollY = this.container.sprite.scrollY = value;
-        if (value) this.container.sprite.cacheAsBitmap = false;
-        else this.container.sprite.cacheAsBitmap = true;
+        if (value != 0) this.container.sprite.cacheAsBitmap = false;
+        else if (this.scrollX == 0) this.container.sprite.cacheAsBitmap = true;
     }
 
     get tileX() { return this._tileX }
     set tileX(value) {
         this._tileX = this.container.sprite.tileX = value;
-        const existsImage = Boolean(player.file.loader.resources[this.container.sprite.image]);
+        const existsImage = Boolean(player.file.loader.resources[this.image]);
         this.container.sprite.width = (existsImage) ? this.container.sprite.texture.width * value : 50 * value;
-        console.log(value,this.container.sprite.width,existsImage);
-        if (this.rigidbody.getFixtureList()) this.rigidbody.getFixtureList().m_shape = planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel);
     }
 
     get tileY() { return this._tileY }
     set tileY(value) {
         this._tileY = this.container.sprite.tileY = value;
-        const existsImage = Boolean(player.file.loader.resources[this.container.sprite.image]);
+        const existsImage = Boolean(player.file.loader.resources[this.image]);
         this.container.sprite.height = (existsImage) ? this.container.sprite.texture.height * value : 50 * value;
     }
 
@@ -285,7 +288,9 @@ class GameObject {
     }
 
     get fixedAngle() { return this._fixedAngle }
-    set fixedAngle(value) { this._fixedAngle = value; this.rigidbody.setFixedRotation(value) }
+    set fixedAngle(value) {
+        this._fixedAngle = !value; this.rigidbody.setFixedRotation(!value);
+    }
 
     get velocityX() { return this._velocityX }
     set velocityX(value) {
@@ -315,5 +320,5 @@ class GameObject {
     set dampingLinear(value) { this._dampingLinear = value; this.rigidbody.setLinearDamping(value) }
 
     get dampingAngular() { return this._dampingAngular }
-    set dampingAngular(value) { this._dampingAngular = value; this.rigidbody.getAngularDamping(value) }
+    set dampingAngular(value) { this._dampingAngular = value; this.rigidbody.setAngularDamping(value) }
 }

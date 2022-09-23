@@ -27,16 +27,11 @@
         <script src="Input.js"></script>
         <script src="Logic.js"></script>
         <script src="Render.js"></script>        
-		<script src="Audio.js"></script>
 		<script src="Engine.js"></script>
 		
 		<script src="GameState.js"></script>
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
-		<script src="Body.js"></script>
-		<script src="Fixture.js"></script>
-		<script src="Sprite.js"></script>
-		<script src="Text.js"></script>
 		<script src="Rule.js"></script>
 		<script src="Sound.js"></script>
 
