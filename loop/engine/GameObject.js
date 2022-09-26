@@ -21,10 +21,10 @@ class GameObject {
     }
 
     fixedStep() {
-        this.rigidbody.setFixedRotation(false); // posible bug
         this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
         this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
         this.angle = Utils.degrees(this.rigidbody.getAngle());
+        this.rigidbody.setFixedRotation(false); // posible bug
     }
 
     fixedUpdate(deltaTime) { // logic update

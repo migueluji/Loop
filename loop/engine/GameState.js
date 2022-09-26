@@ -86,13 +86,13 @@ class GameState {
     get currentSceneNumber() { return this._currentSceneNumber }
     set currentSceneNumber(value) { this._currentSceneNumber = value; this.engine.currentSceneNumber = value };
 
-    get time() { return this._time.toFixed(1) }
+    get time() { return this._time }
     set time(value) { this._time = value; this.engine.time = value }
 
-    get FPS() { return this_FPS.toFixed(0) }
+    get FPS() { return this_FPS }
     set FPS(value) { this._FPS = value; this.engine.frameTime = 1 / value }
 
-    get deltaTime() { return this_deltaTime.toFixed(3) }
+    get deltaTime() { return this_deltaTime}
     set deltaTime(value) { this._deltaTime = value; this.engine.deltaTime = value }
 
     get mouseX() { return Input.pointerX }
