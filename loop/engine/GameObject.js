@@ -1,7 +1,7 @@
 class GameObject {
 
     constructor(engine, actor) {
-        console.log(this);
+      
         this.engine = engine;
         this.actor = actor;
         this.name = actor.name;
@@ -17,6 +17,7 @@ class GameObject {
         this.initialCameraY = engine.gameState.cameraY;
         this.debug = new PIXI.Graphics();
         engine.render.stage.addChild(this.debug);
+        console.log(this.rigidbody);
         // this._dead = false; // To be deleted in the fixedUpdate(), in the evaluation of logic
     }
 
@@ -24,7 +25,7 @@ class GameObject {
         this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
         this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
         this.angle = Utils.degrees(this.rigidbody.getAngle());
-        this.rigidbody.setFixedRotation(false); // posible bug
+        this.rigidbody.resetMassData();
     }
 
     fixedUpdate(deltaTime) { // logic update
@@ -289,7 +290,7 @@ class GameObject {
 
     get fixedAngle() { return this._fixedAngle }
     set fixedAngle(value) {
-        this._fixedAngle = !value; this.rigidbody.setFixedRotation(!value);
+        this._fixedAngle = value; this.rigidbody.setFixedRotation(value);
     }
 
     get velocityX() { return this._velocityX }

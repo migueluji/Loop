@@ -18,6 +18,7 @@ class Container extends PIXI.Container {
         const style = new PIXI.TextStyle({ wordWrap: true, wordWrapWidth: actor.width, padding: actor.width });
         this.spriteText = new PIXI.Text("", style);
         this.spriteText.anchor.set(0.5);
+        this.spriteText.scale.y = -1;
         this.addChild(this.spriteText);
     }
 }
