@@ -19,7 +19,7 @@ class Engine {
         this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
         this.gameState = new GameState(this);
-        this.scope = new Object({ "Game": this.gameState, "Engine": this});
+        this.scope = new Object({ "Game": this.gameState, "Engine": this });
         // Load currente scene
         this.currentScene = gameModel.sceneList[0].name;
         this.currentSceneNumber = 0;
@@ -35,7 +35,7 @@ class Engine {
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.deltaTime) {
             if (this.gameState.physicsOn) this.physics.fixedStep(this.deltaTime);
-            this.logic.fixedUpdate(this.deltaTime,this.scope);
+            this.logic.fixedUpdate(this.deltaTime, this.scope);
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;
         }
@@ -54,7 +54,7 @@ class Engine {
         });
         this.currentScene = sceneName;
         this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
-      //  this.changeScene = false;
+        //  this.changeScene = false;
     }
 
     // scene actions
@@ -73,10 +73,10 @@ class Engine {
             spawnObject.name = gameObject.name + Utils.id();
             spawnObject.x = spawnerObject.x + (spawnerObject.x - x) * cos - (spawnerObject.y - y) * sin;
             spawnObject.y = spawnerObject.y + (spawnerObject.x - x) * sin + (spawnerObject.y - y) * cos;
-            spawnObject.angle = spawnerObject.angle * 1.0 + gameObject.angle * 1.0 + angle * 1.0;
+            spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
-            spawnObject.spawned = true; // to avoid execute rules the first time
-            spawnObject.rigidbody.setUserData({ name: spawnName, tags: spawnObject.actor.tags });
+            spawnObject.spawned = true; // To avoid executing the rules the first time the object is generated
+            spawnObject.rigidbody.setUserData({ name: spawnObject.name, tags: spawnObject.actor.tags });
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
         }

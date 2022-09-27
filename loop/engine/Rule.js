@@ -122,7 +122,8 @@ class Rule {
     }
 
     touch(params, nodeListTrue, nodeListFalse) {
-        if (params.mode == "Is Over") params.mode = "over";
+        console.log(params);
+        if (params.mode == "Is Over") params.mode = "Over";
         if (params.on_Actor) Input.addActor(this.gameObject);
         return ("[Engine.touch('" + params.mode.toLowerCase() + "'," + params.on_Actor + "," + this.gameObject.name + ") ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }

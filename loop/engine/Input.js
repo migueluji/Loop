@@ -21,7 +21,7 @@ class Input {
     }
 
     static addActor(gameObject) { // add touchable gameObject
-        if (!this.touchObjects.hasOwnProperty(name)) this.touchObjects[name] = { down: false, up: false, over: false, tap: false };
+        if (!this.touchObjects.hasOwnProperty(gameObject.name)) this.touchObjects[gameObject.name] = { down: false, up: false, over: false, tap: false };
         gameObject.container.interactive = true;
         gameObject.container.buttonMode = true;
         // GameObject pointer events

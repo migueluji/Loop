@@ -11,48 +11,46 @@ class GameObject {
         this.rule = new Rule(this);
         // Add actor properties
         Object.assign(this, actor.allProperties);
+
+        if (this.name == "Actor_1") console.log(this.width, this.container.sprite.width, this.container.sprite.scale.x, this.container.sprite.tileX, this.container.sprite.texture.width);
         // other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
         this.debug = new PIXI.Graphics();
         engine.render.stage.addChild(this.debug);
-        // this._dead = false; // To be deleted in the fixedUpdate(), in the evaluation of logic
     }
 
-    fixedStep() {
+    fixedStep() { // physics update
         this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
         this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
         this.angle = Utils.degrees(this.rigidbody.getAngle());
     }
 
     fixedUpdate(deltaTime) { // logic update
-        // if (this.spawned) { // CRUD - CREATE
-        //     this.spawned = false; // Do not execute rules the first time the object is spawned
-        // }
-        // else if (this.dead) { // CRUD - DELETE
-        //     if (this.audio) this.audio.source.stop(this.audio.id);
-        //     this.engine.render.stage.removeChild(this.container);
-        //     if (this.debug) this.engine.render.stage.removeChild(this.debug);
-        //     this.engine.physics.world.destroyBody(this.rigidbody);
-        //     this.engine.gameObjects.delete(this.name);
-        //     delete this.engine.scope[this.name];
-        // }
-        // else if (!this.sleeping) { // CRUD - UPDATE
-        // update logic
-        if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }
-        // update scrolling
-        if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
-        if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
-        // update text
-        if (this.textOn) {
-            this.container.spriteText.text = math.print(this.container.spriteText.expression, this.engine.scope, { notation: 'fixed', precision: 0 });
-            if (this.align == "Left") this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
-            if (this.align == "Right") this.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
+        if (this.spawned) this.spawned = false; // CRUD - CREATE. To avoid executing the rules the first time the object is generated
+        else if (this.dead) { // CRUD - DELETE
+            this.engine.render.stage.removeChild(this.container);
+            this.engine.physics.world.destroyBody(this.rigidbody);
+            this.audio.source.stop(this.audio.id);
+            delete this["rule"];
+            this.engine.gameObjects.delete(this.name);
+            delete this.engine.scope[this.name];
+            this.engine.render.stage.removeChild(this.debug);
         }
-        //}
+        else { // CRUD - UPDATE
+            if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
+            // update scrolling
+            if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
+            if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
+            if (this.textOn) {   // update text
+                this.container.spriteText.text = math.print(this.container.spriteText.expression, this.engine.scope, { notation: 'fixed', precision: 0 });
+                if (this.align == "Left") this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
+                if (this.align == "Right") this.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
+            }
+        }
     }
 
-    update() {
+    update() { // render update
         if (this.screen) {
             if (this.engine.gameState.cameraX != this.initialCameraX) this.x = this.actor.x + this.engine.gameState.cameraX;
             if (this.engine.gameState.cameraY != this.initialCameraY) this.y = this.actor.y + this.engine.gameState.cameraY;
@@ -94,25 +92,31 @@ class GameObject {
     }
 
     get width() { return this._width }
-    set width(value) {  // sprite width don't include scale only tile
-        this._width = value;
-        this.container.sprite.scale.x = value / this.container.sprite.width;
+    set width(value) {
+        if (value != this._width) {
+            this.container.sprite.scale.x = value / this.container.sprite.width;
+            this._width = value;
+            this.collider = this._collider;
+        }
     }
 
     get height() { return this._height }
     set height(value) {
-        this._height = value;
-        this.container.sprite.scale.y = value / this.container.sprite.height;
+        if (value != this._height) {
+            this.container.sprite.scale.y = value / this.container.sprite.height;
+            this._height = value;
+            this.collider = this._collider;
+        }
     }
 
     get scaleX() { return this._scaleX }
     set scaleX(value) {
-        this._scaleX = this.container.sprite.scale.x = value;
+        this._scaleX = (this.flipX) ? this.container.sprite.scale.x = -value : this.container.sprite.scale.x = value;
     }
 
     get scaleY() { return this._scaleY }
     set scaleY(value) {
-        this._scaleY = this.container.sprite.scale.y = value;
+        this._scaleY = (this.flipY) ? this.container.sprite.scale.y = -value : this.container.sprite.scale.y = value;
     }
 
     get angle() { return this._angle }
@@ -127,7 +131,8 @@ class GameObject {
     get collider() { return this._collider }
     set collider(value) {
         this._collider = value;
-        if (this.rigidbody.getFixtureList()) this.rigidbody.destroyFixture(this.rigidbody.getFixtureList());
+        var fixture = this.rigidbody.getFixtureList();
+        if (fixture) this.rigidbody.destroyFixture(fixture);
         var collisionShape = (value != "Circle") ? planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel) :
             planck.Circle((this.width > this.height) ? this.width / 2 * Physics.metersPerPixel : this.height / 2 * Physics.metersPerPixel);
         this.rigidbody.createFixture({ density: 1, shape: collisionShape });
@@ -141,7 +146,21 @@ class GameObject {
     set spriteOn(value) { this._spriteOn = this.container.sprite.visible = value }
 
     get image() { return this._image }
-    set image(value) { this._image = value; if (value) { this.container.sprite.texture = player.file.loader.resources[value].texture } }
+    set image(value) {
+        this._image = value;
+        const existsImage = Boolean(player.file.loader.resources[value]);
+        if (existsImage) this.container.sprite.texture = player.file.loader.resources[value].texture;
+        else {
+            this.container.sprite.texture = PIXI.Texture.WHITE;
+            this.container.sprite.texture.orig = new PIXI.Rectangle(0, 0, 50, 50);
+        }
+        this.container.sprite.texture.rotate = 8;
+        this.container.sprite.anchor.set(0.5);
+        this.container.sprite.cacheAsBitmap = false;
+        // this.width = this.container.sprite.texture.width * this.scaleX * this.tileX;
+        // this.height = this.container.sprite.texture.height * this.scaleY * this.tileY;
+        //  this.collider = this._collider
+    }
 
     get color() { return this._color }
     set color(value) { this._color = value; this.container.sprite.tint = PIXI.utils.string2hex(value); }
@@ -286,9 +305,7 @@ class GameObject {
     }
 
     get fixedAngle() { return this._fixedAngle }
-    set fixedAngle(value) {
-        this._fixedAngle = value; this.rigidbody.setFixedRotation(value);
-    }
+    set fixedAngle(value) { this._fixedAngle = value; this.rigidbody.setFixedRotation(value) }
 
     get velocityX() { return this._velocityX }
     set velocityX(value) {
