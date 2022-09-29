@@ -52,8 +52,10 @@ class Engine {
             this.scope[actor.name] = gameObject;
             zIndex++;
         });
+        console.log(sceneName, this, Input.touchObjects);
         this.currentScene = sceneName;
         this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
+        this.logic.changeScene = false;
     }
 
     // scene actions

@@ -21,6 +21,17 @@ class GameObject {
         engine.render.stage.addChild(this.debug);
     }
 
+    remove(){
+        this.engine.render.stage.removeChild(this.container);
+        this.engine.physics.world.destroyBody(this.rigidbody);
+        if (this.audio.source) this.audio.source.stop(this.audio.id);
+        delete Input.touchObjects[this.name];
+        delete this["rule"];
+        this.engine.gameObjects.delete(this.name);
+        delete this.engine.scope[this.name];
+        this.engine.render.stage.removeChild(this.debug);
+    }
+
     fixedStep() { // physics update
         this.x = this.rigidbody.getPosition().x * Physics.pixelsPerMeter;
         this.y = this.rigidbody.getPosition().y * Physics.pixelsPerMeter;
@@ -29,15 +40,7 @@ class GameObject {
 
     fixedUpdate(deltaTime) { // logic update
         if (this.spawned) this.spawned = false; // CRUD - CREATE. To avoid executing the rules the first time the object is generated
-        else if (this.dead) { // CRUD - DELETE
-            this.engine.render.stage.removeChild(this.container);
-            this.engine.physics.world.destroyBody(this.rigidbody);
-            if (this.audio.source) this.audio.source.stop(this.audio.id);
-            delete this["rule"];
-            this.engine.gameObjects.delete(this.name);
-            delete this.engine.scope[this.name];
-            this.engine.render.stage.removeChild(this.debug);
-        }
+        else if (this.dead) this.remove();// CRUD - DELETE
         else { // CRUD - UPDATE
             if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
             // update scrolling

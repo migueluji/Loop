@@ -205,6 +205,6 @@
 	"loop": false,
 	"physicsOn": true,
 	"gravityX": 0,
-	"gravityY": 0,
+	"gravityY": -10,
 	"debug": true
 }
