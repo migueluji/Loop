@@ -3,7 +3,6 @@ class GameState {
     constructor(engine) {
         this.engine = engine;
         Object.assign(this, engine.gameModel.allProperties);
-        console.log(this.displayWidth,this.displayHeight);
     }
 
     // Render properties

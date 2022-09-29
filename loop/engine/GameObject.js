@@ -10,10 +10,11 @@ class GameObject {
         this.audio = new Sound(actor.sound);
         this.rule = new Rule(this);
         // Add actor properties
+        Object.keys(actor.allProperties).forEach(property => {
+            this["_" + property] = actor.allProperties[property];
+        });
         Object.assign(this, actor.allProperties);
-
-        if (this.name == "Actor_1") console.log(this.width, this.container.sprite.width, this.container.sprite.scale.x, this.container.sprite.tileX, this.container.sprite.texture.width);
-        // other properties
+        // Other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
         this.debug = new PIXI.Graphics();
@@ -31,7 +32,7 @@ class GameObject {
         else if (this.dead) { // CRUD - DELETE
             this.engine.render.stage.removeChild(this.container);
             this.engine.physics.world.destroyBody(this.rigidbody);
-            this.audio.source.stop(this.audio.id);
+            if (this.audio.source) this.audio.source.stop(this.audio.id);
             delete this["rule"];
             this.engine.gameObjects.delete(this.name);
             delete this.engine.scope[this.name];
@@ -92,31 +93,35 @@ class GameObject {
     }
 
     get width() { return this._width }
-    set width(value) {
-        if (value != this._width) {
-            this.container.sprite.scale.x = value / this.container.sprite.width;
-            this._width = value;
-            this.collider = this._collider;
-        }
+    set width(value) { // sprite.width = sprite.texture.width * tileX;  this.width = sprite.width * sprite.scale.x 
+        this._width = value;
+        this.container.sprite.scale.x = value / this.container.sprite.width;
+        this.collider = this._collider; // update collider
     }
 
     get height() { return this._height }
     set height(value) {
-        if (value != this._height) {
-            this.container.sprite.scale.y = value / this.container.sprite.height;
-            this._height = value;
-            this.collider = this._collider;
-        }
+        this._height = value;
+        this.container.sprite.scale.y = value / this.container.sprite.height;
+        this.collider = this._collider; // update collider
     }
 
     get scaleX() { return this._scaleX }
     set scaleX(value) {
-        this._scaleX = (this.flipX) ? this.container.sprite.scale.x = -value : this.container.sprite.scale.x = value;
+        if (value != this._scaleX) {
+            this._scaleX = value;
+            //     this.container.sprite.scale.x = (this.flipX) ? -value : value;
+            this.width = this.container.sprite.width * this.container.sprite.scale.x; // update widht to update collider
+        }
     }
 
     get scaleY() { return this._scaleY }
     set scaleY(value) {
-        this._scaleY = (this.flipY) ? this.container.sprite.scale.y = -value : this.container.sprite.scale.y = value;
+        if (value != this._scaleY) {
+            this._scaleY = value;
+            //     this.container.sprite.scale.y = (this.flipY) ? -value : value;
+            this.height = this.container.sprite.height * this.container.sprite.scale.y; // update height to update collider
+        }
     }
 
     get angle() { return this._angle }
@@ -133,8 +138,14 @@ class GameObject {
         this._collider = value;
         var fixture = this.rigidbody.getFixtureList();
         if (fixture) this.rigidbody.destroyFixture(fixture);
-        var collisionShape = (value != "Circle") ? planck.Box((this.width / 2) * Physics.metersPerPixel, (this.height / 2) * Physics.metersPerPixel) :
-            planck.Circle((this.width > this.height) ? this.width / 2 * Physics.metersPerPixel : this.height / 2 * Physics.metersPerPixel);
+        var collisionShape;
+        switch (value) {
+            case "Circle":
+                var diameter = (this.width > this.height) ? this.width : this.height;
+                collisionShape = planck.Circle(diameter / 2 * Physics.metersPerPixel); break;
+            default:
+                collisionShape = planck.Box(this.width / 2 * Physics.metersPerPixel, this.height / 2 * Physics.metersPerPixel);
+        }
         this.rigidbody.createFixture({ density: 1, shape: collisionShape });
     }
 
@@ -147,19 +158,12 @@ class GameObject {
 
     get image() { return this._image }
     set image(value) {
-        this._image = value;
-        const existsImage = Boolean(player.file.loader.resources[value]);
-        if (existsImage) this.container.sprite.texture = player.file.loader.resources[value].texture;
-        else {
-            this.container.sprite.texture = PIXI.Texture.WHITE;
-            this.container.sprite.texture.orig = new PIXI.Rectangle(0, 0, 50, 50);
+        if (this._image != value) {
+            this._image = value;
+            this.container.updateSprite(value, this.tileX, this.tileY);
+            this.width = this.container.sprite.width * this.container.sprite.scale.x; // update width to update collider
+            this.height = this.container.sprite.height * this.container.sprite.scale.y; // update height to update collider
         }
-        this.container.sprite.texture.rotate = 8;
-        this.container.sprite.anchor.set(0.5);
-        this.container.sprite.cacheAsBitmap = false;
-        // this.width = this.container.sprite.texture.width * this.scaleX * this.tileX;
-        // this.height = this.container.sprite.texture.height * this.scaleY * this.tileY;
-        //  this.collider = this._collider
     }
 
     get color() { return this._color }
@@ -171,41 +175,33 @@ class GameObject {
     get flipX() { return this._flipX }
     set flipX(value) {
         this._flipX = value;
-        this.container.sprite.scale.x = (value) ? -Math.abs(this.container.sprite.scale.x) : Math.abs(this.container.sprite.scale.x)
+        this.container.sprite.scale.x *= (value) ? -1 : 1;
     }
 
     get flipY() { return this._flipY }
     set flipY(value) {
         this._flipY = value;
-        this.container.sprite.scale.y = (value) ? -Math.abs(this.container.sprite.scale.y) : Math.abs(this.container.sprite.scale.y)
+        this.container.sprite.scale.y *= (value) ? -1 : 1;
     }
 
     get scrollX() { return this._scrollX }
     set scrollX(value) {
-        this._scrollX = this.container.sprite.scrollX = value;
-        if (value != 0) this.container.sprite.cacheAsBitmap = false;
-        else if (this.scrollY == 0) this.container.sprite.cacheAsBitmap = true;
+        this._scrollX = value;
     };
 
     get scrollY() { return this._scrollY }
     set scrollY(value) {
-        this._scrollY = this.container.sprite.scrollY = value;
-        if (value != 0) this.container.sprite.cacheAsBitmap = false;
-        else if (this.scrollX == 0) this.container.sprite.cacheAsBitmap = true;
+        this._scrollY = value;
     }
 
     get tileX() { return this._tileX }
     set tileX(value) {
-        this._tileX = this.container.sprite.tileX = value;
-        const existsImage = Boolean(player.file.loader.resources[this.image]);
-        this.container.sprite.width = (existsImage) ? this.container.sprite.texture.width * value : 50 * value;
+        this._tileX = value;
     }
 
     get tileY() { return this._tileY }
     set tileY(value) {
-        this._tileY = this.container.sprite.tileY = value;
-        const existsImage = Boolean(player.file.loader.resources[this.image]);
-        this.container.sprite.height = (existsImage) ? this.container.sprite.texture.height * value : 50 * value;
+        this._tileY = value;
     }
 
     // Text

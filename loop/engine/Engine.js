@@ -13,7 +13,7 @@ class Engine {
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
         this.physics = new Physics(this.gameObjects);
-        this.logic = new Logic(this.gameObjects);
+        this.logic = new Logic(this);
         this.input = new Input(this.render.stage);
         // Engine properties
         this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
@@ -54,11 +54,10 @@ class Engine {
         });
         this.currentScene = sceneName;
         this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
-        //  this.changeScene = false;
     }
 
     // scene actions
-    goTo(scene) { this.changeScene = true; this.goToScene = scene.name }
+    goTo(scene) { this.logic.changeScene = true; this.logic.sceneName = scene.name }
 
     pause(physics, logic, sounds) { this.physicsOn = !physics; this.logicOn = !logic; this.objectSoundsOn = !sounds }
 
@@ -95,7 +94,7 @@ class Engine {
 
     play(gameObject, sound) {
         var sound = new Sound(sound, { volume: gameObject.volume, loop: false });
-        if (this.objectSoundsOn) sound.source.play(sound.id);
+        sound.source.play(sound.id);
     }
 
     move(gameObject, speed, angle) {

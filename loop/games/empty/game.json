@@ -1,5 +1,7 @@
 {
-	"tagList": [],
+	"tagList": [
+		"fasdf"
+	],
 	"sceneList": [
 		{
 			"name": "Scene_1",
@@ -9,11 +11,25 @@
 						{
 							"nodeList": [
 								{
-									"type": "Edit",
+									"type": "Touch",
 									"parameters": {
-										"property": "Me.height",
-										"value": "200"
-									}
+										"mode": "Tap",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Delete",
+											"parameters": {}
+										},
+										{
+											"type": "Animate",
+											"parameters": {
+												"animation": "",
+												"fps": 24
+											}
+										}
+									],
+									"nodeListFalse": []
 								}
 							],
 							"name": "Script_1"
@@ -22,9 +38,9 @@
 					"sleeping": false,
 					"x": 11.176890179489078,
 					"y": 191.72665461738984,
-					"width": 480,
+					"width": 352,
 					"height": 73,
-					"scaleX": 1.8181818181818181,
+					"scaleX": 2,
 					"scaleY": 1,
 					"angle": 0,
 					"screen": false,
@@ -38,10 +54,10 @@
 					"flipY": false,
 					"scrollX": 0,
 					"scrollY": 0,
-					"tileX": 3,
+					"tileX": 2,
 					"tileY": 1,
-					"textOn": false,
-					"text": "",
+					"textOn": true,
+					"text": "${Me.tags}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -129,7 +145,7 @@
 	"cameraY": 0,
 	"cameraAngle": 0,
 	"cameraZoom": 1,
-	"backgroundColor": "#ffffff",
+	"backgroundColor": "#3cd399",
 	"soundOn": false,
 	"soundtrack": "",
 	"volume": 1,

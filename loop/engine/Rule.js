@@ -41,7 +41,7 @@ class Rule {
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
-        var specialProperties = ["type", "color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align","collider"];
+        var specialProperties = ["tags","type", "color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align","collider"];
         if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes if it doesn't have them
         return (params.property + " = " + params.value);
     }
@@ -122,7 +122,6 @@ class Rule {
     }
 
     touch(params, nodeListTrue, nodeListFalse) {
-        console.log(params);
         if (params.mode == "Is Over") params.mode = "Over";
         if (params.on_Actor) Input.addActor(this.gameObject);
         return ("[Engine.touch('" + params.mode.toLowerCase() + "'," + params.on_Actor + "," + this.gameObject.name + ") ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
