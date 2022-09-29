@@ -18,14 +18,9 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Delete",
-											"parameters": {}
-										},
-										{
-											"type": "Animate",
+											"type": "Go_To",
 											"parameters": {
-												"animation": "",
-												"fps": 24
+												"scene": "Scene_2"
 											}
 										}
 									],
@@ -36,13 +31,13 @@
 						}
 					],
 					"sleeping": false,
-					"x": 11.176890179489078,
-					"y": 191.72665461738984,
-					"width": 352,
+					"x": -193.07617930517625,
+					"y": 73.9550750817499,
+					"width": 88,
 					"height": 73,
-					"scaleX": 2,
+					"scaleX": 1,
 					"scaleY": 1,
-					"angle": 0,
+					"angle": 51.817156243657735,
 					"screen": false,
 					"collider": "Box",
 					"tags": "",
@@ -54,7 +49,7 @@
 					"flipY": false,
 					"scrollX": 0,
 					"scrollY": 0,
-					"tileX": 2,
+					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
 					"text": "${Me.tags}",
@@ -81,7 +76,7 @@
 					"friction": 0.5,
 					"restitution": 0.5,
 					"dampingLinear": 0,
-					"dampingAngular": 0,
+					"dampingAngular": 3,
 					"name": "Actor_1"
 				},
 				{
@@ -136,6 +131,62 @@
 					"name": "Actor_2"
 				}
 			]
+		},
+		{
+			"name": "Scene_2",
+			"actorList": [
+				{
+					"scriptList": [],
+					"sleeping": false,
+					"x": -1.6935087808429898,
+					"y": 118.54561465901202,
+					"width": 412,
+					"height": 78,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "textGameOver.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "Actor_1"
+				}
+			]
 		}
 	],
 	"name": "Untitled Game",
@@ -154,6 +205,6 @@
 	"loop": false,
 	"physicsOn": true,
 	"gravityX": 0,
-	"gravityY": -10,
+	"gravityY": 0,
 	"debug": true
 }
