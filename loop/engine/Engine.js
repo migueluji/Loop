@@ -9,7 +9,7 @@ class Engine {
         this.ffps = 100;
         this.deltaTime = 1 / this.ffps;
         this.currentTime = this.accumulator = this.frameTime = this.time = 0.0;
-        // Start engines
+        // Create engines
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
         this.physics = new Physics(this.gameObjects);
@@ -21,9 +21,9 @@ class Engine {
         this.gameState = new GameState(this);
         this.scope = new Object({ "Game": this.gameState, "Engine": this });
         // Load currente scene
-        this.currentScene = gameModel.sceneList[0].name;
-        this.currentSceneNumber = 0;
-        this.loadScene(this.currentScene);
+        this.gameState.currentScene = gameModel.sceneList[0].name;
+        this.gameState.currentSceneNumber = 0;
+        this.loadScene(this.gameState.currentScene);
         // // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     }
@@ -52,18 +52,19 @@ class Engine {
             this.scope[actor.name] = gameObject;
             zIndex++;
         });
-        console.log(sceneName, this, Input.touchObjects);
-        this.currentScene = sceneName;
-        this.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
+        this.gameState.currentScene = sceneName;
+        this.gameState.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
         this.logic.changeScene = false;
     }
 
     // scene actions
     goTo(scene) { this.logic.changeScene = true; this.logic.sceneName = scene.name }
 
-    pause(physics, logic, sounds) { this.physicsOn = !physics; this.logicOn = !logic; this.objectSoundsOn = !sounds }
+    pause(physics, logic, sounds) {
+        this.gameState.physicsOn = !physics; this.logicOn = !logic; this.logic.soundsMute = sounds;
+    }
 
-    resume() { this.physicsOn = this.logicOn = this.objectSoundsOn = true }
+    resume() { this.gameState.physicsOn = this.logicOn = this.logic.soundsUnMute = true }
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {

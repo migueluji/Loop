@@ -4,6 +4,7 @@ class GameObject {
         this.engine = engine;
         this.actor = actor;
         this.name = actor.name;
+        this.spawned = false;
         // Add gameObject to the engines
         this.container = engine.render.stage.addChild(new Container(actor));
         this.rigidbody = engine.physics.world.createBody({ userData: { name: actor.name, tags: actor.tags } });
@@ -21,7 +22,7 @@ class GameObject {
         engine.render.stage.addChild(this.debug);
     }
 
-    remove(){
+    remove() {
         this.engine.render.stage.removeChild(this.container);
         this.engine.physics.world.destroyBody(this.rigidbody);
         if (this.audio.source) this.audio.source.stop(this.audio.id);
@@ -251,16 +252,14 @@ class GameObject {
     // Sound
     get soundOn() { return this._soundOn }
     set soundOn(value) {
-        if (value != this.soundOn) {
-            if (value && this.audio.source) this.audio.source.play(this.audio.id);
-            else if (this.audio.source) this.audio.source.stop(this.audio.id);
-        }
+        if (value && this.audio.source) this.audio.source.play(this.audio.id);
+        else if (this.audio.source) this.audio.source.stop(this.audio.id);
         this._soundOn = value;
     }
 
     get sound() { return this._sound }
     set sound(value) {
-        if (value != this.sound) {
+        if (value != this._sound) {
             if (this.audio.source) this.audio.source.stop(this.audio.id);
             this.audio = new Sound(value, { volume: this.volume, loop: this.loop, pan: this.pan, start: this.start });
             if (this.soundOn)
