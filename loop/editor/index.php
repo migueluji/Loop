@@ -138,11 +138,11 @@
 	//  gameFolder="ludumdare46-carlos";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
-	 	gameFolder="arkanoid";
-	  	gameFolder="babe-plataformer";
-	  	gameFolder="asteroids";
+	//  gameFolder="arkanoid";
+	//  gameFolder="babe-plataformer";
+	//  gameFolder="asteroids";
 	  	gameFolder="flying-plane";
-		gameFolder="empty";
+	//	gameFolder="empty";
 		var app = new App();
 		
 	</script>

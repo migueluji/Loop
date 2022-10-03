@@ -18,6 +18,15 @@ class GameObject {
         // Other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
+        this.previousPhysicsOn;
+        this.originalPhysics = {
+            type: this.rigidbody.m_type,
+            velocityX: this.rigidbody.getLinearVelocity().x,
+            velocityY: this.rigidbody.getLinearVelocity().y,
+            angularVelocity: this.rigidbody.getAngularVelocity()
+        }
+        console.log(this.originalPhysics);
+        // debug 
         this.debug = new PIXI.Graphics();
         engine.render.stage.addChild(this.debug);
     }
@@ -48,9 +57,12 @@ class GameObject {
             if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
             if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
             if (this.textOn) {   // update text
-                this.container.spriteText.text = math.print(this.container.spriteText.expression, this.engine.scope, { notation: 'fixed', precision: 0 });
-                if (this.align == "Left") this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
-                if (this.align == "Right") this.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
+                this.container.spriteText.text =
+                    math.print(this.container.spriteText.expression, this.engine.scope, { notation: 'fixed', precision: 0 });
+                if (this.align == "Left")
+                    this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
+                if (this.align == "Right")
+                    fthis.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
             }
         }
     }
@@ -60,7 +72,7 @@ class GameObject {
             if (this.engine.gameState.cameraX != this.initialCameraX) this.x = this.actor.x + this.engine.gameState.cameraX;
             if (this.engine.gameState.cameraY != this.initialCameraY) this.y = this.actor.y + this.engine.gameState.cameraY;
         }
-        if (this.engine.gameState.debug) {  // debug lines
+        if (this.engine.gameState.debug) {  // render debug lines
             this.debug.clear();
             this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
             this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
@@ -114,7 +126,7 @@ class GameObject {
     set scaleX(value) {
         if (value != this._scaleX) {
             this._scaleX = value;
-            //     this.container.sprite.scale.x = (this.flipX) ? -value : value;
+            this.container.sprite.scale.x = (this.flipX) ? -value : value;
             this.width = this.container.sprite.width * this.container.sprite.scale.x; // update widht to update collider
         }
     }
@@ -123,7 +135,7 @@ class GameObject {
     set scaleY(value) {
         if (value != this._scaleY) {
             this._scaleY = value;
-            //     this.container.sprite.scale.y = (this.flipY) ? -value : value;
+            this.container.sprite.scale.y = (this.flipY) ? -value : value;
             this.height = this.container.sprite.height * this.container.sprite.scale.y; // update height to update collider
         }
     }
@@ -151,6 +163,7 @@ class GameObject {
                 collisionShape = planck.Box(this.width / 2 * Physics.metersPerPixel, this.height / 2 * Physics.metersPerPixel);
         }
         this.rigidbody.createFixture({ density: 1, shape: collisionShape });
+        //  this.rigidbody.getFixtureList().setSensor(true);
     }
 
     get tags() { return this._tags }
@@ -165,48 +178,36 @@ class GameObject {
         if (this._image != value) {
             this._image = value;
             this.container.updateSprite(value, this.tileX, this.tileY);
-            this.width = this.container.sprite.width * this.container.sprite.scale.x; // update width to update collider
-            this.height = this.container.sprite.height * this.container.sprite.scale.y; // update height to update collider
+            if (this.container.sprite.width * this.container.sprite.scale.x != this._width)  // update width to update collider
+                this.width = this.container.sprite.width * this.container.sprite.scale.x;
+            if (this.container.sprite.height * this.container.sprite.scale.y != this._height) // update height to update collider
+                this.height = this.container.sprite.height * this.container.sprite.scale.y;
         }
     }
 
     get color() { return this._color }
-    set color(value) { this._color = value; this.container.sprite.tint = PIXI.utils.string2hex(value); }
+    set color(value) { this._color = value; this.container.sprite.tint = PIXI.utils.string2hex(value) }
 
-    get opacity() { return this._opacity };
+    get opacity() { return this._opacity }
     set opacity(value) { this._opacity = this.container.sprite.alpha = value }
 
     get flipX() { return this._flipX }
-    set flipX(value) {
-        this._flipX = value;
-        this.container.sprite.scale.x *= (value) ? -1 : 1;
-    }
+    set flipX(value) { this._flipX = value; this.container.sprite.scale.x *= (value) ? -1 : 1 }
 
     get flipY() { return this._flipY }
-    set flipY(value) {
-        this._flipY = value;
-        this.container.sprite.scale.y *= (value) ? -1 : 1;
-    }
+    set flipY(value) { this._flipY = value; this.container.sprite.scale.y *= (value) ? -1 : 1 }
 
     get scrollX() { return this._scrollX }
-    set scrollX(value) {
-        this._scrollX = value;
-    };
+    set scrollX(value) { this._scrollX = value }
 
     get scrollY() { return this._scrollY }
-    set scrollY(value) {
-        this._scrollY = value;
-    }
+    set scrollY(value) { this._scrollY = value }
 
     get tileX() { return this._tileX }
-    set tileX(value) {
-        this._tileX = value;
-    }
+    set tileX(value) { this._tileX = value }
 
     get tileY() { return this._tileY }
-    set tileY(value) {
-        this._tileY = value;
-    }
+    set tileY(value) { this._tileY = value }
 
     // Text
     get textOn() { return this._textOn }
@@ -229,11 +230,11 @@ class GameObject {
     get fill() { return this._fill }
     set fill(value) { this._fill = this.container.spriteText.style.fill = value }
 
-    get style() { return this._style };
+    get style() { return this._style }
     set style(value) { this._style = this.container.spriteText.style.fontStyle = value }
 
     get align() { return this._align }
-    set align(value) { this._align = value; this.container.spriteText.style.align = value.toLowerCase() };
+    set align(value) { this._align = value; this.container.spriteText.style.align = value.toLowerCase() }
 
     get offsetX() { return this._offsetX }
     set offsetX(value) {
@@ -284,18 +285,38 @@ class GameObject {
     // Physics
     get physicsOn() { return this._physicsOn }
     set physicsOn(value) {
+        this.previousPhysicsOn = this._physicsOn;
         this._physicsOn = value;
-        if (!value) {
+        console.log(this.originalPhysics);
+        if (value) {
+            if (this.previousPhysicsOn) {
+                this.type = this.originalPhysics.type;
+                this.velocityX = this.originalPhysics.velocityX;
+                this.velocityY = this.originalPhysics.velocityY;
+                this.angularVelocity = this.originalPhysics.angularVelocity;
+            }
+        }
+        else {
+            this.originalPhysics = {
+                type: this.rigidbody.m_type,
+                velocityX: this.rigidbody.getLinearVelocity().x,
+                velocityY: this.rigidbody.getLinearVelocity().y,
+                angularVelocity: this.rigidbody.getAngularVelocity()
+            }
             this.rigidbody.setDynamic();
             this.rigidbody.getFixtureList().setSensor(true);
             this.rigidbody.setGravityScale(0);
+            this.velocityX = 0;
+            this.velocityY = 0;
+            this.angularVelocity = 0;
         }
+        if (this.name == "star") console.log("start", this.originalPhysic, this.rigidbody.m_type, value);
     }
 
     get type() { return this._type }
     set type(value) {
         this._type = value;
-        switch (value) {
+        if (this.physicsOn) switch (value) { // only changes the type if physics are active
             case "Dynamic": this.rigidbody.setDynamic(); break;
             case "Kinematic": this.rigidbody.setKinematic(); break;
             case "Static": this.rigidbody.setStatic(); break;

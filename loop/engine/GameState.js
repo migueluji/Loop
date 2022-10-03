@@ -2,6 +2,10 @@ class GameState {
 
     constructor(engine) {
         this.engine = engine;
+        // Add game properties
+        Object.keys(engine.gameModel.allProperties).forEach(property => {
+            this["_" + property] = engine.gameModel.allProperties[property];
+        });
         Object.assign(this, engine.gameModel.allProperties);
     }
 
@@ -39,35 +43,36 @@ class GameState {
     get soundOn() { return this._soundOn }
     set soundOn(value) {
         if (value != this.soundOn) {
+            this._soundOn = value;
             if (value && this.engine.music) this.engine.music.source.play(this.engine.music.id);
             else if (this.engine.music) this.engine.music.source.stop(this.engine.music.id);
         }
-        this._soundOn = value;
     }
 
     get soundtrack() { return this._soundtrack }
     set soundtrack(value) {
         if (value != this.soundtrack) {
+            this._soundtrack = value;
             if (this.engine.music) this.engine.music.source.stop(this.engine.music.id);
             this.engine.music = new Sound(value, { volume: this.volume, loop: this.loop, pan: this.pan, start: this.start });
             if (this.soundOn)
                 if (this.engine.music.source) this.engine.music.source.play(this.engine.music.id)
                 else if (this.engine.music.source) this.engine.music.source.stop(this.engine.music.id);
         }
-        this._soundtrack = value;
+
     }
 
     get volume() { return this._volume };
-    set volume(value) { this._volume = value; if (this.engine.music.source) this.engine.music.source.volume(value) }
+    set volume(value) { this._volume = value; if (this.engine.music) this.engine.music.source.volume(value) }
 
     get start() { return this._start };
-    set start(value) { this._start = value; if (this.engine.music.source) this.engine.music.source.seek(value) }
+    set start(value) { this._start = value; if (this.engine.music) this.engine.music.source.seek(value) }
 
     get pan() { return this._pan };
-    set pan(value) { this._pan = value; if (this.engine.music.source) this.engine.music.source.stereo(value) }
+    set pan(value) { this._pan = value; if (this.engine.music) this.engine.music.source.stereo(value) }
 
     get loop() { return this._loop }
-    set loop(value) { this._loop = value; if (this.engine.music.source) this.engine.music.source.loop(value); }
+    set loop(value) { this._loop = value; if (this.engine.music) this.engine.music.source.loop(value); }
 
     // Physic properties
     get physicsOn() { return this._physicsOn }

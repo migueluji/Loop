@@ -4,7 +4,7 @@ class Rule {
         this.gameObject = gameObject;
         var expression = "";
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
-            expression += this.parseNodeList(script.nodeList) + ";"; 
+            expression += this.parseNodeList(script.nodeList) + ";";
         });
         expression = expression.replace(/Me\./g, gameObject.name + "."); // replace Me by actor's name
         console.log(expression);
@@ -41,13 +41,13 @@ class Rule {
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);
-        var specialProperties = ["tags","type", "color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align","collider","currentScene"];
+        var specialProperties = ["tags", "type", "color", "backgroundColor", "fill", "image", "sound", "soundtrack", "font", "style", "align", "collider", "currentScene"];
         if (specialProperties.includes(property) && params.value[0] != "'") params.value = "'" + params.value + "'"; // to add quotes if it doesn't have them
         return (params.property + " = " + params.value);
     }
 
     spawn(params) {
-        return ("Engine.spawn("+ this.gameObject.name+","+ params.actor + "," + params.x + "," + params.y + "," + params.angle + ")");
+        return ("Engine.spawn(" + this.gameObject.name + "," + params.actor + "," + params.x + "," + params.y + "," + params.angle + ")");
     }
 
     delete() {

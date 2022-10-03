@@ -12,7 +12,7 @@ class Engine {
         // Create engines
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
-        this.physics = new Physics(this.gameObjects);
+        this.physics = new Physics(this,this.gameObjects);
         this.logic = new Logic(this);
         this.input = new Input(this.render.stage);
         // Engine properties
@@ -34,7 +34,7 @@ class Engine {
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
         while (this.accumulator >= this.deltaTime) {
-            if (this.gameState.physicsOn) this.physics.fixedStep(this.deltaTime);
+            this.physics.fixedStep(this.deltaTime);
             this.logic.fixedUpdate(this.deltaTime, this.scope);
             this.time += this.deltaTime;
             this.accumulator -= this.deltaTime;
@@ -60,11 +60,9 @@ class Engine {
     // scene actions
     goTo(scene) { this.logic.changeScene = true; this.logic.sceneName = scene.name }
 
-    pause(physics, logic, sounds) {
-        this.gameState.physicsOn = !physics; this.logicOn = !logic; this.logic.soundsMute = sounds;
-    }
+    pause(physics, logic, sounds) { this.gameState.physicsOn = !physics; this.logic.logicOn = !logic; this.logic.soundsMute = sounds }
 
-    resume() { this.gameState.physicsOn = this.logicOn = this.logic.soundsUnMute = true }
+    resume() { this.gameState.physicsOn = this.logic.logicOn = this.logic.soundsUnMute = true }
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {

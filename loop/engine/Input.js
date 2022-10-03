@@ -3,6 +3,8 @@ class Input {
     static touchObjects = new Object();
     static pointer = { down: false, up: true, over: false, tap: false };
     static firstTime = true;
+    static pointerX = 0;
+    static pointerY = 0;
 
     constructor(stage) {
         stage.on("pointerdown", Input.pointerDownHandler.bind(this));

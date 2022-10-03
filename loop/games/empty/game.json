@@ -7,7 +7,20 @@
 			"name": "Scene_1",
 			"actorList": [
 				{
-					"scriptList": [],
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Move",
+									"parameters": {
+										"speed": "100",
+										"angle": 0
+									}
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": -193.07617930517625,
 					"y": 73.9550750817499,
@@ -206,8 +219,8 @@
 						}
 					],
 					"sleeping": false,
-					"x": 203.5,
-					"y": 124.5,
+					"x": 203,
+					"y": 124,
 					"width": 88,
 					"height": 73,
 					"scaleX": 1,
@@ -241,7 +254,7 @@
 					"volume": 1,
 					"pan": 0,
 					"loop": false,
-					"physicsOn": false,
+					"physicsOn": true,
 					"type": "Dynamic",
 					"fixedAngle": false,
 					"velocityX": 0,
