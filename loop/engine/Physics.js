@@ -12,7 +12,7 @@ class Physics {
     }
 
     fixedStep(dt) {
-        if (this.engine.gameState.physicsOn != this.physicsOn) { // if the game physics change 
+        if ((this.engine.gameState.physicsOn != this.physicsOn)) { // if the game physics change 
             this.physicsOn = this.engine.gameState.physicsOn;
             this.gameObjects.forEach(gameObject => {
                 if (this.physicsOn) (gameObject.physicsOn) ? Rigidbody.convertToRigidbody(gameObject) : Rigidbody.convertToSensor(gameObject);

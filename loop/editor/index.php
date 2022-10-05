@@ -140,8 +140,8 @@
 	//	gameFolder="pirate-bomb";
 	//  gameFolder="arkanoid";
 	//  gameFolder="babe-plataformer";
-	//  gameFolder="asteroids";
-	  	gameFolder="flying-plane";
+	  gameFolder="asteroids";
+	//  gameFolder="flying-plane";
 	//	gameFolder="empty";
 		var app = new App();
 		

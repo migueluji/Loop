@@ -47,9 +47,7 @@ class Engine {
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
-            var gameObject = new GameObject(this, actor, false);
-            // this.gameObjects.set(actor.name, gameObject);
-            // this.scope[actor.name] = gameObject;
+            new GameObject(this, actor, false);
             zIndex++;
         });
         this.gameState.currentScene = sceneName;
@@ -74,7 +72,8 @@ class Engine {
             spawnObject.y = spawnerObject.y + x * sin - y * cos;
             spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
-            if (this.gameState.physicsOn) (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
+            if (this.gameState.physicsOn)
+                (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
             else Rigidbody.convertToSensor(spawnObject);
         }
     }
