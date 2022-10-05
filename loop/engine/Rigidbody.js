@@ -1,7 +1,8 @@
 class Rigidbody {
 
-    constructor(physicsEngine, actor) {
-        var rigidbody = physicsEngine.world.createBody({ userData: { name: actor.name, tags: actor.tags } });
+    constructor(gameObject) {
+        var actor = gameObject.actor;
+        var rigidbody = gameObject.engine.physics.world.createBody({ userData: { name: gameObject.name, tags: actor.tags } });
         rigidbody._currentPhysics = {
             physicsOn: actor.physicsOn,
             type: actor.type.toLowerCase(),

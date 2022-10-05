@@ -1,6 +1,7 @@
 class Container {
 
-    constructor(renderEngine, actor) {
+    constructor(gameObject) {
+        var actor = gameObject.actor
         var container = new PIXI.Container();
         container.zIndex = actor.zIndex;
         // Add sprite
@@ -14,10 +15,10 @@ class Container {
         container.spriteText.scale.y = -1;
         container.addChild(container.spriteText);
         // Add container
-        renderEngine.stage.addChild(container);
+        gameObject.engine.render.stage.addChild(container);
         // Add Debug 
         container.debug = new PIXI.Graphics();
-        renderEngine.stage.addChild(container.debug);
+        gameObject.engine.render.stage.addChild(container.debug);
         return (container);
     }
 

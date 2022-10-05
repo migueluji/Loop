@@ -12,7 +12,7 @@ class Engine {
         // Create engines
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
-        this.physics = new Physics(this,this.gameObjects);
+        this.physics = new Physics(this, this.gameObjects);
         this.logic = new Logic(this);
         this.input = new Input(this.render.stage);
         // Engine properties
@@ -47,9 +47,9 @@ class Engine {
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
-            var gameObject = new GameObject(this, actor);
-            this.gameObjects.set(actor.name, gameObject);
-            this.scope[actor.name] = gameObject;
+            var gameObject = new GameObject(this, actor, false);
+            // this.gameObjects.set(actor.name, gameObject);
+            // this.scope[actor.name] = gameObject;
             zIndex++;
         });
         this.gameState.currentScene = sceneName;
@@ -67,24 +67,15 @@ class Engine {
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
-            console.log("SPAWN",spawnerObject,gameObject,x,y,angle);
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
-            var spawnActor = gameObject.actor;
-            spawnActor.name = gameObject.name + Utils.id();
-            var spawnObject = new GameObject(this,spawnActor);
-           // spawnObject.name = gameObject.name + Utils.id();
-            // spawnObject.x = spawnerObject.x + (spawnerObject.x - x) * cos - (spawnerObject.y - y) * sin;
-            // spawnObject.y = spawnerObject.y + (spawnerObject.x - x) * sin + (spawnerObject.y - y) * cos;
-            // spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
+            var spawnObject = new GameObject(this, gameObject.actor, true);
+            spawnObject.x = spawnerObject.x + x * cos + y * sin;
+            spawnObject.y = spawnerObject.y + x * sin - y * cos;
+            spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
-           // spawnObject.spawned = true; // To avoid executing the rules the first time the object is generated
-            spawnObject.rigidbody.setUserData({ name: spawnObject.name, tags: spawnObject.actor.tags });
-            this.scope[spawnObject.name] = spawnObject;
-            this.gameObjects.set(spawnObject.name, spawnObject);
-            if (this.physicsOn) (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
+            if (this.gameState.physicsOn) (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
             else Rigidbody.convertToSensor(spawnObject);
-            console.log("spawned",spawnObject.rule);
         }
     }
 

@@ -1,16 +1,16 @@
 class GameObject {
 
-    constructor(engine, actor) {
+    constructor(engine, actor, spawned) {
         this.engine = engine;
         this.actor = actor;
-        this.name = actor.name;
-        this.spawned = false;
+        this.spawned = spawned;
+        this.name = (spawned) ? actor.name + Utils.id() : actor.name;
         // Add gameObject to the engines
-        this.container = new Container(engine.render, actor);
-        this.rigidbody = new Rigidbody(engine.physics, actor);
+        this.container = new Container(this);
+        this.rigidbody = new Rigidbody(this);
         this.audio = new Sound(actor.sound);
         this.rule = new Rule(this);
-        // Add actor properties
+        // Add actor properties to gameObject
         Object.keys(actor.allProperties).forEach(property => {
             this["_" + property] = actor.allProperties[property];
         });
@@ -18,6 +18,9 @@ class GameObject {
         // Other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
+        // Add gameObject to scope and list
+        engine.gameObjects.set(this.name, this);
+        engine.scope[this.name] = this;
     }
 
     remove() {

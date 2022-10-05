@@ -2,12 +2,12 @@ class Rule {
 
     constructor(gameObject) {
         this.gameObject = gameObject;
-        var expression = new String() ;
+        var expression = new String();
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList) + ";";
         });
         expression = expression.replace(/Me\./g, gameObject.name + "."); // replace Me by actor's name
-        console.log(expression);
+        //console.log(expression);
         return (math.compile(expression));
     }
 
