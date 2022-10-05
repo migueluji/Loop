@@ -30,7 +30,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "${Game.physicsOn}",
 					"font": "Arial",
 					"size": 30,
@@ -81,6 +81,10 @@
 												"property": "score.estrellas",
 												"value": "score.estrellas+1"
 											}
+										},
+										{
+											"type": "Delete",
+											"parameters": {}
 										}
 									],
 									"nodeListFalse": []
@@ -90,16 +94,21 @@
 									"parameters": {
 										"tags": "border"
 									},
-									"nodeListTrue": [],
+									"nodeListTrue": [
+										{
+											"type": "Delete",
+											"parameters": {}
+										}
+									],
 									"nodeListFalse": []
 								}
 							],
 							"name": "Script_1"
 						}
 					],
-					"sleeping": false,
-					"x": 216.87631458619114,
-					"y": 126.01097393689986,
+					"sleeping": true,
+					"x": 445.5587732222392,
+					"y": 210.92482514521828,
 					"width": 39,
 					"height": 38,
 					"scaleX": 1,
@@ -133,7 +142,7 @@
 					"volume": 1,
 					"pan": 0,
 					"loop": false,
-					"physicsOn": true,
+					"physicsOn": false,
 					"type": "Dynamic",
 					"fixedAngle": false,
 					"velocityX": 0,
@@ -175,8 +184,8 @@
 						}
 					],
 					"sleeping": false,
-					"x": -245.91068434689834,
-					"y": -183.2335009907025,
+					"x": 0,
+					"y": 0,
 					"width": 88,
 					"height": 73,
 					"scaleX": 1,
@@ -301,19 +310,18 @@
 						{
 							"nodeList": [
 								{
-									"type": "Touch",
+									"type": "Timer",
 									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
+										"seconds": 1
 									},
 									"nodeListTrue": [
 										{
 											"type": "Spawn",
 											"parameters": {
 												"actor": "star",
-												"x": 0,
-												"y": "0",
-												"angle": 0
+												"x": "0",
+												"y": "random(-200,200)",
+												"angle": "0"
 											}
 										}
 									],
@@ -324,8 +332,8 @@
 						}
 					],
 					"sleeping": false,
-					"x": 335,
-					"y": 12,
+					"x": 459.24737082761766,
+					"y": 13.007807075479718,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -375,8 +383,8 @@
 				{
 					"scriptList": [],
 					"sleeping": false,
-					"x": -233.14605416751726,
-					"y": -585.5266346593507,
+					"x": -414.35149371772127,
+					"y": 2.1209122931801403,
 					"width": 50,
 					"height": 480,
 					"scaleX": 1,
@@ -474,79 +482,6 @@
 					"dampingAngular": 0,
 					"name": "score",
 					"estrellas": 0
-				},
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Collision",
-									"parameters": {
-										"tags": "plane"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.physicsOn",
-												"value": true
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"sleeping": false,
-					"x": 3.5307879896357357,
-					"y": 41.12818167962181,
-					"width": 52,
-					"height": 64,
-					"scaleX": 1,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": true,
-					"image": "letterT.png",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": false,
-					"text": "",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": true,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "Actor_8"
 				}
 			]
 		}
@@ -565,8 +500,8 @@
 	"start": 0,
 	"pan": 0,
 	"loop": false,
-	"physicsOn": false,
+	"physicsOn": true,
 	"gravityX": 0,
 	"gravityY": -9.8,
-	"debug": true
+	"debug": false
 }
