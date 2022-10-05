@@ -67,18 +67,24 @@ class Engine {
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
+            console.log("SPAWN",spawnerObject,gameObject,x,y,angle);
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
-            var spawnObject = new GameObject(this, gameObject.actor);
-            spawnObject.name = gameObject.name + Utils.id();
-            spawnObject.x = spawnerObject.x + (spawnerObject.x - x) * cos - (spawnerObject.y - y) * sin;
-            spawnObject.y = spawnerObject.y + (spawnerObject.x - x) * sin + (spawnerObject.y - y) * cos;
-            spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
+            var spawnActor = gameObject.actor;
+            spawnActor.name = gameObject.name + Utils.id();
+            var spawnObject = new GameObject(this,spawnActor);
+           // spawnObject.name = gameObject.name + Utils.id();
+            // spawnObject.x = spawnerObject.x + (spawnerObject.x - x) * cos - (spawnerObject.y - y) * sin;
+            // spawnObject.y = spawnerObject.y + (spawnerObject.x - x) * sin + (spawnerObject.y - y) * cos;
+            // spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
-            spawnObject.spawned = true; // To avoid executing the rules the first time the object is generated
+           // spawnObject.spawned = true; // To avoid executing the rules the first time the object is generated
             spawnObject.rigidbody.setUserData({ name: spawnObject.name, tags: spawnObject.actor.tags });
             this.scope[spawnObject.name] = spawnObject;
             this.gameObjects.set(spawnObject.name, spawnObject);
+            if (this.physicsOn) (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
+            else Rigidbody.convertToSensor(spawnObject);
+            console.log("spawned",spawnObject.rule);
         }
     }
 

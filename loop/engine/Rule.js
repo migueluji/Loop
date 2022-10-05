@@ -2,7 +2,7 @@ class Rule {
 
     constructor(gameObject) {
         this.gameObject = gameObject;
-        var expression = "";
+        var expression = new String() ;
         gameObject.actor.scriptList.forEach((script, i) => { // add scripts to expression
             expression += this.parseNodeList(script.nodeList) + ";";
         });

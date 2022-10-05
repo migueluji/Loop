@@ -6,8 +6,8 @@ class GameObject {
         this.name = actor.name;
         this.spawned = false;
         // Add gameObject to the engines
-        this.container = engine.render.stage.addChild(new Container(actor));
-        this.rigidbody = engine.physics.world.createBody({ userData: { name: actor.name, tags: actor.tags } });
+        this.container = new Container(engine.render, actor);
+        this.rigidbody = new Rigidbody(engine.physics, actor);
         this.audio = new Sound(actor.sound);
         this.rule = new Rule(this);
         // Add actor properties
@@ -18,17 +18,6 @@ class GameObject {
         // Other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
-        this.previousPhysicsOn;
-        this.originalPhysics = {
-            type: this.rigidbody.m_type,
-            velocityX: this.rigidbody.getLinearVelocity().x,
-            velocityY: this.rigidbody.getLinearVelocity().y,
-            angularVelocity: this.rigidbody.getAngularVelocity()
-        }
-        console.log(this.originalPhysics);
-        // debug 
-        this.debug = new PIXI.Graphics();
-        engine.render.stage.addChild(this.debug);
     }
 
     remove() {
@@ -39,7 +28,7 @@ class GameObject {
         delete this["rule"];
         this.engine.gameObjects.delete(this.name);
         delete this.engine.scope[this.name];
-        this.engine.render.stage.removeChild(this.debug);
+        this.engine.render.stage.removeChild(this.container.debug);
     }
 
     fixedStep() { // physics update
@@ -68,32 +57,20 @@ class GameObject {
     }
 
     update() { // render update
-        if (this.screen) {
+        if (this.screen) {  // render screen gameObject
             if (this.engine.gameState.cameraX != this.initialCameraX) this.x = this.actor.x + this.engine.gameState.cameraX;
             if (this.engine.gameState.cameraY != this.initialCameraY) this.y = this.actor.y + this.engine.gameState.cameraY;
         }
-        if (this.engine.gameState.debug) {  // render debug lines
-            this.debug.clear();
-            this.debug = Object.assign(this.debug, { x: this.x, y: this.y, angle: this.angle });
-            this.debug.lineStyle(1, 0xFF2222, 1, 0.5);
-            this.debug.zIndex = this.zIndex;
-            var shape = this.rigidbody.getFixtureList().getShape();
-            switch (this.collider) {
-                case "Box": {
-                    this.debug.moveTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter);
-                    for (var v = 1; v < shape.m_count; v++) {
-                        this.debug.lineTo(shape.getVertex(v).x * Physics.pixelsPerMeter, shape.getVertex(v).y * Physics.pixelsPerMeter);
-                    }
-                    this.debug.lineTo(shape.getVertex(0).x * Physics.pixelsPerMeter, shape.getVertex(0).y * Physics.pixelsPerMeter); break;
-                }
-                case "Circle": { this.debug.drawCircle(0, 0, shape.m_radius * Physics.pixelsPerMeter); break; }
-            }
-        }
+        if (this.engine.gameState.debug) // render debug lines
+            Container.renderDebugLines(this.container, this.rigidbody, this.x, this.y, this.angle, this.collider, this.zIndex);
     }
 
     // access to GameObject properties
     get sleeping() { return this._sleeping }
-    set sleeping(value) { this._sleeping = value }
+    set sleeping(value) {
+        if (value != this._sleeping) this.rigidbody.setActive(!value);
+        this._sleeping = value;
+    }
 
     // Settings
     get x() { return this._x }
@@ -163,7 +140,6 @@ class GameObject {
                 collisionShape = planck.Box(this.width / 2 * Physics.metersPerPixel, this.height / 2 * Physics.metersPerPixel);
         }
         this.rigidbody.createFixture({ density: 1, shape: collisionShape });
-        //  this.rigidbody.getFixtureList().setSensor(true);
     }
 
     get tags() { return this._tags }
@@ -177,7 +153,7 @@ class GameObject {
     set image(value) {
         if (this._image != value) {
             this._image = value;
-            this.container.updateSprite(value, this.tileX, this.tileY);
+            Container.updateSpriteTexture(this.container, value, this.tileX, this.tileY);
             if (this.container.sprite.width * this.container.sprite.scale.x != this._width)  // update width to update collider
                 this.width = this.container.sprite.width * this.container.sprite.scale.x;
             if (this.container.sprite.height * this.container.sprite.scale.y != this._height) // update height to update collider
@@ -284,42 +260,15 @@ class GameObject {
 
     // Physics
     get physicsOn() { return this._physicsOn }
-    set physicsOn(value) {
-        this.previousPhysicsOn = this._physicsOn;
-        this._physicsOn = value;
-        console.log(this.originalPhysics);
-        if (value) {
-            if (this.previousPhysicsOn) {
-                this.type = this.originalPhysics.type;
-                this.velocityX = this.originalPhysics.velocityX;
-                this.velocityY = this.originalPhysics.velocityY;
-                this.angularVelocity = this.originalPhysics.angularVelocity;
-            }
-        }
-        else {
-            this.originalPhysics = {
-                type: this.rigidbody.m_type,
-                velocityX: this.rigidbody.getLinearVelocity().x,
-                velocityY: this.rigidbody.getLinearVelocity().y,
-                angularVelocity: this.rigidbody.getAngularVelocity()
-            }
-            this.rigidbody.setDynamic();
-            this.rigidbody.getFixtureList().setSensor(true);
-            this.rigidbody.setGravityScale(0);
-            this.velocityX = 0;
-            this.velocityY = 0;
-            this.angularVelocity = 0;
-        }
-        if (this.name == "star") console.log("start", this.originalPhysic, this.rigidbody.m_type, value);
-    }
+    set physicsOn(value) { this._physicsOn = value }
 
     get type() { return this._type }
     set type(value) {
-        this._type = value;
-        if (this.physicsOn) switch (value) { // only changes the type if physics are active
-            case "Dynamic": this.rigidbody.setDynamic(); break;
-            case "Kinematic": this.rigidbody.setKinematic(); break;
-            case "Static": this.rigidbody.setStatic(); break;
+        this._type = value.toLowerCase();
+        switch (this._type) { // only changes the type if physics are active
+            case "dynamic": this.rigidbody.setDynamic(); break;
+            case "kinematic": this.rigidbody.setKinematic(); break;
+            case "static": this.rigidbody.setStatic(); break;
         }
     }
 

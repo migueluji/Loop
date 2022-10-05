@@ -32,6 +32,7 @@
 		<script src="GameState.js"></script>
 		<script src="GameObject.js"></script>
 		<script src="Container.js"></script>
+		<script src="Rigidbody.js"></script>
 		<script src="Rule.js"></script>
 		<script src="Sound.js"></script>
 

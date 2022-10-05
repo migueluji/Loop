@@ -81,10 +81,6 @@
 												"property": "score.estrellas",
 												"value": "score.estrellas+1"
 											}
-										},
-										{
-											"type": "Delete",
-											"parameters": {}
 										}
 									],
 									"nodeListFalse": []
@@ -94,12 +90,7 @@
 									"parameters": {
 										"tags": "border"
 									},
-									"nodeListTrue": [
-										{
-											"type": "Delete",
-											"parameters": {}
-										}
-									],
+									"nodeListTrue": [],
 									"nodeListFalse": []
 								}
 							],
@@ -310,9 +301,10 @@
 						{
 							"nodeList": [
 								{
-									"type": "Timer",
+									"type": "Touch",
 									"parameters": {
-										"seconds": 1
+										"mode": "Tap",
+										"on_Actor": true
 									},
 									"nodeListTrue": [
 										{
@@ -320,7 +312,7 @@
 											"parameters": {
 												"actor": "star",
 												"x": 0,
-												"y": "random(-150,150)",
+												"y": "0",
 												"angle": 0
 											}
 										}
@@ -331,9 +323,9 @@
 							"name": "Script_1"
 						}
 					],
-					"sleeping": true,
-					"x": 435,
-					"y": 0,
+					"sleeping": false,
+					"x": 335,
+					"y": 12,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -342,9 +334,9 @@
 					"screen": false,
 					"collider": "Box",
 					"tags": "",
-					"spriteOn": false,
+					"spriteOn": true,
 					"image": "",
-					"color": "#ffffff",
+					"color": "#d28989",
 					"opacity": 1,
 					"flipX": false,
 					"flipY": false,
@@ -484,7 +476,29 @@
 					"estrellas": 0
 				},
 				{
-					"scriptList": [],
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "plane"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.physicsOn",
+												"value": true
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": 3.5307879896357357,
 					"y": 41.12818167962181,
@@ -551,7 +565,7 @@
 	"start": 0,
 	"pan": 0,
 	"loop": false,
-	"physicsOn": true,
+	"physicsOn": false,
 	"gravityX": 0,
 	"gravityY": -9.8,
 	"debug": true

@@ -5,25 +5,24 @@ class Physics {
     constructor(engine, gameObjects) {
         this.engine = engine;
         this.gameObjects = gameObjects;
-        this.physicsOn = this.engine.gameState.physicsOn;
+        this.physicsOn;
         this.world = planck.World({ allowSleep: false });
         this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
         this.world.on('end-contact', this.collisionEndHandler.bind(this));
     }
 
     fixedStep(dt) {
+        if (this.engine.gameState.physicsOn != this.physicsOn) { // if the game physics change 
+            this.physicsOn = this.engine.gameState.physicsOn;
+            this.gameObjects.forEach(gameObject => {
+                if (this.physicsOn) (gameObject.physicsOn) ? Rigidbody.convertToRigidbody(gameObject) : Rigidbody.convertToSensor(gameObject);
+                else Rigidbody.convertToSensor(gameObject);
+            })
+        }
         this.world.step(dt);
         this.gameObjects.forEach(gameObject => {
             gameObject.fixedStep();
         })
-        if (this.engine.gameState.physicsOn != this.physicsOn) { // if physic state is changed
-            console.log("chage physics", this.engine.gameState.physicsOn);
-            this.physicsOn = this.engine.gameState.physicsOn;
-            this.gameObjects.forEach(gameObject => {
-                if (this.physicsOn) gameObject.physicsOn = true;
-                else gameObject.physicsOn = gameObject.previousPhysicsOn;
-            })
-        }
     }
 
     collisionBeginHandler(contact) {
