@@ -27,7 +27,6 @@ class Logic {
                 })
             }
             if (this.changeScene) { // change scene on request
-                console.log("change scene",this.changeScene);
                 this.gameObjects.forEach(gameObject => gameObject.remove())
                 this.engine.loadScene(this.sceneName);
             }
