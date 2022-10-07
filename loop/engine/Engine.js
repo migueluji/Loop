@@ -47,7 +47,7 @@ class Engine {
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
-            new GameObject(this, actor, false);
+            var gameObject = new GameObject(this, actor, false);
             zIndex++;
         });
         this.gameState.currentScene = sceneName;

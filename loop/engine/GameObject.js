@@ -14,11 +14,12 @@ class GameObject {
         Object.keys(actor.allProperties).forEach(property => {
             this["_" + property] = actor.allProperties[property];
         });
+        this._physicsOn = undefined;
         Object.assign(this, actor.allProperties);
         // Other properties
         this.initialCameraX = engine.gameState.cameraX;
         this.initialCameraY = engine.gameState.cameraY;
-        // Add gameObject to scope and list
+        // Add gameObject to scope and gameObject list in the engine
         engine.gameObjects.set(this.name, this);
         engine.scope[this.name] = this;
     }
@@ -263,35 +264,36 @@ class GameObject {
 
     // Physics
     get physicsOn() { return this._physicsOn }
-    set physicsOn(value) { this._physicsOn = value }
+    set physicsOn(value) {
+        if (value != this._physicsOn) {
+            (this.engine.gameState.physicsOn && value) ? Rigidbody.convertToRigidbody(this) : Rigidbody.convertToSensor(this);
+            this._physicsOn = value;
+        }
+    }
 
-    get type() { return this._type }
+    get type() { return this._type.toLowerCase() }
     set type(value) {
-        this._type = value.toLowerCase();
-        switch (this._type) { // only changes the type if physics are active
-            case "dynamic": this.rigidbody.setDynamic(); break;
-            case "kinematic": this.rigidbody.setKinematic(); break;
-            case "static": this.rigidbody.setStatic(); break;
+        if (value != this._type) {
+            this._type = value;
+            (this.engine.gameState.physicsOn && this.physicsOn) ? Rigidbody.convertToRigidbody(this) : Rigidbody.convertToSensor(this);
         }
     }
 
     get fixedAngle() { return this._fixedAngle }
     set fixedAngle(value) { this._fixedAngle = value; this.rigidbody.setFixedRotation(value) }
 
-    get velocityX() { return this._velocityX }
+    get velocityX() { return this.rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter }
     set velocityX(value) {
-        this._velocityX = value;
-        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y))
+        this.rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this.rigidbody.getLinearVelocity().y));
     }
 
-    get velocityY() { return this._velocityY }
+    get velocityY() { return this.rigidbody.getLinearVelocity().y * Physics.pixelsPerMeter }
     set velocityY(value) {
-        this._velocityY = value;
         this.rigidbody.setLinearVelocity(planck.Vec2(this.rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel))
     }
 
-    get angularVelocity() { return this._angularVelocity }
-    set angularVelocity(value) { this._angularVelocity = value; this.rigidbody.setAngularVelocity(value) }
+    get angularVelocity() { return Utils.degrees(this.rigidbody.getAngularVelocity()) }
+    set angularVelocity(value) { this.rigidbody.setAngularVelocity(Utils.radians(value)) }
 
     get density() { return this._density }
     set density(value) { this._density = value; this.rigidbody.getFixtureList().setDensity(value) }

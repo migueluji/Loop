@@ -14,6 +14,7 @@ class Rigidbody {
     }
 
     static convertToSensor(gameObject) {
+        gameObject.isSensor = true;
         gameObject.rigidbody._currentPhysics = { // save current physic properties
             type: gameObject.rigidbody.m_type,
             velocityX: gameObject.rigidbody.getLinearVelocity().x,
@@ -27,7 +28,12 @@ class Rigidbody {
     }
 
     static convertToRigidbody(gameObject) {
-        gameObject.type = gameObject.rigidbody._currentPhysics.type;
+        gameObject.isSensor = false;
+        switch (gameObject.type) {
+            case "dynamic": gameObject.rigidbody.setDynamic(); break;
+            case "kinematic": gameObject.rigidbody.setKinematic(); break;
+            case "static": gameObject.rigidbody.setStatic(); break;
+        }
         gameObject.rigidbody.getFixtureList().setSensor(false);
         gameObject.rigidbody.setGravityScale(1);
         gameObject.velocityX = gameObject.rigidbody._currentPhysics.velocityX;
