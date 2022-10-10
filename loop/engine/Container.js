@@ -22,7 +22,7 @@ class Container {
         return (container);
     }
 
-    static updateSpriteTexture(container, image, tileX, tileY) {
+    static updateSpriteTexture(container, image, tileX, tileY, flipX, flipY) {
         const existsImage = Boolean(player.file.loader.resources[image]);
         if (existsImage) container.sprite.texture = player.file.loader.resources[image].texture;
         else {
@@ -33,9 +33,11 @@ class Container {
         container.sprite.anchor.set(0.5);
         container.sprite.width = container.sprite.texture.width * tileX;
         container.sprite.height = container.sprite.texture.height * tileY;
+        container.sprite.scale.x = (flipX) ? -math.abs(container.sprite.scale.x) : math.abs(container.sprite.scale.x);
+        container.sprite.scale.y = (flipY) ? -math.abs(container.sprite.scale.y) : math.abs(container.sprite.scale.y);
     }
 
-    static renderDebugLines(container,rigidbody,x,y,angle,collider,zIndex){
+    static renderDebugLines(container, rigidbody, x, y, angle, collider, zIndex) {
         container.debug.clear();
         container.debug = Object.assign(container.debug, { x: x, y: y, angle: angle });
         container.debug.lineStyle(1, 0xFF2222, 1, 0.5);
@@ -52,4 +54,18 @@ class Container {
             case "Circle": { container.debug.drawCircle(0, 0, shape.m_radius * Physics.pixelsPerMeter); break; }
         }
     }
+
+    static updateScroll(scrollX, scrollY, sprite, deltaTime) {
+        if (scrollX != 0) sprite.tilePosition.x += scrollX * deltaTime;
+        if (scrollY != 0) sprite.tilePosition.y += scrollY * deltaTime;
+    }
+
+    static updateText(spriteText, scope, align, width, offsetX) {
+        spriteText.text = math.print(spriteText.expression, scope, { notation: 'fixed', precision: 0 });
+        switch (align) {
+            case "Left": spriteText.position.x = (-width / 2 + spriteText.width / 2) + offsetX; break;
+            case "Right": spriteText.position.x = (width / 2 - spriteText.width / 2) + offsetX; break;
+        }
+    }
+
 }

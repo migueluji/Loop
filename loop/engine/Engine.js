@@ -47,7 +47,7 @@ class Engine {
         var zIndex = 0;
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
-            var gameObject = new GameObject(this, actor, false);
+            new GameObject(this, actor, false);
             zIndex++;
         });
         this.gameState.currentScene = sceneName;
@@ -126,13 +126,13 @@ class Engine {
     }
 
     push(gameObject, force, angle) {
-        var forceX = force * Math.cos(angle * Math.PI / 180) * Physics.pixelsPerMeter;
-        var forceY = force * Math.sin(angle * Math.PI / 180) * Physics.pixelsPerMeter;
-        gameObject.rigidbody.applyForce(planck.Vec2(forceX, forceY), gameObject.rigidbody.getWorldCenter());
+        var forceX = force * Math.cos(Utils.radians(angle)) * Physics.pixelsPerMeter;
+        var forceY = force * Math.sin(Utils.radians(angle)) * Physics.pixelsPerMeter;
+        gameObject.rigidbody.applyForceToCenter(planck.Vec2(forceX, forceY));
     }
 
     pushTo(gameObject, force, x, y) {
-        this.push(gameObject, force, Math.atan2(y - gameObject.y, x - gameObject.x) * 180 / Math.PI);
+        this.push(gameObject, force, Utils.degrees(Math.atan2(y - gameObject.y, x - gameObject.x)));
     }
 
     torque(gameObject, angle) {

@@ -16,9 +16,6 @@ class GameObject {
         });
         this._physicsOn = undefined;
         Object.assign(this, actor.allProperties);
-        // Other properties
-        this.initialCameraX = engine.gameState.cameraX;
-        this.initialCameraY = engine.gameState.cameraY;
         // Add gameObject to scope and gameObject list in the engine
         engine.gameObjects.set(this.name, this);
         engine.scope[this.name] = this;
@@ -46,24 +43,15 @@ class GameObject {
         else if (this.dead) this.remove();// CRUD - DELETE
         else { // CRUD - UPDATE
             if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
-            // update scrolling
-            if (this.scrollX != 0) this.container.sprite.tilePosition.x += this.scrollX * deltaTime;
-            if (this.scrollY != 0) this.container.sprite.tilePosition.y += this.scrollY * deltaTime;
-            if (this.textOn) {   // update text
-                this.container.spriteText.text =
-                    math.print(this.container.spriteText.expression, this.engine.scope, { notation: 'fixed', precision: 0 });
-                if (this.align == "Left")
-                    this.container.spriteText.position.x = (-this.width / 2 + this.container.spriteText.width / 2) + this.offsetX;
-                if (this.align == "Right")
-                    fthis.container.spriteText.position.x = (this.width / 2 - this.container.spriteText.width / 2) + this.offsetX;
-            }
+            if (this.textOn) Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
+            Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
         }
     }
 
     update() { // render update
         if (this.screen) {  // render screen gameObject
-            if (this.engine.gameState.cameraX != this.initialCameraX) this.x = this.actor.x + this.engine.gameState.cameraX;
-            if (this.engine.gameState.cameraY != this.initialCameraY) this.y = this.actor.y + this.engine.gameState.cameraY;
+            this.x = this.actor.x + this.engine.gameState.cameraX;
+            this.y = this.actor.y + this.engine.gameState.cameraY;
         }
         if (this.engine.gameState.debug) // render debug lines
             Container.renderDebugLines(this.container, this.rigidbody, this.x, this.y, this.angle, this.collider, this.zIndex);
@@ -92,7 +80,7 @@ class GameObject {
     get width() { return this._width }
     set width(value) { // sprite.width = sprite.texture.width * tileX;  this.width = sprite.width * sprite.scale.x 
         this._width = value;
-        this.container.sprite.scale.x = value / this.container.sprite.width;
+        this.container.sprite.scale.x = (this.flipX) ? value / this.container.sprite.width : -value / this.container.sprite.width;
         this.collider = this._collider; // update collider
     }
 
@@ -157,11 +145,11 @@ class GameObject {
     set image(value) {
         if (this._image != value) {
             this._image = value;
-            Container.updateSpriteTexture(this.container, value, this.tileX, this.tileY);
+            Container.updateSpriteTexture(this.container, value, this.tileX, this.tileY, this.flipX, this.flipY);
             if (this.container.sprite.width * this.container.sprite.scale.x != this._width)  // update width to update collider
-                this.width = this.container.sprite.width * this.container.sprite.scale.x;
+                this.width = math.abs(this.container.sprite.width * this.container.sprite.scale.x);
             if (this.container.sprite.height * this.container.sprite.scale.y != this._height) // update height to update collider
-                this.height = this.container.sprite.height * this.container.sprite.scale.y;
+                this.height = math.abs(this.container.sprite.height * this.container.sprite.scale.y);
         }
     }
 
@@ -172,7 +160,10 @@ class GameObject {
     set opacity(value) { this._opacity = this.container.sprite.alpha = value }
 
     get flipX() { return this._flipX }
-    set flipX(value) { this._flipX = value; this.container.sprite.scale.x *= (value) ? -1 : 1 }
+    set flipX(value) {
+        this._flipX = value;
+        this.container.sprite.scale.x = (value) ? -math.abs(this.container.sprite.scale.x) : math.abs(this.container.sprite.scale.x);
+    }
 
     get flipY() { return this._flipY }
     set flipY(value) { this._flipY = value; this.container.sprite.scale.y *= (value) ? -1 : 1 }
@@ -219,12 +210,6 @@ class GameObject {
     get offsetX() { return this._offsetX }
     set offsetX(value) {
         this._offsetX = value;
-        const w = Math.abs(this.container.sprite.width * this.container.sprite.scale.x);
-        var pivot = { x: 0, y: 0 };
-        switch (this.container.spriteText.style.align) {
-            case "left": pivot = { x: -w / 2 + this.container.spriteText.width / 2 }; break;
-            case "right": pivot = { x: w / 2 - this.container.spriteText.width / 2 }; break;
-        }
     }
 
     get offsetY() { return this._offsetY }

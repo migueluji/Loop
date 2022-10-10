@@ -1,21 +1,4 @@
 {
-	"name": "Arkanoid",
-	"displayWidth": 800,
-	"displayHeight": 480,
-	"cameraX": 0,
-	"cameraY": 0,
-	"cameraAngle": 0,
-	"cameraZoom": 1,
-	"backgroundColor": "#ffffff",
-	"soundOn": false,
-	"soundtrack": "",
-	"volume": 1,
-	"start": 0,
-	"pan": 0,
-	"loop": false,
-	"physicsOn": true,
-	"gravityX": 0,
-	"gravityY": 0,
 	"tagList": [
 		"ball",
 		"block"
@@ -25,7 +8,7 @@
 			"name": "Init",
 			"actorList": [
 				{
-					"name": "background",
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -73,10 +56,10 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"name": "background"
 				},
 				{
-					"name": "wall",
+					"scriptList": [],
 					"sleeping": false,
 					"x": 425,
 					"y": -37.25,
@@ -124,10 +107,31 @@
 					"restitution": 1,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"name": "wall"
 				},
 				{
-					"name": "wall_copy",
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "ball"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Game_Over"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": -2.3870175616860934,
 					"y": -289.693508780843,
@@ -175,31 +179,10 @@
 					"restitution": 1,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Collision",
-									"parameters": {
-										"tags": "ball"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Game_Over"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							]
-						}
-					]
+					"name": "wall_copy"
 				},
 				{
-					"name": "wall_copy_2",
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 265,
@@ -247,13 +230,13 @@
 					"restitution": 1,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"name": "wall_copy_2"
 				},
 				{
-					"name": "wall_copy_3",
+					"scriptList": [],
 					"sleeping": false,
 					"x": -425,
-					"y": -37.25,
+					"y": -36.48792104862059,
 					"width": 50,
 					"height": 554.5,
 					"scaleX": 1,
@@ -298,10 +281,24 @@
 					"restitution": 1,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"name": "wall_copy_3"
 				},
 				{
-					"name": "pad",
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Move_To",
+									"parameters": {
+										"speed": "800",
+										"x": "Game.mouseX",
+										"y": "Me.y"
+									}
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": 0,
 					"y": -190.5,
@@ -349,74 +346,11 @@
 					"restitution": 1,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Move_To",
-									"parameters": {
-										"speed": "800",
-										"x": "Game.mouseX",
-										"y": "Me.y"
-									}
-								}
-							]
-						}
-					]
+					"name": "pad"
 				},
 				{
-					"name": "ball",
-					"sleeping": false,
-					"x": 0,
-					"y": -61,
-					"width": 22,
-					"height": 22,
-					"scaleX": 1,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": false,
-					"collider": "Circle",
-					"tags": "ball",
-					"spriteOn": true,
-					"image": "ballBlue.png",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": false,
-					"text": "${Me.velocityX}   ---   ${Me.velocityY}",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": true,
-					"sound": "",
-					"start": 0,
-					"volume": 0.5,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": true,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0,
-					"restitution": 1,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
 					"scriptList": [
 						{
-							"name": "onStart",
 							"nodeList": [
 								{
 									"type": "Check",
@@ -441,7 +375,7 @@
 												{
 													"type": "Push",
 													"parameters": {
-														"force": "2",
+														"force": "3",
 														"angle": "random(-20,-160)"
 													}
 												}
@@ -451,10 +385,10 @@
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "onStart"
 						},
 						{
-							"name": "Script_2",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -463,21 +397,129 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Play",
+											"type": "Check",
 											"parameters": {
-												"sound_File": "Arkanoid SFX (1).wav"
+												"property": "Me.soundagain"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Play",
+													"parameters": {
+														"sound_File": "Arkanoid SFX (1).wav"
+													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Me.soundagain",
+														"value": false
+													}
+												}
+											],
+											"nodeListFalse": []
+										}
+									],
+									"nodeListFalse": []
+								},
+								{
+									"type": "Timer",
+									"parameters": {
+										"seconds": "0.05"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.soundagain",
+												"value": true
 											}
 										}
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_2"
 						}
 					],
-					"onstart": true
+					"sleeping": false,
+					"x": 0,
+					"y": -61,
+					"width": 22,
+					"height": 22,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Circle",
+					"tags": "ball",
+					"spriteOn": true,
+					"image": "ballBlue.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": true,
+					"text": "${Me.velocityX}   ---   ${Me.velocityY}",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": true,
+					"sound": "",
+					"start": 0,
+					"volume": 0.5,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": true,
+					"type": "Dynamic",
+					"fixedAngle": true,
+					"velocityX": 0,
+					"velocityY": -0.1,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.00001,
+					"restitution": 1,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "ball",
+					"onstart": true,
+					"soundagain": true
 				},
 				{
-					"name": "blue",
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "ball"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Delete",
+											"parameters": {}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "score.b",
+												"value": "score.b-1"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": -100,
 					"y": 90,
@@ -521,13 +563,15 @@
 					"velocityY": 0,
 					"angularVelocity": 0,
 					"density": 1,
-					"friction": 0.5,
+					"friction": 0,
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "blue"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -549,12 +593,10 @@
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "purple",
+					],
 					"sleeping": false,
 					"x": 100,
 					"y": 90,
@@ -602,9 +644,11 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "purple"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -626,12 +670,10 @@
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "greenright",
+					],
 					"sleeping": false,
 					"x": 280,
 					"y": 90,
@@ -679,9 +721,11 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "greenright"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -703,12 +747,10 @@
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "red",
+					],
 					"sleeping": false,
 					"x": -278.306491219157,
 					"y": 90,
@@ -756,9 +798,11 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "red"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -780,12 +824,10 @@
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "greenleft",
+					],
 					"sleeping": false,
 					"x": -200,
 					"y": 160,
@@ -833,9 +875,11 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "greenleft"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -844,25 +888,23 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Delete",
-											"parameters": {}
-										},
-										{
 											"type": "Edit",
 											"parameters": {
 												"property": "score.b",
 												"value": "score.b-1"
 											}
+										},
+										{
+											"type": "Delete",
+											"parameters": {}
 										}
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "grey",
+					],
 					"sleeping": false,
 					"x": 0,
 					"y": 160,
@@ -910,9 +952,11 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "grey"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
 									"type": "Collision",
@@ -921,25 +965,23 @@
 									},
 									"nodeListTrue": [
 										{
+											"type": "Delete",
+											"parameters": {}
+										},
+										{
 											"type": "Edit",
 											"parameters": {
 												"property": "score.b",
 												"value": "score.b-1"
 											}
-										},
-										{
-											"type": "Delete",
-											"parameters": {}
 										}
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "yellow",
+					],
 					"sleeping": false,
 					"x": 200,
 					"y": 160,
@@ -987,36 +1029,33 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "yellow"
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Collision",
+									"type": "Compare",
 									"parameters": {
-										"tags": "ball"
+										"value_1": "Me.b",
+										"operation": "Equal",
+										"value_2": "0"
 									},
 									"nodeListTrue": [
 										{
-											"type": "Delete",
-											"parameters": {}
-										},
-										{
-											"type": "Edit",
+											"type": "Go_To",
 											"parameters": {
-												"property": "score.b",
-												"value": "score.b-1"
+												"scene": "You_Win"
 											}
 										}
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
-					]
-				},
-				{
-					"name": "score",
+					],
 					"sleeping": false,
 					"x": -289,
 					"y": 210,
@@ -1064,34 +1103,31 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
+					"name": "score",
+					"b": 7
+				},
+				{
 					"scriptList": [
 						{
-							"name": "Script_1",
 							"nodeList": [
 								{
-									"type": "Compare",
+									"type": "Keyboard",
 									"parameters": {
-										"value_1": "Me.b",
-										"operation": "Equal",
-										"value_2": "0"
+										"key": "Space",
+										"key_Mode": "Pressed"
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "You_Win"
-											}
+											"type": "Delete",
+											"parameters": {}
 										}
 									],
 									"nodeListFalse": []
 								}
-							]
+							],
+							"name": "Script_1"
 						}
 					],
-					"b": 7
-				},
-				{
-					"name": "text",
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1139,27 +1175,7 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "Space",
-										"key_Mode": "Pressed"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Delete",
-											"parameters": {}
-										}
-									],
-									"nodeListFalse": []
-								}
-							]
-						}
-					]
+					"name": "text"
 				}
 			]
 		},
@@ -1167,7 +1183,7 @@
 			"name": "Game_Over",
 			"actorList": [
 				{
-					"name": "background",
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1215,10 +1231,32 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"name": "background"
 				},
 				{
-					"name": "Actor_2",
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Init"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": 0,
 					"y": -99.14557171497478,
@@ -1266,29 +1304,7 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Down",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Init"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							]
-						}
-					]
+					"name": "Actor_2"
 				}
 			]
 		},
@@ -1296,7 +1312,7 @@
 			"name": "You_Win",
 			"actorList": [
 				{
-					"name": "background",
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1344,10 +1360,32 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": []
+					"name": "background"
 				},
 				{
-					"name": "Actor_2",
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Go_To",
+											"parameters": {
+												"scene": "Init"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": 0,
 					"y": -99.14557171497478,
@@ -1395,31 +1433,26 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"scriptList": [
-						{
-							"name": "Script_1",
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Down",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Init"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							]
-						}
-					]
+					"name": "Actor_2"
 				}
 			]
 		}
-	]
+	],
+	"name": "Arkanoid",
+	"displayWidth": 800,
+	"displayHeight": 480,
+	"cameraX": 0,
+	"cameraY": 0,
+	"cameraAngle": 0,
+	"cameraZoom": 1,
+	"backgroundColor": "#ffffff",
+	"soundOn": false,
+	"soundtrack": "",
+	"volume": 1,
+	"start": 0,
+	"pan": 0,
+	"loop": false,
+	"physicsOn": true,
+	"gravityX": 0,
+	"gravityY": 0
 }
