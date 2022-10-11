@@ -29,7 +29,6 @@ class GameObject {
         delete this["rule"];
         this.engine.gameObjects.delete(this.name);
         delete this.engine.scope[this.name];
-        this.engine.render.stage.removeChild(this.container.debug);
     }
 
     fixedStep() { // physics update
@@ -59,10 +58,7 @@ class GameObject {
 
     // access to GameObject properties
     get sleeping() { return this._sleeping }
-    set sleeping(value) {
-        if (value != this._sleeping) this.rigidbody.setActive(!value);
-        this._sleeping = value;
-    }
+    set sleeping(value) { this.rigidbody.setActive(!value);this._sleeping = value;}
 
     // Settings
     get x() { return this._x }

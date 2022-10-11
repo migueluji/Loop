@@ -24,7 +24,7 @@ class Engine {
         this.gameState.currentScene = gameModel.sceneList[0].name;
         this.gameState.currentSceneNumber = 0;
         this.loadScene(this.gameState.currentScene);
-        // // Launch gameloop
+        // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
     }
 

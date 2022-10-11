@@ -25,10 +25,18 @@ class GameState {
     }
 
     get cameraX() { return this._cameraX };
-    set cameraX(value) { this._cameraX = value; this.engine.render.stage.x = this.displayWidth / 2.0 - value }
+    set cameraX(value) {
+        this._cameraX = value;
+        this.engine.render.stage.x = this.displayWidth / 2.0 - value;
+        this.engine.render.stage.hitArea.x = -this.engine.render.stage.x;
+    }
 
     get cameraY() { return this._cameraY }
-    set cameraY(value) { this._cameraY = value; this.engine.render.stage.y = this.displayHeight / 2.0 + value }
+    set cameraY(value) {
+        this._cameraY = value;
+        this.engine.render.stage.y = this.displayHeight / 2.0 + value;
+        this.engine.render.stage.hitArea.y = -this.engine.render.stage.y;
+    }
 
     get cameraAngle() { return this._cameraAngle }
     set cameraAngle(value) { this._cameraAngle = value; this.engine.render.stage.angle = value }
