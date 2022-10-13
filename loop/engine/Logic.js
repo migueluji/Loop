@@ -32,6 +32,7 @@ class Logic {
             }
         }
         else this.gameObjects.forEach(gameObject => { // apply only the rules for "resume" objects 
+            if (gameObject.resume) console.log(gameObject.name);
             if (!gameObject.sleeping && gameObject.resume) gameObject.fixedUpdate(dt, scope)
         })
     }

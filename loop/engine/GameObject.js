@@ -58,7 +58,7 @@ class GameObject {
 
     // access to GameObject properties
     get sleeping() { return this._sleeping }
-    set sleeping(value) { this.rigidbody.setActive(!value);this._sleeping = value;}
+    set sleeping(value) { this.rigidbody.setActive(!value); this._sleeping = value; }
 
     // Settings
     get x() { return this._x }

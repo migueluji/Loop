@@ -115,8 +115,8 @@ class GameState {
     set mouseY(value) { Input.pointerY = value }
 
     get currentScene() { return this._currentScene }
-    set currentScene(value) { this._currentScene = value; this.engine.goTo(this.engine.sceneList[value]) }
+    set currentScene(value) { this._currentScene = value; /* this.engine.goTo(this.engine.sceneList[value]) */ }
 
     get currentSceneNumber() { return this._currentSceneNumber }
-    set currentSceneNumber(value) { this._currentSceneNumber = value; this.engine.goTo(this.engine.gameModel.sceneList[value]) }
+    set currentSceneNumber(value) { this._currentSceneNumber = value;/*  this.engine.goTo(this.engine.gameModel.sceneList[value]) */ }
 }
