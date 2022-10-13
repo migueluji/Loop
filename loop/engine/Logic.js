@@ -11,9 +11,7 @@ class Logic {
 
     fixedUpdate(dt, scope) { // time in miliseconds
         if (this.logicOn) {
-            this.gameObjects.forEach(gameObject => {
-                if (!gameObject.sleeping) gameObject.fixedUpdate(dt, scope)
-            })
+            this.gameObjects.forEach(gameObject => { gameObject.fixedUpdate(dt, scope) })
             if (this.soundsMute) { // mute all sounds
                 this.soundsMute = false;
                 this.gameObjects.forEach(gameObject => {

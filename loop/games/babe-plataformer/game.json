@@ -2,7 +2,8 @@
 	"tagList": [
 		"player",
 		"floor",
-		"enemy"
+		"enemy",
+		"end"
 	],
 	"sceneList": [
 		{
@@ -330,43 +331,10 @@
 					"name": "wall"
 				},
 				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Collision",
-									"parameters": {
-										"tags": "player"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Compare",
-											"parameters": {
-												"value_1": "Me.coinstowin",
-												"operation": "Greater Equal",
-												"value_2": "coinsControler.coins"
-											},
-											"nodeListTrue": [
-												{
-													"type": "Edit",
-													"parameters": {
-														"property": "texto.sleeping",
-														"value": false
-													}
-												}
-											],
-											"nodeListFalse": []
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
+					"scriptList": [],
 					"sleeping": false,
-					"x": 1224.3874154752302,
-					"y": -134.98479141139703,
+					"x": 1233.2117332661314,
+					"y": -89.39248282507421,
 					"width": 40,
 					"height": 40,
 					"scaleX": 1,
@@ -374,7 +342,7 @@
 					"angle": 0,
 					"screen": false,
 					"collider": "Box",
-					"tags": "enemy",
+					"tags": "enemy,end",
 					"spriteOn": true,
 					"image": "ExclamationMarkBlock_Yellow.png",
 					"color": "#ffffff",
@@ -411,8 +379,7 @@
 					"restitution": 0.5,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"name": "wall_copy",
-					"coinstowin": 6
+					"name": "wall_copy"
 				},
 				{
 					"scriptList": [],
@@ -633,8 +600,8 @@
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "coinsControler.coins",
-												"value": "coinsControler.coins+1"
+												"property": "Game.coins",
+												"value": "Game.coins+1"
 											}
 										},
 										{
@@ -710,8 +677,8 @@
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "coinsControler.coins",
-												"value": "coinsControler.coins+1"
+												"property": "Game.coins",
+												"value": "Game.coins+1"
 											}
 										},
 										{
@@ -787,8 +754,8 @@
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "coinsControler.coins",
-												"value": "coinsControler.coins+1"
+												"property": "Game.coins",
+												"value": "Game.coins+1"
 											}
 										},
 										{
@@ -864,8 +831,8 @@
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "coinsControler.coins",
-												"value": "coinsControler.coins+1"
+												"property": "Game.coins",
+												"value": "Game.coins+1"
 											}
 										},
 										{
@@ -1001,7 +968,7 @@
 											"type": "Animate",
 											"parameters": {
 												"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
-												"fps": 24
+												"fps": "10"
 											}
 										},
 										{
@@ -1024,7 +991,7 @@
 													"type": "Animate",
 													"parameters": {
 														"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
-														"fps": 24
+														"fps": "10"
 													}
 												},
 												{
@@ -1047,7 +1014,7 @@
 													"type": "Animate",
 													"parameters": {
 														"animation": "Purple_Front1.png",
-														"fps": "2"
+														"fps": "0"
 													}
 												}
 											]
@@ -1108,6 +1075,44 @@
 						},
 						{
 							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "end"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.lives",
+												"value": "0"
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "texto.textOn",
+												"value": true
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "texto.text",
+												"value": "\"You Win!!!\""
+											}
+										}
+									],
+									"nodeListFalse": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "texto.text",
+												"value": "\"You Lose!!!\""
+											}
+										}
+									]
+								},
 								{
 									"type": "Collision",
 									"parameters": {
@@ -1172,6 +1177,13 @@
 														"property": "Game.lives",
 														"value": "3"
 													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "texto.textOn",
+														"value": true
+													}
 												}
 											]
 										},
@@ -1186,9 +1198,9 @@
 							"name": "dead"
 						}
 					],
-					"sleeping": false,
-					"x": -264.644143681901,
-					"y": -12.548831401278335,
+					"sleeping": true,
+					"x": -344.6503234493977,
+					"y": 294.0152317265707,
 					"width": 66,
 					"height": 80,
 					"scaleX": 0.5,
@@ -1207,7 +1219,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "${Game.lives}",
 					"font": "Arial",
 					"size": 30,
@@ -1629,8 +1641,8 @@
 						}
 					],
 					"sleeping": false,
-					"x": 909.1496394253168,
-					"y": -381.4865586056354,
+					"x": 884.0606204498645,
+					"y": -112.82498041016754,
 					"width": 60,
 					"height": 66,
 					"scaleX": 0.5,
@@ -1701,12 +1713,12 @@
 							"name": "Script_1"
 						}
 					],
-					"sleeping": true,
+					"sleeping": false,
 					"x": 0,
 					"y": 76,
-					"width": 500,
+					"width": 306.33834986701214,
 					"height": 50,
-					"scaleX": 10,
+					"scaleX": 6.126766997340242,
 					"scaleY": 1,
 					"angle": 0,
 					"screen": true,
@@ -1722,7 +1734,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "You Win!!!",
 					"font": "Arial",
 					"size": 60,
@@ -1774,7 +1786,7 @@
 							"name": "Script_1"
 						}
 					],
-					"sleeping": true,
+					"sleeping": false,
 					"x": 0,
 					"y": 0,
 					"width": 150,
@@ -1822,263 +1834,38 @@
 					"dampingLinear": 0,
 					"dampingAngular": 0,
 					"name": "button"
-				}
-			]
-		},
-		{
-			"name": "Continue",
-			"actorList": [
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Init"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"sleeping": false,
-					"x": 0,
-					"y": 0,
-					"width": 420,
-					"height": 50,
-					"scaleX": 8.4,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": true,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": false,
-					"image": "",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "Continue",
-					"font": "Arial",
-					"size": 60,
-					"fill": "#804040",
-					"style": "Bold",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "Actor_1"
-				}
-			]
-		},
-		{
-			"name": "Game_Over",
-			"actorList": [
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Scene_1"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"sleeping": false,
-					"x": 0,
-					"y": 0,
-					"width": 420,
-					"height": 50,
-					"scaleX": 8.4,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": true,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": false,
-					"image": "",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "Game Over",
-					"font": "Arial",
-					"size": 60,
-					"fill": "#804040",
-					"style": "Bold",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "Actor_1"
 				},
 				{
 					"scriptList": [
 						{
 							"nodeList": [
 								{
-									"type": "Touch",
+									"type": "Check",
 									"parameters": {
-										"mode": "Down",
-										"on_Actor": true
+										"property": "Me.init"
 									},
 									"nodeListTrue": [
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "Game.lives",
-												"value": "3"
+												"property": "Game.coins",
+												"value": "0"
 											}
 										},
 										{
-											"type": "Go_To",
+											"type": "Spawn",
 											"parameters": {
-												"scene": "Init"
+												"actor": "Player",
+												"x": 0,
+												"y": 0,
+												"angle": 0
 											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"sleeping": false,
-					"x": 0,
-					"y": -99,
-					"width": 131.20510699414837,
-					"height": 50,
-					"scaleX": 2.624102139882967,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": true,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": true,
-					"image": "",
-					"color": "#804040",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "replay",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#ffffff",
-					"style": "Bold",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "Actor_2"
-				}
-			]
-		},
-		{
-			"name": "Win",
-			"actorList": [
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
+										},
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "Scene_1"
+												"property": "Me.init",
+												"value": false
 											}
 										}
 									],
@@ -2089,14 +1876,14 @@
 						}
 					],
 					"sleeping": false,
-					"x": 0,
-					"y": 0,
-					"width": 420,
+					"x": -261.14099846198616,
+					"y": 101.00996937828225,
+					"width": 50,
 					"height": 50,
-					"scaleX": 8.4,
+					"scaleX": 1,
 					"scaleY": 1,
 					"angle": 0,
-					"screen": true,
+					"screen": false,
 					"collider": "Box",
 					"tags": "",
 					"spriteOn": false,
@@ -2109,92 +1896,12 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
-					"text": "You Win!!!",
-					"font": "Arial",
-					"size": 60,
-					"fill": "#804040",
-					"style": "Bold",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "Actor_1"
-				},
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Down",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.lives",
-												"value": "3"
-											}
-										},
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Init"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"sleeping": false,
-					"x": 0,
-					"y": -99,
-					"width": 131.20510699414837,
-					"height": 50,
-					"scaleX": 2.624102139882967,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": true,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": true,
-					"image": "",
-					"color": "#804040",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "replay",
+					"textOn": false,
+					"text": "",
 					"font": "Arial",
 					"size": 30,
-					"fill": "#ffffff",
-					"style": "Bold",
+					"fill": "#000000",
+					"style": "Normal",
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 0,
@@ -2210,12 +1917,13 @@
 					"velocityX": 0,
 					"velocityY": 0,
 					"angularVelocity": 0,
-					"density": 1,
-					"friction": 0.5,
-					"restitution": 0.5,
+					"density": 0,
+					"friction": 0,
+					"restitution": 0,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
-					"name": "Actor_2"
+					"name": "Actor_26",
+					"init": true
 				}
 			]
 		}
@@ -2238,5 +1946,6 @@
 	"gravityX": 0,
 	"gravityY": -9.8,
 	"lives": 3,
-	"coins": 0
+	"coins": 0,
+	"debug": true
 }

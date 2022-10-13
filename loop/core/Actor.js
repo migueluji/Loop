@@ -12,7 +12,7 @@ class Actor {
             // Settings
             sleeping: this.sleeping || false,
             x: this.x || 0, y: this.y || 0,
-            width: this.width || 500, height: this.height || 50,
+            width: this.width || 50, height: this.height || 50,
             scaleX: this.scaleX || 1, scaleY: this.scaleY || 1,
             angle: this.angle || 0, screen: this.screen || false,
             collider: this.collider || "Box", tags: this.tags || "",
@@ -37,7 +37,7 @@ class Actor {
             fixedAngle: this.fixedAngle || false,
             velocityX: this.velocityX || 0, velocityY: this.velocityY || 0,
             angularVelocity: this.angularVelocity || 0,
-            density: this.density || 1, friction: this.friction || 0.5, restitution: this.restitution || 0.5,
+            density: this.density || 0, friction: this.friction || 0, restitution: this.restitution || 0,
             dampingLinear: this.dampingLinear || 0, dampingAngular: this.dampingAngular || 0
         }
         return (obj);

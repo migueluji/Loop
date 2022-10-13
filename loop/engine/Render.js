@@ -10,7 +10,7 @@ class Render {
 
     update() {
         this.gameObjects.forEach(gameObject => {
-            if ((gameObject.spriteOn || gameObject.textOn) && !gameObject.sleeping) gameObject.update()
+            if (!gameObject.sleeping) gameObject.update();
         });
         this.renderer.render(this.stage);
     }

@@ -23,6 +23,7 @@ class GameObject {
 
     remove() {
         this.engine.render.stage.removeChild(this.container);
+        this.engine.render.stage.removeChild(this.container.debug);
         this.engine.physics.world.destroyBody(this.rigidbody);
         if (this.audio.source) this.audio.source.stop(this.audio.id);
         delete Input.touchObjects[this.name];
@@ -41,9 +42,11 @@ class GameObject {
         if (this.spawned) this.spawned = false; // CRUD - CREATE. To avoid executing the rules the first time the object is generated
         else if (this.dead) this.remove();// CRUD - DELETE
         else { // CRUD - UPDATE
-            if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
+            if (!this.sleeping) {
+                if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
+                if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
+            }
             if (this.textOn) Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
-            Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
         }
     }
 
