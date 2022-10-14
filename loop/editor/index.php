@@ -133,13 +133,13 @@
 	//	gameFolder="null";
 	//	gameFolder="move";
 	//	gameFolder="box-doger";
-	// 	gameFolder="bird";
+	//	gameFolder="bird";
 	//	gameFolder="alien-invasion";
 	//  gameFolder="ludumdare46-carlos";
 	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
 
-	    gameFolder="babe-plataformer";
+	   gameFolder="babe-plataformer";
 	//  gameFolder="arkanoid";
 	//  gameFolder="asteroids";
 	// gameFolder="flying-plane";

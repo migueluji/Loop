@@ -7,7 +7,7 @@ class Rule {
             expression += this.parseNodeList(script.nodeList) + ";";
         });
         expression = expression.replace(/Me\./g, gameObject.name + "."); // replace Me by actor's name
-       // console.log(expression);
+        // console.log(expression);
         return (math.compile(expression));
     }
 
@@ -25,7 +25,6 @@ class Rule {
 
     // Actions 
     go_to(params) {
-        this.gameObject.resume = true;
         return ("Engine.goTo(Engine.sceneList." + params.scene + ")");
     }
 

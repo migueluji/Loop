@@ -12,10 +12,11 @@ class Physics {
     }
 
     fixedStep(dt) {
+        console.log("physics", this.engine.gameState.physicsOn);
         if ((this.engine.gameState.physicsOn != this.physicsOn)) { // if the game physics change 
             this.physicsOn = this.engine.gameState.physicsOn;
             this.gameObjects.forEach(gameObject => {
-                if (this.physicsOn) (gameObject.physicsOn) ? Rigidbody.convertToRigidbody(gameObject) : Rigidbody.convertToSensor(gameObject);
+                if (this.physicsOn && gameObject.physicsOn) Rigidbody.convertToRigidbody(gameObject);
                 else Rigidbody.convertToSensor(gameObject);
             })
         }
@@ -31,13 +32,11 @@ class Physics {
         var gameObjectA = this.gameObjects.get(userDataA.name);
         var gameObjectB = this.gameObjects.get(userDataB.name);
         if (gameObjectA.collision) {
-            //  console.log("collision BEGIN A");
             Object.keys(gameObjectA.collision).forEach(tag => {
                 if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag].add(gameObjectB.name);
             })
         }
         if (gameObjectB.collision) {
-            //   console.log("collision BEGIN B");
             Object.keys(gameObjectB.collision).forEach(tag => {
                 if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag].add(gameObjectA.name);
             })
@@ -50,13 +49,11 @@ class Physics {
         var gameObjectA = this.gameObjects.get(userDataA.name);
         var gameObjectB = this.gameObjects.get(userDataB.name);
         if (gameObjectA.collision) {
-            //     console.log("collision END A");
             Object.keys(gameObjectA.collision).forEach(tag => {
                 if (userDataB.tags.indexOf(tag) != -1) gameObjectA.collision[tag].delete(gameObjectB.name);
             })
         }
         if (gameObjectB.collision) {
-            //    console.log("collision END B");
             Object.keys(gameObjectB.collision).forEach(tag => {
                 if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag].delete(gameObjectA.name);
             })
