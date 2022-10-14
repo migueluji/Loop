@@ -46,9 +46,7 @@ class GameObject {
                 if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
                 if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
             }
-         //   if (this.name == "button") console.log(this.textOn, this.spriteOn);
-            if (this.textOn)
-                Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
+            if (this.textOn) Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
         }
     }
 

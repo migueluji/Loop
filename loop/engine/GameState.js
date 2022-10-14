@@ -84,7 +84,7 @@ class GameState {
 
     // Physic properties
     get physicsOn() { return this._physicsOn }
-    set physicsOn(value) { this._physicsOn = value }
+    set physicsOn(value) { this._physicsOn = this.engine.physics.physicsOn = value }
 
     get gravityX() { return this._gravityX }
     set gravityX(value) { this._gravityX = value; this.engine.physics.world.setGravity(planck.Vec2(value, this.gravityY)); }

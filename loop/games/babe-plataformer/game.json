@@ -497,7 +497,7 @@
 					"volume": 1,
 					"pan": 0,
 					"loop": false,
-					"physicsOn": false,
+					"physicsOn": true,
 					"type": "Dynamic",
 					"fixedAngle": false,
 					"velocityX": 0,
@@ -505,7 +505,7 @@
 					"angularVelocity": 0,
 					"density": 1,
 					"friction": 0.5,
-					"restitution": 0.5,
+					"restitution": 1,
 					"dampingLinear": 0,
 					"dampingAngular": 0,
 					"name": "coin"
@@ -1202,9 +1202,9 @@
 							"name": "dead"
 						}
 					],
-					"sleeping": true,
-					"x": -344.6503234493977,
-					"y": 294.0152317265707,
+					"sleeping": false,
+					"x": -200,
+					"y": 0,
 					"width": 66,
 					"height": 80,
 					"scaleX": 0.5,
@@ -1223,7 +1223,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
+					"textOn": true,
 					"text": "${Game.lives}",
 					"font": "Arial",
 					"size": 30,
@@ -1232,12 +1232,12 @@
 					"align": "Center",
 					"offsetX": 0,
 					"offsetY": 42,
-					"soundOn": false,
-					"sound": "",
+					"soundOn": true,
+					"sound": "jingles_NES07.ogg",
 					"start": 0,
 					"volume": 1,
 					"pan": 0,
-					"loop": false,
+					"loop": true,
 					"physicsOn": true,
 					"type": "Dynamic",
 					"fixedAngle": true,
@@ -1346,7 +1346,15 @@
 											}
 										}
 									],
-									"nodeListFalse": []
+									"nodeListFalse": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.image",
+												"value": "LifeHearth_Full.png"
+											}
+										}
+									]
 								}
 							],
 							"name": "Script_1"
@@ -1421,14 +1429,22 @@
 											}
 										}
 									],
-									"nodeListFalse": []
+									"nodeListFalse": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.image",
+												"value": "LifeHearth_Full.png"
+											}
+										}
+									]
 								}
 							],
 							"name": "Script_1"
 						}
 					],
 					"sleeping": false,
-					"x": -280,
+					"x": -279.23792104862065,
 					"y": 200,
 					"width": 24,
 					"height": 20,
@@ -1778,9 +1794,49 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
+											"type": "Resume",
+											"parameters": {}
+										},
+										{
+											"type": "Edit",
 											"parameters": {
-												"scene": "Init"
+												"property": "Player.x",
+												"value": "-200"
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Player.y",
+												"value": "0"
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.spriteOn",
+												"value": false
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.textOn",
+												"value": false
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "texto.textOn",
+												"value": false
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.cameraX",
+												"value": "0"
 											}
 										}
 									],
@@ -1838,96 +1894,6 @@
 					"dampingLinear": 0,
 					"dampingAngular": 0,
 					"name": "button"
-				},
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Check",
-									"parameters": {
-										"property": "Me.init"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.coins",
-												"value": "0"
-											}
-										},
-										{
-											"type": "Spawn",
-											"parameters": {
-												"actor": "Player",
-												"x": 0,
-												"y": 0,
-												"angle": 0
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.init",
-												"value": false
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"sleeping": false,
-					"x": -261.14099846198616,
-					"y": 101.00996937828225,
-					"width": 50,
-					"height": 50,
-					"scaleX": 1,
-					"scaleY": 1,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": false,
-					"image": "",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": false,
-					"text": "",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 0,
-					"friction": 0,
-					"restitution": 0,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "Actor_26",
-					"init": true
 				}
 			]
 		},

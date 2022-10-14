@@ -12,7 +12,7 @@ class Engine {
         // Create engines
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
-        this.physics = new Physics(this, this.gameObjects);
+        this.physics = new Physics(this);
         this.logic = new Logic(this);
         this.input = new Input(this.render.stage);
         // Engine properties
@@ -62,12 +62,9 @@ class Engine {
         Object.assign(this.gameState, this.gameModel.properties,);
     }
 
-    pause(physics, logic, sounds) {
-        console.log("pause", !physics, !logic, sounds);
-        this.engine.gameState.physicsOn = !physics; this.logic.logicOn = !logic; this.logic.soundsMute = sounds
-    }
+    pause(physics, logic, sounds) { this.physics.physicsOn = !physics; this.logic.logicOn = !logic; this.logic.soundsOn = !sounds }
 
-    resume() { this.gameState.physicsOn = true; this.logic.logicOn = this.logic.soundsUnMute = true; }
+    resume() { this.gameState.physicsOn = true; this.logic.logicOn = this.logic.soundsOn = true }
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
