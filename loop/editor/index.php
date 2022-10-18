@@ -136,9 +136,9 @@
 	//	gameFolder="bird";
 	//	gameFolder="alien-invasion";
 	//  gameFolder="ludumdare46-carlos";
-	//	gameFolder="prehistoric";
 	//	gameFolder="pirate-bomb";
 
+	//	gameFolder="prehistoric";
 	   gameFolder="babe-plataformer";
 	//  gameFolder="arkanoid";
 	//  gameFolder="asteroids";
