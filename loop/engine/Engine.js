@@ -51,20 +51,8 @@ class Engine {
             zIndex++;
         });
         this.gameState.currentScene = sceneName;
-        this.gameState.currentSceneNumber = this.gameModel.sceneList.indexOf(this.sceneList[sceneName]);
         this.logic.changeScene = false;
     }
-
-    // scene actions
-    goTo(scene) {
-        this.logic.changeScene = true;
-        this.logic.sceneName = scene.name;
-        Object.assign(this.gameState, this.gameModel.properties,);
-    }
-
-    pause(physics, logic, sounds) { this.physics.physicsOn = !physics; this.logic.logicOn = !logic; this.logic.soundsOn = !sounds }
-
-    resume() { this.gameState.physicsOn = true; this.logic.logicOn = this.logic.soundsOn = true }
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {

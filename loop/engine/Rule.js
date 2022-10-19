@@ -24,19 +24,6 @@ class Rule {
     }
 
     // Actions 
-    go_to(params) {
-        return ("Engine.goTo(Engine.sceneList." + params.scene + ")");
-    }
-
-    pause(params) { // pause
-        return ("Engine.pause(" + params.physics + "," + params.logic + "," + params.sounds + ")");
-    }
-
-    resume() { // resume
-        this.gameObject.resume = true;
-        return ("Engine.resume()");
-    }
-
     edit(params) {
         var position = params.property.indexOf(".") + 1;
         var property = params.property.substring(position);

@@ -10,24 +10,9 @@
 			"name": "Init_copy",
 			"actorList": [
 				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "Enter",
-										"key_Mode": "Pressed"
-									},
-									"nodeListTrue": [],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
+					"scriptList": [],
 					"sleeping": false,
-					"x": 3.784218811039864,
+					"x": 4.630973201461302,
 					"y": 0.946054702759966,
 					"width": 1000,
 					"height": 750,
@@ -47,8 +32,8 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
-					"text": "",
+					"textOn": true,
+					"text": "${Game.currentScene}    ${Game.currentSceneNumber}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -76,10 +61,33 @@
 					"name": "background"
 				},
 				{
-					"scriptList": [],
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Down",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.currentSceneNumber",
+												"value": "2"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
-					"x": -241,
-					"y": -208,
+					"x": -239.5,
+					"y": -208.5,
 					"width": 320,
 					"height": 64,
 					"scaleX": 1,
@@ -129,8 +137,8 @@
 				{
 					"scriptList": [],
 					"sleeping": false,
-					"x": 214,
-					"y": -208,
+					"x": 214.5,
+					"y": -208.5,
 					"width": 320,
 					"height": 64,
 					"scaleX": 1,
@@ -1179,14 +1187,6 @@
 													}
 												}
 											]
-										},
-										{
-											"type": "Pause",
-											"parameters": {
-												"physics": true,
-												"logic": true,
-												"sounds": true
-											}
 										}
 									],
 									"nodeListFalse": []
@@ -1524,7 +1524,7 @@
 					"pan": 0,
 					"loop": false,
 					"physicsOn": false,
-					"type": "Dynamic",
+					"type": "Static",
 					"fixedAngle": false,
 					"velocityX": 0,
 					"velocityY": 0,
@@ -1703,29 +1703,7 @@
 					"name": "Actor_22"
 				},
 				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Down",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Init"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 76,
@@ -1776,69 +1754,7 @@
 					"name": "texto"
 				},
 				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Resume",
-									"parameters": {}
-								},
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Player.x",
-												"value": "-200"
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Player.y",
-												"value": "0"
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.spriteOn",
-												"value": false
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.textOn",
-												"value": false
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "texto.textOn",
-												"value": false
-											}
-										},
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Game.cameraX",
-												"value": "0"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1911,8 +1827,8 @@
 						}
 					],
 					"sleeping": false,
-					"x": 3.784218811039864,
-					"y": 0.946054702759966,
+					"x": 337.78421881103986,
+					"y": -261.55394529724003,
 					"width": 1000,
 					"height": 750,
 					"scaleX": 1,
@@ -3647,29 +3563,7 @@
 					"name": "texto"
 				},
 				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Touch",
-									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
-									},
-									"nodeListTrue": [
-										{
-											"type": "Go_To",
-											"parameters": {
-												"scene": "Init"
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
+					"scriptList": [],
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -3810,6 +3704,62 @@
 					"init": true
 				}
 			]
+		},
+		{
+			"name": "Scene_3",
+			"actorList": [
+				{
+					"scriptList": [],
+					"sleeping": false,
+					"x": 69.9082263548018,
+					"y": 174.16306827412035,
+					"width": 24,
+					"height": 20,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "LifeHearth_Full.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 0,
+					"friction": 0,
+					"restitution": 0,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "Actor_1"
+				}
+			]
 		}
 	],
 	"name": "Babe Plataformer",
@@ -3820,12 +3770,12 @@
 	"cameraAngle": 0,
 	"cameraZoom": 1,
 	"backgroundColor": "#ffffff",
-	"soundOn": false,
-	"soundtrack": "",
+	"soundOn": true,
+	"soundtrack": "Preview.ogg",
 	"volume": 1,
 	"start": 0,
 	"pan": 0,
-	"loop": false,
+	"loop": true,
 	"physicsOn": true,
 	"gravityX": 0,
 	"gravityY": -9.8,

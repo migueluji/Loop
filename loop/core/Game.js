@@ -46,9 +46,9 @@ class Game {
 
     get inputProperties() {
         var obj = {
-            FPS: 0, 
-            time: 0, 
-          //  deltaTime: 0, 
+            FPS: 60,
+            time: 0,
+            deltaTime: 0.01,
             exit: false,
             currentScene: this.sceneList[0].name, currentSceneNumber: 0,
             mouseX: 0, mouseY: 0,
