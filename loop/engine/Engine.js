@@ -12,17 +12,14 @@ class Engine {
         // Create engines
         this.gameObjects = new Map();
         this.render = new Render(this.gameObjects);
-        this.physics = new Physics(this);
-        this.logic = new Logic(this);
+        this.physics = new Physics(this.gameObjects);
+        this.logic = new Logic(this.gameObjects);
         this.input = new Input(this.render.stage);
         // Engine properties
         this.sceneList = new Object();  // Create a new object to acces by name to the scenes in load and scope
         gameModel.sceneList.forEach(scene => { this.sceneList[scene.name] = scene });
         this.gameState = new GameState(this);
         this.scope = new Object({ "Game": this.gameState, "Engine": this });
-        // Load currente scene
-        this.gameState.currentScene = gameModel.sceneList[0].name;
-        this.gameState.currentSceneNumber = 0;
         this.loadScene(this.gameState.currentScene);
         // Launch gameloop
         window.requestAnimationFrame(this.gameLoop.bind(this));
@@ -50,8 +47,6 @@ class Engine {
             new GameObject(this, actor, false);
             zIndex++;
         });
-        this.gameState.currentScene = sceneName;
-        this.logic.changeScene = false;
     }
 
     // actions

@@ -139,9 +139,9 @@
 	//	gameFolder="pirate-bomb";
 
 	//	gameFolder="prehistoric";
-	   gameFolder="babe-plataformer";
+	//   gameFolder="babe-plataformer";
 	//  gameFolder="arkanoid";
-	//  gameFolder="asteroids";
+	  gameFolder="asteroids";
 	// gameFolder="flying-plane";
 	//	gameFolder="empty";
 		var app = new App();

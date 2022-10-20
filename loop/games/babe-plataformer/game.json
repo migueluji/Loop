@@ -67,15 +67,22 @@
 								{
 									"type": "Touch",
 									"parameters": {
-										"mode": "Down",
+										"mode": "Tap",
 										"on_Actor": true
 									},
 									"nodeListTrue": [
 										{
 											"type": "Edit",
 											"parameters": {
-												"property": "Game.currentSceneNumber",
-												"value": "2"
+												"property": "Game.physicsOn",
+												"value": false
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.soundOn",
+												"value": false
 											}
 										}
 									],
@@ -135,7 +142,37 @@
 					"name": "Actor_2"
 				},
 				{
-					"scriptList": [],
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Touch",
+									"parameters": {
+										"mode": "Tap",
+										"on_Actor": true
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.physicsOn",
+												"value": true
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.soundOn",
+												"value": true
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
 					"sleeping": false,
 					"x": 214.5,
 					"y": -208.5,
@@ -3776,7 +3813,7 @@
 	"start": 0,
 	"pan": 0,
 	"loop": true,
-	"physicsOn": true,
+	"physicsOn": false,
 	"gravityX": 0,
 	"gravityY": -9.8,
 	"lives": 3,

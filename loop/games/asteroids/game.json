@@ -386,9 +386,10 @@
 											}
 										},
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "Scene_2"
+												"property": "Game.currentScene",
+												"value": "Scene_2"
 											}
 										}
 									],
@@ -1212,9 +1213,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "Scene_1"
+												"property": "Game.currentScene",
+												"value": "Scene_1"
 											}
 										}
 									],

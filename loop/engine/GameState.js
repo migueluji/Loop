@@ -51,11 +51,13 @@ class GameState {
     // Sound properties
     get soundOn() { return this._soundOn }
     set soundOn(value) {
-        if (this.music.source) this.music.source.mute(!value, this.music.id);
-        this.engine.gameObjects.forEach(gameObject => {
-            if (gameObject.audio.source) gameObject.audio.source.mute(!value, gameObject.audio.id)
-        })
-        this._soundOn = value;
+        if (value != this._sound) {
+            if (this.music.source) this.music.source.mute(!value, this.music.id);
+            this.engine.gameObjects.forEach(gameObject => {
+                if (gameObject.audio.source) gameObject.audio.source.mute(!value, gameObject.audio.id)
+            })
+            this._soundOn = value;
+        }
     }
 
     get soundtrack() { return this._soundtrack }
@@ -82,7 +84,15 @@ class GameState {
 
     // Physic properties
     get physicsOn() { return this._physicsOn }
-    set physicsOn(value) { this._physicsOn = this.engine.physics.physicsOn = value }
+    set physicsOn(value) {
+        if (value != this._physicsOn) {
+            this.engine.gameObjects.forEach(gameObject => {
+                if (value && gameObject.physicsOn) Rigidbody.convertToRigidbody(gameObject);
+                else Rigidbody.convertToSensor(gameObject);
+            })
+            this._physicsOn = value;
+        }
+    }
 
     get gravityX() { return this._gravityX }
     set gravityX(value) { this._gravityX = value; this.engine.physics.world.setGravity(planck.Vec2(value, this.gravityY)); }
@@ -115,13 +125,13 @@ class GameState {
     get currentScene() { return this._currentScene }
     set currentScene(value) {
         if (value != this._currentScene) {
-            this._currentScene = value;
-            this._currentSceneNumber = this.engine.gameModel.sceneList.indexOf(this.engine.sceneList[value]);
             this.engine.gameObjects.forEach(gameObject => gameObject.remove());
             this.engine.loadScene(value);
+            this._currentScene = value;
+            this._currentSceneNumber = this.engine.gameModel.sceneList.indexOf(this.engine.sceneList[value]);
         }
     }
 
     get currentSceneNumber() { return this._currentSceneNumber }
-    set currentSceneNumber(value) { this.currentScene = this.engine.gameModel.sceneList[value].name }
+    set currentSceneNumber(value) { if (value != this._currentSceneNumber) this.currentScene = this.engine.gameModel.sceneList[value].name }
 }

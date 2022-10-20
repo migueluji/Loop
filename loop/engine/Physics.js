@@ -2,9 +2,8 @@ class Physics {
     static pixelsPerMeter = 50;
     static metersPerPixel = 1 / this.pixelsPerMeter;
 
-    constructor(engine) {
-        this.engine = engine;
-        this.gameObjects = engine.gameObjects;
+    constructor(gameObjects) {
+        this.gameObjects = gameObjects;
         this.world = planck.World({ allowSleep: false });
         this.world.on('begin-contact', this.collisionBeginHandler.bind(this));
         this.world.on('end-contact', this.collisionEndHandler.bind(this));
@@ -41,16 +40,5 @@ class Physics {
         if (gameObjectB.collision) Object.keys(gameObjectB.collision).forEach(tag => {
             if (userDataA.tags.indexOf(tag) != -1) gameObjectB.collision[tag].delete(gameObjectA.name);
         })
-    }
-
-    get physicsOn() { return this._physicsOn }
-    set physicsOn(value) {
-        if (value != this.physicsOn) {
-            this.gameObjects.forEach(gameObject => {
-                if (value && this.engine.gameState.physicsOn && gameObject.physicsOn) Rigidbody.convertToRigidbody(gameObject);
-                else Rigidbody.convertToSensor(gameObject);
-            })
-            this._physicsOn = value;
-        }
     }
 }

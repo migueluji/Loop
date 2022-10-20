@@ -61,7 +61,8 @@ class Container {
     }
 
     static updateText(spriteText, scope, align, width, offsetX) {
-        spriteText.text = math.print(spriteText.expression, scope, { notation: 'fixed', precision: 1 });
+        var decimals = 0;
+        spriteText.text = math.print(spriteText.expression, scope, { notation: 'fixed', precision: decimals });
         switch (align) {
             case "Left": spriteText.position.x = (-width / 2 + spriteText.width / 2) + offsetX; break;
             case "Right": spriteText.position.x = (width / 2 - spriteText.width / 2) + offsetX; break;
