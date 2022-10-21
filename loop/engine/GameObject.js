@@ -52,8 +52,8 @@ class GameObject {
 
     update() { // render update
         if (this.screen) {  // render screen gameObject
-            this.x = this.actor.x + this.engine.gameState.cameraX;
-            this.y = this.actor.y + this.engine.gameState.cameraY;
+            this.x = this.originalX + this.engine.gameState.cameraX;
+            this.y = this.originalY + this.engine.gameState.cameraY;
         }
         if (this.engine.gameState.debug) // render debug lines
             Container.renderDebugLines(this.container, this.rigidbody, this.x, this.y, this.angle, this.collider, this.zIndex);
@@ -115,7 +115,11 @@ class GameObject {
     }
 
     get screen() { return this._screen }
-    set screen(value) { this._screen = value }
+    set screen(value) {
+        this._screen = value;
+        this.originalX = this.x;
+        this.originalY = this.y;
+    }
 
     get collider() { return this._collider }
     set collider(value) {

@@ -55,13 +55,14 @@ class Engine {
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
             var spawnObject = new GameObject(this, gameObject.actor, true);
-            spawnObject.x = spawnerObject.x + x * cos + y * sin;
-            spawnObject.y = spawnerObject.y + x * sin - y * cos;
+            spawnObject.x = spawnObject.originalX = spawnerObject.x + x * cos + y * sin;
+            spawnObject.y = spawnObject.originalY = spawnerObject.y + x * sin - y * cos;
             spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
             if (this.gameState.physicsOn)
                 (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
             else Rigidbody.convertToSensor(spawnObject);
+            console.log(spawnObject.name, spawnObject);
         }
     }
 
@@ -73,7 +74,8 @@ class Engine {
         if (gameObject.timer[id].time + this.deltaTime < 1000) gameObject.timer[id].time += this.deltaTime;
         else gameObject.timer[id].time = 0;
         var frame = (gameObject.timer[id].time / dtAnim) * 1000;
-        gameObject.image = secuence[Math.floor(frame % secuence.length)];
+        gameObject.key = Math.floor(frame % secuence.length);
+        gameObject.image = secuence[gameObject.key];
     }
 
     play(gameObject, sound) {

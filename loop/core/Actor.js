@@ -3,6 +3,7 @@ class Actor {
     constructor(actor) {
         this.id = Utils.id();
         this.scriptList = [];
+        this.key = 0;
         Object.assign(this, this.properties, actor); // add basic properties 
         if (this.scriptList) this.scriptList.forEach((script, i) => this.scriptList[i] = new Script(script));
     }
@@ -18,6 +19,7 @@ class Actor {
             collider: this.collider || "Box", tags: this.tags || "",
             // Sprite
             spriteOn: this.spriteOn || false, image: this.image || "",
+            key: 0,
             color: this.color || "#ffffff", opacity: this.opacity || 1,
             flipX: this.flipX || false, flipY: this.flipY || false,
             scrollX: this.scrollX || 0, scrollY: this.scrollY || 0,
@@ -46,7 +48,7 @@ class Actor {
     get newProperties() {
         var obj = Object.assign({}, this);
         Object.keys(this.properties).forEach(element => { delete obj[element]; });
-        ["id", "name", "scriptList", "tags"].forEach((property) => delete obj[property]);
+        ["id", "name", "scriptList", "tags", "key"].forEach((property) => delete obj[property]);
         return (obj);
     }
 
