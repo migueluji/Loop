@@ -1609,7 +1609,7 @@
 						}
 					],
 					"key": 0,
-					"sleeping": false,
+					"sleeping": true,
 					"x": 884.0606204498645,
 					"y": -112.82498041016754,
 					"width": 60,
@@ -1699,7 +1699,7 @@
 						}
 					],
 					"key": 0,
-					"sleeping": false,
+					"sleeping": true,
 					"x": -261.14099846198616,
 					"y": 101.00996937828225,
 					"width": 50,
@@ -1809,7 +1809,7 @@
 									"type": "Animate",
 									"parameters": {
 										"animation": "Imagen1.png,Imagen2.png,Imagen3.png",
-										"fps": "3"
+										"fps": "0"
 									}
 								},
 								{
@@ -1823,7 +1823,7 @@
 											"type": "Edit",
 											"parameters": {
 												"property": "Me.key",
-												"value": "1"
+												"value": "Me.key+1"
 											}
 										}
 									],
@@ -1835,8 +1835,8 @@
 					],
 					"key": 0,
 					"sleeping": false,
-					"x": -18.6307209864691,
-					"y": 6.050702527194517,
+					"x": 2.2767948264078086,
+					"y": 3.7276452146526253,
 					"width": 227.1,
 					"height": 238.2,
 					"scaleX": 0.3,
