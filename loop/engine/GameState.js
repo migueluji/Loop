@@ -123,15 +123,14 @@ class GameState {
     set mouseY(value) { Input.pointerY = value }
 
     get currentScene() { return this._currentScene }
-    set currentScene(value) {
-        if (value != this._currentScene) {
-            this.engine.gameObjects.forEach(gameObject => gameObject.remove());
-            this.engine.loadScene(value);
-            this._currentScene = value;
-            this._currentSceneNumber = this.engine.gameModel.sceneList.indexOf(this.engine.sceneList[value]);
-        }
-    }
+    set currentScene(value) { 
+        this.engine.currentScene = this._currentScene = value;
+        this._currentSceneNumber = this.engine.gameModel.sceneList.indexOf(this.engine.sceneList[value]);
+    } 
 
     get currentSceneNumber() { return this._currentSceneNumber }
-    set currentSceneNumber(value) { if (value != this._currentSceneNumber) this.currentScene = this.engine.gameModel.sceneList[value].name }
+    set currentSceneNumber(value) {
+        this._currentSceneNumber = value;
+        this.engine.currentScene = this.engine.gameModel.sceneList[value].name;
+    }
 }

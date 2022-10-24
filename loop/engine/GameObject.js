@@ -148,11 +148,21 @@ class GameObject {
     set image(value) {
         if (this._image != value) {
             this._image = value;
-            Container.updateSpriteTexture(this.container, value, this.tileX, this.tileY, this.flipX, this.flipY);
             if (this.container.sprite.width * this.container.sprite.scale.x != this._width)  // update width to update collider
                 this.width = math.abs(this.container.sprite.width * this.container.sprite.scale.x);
             if (this.container.sprite.height * this.container.sprite.scale.y != this._height) // update height to update collider
                 this.height = math.abs(this.container.sprite.height * this.container.sprite.scale.y);
+            Container.updateSpriteTexture(this.container, value, this.tileX, this.tileY, this.flipX, this.flipY);
+        }
+    }
+
+    get key() { return this._key }
+    set key(value) {
+        if (this.secuence) {
+            if (value >= this.secuence.length) value = 0;
+            else if (value < 0) value = this.secuence.length - 1;
+            this.image = this.secuence[value];
+            this._key = value;
         }
     }
 

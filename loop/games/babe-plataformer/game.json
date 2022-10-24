@@ -14,32 +14,39 @@
 						{
 							"nodeList": [
 								{
-									"type": "Keyboard",
+									"type": "Check",
 									"parameters": {
-										"key": "Escape",
-										"key_Mode": "Down"
+										"property": "Game.paused"
 									},
-									"nodeListTrue": [
+									"nodeListTrue": [],
+									"nodeListFalse": [
 										{
-											"type": "Spawn",
+											"type": "Keyboard",
 											"parameters": {
-												"actor": "black",
-												"x": 0,
-												"y": 0,
-												"angle": 0
-											}
-										},
-										{
-											"type": "Spawn",
-											"parameters": {
-												"actor": "menu",
-												"x": 0,
-												"y": 0,
-												"angle": 0
-											}
+												"key": "Escape",
+												"key_Mode": "Down"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Game.paused",
+														"value": true
+													}
+												},
+												{
+													"type": "Spawn",
+													"parameters": {
+														"actor": "menu",
+														"x": 0,
+														"y": 0,
+														"angle": 0
+													}
+												}
+											],
+											"nodeListFalse": []
 										}
-									],
-									"nodeListFalse": []
+									]
 								}
 							],
 							"name": "Script_1"
@@ -67,8 +74,8 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
-					"text": "",
+					"textOn": true,
+					"text": "${Game.paused}",
 					"font": "Arial",
 					"size": 30,
 					"fill": "#000000",
@@ -985,101 +992,110 @@
 						{
 							"nodeList": [
 								{
-									"type": "Keyboard",
+									"type": "Check",
 									"parameters": {
-										"key": "ArrowRight",
-										"key_Mode": "Pressed"
+										"property": "Game.paused"
 									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.flipX",
-												"value": false
-											}
-										},
-										{
-											"type": "Animate",
-											"parameters": {
-												"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
-												"fps": "10"
-											}
-										},
-										{
-											"type": "Move",
-											"parameters": {
-												"speed": "300",
-												"angle": 0
-											}
-										}
-									],
+									"nodeListTrue": [],
 									"nodeListFalse": [
 										{
 											"type": "Keyboard",
 											"parameters": {
-												"key": "ArrowLeft",
+												"key": "ArrowRight",
 												"key_Mode": "Pressed"
 											},
 											"nodeListTrue": [
 												{
-													"type": "Animate",
-													"parameters": {
-														"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
-														"fps": "10"
-													}
-												},
-												{
 													"type": "Edit",
 													"parameters": {
 														"property": "Me.flipX",
-														"value": true
+														"value": false
 													}
 												},
 												{
 													"type": "Move",
 													"parameters": {
-														"speed": "-300",
+														"speed": "300",
 														"angle": 0
+													}
+												},
+												{
+													"type": "Animate",
+													"parameters": {
+														"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
+														"fps": "3"
 													}
 												}
 											],
 											"nodeListFalse": [
 												{
-													"type": "Animate",
+													"type": "Keyboard",
 													"parameters": {
-														"animation": "Purple_Front1.png",
-														"fps": "0"
-													}
+														"key": "ArrowLeft",
+														"key_Mode": "Pressed"
+													},
+													"nodeListTrue": [
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "Me.flipX",
+																"value": true
+															}
+														},
+														{
+															"type": "Move",
+															"parameters": {
+																"speed": "-300",
+																"angle": 0
+															}
+														},
+														{
+															"type": "Animate",
+															"parameters": {
+																"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
+																"fps": "3"
+															}
+														}
+													],
+													"nodeListFalse": [
+														{
+															"type": "Animate",
+															"parameters": {
+																"animation": "Purple_Front1.png",
+																"fps": "3"
+															}
+														}
+													]
 												}
 											]
-										}
-									]
-								},
-								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "Space",
-										"key_Mode": "Down"
-									},
-									"nodeListTrue": [
+										},
 										{
-											"type": "Collision",
+											"type": "Keyboard",
 											"parameters": {
-												"tags": "floor"
+												"key": "Space",
+												"key_Mode": "Down"
 											},
 											"nodeListTrue": [
 												{
-													"type": "Push",
+													"type": "Collision",
 													"parameters": {
-														"force": "30",
-														"angle": "90"
-													}
+														"tags": "floor"
+													},
+													"nodeListTrue": [
+														{
+															"type": "Push",
+															"parameters": {
+																"force": "30",
+																"angle": "90"
+															}
+														}
+													],
+													"nodeListFalse": []
 												}
 											],
 											"nodeListFalse": []
 										}
-									],
-									"nodeListFalse": []
+									]
 								}
 							],
 							"name": "movement"
@@ -1699,7 +1715,7 @@
 						}
 					],
 					"key": 0,
-					"sleeping": true,
+					"sleeping": false,
 					"x": -261.14099846198616,
 					"y": 101.00996937828225,
 					"width": 50,
@@ -1750,58 +1766,6 @@
 					"init": true
 				},
 				{
-					"scriptList": [],
-					"key": 0,
-					"sleeping": true,
-					"x": 30.906185308601835,
-					"y": -660.8036763601062,
-					"width": 800,
-					"height": 480,
-					"scaleX": 16,
-					"scaleY": 9.6,
-					"angle": 0,
-					"screen": true,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": true,
-					"image": "",
-					"color": "#000000",
-					"opacity": 0.4,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": false,
-					"text": "",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 0,
-					"friction": 0,
-					"restitution": 0,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "black"
-				},
-				{
 					"scriptList": [
 						{
 							"nodeList": [
@@ -1813,18 +1777,98 @@
 									}
 								},
 								{
-									"type": "Touch",
+									"type": "Keyboard",
 									"parameters": {
-										"mode": "Tap",
-										"on_Actor": true
+										"key": "ArrowUp",
+										"key_Mode": "Down"
 									},
 									"nodeListTrue": [
 										{
 											"type": "Edit",
 											"parameters": {
 												"property": "Me.key",
-												"value": "Me.key+1"
+												"value": "Me.key-1"
 											}
+										}
+									],
+									"nodeListFalse": [
+										{
+											"type": "Keyboard",
+											"parameters": {
+												"key": "ArrowDown",
+												"key_Mode": "Down"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Me.key",
+														"value": "Me.key+1"
+													}
+												}
+											],
+											"nodeListFalse": []
+										}
+									]
+								},
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "Enter",
+										"key_Mode": "Down"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.paused",
+												"value": false
+											}
+										},
+										{
+											"type": "Compare",
+											"parameters": {
+												"value_1": "Me.key",
+												"operation": "Equal",
+												"value_2": "0"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Delete",
+													"parameters": {}
+												}
+											],
+											"nodeListFalse": [
+												{
+													"type": "Compare",
+													"parameters": {
+														"value_1": "Me.key",
+														"operation": "Equal",
+														"value_2": "1"
+													},
+													"nodeListTrue": [
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "Game.currentScene",
+																"value": "Init"
+															}
+														}
+													],
+													"nodeListFalse": [
+														{
+															"type": "Compare",
+															"parameters": {
+																"value_1": "Me.key",
+																"operation": "Equal",
+																"value_2": "2"
+															},
+															"nodeListTrue": [],
+															"nodeListFalse": []
+														}
+													]
+												}
+											]
 										}
 									],
 									"nodeListFalse": []
@@ -1834,9 +1878,9 @@
 						}
 					],
 					"key": 0,
-					"sleeping": false,
-					"x": 2.2767948264078086,
-					"y": 3.7276452146526253,
+					"sleeping": true,
+					"x": 34.999147825141335,
+					"y": -644.622783148985,
 					"width": 227.1,
 					"height": 238.2,
 					"scaleX": 0.3,
@@ -1905,5 +1949,6 @@
 	"gravityY": -9.8,
 	"lives": 3,
 	"coins": 0,
-	"debug": true
+	"debug": true,
+	"paused": false
 }

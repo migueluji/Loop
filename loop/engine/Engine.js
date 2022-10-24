@@ -49,6 +49,13 @@ class Engine {
         });
     }
 
+    get currentScene() { }
+    set currentScene(value) {
+        if (this.gameState) {
+            this.gameObjects.forEach(gameObject => gameObject.remove());
+            this.loadScene(value);
+        }
+    }
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists
@@ -62,20 +69,18 @@ class Engine {
             if (this.gameState.physicsOn)
                 (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
             else Rigidbody.convertToSensor(spawnObject);
-            console.log(spawnObject.name, spawnObject);
         }
     }
 
     delete(gameObject) { gameObject.dead = true; } // mark to be eliminated
 
     animate(gameObject, id, animation, fps) {
-        var secuence = animation.split(",");
-        var dtAnim = 1000 / fps;
-        if (gameObject.timer[id].time + this.deltaTime < 1000) gameObject.timer[id].time += this.deltaTime;
-        else gameObject.timer[id].time = 0;
-        var frame = (gameObject.timer[id].time / dtAnim) * 1000;
-        gameObject.key = Math.floor(frame % secuence.length);
-        gameObject.image = secuence[gameObject.key];
+        (gameObject.timer[id].time > 1) ? gameObject.timer[id].time = 0 : gameObject.timer[id].time += this.deltaTime;
+        var dtAnim = 1 / fps;
+        gameObject.secuence = animation.split(",");
+        if (fps != 0) {
+            gameObject.key = Math.floor((gameObject.timer[id].time / dtAnim) % gameObject.secuence.length);
+        }
     }
 
     play(gameObject, sound) {
