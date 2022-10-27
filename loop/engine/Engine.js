@@ -26,7 +26,7 @@ class Engine {
     }
 
     gameLoop(newTime) {
-        window.requestAnimationFrame(this.gameLoop.bind(this));
+        if (!this.exit) window.requestAnimationFrame(this.gameLoop.bind(this));
         this.frameTime = (newTime - this.currentTime) / 1000;
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
@@ -42,6 +42,7 @@ class Engine {
 
     loadScene(sceneName) {
         var zIndex = 0;
+        Object.assign(this.gameState, this.gameModel.properties);
         this.sceneList[sceneName].actorList.forEach(actor => {
             actor.zIndex = zIndex;
             new GameObject(this, actor, false);
@@ -49,13 +50,6 @@ class Engine {
         });
     }
 
-    get currentScene() { }
-    set currentScene(value) {
-        if (this.gameState) {
-            this.gameObjects.forEach(gameObject => gameObject.remove());
-            this.loadScene(value);
-        }
-    }
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
         if (gameObject) { // spawn new gameObject if exists

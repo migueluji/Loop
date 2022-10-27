@@ -9,6 +9,7 @@
 			"actorList": [
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -60,6 +61,7 @@
 				},
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 425,
 					"y": -37.25,
@@ -120,9 +122,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "Game_Over"
+												"property": "Game.currentScene",
+												"value": "Game_Over"
 											}
 										}
 									],
@@ -132,6 +135,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": -2.3870175616860934,
 					"y": -289.693508780843,
@@ -183,6 +187,7 @@
 				},
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 265,
@@ -234,6 +239,7 @@
 				},
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": -425,
 					"y": -36.48792104862059,
@@ -299,6 +305,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": -190.5,
@@ -441,6 +448,7 @@
 							"name": "Script_2"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": -61,
@@ -462,7 +470,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "${Me.velocityX}   ---   ${Me.velocityY}",
 					"font": "Arial",
 					"size": 30,
@@ -520,6 +528,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": -100,
 					"y": 90,
@@ -597,6 +606,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 100,
 					"y": 90,
@@ -674,6 +684,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 280,
 					"y": 90,
@@ -751,6 +762,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": -278.306491219157,
 					"y": 90,
@@ -828,6 +840,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": -200,
 					"y": 160,
@@ -905,6 +918,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 160,
@@ -982,6 +996,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 200,
 					"y": 160,
@@ -1044,9 +1059,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "You_Win"
+												"property": "Game.currentScene",
+												"value": "You_Win"
 											}
 										}
 									],
@@ -1056,8 +1072,9 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
-					"x": -289,
+					"x": -288.5,
 					"y": 210,
 					"width": 199,
 					"height": 50,
@@ -1128,6 +1145,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1184,6 +1202,7 @@
 			"actorList": [
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1245,9 +1264,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "Init"
+												"property": "Game.currentScene",
+												"value": "Init"
 											}
 										}
 									],
@@ -1257,6 +1277,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": -99.14557171497478,
@@ -1313,6 +1334,7 @@
 			"actorList": [
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1374,9 +1396,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Go_To",
+											"type": "Edit",
 											"parameters": {
-												"scene": "Init"
+												"property": "Game.currentScene",
+												"value": "Init"
 											}
 										}
 									],
@@ -1386,6 +1409,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": -99.14557171497478,

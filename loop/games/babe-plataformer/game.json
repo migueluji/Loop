@@ -21,6 +21,13 @@
 									"nodeListTrue": [],
 									"nodeListFalse": [
 										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.physicsOn",
+												"value": true
+											}
+										},
+										{
 											"type": "Keyboard",
 											"parameters": {
 												"key": "Escape",
@@ -41,6 +48,13 @@
 														"x": 0,
 														"y": 0,
 														"angle": 0
+													}
+												},
+												{
+													"type": "Edit",
+													"parameters": {
+														"property": "Game.physicsOn",
+														"value": false
 													}
 												}
 											],
@@ -74,7 +88,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": true,
+					"textOn": false,
 					"text": "${Game.paused}",
 					"font": "Arial",
 					"size": 30,
@@ -366,8 +380,8 @@
 					"scriptList": [],
 					"key": 0,
 					"sleeping": false,
-					"x": 1233.2117332661314,
-					"y": -89.39248282507421,
+					"x": 1234.502320661988,
+					"y": -90.68307022093083,
 					"width": 40,
 					"height": 40,
 					"scaleX": 1,
@@ -465,6 +479,59 @@
 					"dampingLinear": 0,
 					"dampingAngular": 0,
 					"name": "coinsControler",
+					"coins": 0
+				},
+				{
+					"scriptList": [],
+					"key": 0,
+					"sleeping": false,
+					"x": -5.883991379280673,
+					"y": 4.877116000721344,
+					"width": 264.0189813086153,
+					"height": 50,
+					"scaleX": 5.280379626172306,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": true,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": false,
+					"image": "",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "You Win!!!",
+					"font": "Arial",
+					"size": 50,
+					"fill": "#5f2607",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "You_Win",
 					"coins": 0
 				},
 				{
@@ -1023,7 +1090,7 @@
 													"type": "Animate",
 													"parameters": {
 														"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
-														"fps": "3"
+														"fps": "10"
 													}
 												}
 											],
@@ -1053,7 +1120,7 @@
 															"type": "Animate",
 															"parameters": {
 																"animation": "Purple_Right1.png,Purple_Right2.png,Purple_Right3.png",
-																"fps": "3"
+																"fps": "10"
 															}
 														}
 													],
@@ -1128,48 +1195,86 @@
 								{
 									"type": "Collision",
 									"parameters": {
-										"tags": "enemy"
+										"tags": "end"
 									},
 									"nodeListTrue": [
 										{
-											"type": "Compare",
+											"type": "Edit",
 											"parameters": {
-												"value_1": "Game.lives",
-												"operation": "Greater",
-												"value_2": "1"
+												"property": "You_Win.textOn",
+												"value": true
+											}
+										},
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Game.paused",
+												"value": true
+											}
+										}
+									],
+									"nodeListFalse": [
+										{
+											"type": "Collision",
+											"parameters": {
+												"tags": "enemy"
 											},
 											"nodeListTrue": [
 												{
-													"type": "Edit",
+													"type": "Compare",
 													"parameters": {
-														"property": "Game.lives",
-														"value": "Game.lives-1"
-													}
+														"value_1": "Game.lives",
+														"operation": "Greater",
+														"value_2": "1"
+													},
+													"nodeListTrue": [
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "spawner.init",
+																"value": true
+															}
+														},
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "Game.lives",
+																"value": "Game.lives-1"
+															}
+														},
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "Game.currentScene",
+																"value": "Init"
+															}
+														}
+													],
+													"nodeListFalse": [
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "You_Win.textOn",
+																"value": true
+															}
+														},
+														{
+															"type": "Edit",
+															"parameters": {
+																"property": "You_Win.text",
+																"value": "\"You Lose!!!\""
+															}
+														}
+													]
 												},
 												{
-													"type": "Edit",
-													"parameters": {
-														"property": "spawner.init",
-														"value": true
-													}
+													"type": "Delete",
+													"parameters": {}
 												}
 											],
-											"nodeListFalse": [
-												{
-													"type": "Edit",
-													"parameters": {
-														"property": "Game.lives",
-														"value": "3"
-													}
-												}
-											]
-										},
-										{
-											"type": "Delete",
-											"parameters": {}
+											"nodeListFalse": []
 										}
-									],
-									"nodeListFalse": []
+									]
 								}
 							],
 							"name": "dead"
@@ -1625,9 +1730,9 @@
 						}
 					],
 					"key": 0,
-					"sleeping": true,
+					"sleeping": false,
 					"x": 884.0606204498645,
-					"y": -112.82498041016754,
+					"y": -113.998241679128,
 					"width": 60,
 					"height": 66,
 					"scaleX": 0.5,
@@ -1863,7 +1968,15 @@
 																"operation": "Equal",
 																"value_2": "2"
 															},
-															"nodeListTrue": [],
+															"nodeListTrue": [
+																{
+																	"type": "Edit",
+																	"parameters": {
+																		"property": "Game.exit",
+																		"value": true
+																	}
+																}
+															],
 															"nodeListFalse": []
 														}
 													]
@@ -1879,8 +1992,8 @@
 					],
 					"key": 0,
 					"sleeping": true,
-					"x": 34.999147825141335,
-					"y": -644.622783148985,
+					"x": 7.564305575484298,
+					"y": -579.8460722817392,
 					"width": 227.1,
 					"height": 238.2,
 					"scaleX": 0.3,
@@ -1949,6 +2062,6 @@
 	"gravityY": -9.8,
 	"lives": 3,
 	"coins": 0,
-	"debug": true,
+	"debug": false,
 	"paused": false
 }

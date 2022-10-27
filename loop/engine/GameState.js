@@ -101,17 +101,11 @@ class GameState {
     set gravityY(value) { this._gravityY = value; this.engine.physics.world.setGravity(planck.Vec2(this.gravityX, value)) }
 
     // // Input properties
-    get currentScene() { return this._currentScene }
-    set currentScene(value) { this._currentScene = value }
-
-    get currentSceneNumber() { return this._currentSceneNumber }
-    set currentSceneNumber(value) { this._currentSceneNumber = value };
+    get FPS() { return 1 / this.engine.frameTime }
+    set FPS(value) { this.engine.frameTime = 1 / value }
 
     get time() { return this.engine.time }
     set time(value) { this.engine.time = value }
-
-    get FPS() { return 1 / this.engine.frameTime }
-    set FPS(value) { this.engine.frameTime = 1 / value }
 
     get deltaTime() { return this.engine.deltaTime }
     set deltaTime(value) { this.engine.deltaTime = value }
@@ -123,14 +117,20 @@ class GameState {
     set mouseY(value) { Input.pointerY = value }
 
     get currentScene() { return this._currentScene }
-    set currentScene(value) { 
-        this.engine.currentScene = this._currentScene = value;
-        this._currentSceneNumber = this.engine.gameModel.sceneList.indexOf(this.engine.sceneList[value]);
-    } 
+    set currentScene(value) {
+        if (this.engine.gameState) {
+            this._currentScene = value;
+            this._currentSceneNumber = this.engine.gameModel.sceneList.indexOf(this.engine.sceneList[value]);
+            this.engine.gameObjects.forEach(gameObject => gameObject.remove());
+            this.engine.loadScene(value);
+        }
+    }
 
     get currentSceneNumber() { return this._currentSceneNumber }
     set currentSceneNumber(value) {
-        this._currentSceneNumber = value;
-        this.engine.currentScene = this.engine.gameModel.sceneList[value].name;
+        if (this.engine.gameState) {
+            this._currentSceneNumber = value;
+            this.engine.currentScene = this.engine.gameModel.sceneList[value].name;
+        }
     }
 }
