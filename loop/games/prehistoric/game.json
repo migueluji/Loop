@@ -2097,7 +2097,7 @@
 								{
 									"type": "Keyboard",
 									"parameters": {
-										"key": "Space",
+										"key": "Enter",
 										"key_Mode": "Down"
 									},
 									"nodeListTrue": [
@@ -2138,7 +2138,7 @@
 					"tileX": 1,
 					"tileY": 1,
 					"textOn": true,
-					"text": "Press space to play",
+					"text": "Press enter to play",
 					"font": "Arial Black",
 					"size": 33,
 					"fill": "#fff9eb",
@@ -3682,8 +3682,8 @@
 					],
 					"key": 0,
 					"sleeping": false,
-					"x": -78.12449753705843,
-					"y": -11.506708939566721,
+					"x": -77.65588093814998,
+					"y": -11.975325538475232,
 					"width": 65,
 					"height": 65,
 					"scaleX": 1.3,
@@ -3732,6 +3732,49 @@
 				},
 				{
 					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.x",
+										"value": "Girl_Collider.x"
+									}
+								},
+								{
+									"type": "Edit",
+									"parameters": {
+										"property": "Me.y",
+										"value": "Girl_Collider.y"
+									}
+								}
+							],
+							"name": "Move"
+						},
+						{
+							"nodeList": [
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "Space",
+										"key_Mode": "Down"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Spawn",
+											"parameters": {
+												"actor": "Bone",
+												"x": 0,
+												"y": 0,
+												"angle": 0
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Spawn_bone"
+						},
 						{
 							"nodeList": [
 								{
@@ -3858,49 +3901,6 @@
 						{
 							"nodeList": [
 								{
-									"type": "Edit",
-									"parameters": {
-										"property": "Me.x",
-										"value": "Girl_Collider.x"
-									}
-								},
-								{
-									"type": "Edit",
-									"parameters": {
-										"property": "Me.y",
-										"value": "Girl_Collider.y"
-									}
-								}
-							],
-							"name": "Move"
-						},
-						{
-							"nodeList": [
-								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "Space",
-										"key_Mode": "Down"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Spawn",
-											"parameters": {
-												"actor": "Bone",
-												"x": 0,
-												"y": 0,
-												"angle": 0
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Spawn_bone"
-						},
-						{
-							"nodeList": [
-								{
 									"type": "Compare",
 									"parameters": {
 										"value_1": "Me.x",
@@ -3997,11 +3997,8 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.sleeping",
-												"value": true
-											}
+											"type": "Delete",
+											"parameters": {}
 										},
 										{
 											"type": "Spawn",
@@ -5363,7 +5360,7 @@
 					"angle": 0,
 					"screen": true,
 					"collider": "Box",
-					"tags": "right",
+					"tags": "right,enemy",
 					"spriteOn": false,
 					"image": "",
 					"color": "#ffffff",
@@ -5415,7 +5412,7 @@
 					"angle": 0,
 					"screen": true,
 					"collider": "Box",
-					"tags": "left",
+					"tags": "left,enemy",
 					"spriteOn": false,
 					"image": "",
 					"color": "#ffffff",
@@ -6014,8 +6011,8 @@
 					],
 					"key": 0,
 					"sleeping": false,
-					"x": 474.16350799082653,
-					"y": 320.66592351380757,
+					"x": 756.3428674899637,
+					"y": 291.96971746304786,
 					"width": 56,
 					"height": 10,
 					"scaleX": 0.3684210526315789,
@@ -6106,8 +6103,8 @@
 					],
 					"key": 0,
 					"sleeping": true,
-					"x": 368.16182091945836,
-					"y": 322.4404707015816,
+					"x": 752.486009099276,
+					"y": 323.80695670399876,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,
@@ -6198,8 +6195,8 @@
 					],
 					"key": 0,
 					"sleeping": true,
-					"x": 285.5949637377248,
-					"y": 322.75806742386317,
+					"x": 682.2175259392966,
+					"y": 327.54076843232315,
 					"width": 50,
 					"height": 50,
 					"scaleX": 1,

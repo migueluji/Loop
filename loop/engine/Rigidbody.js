@@ -14,7 +14,6 @@ class Rigidbody {
     }
 
     static convertToSensor(gameObject) {
-        gameObject.isSensor = true;
         gameObject.rigidbody._currentPhysics = { // save current physic properties
             type: gameObject.rigidbody.m_type,
             velocityX: gameObject.rigidbody.getLinearVelocity().x,
@@ -28,7 +27,6 @@ class Rigidbody {
     }
 
     static convertToRigidbody(gameObject) {
-        gameObject.isSensor = false;
         switch (gameObject.type) {
             case "dynamic": gameObject.rigidbody.setDynamic(); break;
             case "kinematic": gameObject.rigidbody.setKinematic(); break;

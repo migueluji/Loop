@@ -14,7 +14,7 @@ class GameObject {
         Object.keys(actor.allProperties).forEach(property => {
             this["_" + property] = actor.allProperties[property];
         });
-        this._physicsOn = undefined;
+        this._physicsOn = this._width = this._height = this._scaleX = this._scaleY = undefined;
         Object.assign(this, actor.allProperties);
         // Add gameObject to scope and gameObject list in the engine
         engine.gameObjects.set(this.name, this);
@@ -78,23 +78,27 @@ class GameObject {
 
     get width() { return this._width }
     set width(value) { // sprite.width = sprite.texture.width * tileX;  this.width = sprite.width * sprite.scale.x 
-        this._width = value;
-        this.container.sprite.scale.x = (this.flipX) ? value / this.container.sprite.width : -value / this.container.sprite.width;
-        this.collider = this._collider; // update collider
+        if (value != this._width) {
+            this._width = value;
+            this.container.sprite.scale.x = Math.sign(this.container.sprite.scale.x) * value / this.container.sprite.width;
+            //      this.collider = this._collider; // update collider
+        }
     }
 
     get height() { return this._height }
     set height(value) {
-        this._height = value;
-        this.container.sprite.scale.y = value / this.container.sprite.height;
-        this.collider = this._collider; // update collider
+        if (value != this._height) {
+            this._height = value;
+            this.container.sprite.scale.y = Math.sign(this.container.sprite.scale.y) * value / this.container.sprite.height;
+            //  this.collider = this._collider; // update collider
+        }
     }
 
     get scaleX() { return this._scaleX }
     set scaleX(value) {
         if (value != this._scaleX) {
             this._scaleX = value;
-            this.container.sprite.scale.x = (this.flipX) ? -value : value;
+            this.container.sprite.scale.x = value * Math.sign(this.container.sprite.scale.x);
             this.width = this.container.sprite.width * this.container.sprite.scale.x; // update widht to update collider
         }
     }
@@ -103,7 +107,7 @@ class GameObject {
     set scaleY(value) {
         if (value != this._scaleY) {
             this._scaleY = value;
-            this.container.sprite.scale.y = (this.flipY) ? -value : value;
+            this.container.sprite.scale.y = value * Math.sign(this.container.sprite.scale.y);
             this.height = this.container.sprite.height * this.container.sprite.scale.y; // update height to update collider
         }
     }
@@ -148,10 +152,6 @@ class GameObject {
     set image(value) {
         if (this._image != value) {
             this._image = value;
-            if (this.container.sprite.width * this.container.sprite.scale.x != this._width)  // update width to update collider
-                this.width = math.abs(this.container.sprite.width * this.container.sprite.scale.x);
-            if (this.container.sprite.height * this.container.sprite.scale.y != this._height) // update height to update collider
-                this.height = math.abs(this.container.sprite.height * this.container.sprite.scale.y);
             Container.updateSpriteTexture(this.container, value, this.tileX, this.tileY, this.flipX, this.flipY);
         }
     }

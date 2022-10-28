@@ -52,6 +52,7 @@ class Engine {
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
+        console.log(gameObject.name);
         if (gameObject) { // spawn new gameObject if exists
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
@@ -154,6 +155,7 @@ class Engine {
     keyboard(key, mode) {
         var value = Input.keyList[key][mode]; // read key input
         if (Input.keyList[key].down) Input.keyList[key].down = false; // after reading the input value the key is reset
+        if (value) console.log(value);
         return value;
     }
 

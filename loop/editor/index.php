@@ -110,7 +110,7 @@
 	
 </head>
 <body>
-	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+	<script src="https://unpkg.com/material-components-web@10.0.0/dist/material-components-web.min.js"></script>
 	<script>
 
 		window.onbeforeunload = () => "";
