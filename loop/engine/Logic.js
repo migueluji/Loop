@@ -8,5 +8,6 @@ class Logic {
         this.gameObjects.forEach(gameObject => {
             gameObject.fixedUpdate(dt, scope)
         })
+        Input.restartInput();
     }
 }

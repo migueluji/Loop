@@ -110,7 +110,7 @@
 	
 </head>
 <body>
-	<script src="https://unpkg.com/material-components-web@10.0.0/dist/material-components-web.min.js"></script>
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<script>
 
 		window.onbeforeunload = () => "";
@@ -134,11 +134,11 @@
 	//	gameFolder="move";
 	//	gameFolder="box-doger";
 	//	gameFolder="bird";
-	//	gameFolder="alien-invasion";
+		gameFolder="alien-invasion";
 	//  gameFolder="ludumdare46-carlos";
 	//	gameFolder="pirate-bomb";
 
-		gameFolder="prehistoric";
+	//	gameFolder="prehistoric";
 	//  gameFolder="babe-plataformer";
 	//  gameFolder="arkanoid";
 	//  gameFolder="asteroids";

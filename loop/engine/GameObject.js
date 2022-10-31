@@ -3,7 +3,7 @@ class GameObject {
     constructor(engine, actor, spawned) {
         this.engine = engine;
         this.actor = actor;
-        this.spawned = spawned;
+        this._spawned = spawned;
         this.name = (spawned) ? actor.name + Utils.id() : actor.name;
         // Add gameObject to the engines
         this.container = new Container(this);
@@ -39,8 +39,8 @@ class GameObject {
     }
 
     fixedUpdate(deltaTime) { // logic update
-        if (this.spawned) this.spawned = false; // CRUD - CREATE. To avoid executing the rules the first time the object is generated
-        else if (this.dead) this.remove();// CRUD - DELETE
+        if (this._spawned) this._spawned = false; // CRUD - CREATE. To avoid executing the rules the first time the object is generated
+        else if (this._dead) this.remove();// CRUD - DELETE
         else { // CRUD - UPDATE
             if (!this.sleeping) {
                 if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic

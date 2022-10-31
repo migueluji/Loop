@@ -1231,13 +1231,6 @@
 														{
 															"type": "Edit",
 															"parameters": {
-																"property": "spawner.init",
-																"value": true
-															}
-														},
-														{
-															"type": "Edit",
-															"parameters": {
 																"property": "Game.lives",
 																"value": "Game.lives-1"
 															}
@@ -1266,10 +1259,6 @@
 															}
 														}
 													]
-												},
-												{
-													"type": "Delete",
-													"parameters": {}
 												}
 											],
 											"nodeListFalse": []

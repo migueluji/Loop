@@ -52,13 +52,12 @@ class Engine {
 
     // actions
     spawn(spawnerObject, gameObject, x, y, angle) {
-        console.log(gameObject.name);
         if (gameObject) { // spawn new gameObject if exists
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
             var spawnObject = new GameObject(this, gameObject.actor, true);
-            spawnObject.x = spawnObject.originalX = spawnerObject.x + x * cos + y * sin;
-            spawnObject.y = spawnObject.originalY = spawnerObject.y + x * sin - y * cos;
+            spawnObject.x = spawnObject.originalX = spawnerObject.x + x * cos - y * sin;
+            spawnObject.y = spawnObject.originalY = spawnerObject.y + x * sin + y * cos;
             spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
             if (this.gameState.physicsOn)
@@ -67,10 +66,10 @@ class Engine {
         }
     }
 
-    delete(gameObject) { gameObject.dead = true; } // mark to be eliminated
+    delete(gameObject) { gameObject._dead = true; } // mark to be eliminated
 
     animate(gameObject, id, animation, fps) {
-        (gameObject.timer[id].time > 1) ? gameObject.timer[id].time = 0 : gameObject.timer[id].time += this.deltaTime;
+        gameObject.timer[id].time += this.deltaTime;
         var dtAnim = 1 / fps;
         gameObject.secuence = animation.split(",");
         if (fps != 0) {
@@ -144,31 +143,23 @@ class Engine {
     }
 
     collision(gameObject, tags) {
+        if (gameObject.name.includes("rocket") )console.log(gameObject.name,tags);
         var tagsToCollide = tags.split(",");
         var value = true;
         tagsToCollide.forEach(tag => {
-            value = (value && (gameObject.collision[tag].size > 0));
+            if (gameObject.name.includes("rocket") )console.log(gameObject.name,tag, gameObject.collision);
+            value &&= gameObject.collision[tag].size > 0;
         })
         return value;
     }
 
     keyboard(key, mode) {
-        var value = Input.keyList[key][mode]; // read key input
-        if (Input.keyList[key].down) Input.keyList[key].down = false; // after reading the input value the key is reset
-        if (value) console.log(value);
-        return value;
+        return Input.keyList[key][mode];
     }
 
     touch(mode, onActor, gameObject) {
         var value;
-        if (onActor) {
-            value = Input.touchObjects[gameObject.name][mode];
-            Input.touchObjects[gameObject.name].tap = false;
-        }
-        else {
-            value = Input.pointer[mode];
-            Input.pointer.tap = false;
-        }
+        (onActor) ? value = Input.touchObjects[gameObject.name][mode] : value = Input.pointer.tap;
         return value;
     }
 }

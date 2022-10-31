@@ -18,6 +18,16 @@ class Input {
         }
     }
 
+    static restartInput() {
+        for (let key in Input.keyList) {
+            Input.keyList[key].down = false;
+        }
+        for (let gameObject in Input.touchObjects) {
+            if (Input.touchObjects[gameObject.name]) Input.touchObjects[gameObject.name].tap = false;
+        }
+        if (Input.poienter) Input.pointer.tap = false;
+    }
+
     static addKey(key) {
         if (!this.keyList.hasOwnProperty(key)) this.keyList[key] = { down: false, up: true, pressed: false };
     }
@@ -33,7 +43,7 @@ class Input {
         gameObject.container.on("pointerover", this.actorPointerOverHandler.bind(this, gameObject.name));
         gameObject.container.on("pointerout", this.actorPointerOutHandler.bind(this, gameObject.name));
     }
-
+    // Handlers
     static actorPointerDownHandler(name) {
         Input.touchObjects[name] = { down: true, up: false, over: true, tap: true };
     }
