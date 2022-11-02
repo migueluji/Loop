@@ -60,13 +60,12 @@ class Engine {
             spawnObject.y = spawnObject.originalY = spawnerObject.y + x * sin + y * cos;
             spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
-            if (this.gameState.physicsOn)
-                (spawnObject.physicsOn) ? Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
-            else Rigidbody.convertToSensor(spawnObject);
+            (this.gameState.physicsOn && spawnObject.physicsOn) ?
+                Rigidbody.convertToRigidbody(spawnObject) : Rigidbody.convertToSensor(spawnObject);
         }
     }
 
-    delete(gameObject) { gameObject._dead = true; } // mark to be eliminated
+    delete(gameObject) { gameObject.remove(); } // mark to be eliminated
 
     animate(gameObject, id, animation, fps) {
         gameObject.timer[id].time += this.deltaTime;
@@ -143,13 +142,9 @@ class Engine {
     }
 
     collision(gameObject, tags) {
-        if (gameObject.name.includes("rocket") )console.log(gameObject.name,tags);
         var tagsToCollide = tags.split(",");
         var value = true;
-        tagsToCollide.forEach(tag => {
-            if (gameObject.name.includes("rocket") )console.log(gameObject.name,tag, gameObject.collision);
-            value &&= gameObject.collision[tag].size > 0;
-        })
+        tagsToCollide.forEach(tag => { value &&= gameObject.collision[tag].size > 0; })
         return value;
     }
 

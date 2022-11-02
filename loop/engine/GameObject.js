@@ -3,7 +3,7 @@ class GameObject {
     constructor(engine, actor, spawned) {
         this.engine = engine;
         this.actor = actor;
-        this._spawned = spawned;
+        //this._spawned = false;
         this.name = (spawned) ? actor.name + Utils.id() : actor.name;
         // Add gameObject to the engines
         this.container = new Container(this);
@@ -39,13 +39,10 @@ class GameObject {
     }
 
     fixedUpdate(deltaTime) { // logic update
-        if (this._spawned) this._spawned = false; // CRUD - CREATE. To avoid executing the rules the first time the object is generated
-        else if (this._dead) this.remove();// CRUD - DELETE
-        else { // CRUD - UPDATE
-            if (!this.sleeping) {
-                if (this.rule) try { this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
-                if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
-            }
+        if (!this.sleeping) {
+            if (this.rule) try { 
+                if (this.name.includes("worm"))console.log("logic",this.name,this.rule);this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
+            if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
             if (this.textOn) Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
         }
     }
@@ -81,7 +78,6 @@ class GameObject {
         if (value != this._width) {
             this._width = value;
             this.container.sprite.scale.x = Math.sign(this.container.sprite.scale.x) * value / this.container.sprite.width;
-            //      this.collider = this._collider; // update collider
         }
     }
 
@@ -90,7 +86,6 @@ class GameObject {
         if (value != this._height) {
             this._height = value;
             this.container.sprite.scale.y = Math.sign(this.container.sprite.scale.y) * value / this.container.sprite.height;
-            //  this.collider = this._collider; // update collider
         }
     }
 
