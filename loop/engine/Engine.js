@@ -65,9 +65,8 @@ class Engine {
         }
     }
 
-    delete(gameObject) { gameObject._dead = true; 
-    }
-    //gameObject.remove(); } // mark to be eliminated
+    delete(gameObject) { gameObject.remove() }
+    //gameObject._dead = true }// mark to be eliminated
 
     animate(gameObject, id, animation, fps) {
         gameObject.timer[id].time += this.deltaTime;

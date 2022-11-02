@@ -14,254 +14,6 @@
 	],
 	"sceneList": [
 		{
-			"name": "Scene_2",
-			"actorList": [
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Move",
-									"parameters": {
-										"speed": "300",
-										"angle": 0
-									}
-								},
-								{
-									"type": "Collision",
-									"parameters": {
-										"tags": "enemy"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Delete",
-											"parameters": {}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"key": 0,
-					"sleeping": true,
-					"x": -200.25,
-					"y": -191.39673913043478,
-					"width": 92,
-					"height": 26,
-					"scaleX": 0.2,
-					"scaleY": 0.2,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "rocket",
-					"spriteOn": true,
-					"image": "rocket_1.png",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": false,
-					"text": "",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 0,
-					"friction": 0,
-					"restitution": 0,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "rocket"
-				},
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Keyboard",
-									"parameters": {
-										"key": "Space",
-										"key_Mode": "Down"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Spawn",
-											"parameters": {
-												"actor": "rocket",
-												"x": 0,
-												"y": 0,
-												"angle": 0
-											}
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"key": 0,
-					"sleeping": false,
-					"x": -274,
-					"y": -32.5,
-					"width": 80,
-					"height": 80,
-					"scaleX": 0.2,
-					"scaleY": 0.2,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "",
-					"spriteOn": true,
-					"image": "character_jump.png",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": false,
-					"text": "",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 0,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 0,
-					"friction": 0,
-					"restitution": 0,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "player"
-				},
-				{
-					"scriptList": [
-						{
-							"nodeList": [
-								{
-									"type": "Collision",
-									"parameters": {
-										"tags": "rocket"
-									},
-									"nodeListTrue": [
-										{
-											"type": "Edit",
-											"parameters": {
-												"property": "Me.hits",
-												"value": "Me.hits-1"
-											}
-										},
-										{
-											"type": "Compare",
-											"parameters": {
-												"value_1": "Me.hits",
-												"operation": "Equal",
-												"value_2": "0"
-											},
-											"nodeListTrue": [
-												{
-													"type": "Delete",
-													"parameters": {}
-												}
-											],
-											"nodeListFalse": []
-										}
-									],
-									"nodeListFalse": []
-								}
-							],
-							"name": "Script_1"
-						}
-					],
-					"key": 0,
-					"sleeping": false,
-					"x": 228.5,
-					"y": -25.5,
-					"width": 112,
-					"height": 96,
-					"scaleX": 0.2,
-					"scaleY": 0.2,
-					"angle": 0,
-					"screen": false,
-					"collider": "Box",
-					"tags": "enemy",
-					"spriteOn": true,
-					"image": "char_enemy_alienShip.png",
-					"color": "#ffffff",
-					"opacity": 1,
-					"flipX": false,
-					"flipY": false,
-					"scrollX": 0,
-					"scrollY": 0,
-					"tileX": 1,
-					"tileY": 1,
-					"textOn": true,
-					"text": "${Me.hits}",
-					"font": "Arial",
-					"size": 30,
-					"fill": "#000000",
-					"style": "Normal",
-					"align": "Center",
-					"offsetX": 0,
-					"offsetY": 66,
-					"soundOn": false,
-					"sound": "",
-					"start": 0,
-					"volume": 1,
-					"pan": 0,
-					"loop": false,
-					"physicsOn": false,
-					"type": "Dynamic",
-					"fixedAngle": false,
-					"velocityX": 0,
-					"velocityY": 0,
-					"angularVelocity": 0,
-					"density": 0,
-					"friction": 0,
-					"restitution": 0,
-					"dampingLinear": 0,
-					"dampingAngular": 0,
-					"name": "alien",
-					"hits": 2
-				}
-			]
-		},
-		{
 			"name": "Scene_1",
 			"actorList": [
 				{
@@ -5104,6 +4856,256 @@
 					"name": "fps"
 				}
 			]
+		},
+		{
+			"name": "Scene_2",
+			"actorList": [
+				{
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Move",
+									"parameters": {
+										"speed": "300",
+										"angle": 0
+									}
+								},
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "enemy"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Delete",
+											"parameters": {}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
+					"key": 0,
+					"sleeping": true,
+					"x": -200.25,
+					"y": -191.39673913043478,
+					"width": 92,
+					"height": 26,
+					"scaleX": 0.2,
+					"scaleY": 0.2,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "rocket",
+					"spriteOn": true,
+					"image": "rocket_1.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 0,
+					"friction": 0,
+					"restitution": 0,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "rocket"
+				},
+				{
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "Space",
+										"key_Mode": "Down"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Spawn",
+											"parameters": {
+												"actor": "rocket",
+												"x": 0,
+												"y": 0,
+												"angle": 0
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
+					"key": 0,
+					"sleeping": false,
+					"x": -274,
+					"y": -32.5,
+					"width": 80,
+					"height": 80,
+					"scaleX": 0.2,
+					"scaleY": 0.2,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "character_jump.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 0,
+					"friction": 0,
+					"restitution": 0,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "player"
+				},
+				{
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "rocket"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Edit",
+											"parameters": {
+												"property": "Me.hits",
+												"value": "Me.hits-1"
+											}
+										},
+										{
+											"type": "Compare",
+											"parameters": {
+												"value_1": "Me.hits",
+												"operation": "Equal",
+												"value_2": "0"
+											},
+											"nodeListTrue": [
+												{
+													"type": "Delete",
+													"parameters": {}
+												}
+											],
+											"nodeListFalse": []
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Script_1"
+						}
+					],
+					"key": 0,
+					"sleeping": false,
+					"x": 228.5,
+					"y": -25.5,
+					"width": 112,
+					"height": 96,
+					"scaleX": 0.2,
+					"scaleY": 0.2,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "enemy",
+					"spriteOn": true,
+					"image": "char_enemy_alienShip.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": true,
+					"text": "${Me.hits}",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 66,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 0,
+					"friction": 0,
+					"restitution": 0,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "alien",
+					"hits": 2
+				}
+			]
 		}
 	],
 	"name": "Alien Invasion",
@@ -5114,7 +5116,7 @@
 	"cameraAngle": 0,
 	"cameraZoom": 1,
 	"backgroundColor": "#ffffff",
-	"soundOn": true,
+	"soundOn": false,
 	"soundtrack": "jump_01.wav",
 	"volume": 1,
 	"start": 0,

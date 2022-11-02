@@ -3,7 +3,7 @@ class GameObject {
     constructor(engine, actor, spawned) {
         this.engine = engine;
         this.actor = actor;
-        //this._spawned = false;
+        //this._spawned = spawned;
         this.name = (spawned) ? actor.name + Utils.id() : actor.name;
         // Add gameObject to the engines
         this.container = new Container(this);
@@ -40,8 +40,7 @@ class GameObject {
 
     fixedUpdate(deltaTime) { // logic update
         if (!this.sleeping) {
-            if (this.rule) try { 
-                if (this.name.includes("worm"))console.log("logic",this.name,this.rule);this.rule.eval(this.engine.scope); } catch (error) { console.log(error); }    // update logic
+            if (this.rule) try { this.rule.eval(this.engine.scope) } catch (error) { console.log(error) }    // update logic
             if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
             if (this.textOn) Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
         }
