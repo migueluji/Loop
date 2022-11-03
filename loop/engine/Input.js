@@ -23,7 +23,7 @@ class Input {
             Input.keyList[key].down = false;
         }
         for (let gameObject in Input.touchObjects) {
-            if (Input.touchObjects[gameObject.name]) Input.touchObjects[gameObject.name].tap = false;
+            if (Input.touchObjects[gameObject._name]) Input.touchObjects[gameObject._name].tap = false;
         }
         if (Input.poienter) Input.pointer.tap = false;
     }
@@ -33,15 +33,15 @@ class Input {
     }
 
     static addActor(gameObject) { // add touchable gameObject
-        if (!this.touchObjects.hasOwnProperty(gameObject.name)) this.touchObjects[gameObject.name] = { down: false, up: false, over: false, tap: false };
-        gameObject.container.interactive = true;
-        gameObject.container.buttonMode = true;
+        if (!this.touchObjects.hasOwnProperty(gameObject.name)) this.touchObjects[gameObject._name] = { down: false, up: false, over: false, tap: false };
+        gameObject._container.interactive = true;
+        gameObject._container.buttonMode = true;
         // GameObject pointer events
-        gameObject.container.on("pointerdown", this.actorPointerDownHandler.bind(this, gameObject.name));
-        gameObject.container.on("pointerupoutside", this.actorPointerUpHandler.bind(this, gameObject.name));
-        gameObject.container.on("pointerup", this.actorPointerUpHandler.bind(this, gameObject.name));
-        gameObject.container.on("pointerover", this.actorPointerOverHandler.bind(this, gameObject.name));
-        gameObject.container.on("pointerout", this.actorPointerOutHandler.bind(this, gameObject.name));
+        gameObject._container.on("pointerdown", this.actorPointerDownHandler.bind(this, gameObject._name));
+        gameObject._container.on("pointerupoutside", this.actorPointerUpHandler.bind(this, gameObject._name));
+        gameObject._container.on("pointerup", this.actorPointerUpHandler.bind(this, gameObject._name));
+        gameObject._container.on("pointerover", this.actorPointerOverHandler.bind(this, gameObject._name));
+        gameObject._container.on("pointerout", this.actorPointerOutHandler.bind(this, gameObject._name));
     }
     // Handlers
     static actorPointerDownHandler(name) {

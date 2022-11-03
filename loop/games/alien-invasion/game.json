@@ -2683,6 +2683,12 @@
 									},
 									"nodeListTrue": [
 										{
+											"type": "Play",
+											"parameters": {
+												"sound_File": "jump_01.wav"
+											}
+										},
+										{
 											"type": "Check",
 											"parameters": {
 												"property": "Me.flipX"
@@ -2813,12 +2819,10 @@
 									},
 									"nodeListTrue": [
 										{
-											"type": "Spawn",
+											"type": "Edit",
 											"parameters": {
-												"actor": "deadplayer",
-												"x": 0,
-												"y": 0,
-												"angle": 0
+												"property": "Me.spriteOn",
+												"value": false
 											}
 										},
 										{
@@ -2826,6 +2830,15 @@
 											"parameters": {
 												"property": "Me.sleeping",
 												"value": true
+											}
+										},
+										{
+											"type": "Spawn",
+											"parameters": {
+												"actor": "deadplayer",
+												"x": 0,
+												"y": 0,
+												"angle": 0
 											}
 										}
 									],

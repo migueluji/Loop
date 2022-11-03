@@ -7,6 +7,224 @@
 	],
 	"sceneList": [
 		{
+			"name": "Scene_1_copy",
+			"actorList": [
+				{
+					"scriptList": [],
+					"key": 0,
+					"sleeping": false,
+					"x": -186.61385459533608,
+					"y": 53.82719983306475,
+					"width": 428.77229080932784,
+					"height": 374.3456003338705,
+					"scaleX": 0.4187229402434842,
+					"scaleY": 0.7311437506520908,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "background",
+					"spriteOn": true,
+					"image": "purple.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 10,
+					"scrollY": 0,
+					"tileX": 4,
+					"tileY": 2,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#000000",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 0,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Kinematic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "background"
+				},
+				{
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Move",
+									"parameters": {
+										"speed": "600",
+										"angle": "Me.angle"
+									}
+								}
+							],
+							"name": "Movement"
+						},
+						{
+							"nodeList": [
+								{
+									"type": "Collision",
+									"parameters": {
+										"tags": "background"
+									},
+									"nodeListTrue": [],
+									"nodeListFalse": [
+										{
+											"type": "Delete",
+											"parameters": {}
+										}
+									]
+								}
+							],
+							"name": "Destroy"
+						}
+					],
+					"key": 0,
+					"sleeping": false,
+					"x": -152.52019333748075,
+					"y": -42.32224021459507,
+					"width": 54,
+					"height": 9,
+					"scaleX": 1,
+					"scaleY": 1,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "laser",
+					"spriteOn": true,
+					"image": "laserBlue01.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": true,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#ffffff",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 34,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": false,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 1,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 0,
+					"name": "laser",
+					"init": true
+				},
+				{
+					"scriptList": [
+						{
+							"nodeList": [
+								{
+									"type": "Keyboard",
+									"parameters": {
+										"key": "Space",
+										"key_Mode": "Down"
+									},
+									"nodeListTrue": [
+										{
+											"type": "Spawn",
+											"parameters": {
+												"actor": "laser",
+												"x": "25",
+												"y": 0,
+												"angle": "0"
+											}
+										}
+									],
+									"nodeListFalse": []
+								}
+							],
+							"name": "Shoot"
+						}
+					],
+					"key": 0,
+					"sleeping": false,
+					"x": -213.30589849108367,
+					"y": 47.32510288065839,
+					"width": 45,
+					"height": 59,
+					"scaleX": 0.6,
+					"scaleY": 0.5959595959595959,
+					"angle": 0,
+					"screen": false,
+					"collider": "Box",
+					"tags": "",
+					"spriteOn": true,
+					"image": "playerShip1_blue.png",
+					"color": "#ffffff",
+					"opacity": 1,
+					"flipX": false,
+					"flipY": false,
+					"scrollX": 0,
+					"scrollY": 0,
+					"tileX": 1,
+					"tileY": 1,
+					"textOn": false,
+					"text": "${Me.angle}",
+					"font": "Arial",
+					"size": 30,
+					"fill": "#f8ecec",
+					"style": "Normal",
+					"align": "Center",
+					"offsetX": 0,
+					"offsetY": 53,
+					"soundOn": false,
+					"sound": "",
+					"start": 0,
+					"volume": 1,
+					"pan": 0,
+					"loop": false,
+					"physicsOn": true,
+					"type": "Dynamic",
+					"fixedAngle": false,
+					"velocityX": 0,
+					"velocityY": 0,
+					"angularVelocity": 0,
+					"density": 0.6,
+					"friction": 0.5,
+					"restitution": 0.5,
+					"dampingLinear": 0,
+					"dampingAngular": 1,
+					"name": "ship"
+				}
+			]
+		},
+		{
 			"name": "Scene_1",
 			"actorList": [
 				{
@@ -31,6 +249,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -85,6 +304,13 @@
 						{
 							"nodeList": [
 								{
+									"type": "Move",
+									"parameters": {
+										"speed": "600",
+										"angle": "Me.angle"
+									}
+								},
+								{
 									"type": "Check",
 									"parameters": {
 										"property": "Me.init"
@@ -106,13 +332,6 @@
 										}
 									],
 									"nodeListFalse": []
-								},
-								{
-									"type": "Move",
-									"parameters": {
-										"speed": "600",
-										"angle": "Me.angle"
-									}
 								}
 							],
 							"name": "Movement"
@@ -157,6 +376,7 @@
 							"name": "Destroy"
 						}
 					],
+					"key": 0,
 					"sleeping": true,
 					"x": -355.538025984943,
 					"y": -274.8325282804387,
@@ -399,9 +619,10 @@
 							"name": "Dead"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
-					"x": 0,
-					"y": 0,
+					"x": 1.3717421124828206,
+					"y": 0.6858710562413535,
 					"width": 45,
 					"height": 59,
 					"scaleX": 0.6,
@@ -594,6 +815,7 @@
 							"name": "Correct_Position"
 						}
 					],
+					"key": 0,
 					"sleeping": true,
 					"x": -260.2283950617284,
 					"y": -288.1851851851852,
@@ -790,6 +1012,7 @@
 							"name": "Correct_Position"
 						}
 					],
+					"key": 0,
 					"sleeping": true,
 					"x": -182.80864197530866,
 					"y": -271,
@@ -968,6 +1191,7 @@
 							"name": "Correct_Position"
 						}
 					],
+					"key": 0,
 					"sleeping": true,
 					"x": -128.9320987654321,
 					"y": -261.7654320987655,
@@ -1044,6 +1268,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 295.6341258954426,
@@ -1095,6 +1320,7 @@
 				},
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": -280.9598765432099,
 					"y": 212.0246913580247,
@@ -1152,6 +1378,7 @@
 			"actorList": [
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 0,
@@ -1226,6 +1453,7 @@
 							"name": "Script_1"
 						}
 					],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": -125,
@@ -1277,6 +1505,7 @@
 				},
 				{
 					"scriptList": [],
+					"key": 0,
 					"sleeping": false,
 					"x": 0,
 					"y": 111,

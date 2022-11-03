@@ -129,15 +129,15 @@
 		var serverGamesFolder="http://localhost/loop/games";
 		var gameFolder;
 
-	//	gameFolder="prueba";
-	//	gameFolder="null";
+	//  gameFolder="ludumdare46-carlos";
+
 	//	gameFolder="move";
+	//	gameFolder="box-doger"
+		gameFolder="alien-invasion";
+	//	gameFolder="pirate-bomb";
+	//	gameFolder ="move";
 	//	gameFolder="box-doger";
 	//	gameFolder="bird";
-		gameFolder="alien-invasion";
-	//  gameFolder="ludumdare46-carlos";
-	//	gameFolder="pirate-bomb";
-
 	//	gameFolder="prehistoric";
 	//  gameFolder="babe-plataformer";
 	//  gameFolder="arkanoid";

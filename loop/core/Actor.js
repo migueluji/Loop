@@ -48,7 +48,7 @@ class Actor {
     get newProperties() {
         var obj = Object.assign({}, this);
         Object.keys(this.properties).forEach(element => { delete obj[element]; });
-        ["id", "name", "scriptList", "tags", "key"].forEach((property) => delete obj[property]);
+        ["id", "name", "scriptList", "tags", "key","zIndex"].forEach((property) => delete obj[property]);
         return (obj);
     }
 

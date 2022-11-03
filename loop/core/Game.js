@@ -49,11 +49,11 @@ class Game {
             FPS: 60,
             time: 0,
             deltaTime: 0.01,
-          //  exit: false,
             mouseX: 0, mouseY: 0,
             currentScene: this.sceneList[0].name, currentSceneNumber: 0,
-            accelerationX: 0, accelerationY: 0, accelerationZ: 0,
-            latitude: 0, longitude: 0
+          //  accelerationX: 0, accelerationY: 0, accelerationZ: 0,
+          //  latitude: 0, longitude: 0
+         //  exit: false,
         }
         return (obj);
     }

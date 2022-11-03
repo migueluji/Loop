@@ -104,30 +104,6 @@ class DoSelectionView {
 			'<span class="selection-label mdc-image-list__label">Torque</span>' +//torque
 			'</div>' +
 			'</li>' +
-			'<li class="selection-item mdc-image-list__item">' +
-			'<div class="action-circle mdc-image-list__image-aspect-container">' +
-			'<button class="mdc-icon-button material-icons">input</button>' +
-			'</div>' +
-			'<div class="mdc-image-list__supporting">' +
-			'<span class="selection-label mdc-image-list__label">Go To</span>' +//go to
-			'</div>' +
-			'</li>' +
-			'<li class="selection-item mdc-image-list__item">' +
-			'<div class="action-circle mdc-image-list__image-aspect-container">' +
-			'<button class="mdc-icon-button material-icons">pause</button>' +
-			'</div>' +
-			'<div class="mdc-image-list__supporting">' +
-			'<span class="selection-label mdc-image-list__label">Pause</span>' +//add scene
-			'</div>' +
-			'</li>' +
-			'<li class="selection-item mdc-image-list__item">' +
-			'<div class="action-circle mdc-image-list__image-aspect-container">' +
-			'<button class="mdc-icon-button material-icons">restart_alt</button>' +
-			'</div>' +
-			'<div class="mdc-image-list__supporting">' +
-			'<span class="selection-label mdc-image-list__label">Resume</span>' +//remove scene
-			'</div>' +
-			'</li>' +
 			'</ul>' +
 			'<div>';
 		this.html.addEventListener("click", this.cancelBackgroundHandler.bind(this));
@@ -157,9 +133,6 @@ class DoSelectionView {
 				case "Push": parameters = new Object({ "force": 0, "angle": 0 }); break;
 				case "Push_To": parameters = new Object({ "force": 0, "x": 0, "y": 0 }); break;
 				case "Torque": parameters = new Object({ "angle": 0 }); break;
-				case "Go_To": parameters = new Object({ "scene": null }); break;
-				case "Pause": parameters = new Object({ "physics": true, "logic": true, "sounds": true }); break;
-				case "Resume": parameters = new Object({}); break;
 			}
 			this.node = new Node({ "id": Utils.id(), "type": type, "parameters": parameters });
 			CmdManager.addNodeCmd(sceneID, actorID, scriptID, this.insert, this.node);

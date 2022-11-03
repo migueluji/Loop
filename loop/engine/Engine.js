@@ -1,7 +1,6 @@
 class Engine {
 
     constructor(gameModel) {
-        console.log(this);
         this.gameModel = gameModel;
         // Define debug mode (boolean property that can defined as game property in the editor to show collision shapes)
         this.debug = gameModel.debug || false;
@@ -55,9 +54,9 @@ class Engine {
         if (gameObject) { // spawn new gameObject if exists
             var sin = Math.sin(Utils.radians(spawnerObject.angle));
             var cos = Math.cos(Utils.radians(spawnerObject.angle));
-            var spawnObject = new GameObject(this, gameObject.actor, true);
-            spawnObject.x = spawnObject.originalX = spawnerObject.x + x * cos - y * sin;
-            spawnObject.y = spawnObject.originalY = spawnerObject.y + x * sin + y * cos;
+            var spawnObject = new GameObject(this, gameObject._actor, true);
+            spawnObject.x = spawnObject._originalX = spawnerObject.x + x * cos - y * sin;
+            spawnObject.y = spawnObject._originalY = spawnerObject.y + x * sin + y * cos;
             spawnObject.angle = spawnerObject.angle + gameObject.angle + angle;
             spawnObject.sleeping = false;
             (this.gameState.physicsOn && spawnObject.physicsOn) ?
@@ -68,18 +67,15 @@ class Engine {
     delete(gameObject) { gameObject._dead = true }
 
     animate(gameObject, id, animation, fps) {
-        gameObject.timer[id].time += this.deltaTime;
+        gameObject._timer[id].time += this.deltaTime;
         var dtAnim = 1 / fps;
-        gameObject.secuence = animation.split(",");
+        gameObject._secuence = animation.split(",");
         if (fps != 0) {
-            gameObject.key = Math.floor((gameObject.timer[id].time / dtAnim) % gameObject.secuence.length);
+            gameObject.key = Math.floor((gameObject._timer[id].time / dtAnim) % gameObject._secuence.length);
         }
     }
 
-    play(gameObject, sound) {
-        var sound = new Sound(sound, { volume: gameObject.volume, loop: false });
-        sound.source.play(sound.id);
-    }
+    play(gameObject, sound) { new Sound(sound, { volume: gameObject.volume, loop: false }) }
 
     move(gameObject, speed, angle) {
         gameObject.x += speed * this.deltaTime * Math.cos(Utils.radians(angle));
@@ -115,7 +111,7 @@ class Engine {
     push(gameObject, force, angle) {
         var forceX = force * Math.cos(Utils.radians(angle)) * Physics.pixelsPerMeter;
         var forceY = force * Math.sin(Utils.radians(angle)) * Physics.pixelsPerMeter;
-        gameObject.rigidbody.applyForceToCenter(planck.Vec2(forceX, forceY));
+        gameObject._rigidbody.applyForceToCenter(planck.Vec2(forceX, forceY));
     }
 
     pushTo(gameObject, force, x, y) {
@@ -123,20 +119,20 @@ class Engine {
     }
 
     torque(gameObject, angle) {
-        gameObject.rigidbody.applyTorque(angle * 180 / Math.PI);
+        gameObject.rigidbody.applyTorque(Utils.radians(angle));
     }
 
     // conditions
     timer(gameObject, id, expression) {
-        var lostFlow = ((gameObject.timer[id].previousTime - gameObject.timer[id].time) > 0);
-        var secReached = (gameObject.timer[id].time >= gameObject.timer[id].seconds);
+        var lostFlow = ((gameObject._timer[id].previousTime - gameObject._timer[id].time) > 0);
+        var secReached = (gameObject._timer[id].time >= gameObject._timer[id].seconds);
         if (lostFlow || secReached) {
-            gameObject.timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
+            gameObject._timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
             return true;
         }
         else {
-            gameObject.timer[id].time += this.deltaTime;
-            gameObject.timer[id].previousTime = gameObject.timer[id].time;
+            gameObject._timer[id].time += this.deltaTime;
+            gameObject._timer[id].previousTime = gameObject._timer[id].time;
             return false;
         }
     }
@@ -144,17 +140,14 @@ class Engine {
     collision(gameObject, tags) {
         var tagsToCollide = tags.split(",");
         var value = true;
-        tagsToCollide.forEach(tag => { value &&= gameObject.collision[tag].size > 0; })
+        tagsToCollide.forEach(tag => { value &&= gameObject._collision[tag].size > 0 })
         return value;
     }
 
-    keyboard(key, mode) {
-        return Input.keyList[key][mode];
-    }
+    keyboard(key, mode) { return Input.keyList[key][mode] }
 
     touch(mode, onActor, gameObject) {
-        var value;
-        (onActor) ? value = Input.touchObjects[gameObject.name][mode] : value = Input.pointer.tap;
-        return value;
+        if (onActor) return Input.touchObjects[gameObject._name][mode]
+        else return Input.pointer.tap;
     }
 }
