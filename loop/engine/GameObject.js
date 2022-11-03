@@ -43,6 +43,7 @@ class GameObject {
             if (this.rule) try { this.rule.eval(this.engine.scope) } catch (error) { console.log(error) }    // update logic
             if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this.container.sprite, deltaTime);
             if (this.textOn) Container.updateText(this.container.spriteText, this.engine.scope, this.align, this.width, this.offsetX);
+            if (this._dead) this.remove();
         }
     }
 
