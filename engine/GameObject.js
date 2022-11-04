@@ -10,7 +10,7 @@ class GameObject {
         this._rigidbody = new Rigidbody(engine.physics, actor, this._name);
         this._audio = new Sound(actor.sound);
         this._timer = this._collision = {};
-        this._rule = new Rule(this,actor.scriptList, this._name, this._timer, this._collision);
+        this._rule = new Rule(this, actor.scriptList, this._name, this._timer, this._collision);
         // Add actor properties to gameObject
         Object.keys(actor.allProperties).forEach(property => {
             this["_" + property] = actor.allProperties[property];
@@ -40,9 +40,9 @@ class GameObject {
     }
 
     fixedUpdate(deltaTime) { // logic update
-        if (this._spawned) this._spawned= false;
+        if (this._spawned) this._spawned = false;
         else if (!this.sleeping) {
-            if (this._rule) try { this._rule.eval(this._engine.scope) } catch (error) { console.log(this._name,error) }    // update logic
+            if (this._rule) try { this._rule.eval(this._engine.scope) } catch (error) { console.log(this._name, error) }    // update logic
             if (this.spriteOn) Container.updateScroll(this.scrollX, this.scrollY, this._container.sprite, deltaTime);
             if (this.textOn) Container.updateText(this._container.spriteText, this._engine.scope, this.align, this.width, this.offsetX);
             if (this._dead) this.remove();
@@ -279,16 +279,21 @@ class GameObject {
 
     get velocityX() { return this._rigidbody.getLinearVelocity().x * Physics.pixelsPerMeter }
     set velocityX(value) {
-        this._rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this._rigidbody.getLinearVelocity().y));
+        (this._engine.gameState.physicsOn && this.physicsOn) ?
+            this._rigidbody.setLinearVelocity(planck.Vec2(value * Physics.metersPerPixel, this._rigidbody.getLinearVelocity().y)) : 0;
     }
 
     get velocityY() { return this._rigidbody.getLinearVelocity().y * Physics.pixelsPerMeter }
     set velocityY(value) {
-        this._rigidbody.setLinearVelocity(planck.Vec2(this._rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel))
+        (this._engine.gameState.physicsOn && this.physicsOn) ?
+            this._rigidbody.setLinearVelocity(planck.Vec2(this._rigidbody.getLinearVelocity().x, value * Physics.metersPerPixel)) : 0;
     }
 
     get angularVelocity() { return Utils.degrees(this._rigidbody.getAngularVelocity()) }
-    set angularVelocity(value) { this._rigidbody.setAngularVelocity(Utils.radians(value)) }
+    set angularVelocity(value) {
+        (this._engine.gameState.physicsOn && this.physicsOn) ?
+            this._rigidbody.setAngularVelocity(Utils.radians(value)) : 0;
+    }
 
     get density() { return this._density }
     set density(value) { this._density = value; this._rigidbody.getFixtureList().setDensity(value) }
@@ -304,4 +309,5 @@ class GameObject {
 
     get dampingAngular() { return this._dampingAngular }
     set dampingAngular(value) { this._dampingAngular = value; this._rigidbody.setAngularDamping(value) }
+
 }

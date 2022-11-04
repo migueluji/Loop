@@ -124,10 +124,12 @@ class Engine {
 
     // conditions
     timer(gameObject, id, expression) {
+        gameObject._timer[id].seconds = math.eval(expression, this.scope); // compute initial seconds
         var lostFlow = ((gameObject._timer[id].previousTime - gameObject._timer[id].time) > 0);
         var secReached = (gameObject._timer[id].time >= gameObject._timer[id].seconds);
-        if (lostFlow || secReached) {
-            gameObject._timer[id] = { time: 0.0, previousTime: 0.0, seconds: math.eval(expression) };
+        if (lostFlow || secReached) { // reset timer
+            gameObject._timer[id].time = 0.0;
+            gameObject._timer[id].previousTime = 0.0;
             return true;
         }
         else {

@@ -103,8 +103,8 @@ class Rule {
 
     timer(params, nodeListTrue, nodeListFalse) {
         var id = Utils.id();
-        this._timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": math.eval(params.seconds) });
-        return ("[Engine.timer(" + this.gameObjectName + ",'" + id + "','" + params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
+        this._timer[id] = new Object({ "time": 0.0, "previousTime": 0.0, "seconds": params.seconds });
+        return ("[Engine.timer(" + this.gameObjectName + ",'" + id + "','" +  params.seconds + "') ? " + this.parseNodeList(nodeListTrue) + " : " + this.parseNodeList(nodeListFalse) + "]");
     }
 
     touch(params, nodeListTrue, nodeListFalse) {
