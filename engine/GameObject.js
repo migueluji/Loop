@@ -12,8 +12,8 @@ class GameObject {
         this._timer = this._collision = {};
         this._rule = new Rule(this, actor.scriptList, this._name, this._timer, this._collision);
         // Add actor properties to gameObject
-        Object.keys(actor.allProperties).forEach(property => {
-            this["_" + property] = actor.allProperties[property];
+        Object.keys(actor.properties).forEach(property => {
+            this["_" + property] = actor.properties[property];
         });
         this._physicsOn = this._width = this._height = this._scaleX = this._scaleY = undefined;
         Object.assign(this, actor.allProperties);

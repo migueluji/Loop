@@ -25,7 +25,7 @@ class Engine {
     }
 
     gameLoop(newTime) {
-        if (!this.exit) window.requestAnimationFrame(this.gameLoop.bind(this));
+        window.requestAnimationFrame(this.gameLoop.bind(this));
         this.frameTime = (newTime - this.currentTime) / 1000;
         if (this.frameTime > 0.1) this.frameTime = 0.1;
         this.accumulator += this.frameTime;
