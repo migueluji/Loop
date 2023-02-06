@@ -4774,7 +4774,7 @@
 									"parameters": {
 										"value_1": "Game.FPS",
 										"operation": "Greater",
-										"value_2": "60"
+										"value_2": "50"
 									},
 									"nodeListTrue": [
 										{
@@ -4820,8 +4820,8 @@
 					],
 					"key": 0,
 					"sleeping": false,
-					"x": -570.1365456236682,
-					"y": 332.8239809913476,
+					"x": -569.779179110971,
+					"y": 326.7487502754945,
 					"width": 108.4997834080334,
 					"height": 43.01957986188676,
 					"scaleX": 2.169995668160668,
@@ -4840,7 +4840,7 @@
 					"scrollY": 0,
 					"tileX": 1,
 					"tileY": 1,
-					"textOn": false,
+					"textOn": true,
 					"text": "fps: ${Game.FPS}",
 					"font": "Arial",
 					"size": 30,
@@ -4888,5 +4888,5 @@
 	"physicsOn": true,
 	"gravityX": 0,
 	"gravityY": -9.8,
-	"debug": false
+	"debug": true
 }
