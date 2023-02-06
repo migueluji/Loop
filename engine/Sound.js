@@ -9,7 +9,8 @@ class Sound {
                 this.source.volume(options.volume);
                 this.source.loop(options.loop);
                 this.source.stereo(options.pan);
-                this.source.seek(options.start);
+                this.source.seek(options.start); ///
+
             }
         }
     }
